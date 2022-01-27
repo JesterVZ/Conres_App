@@ -8,4 +8,3 @@ class GroupModel {
 
   GroupModel({required this.text, required this.index, required this.selected});
 }
-

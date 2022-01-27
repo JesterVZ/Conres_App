@@ -1,8 +1,11 @@
+import 'package:conres_app/login/registration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../consts.dart';
 import '../custom_elements/custom_radio.dart';
+import 'forgot_password.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -18,6 +21,12 @@ class _LoginPage extends State<LoginPage> {
     GroupModel(text: "Индивидуальный предприниматель", index: 2, selected: false),
     GroupModel(text: "Юридическое лицо", index: 3, selected: false),
   ];
+  final Widget svg = SvgPicture.asset(
+      'assets/logo_control_min.svg',
+      color: colorMain,
+      semanticsLabel: 'Acme Logo'
+  );
+
   Widget makeRadioTiles() {
     List<Widget> list = [];
     for (int i = 0; i < _group.length; i++) {
@@ -61,6 +70,7 @@ class _LoginPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         body: Container(
           padding: const EdgeInsets.fromLTRB(0, 40.0, 0, 0),
           child: Column(
@@ -70,7 +80,12 @@ class _LoginPage extends State<LoginPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Image(image: AssetImage('assets/logo.jpg')),
+                    Container(
+                      width: 50,
+                      height: 50,
+                      child: svg,
+                    ),
+
                     Container(
                         child: Text(title,
                             style: TextStyle(
@@ -83,7 +98,7 @@ class _LoginPage extends State<LoginPage> {
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.width * 1.2,
+                height: MediaQuery.of(context).size.width * 1.33,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                       shape: BoxShape.rectangle, borderRadius: BorderRadius.circular(10), color: Colors.white, boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 5, blurRadius: 7, offset: Offset(0, 3),)]),
@@ -137,13 +152,43 @@ class _LoginPage extends State<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          ElevatedButton(
-                              onPressed: (){},
-                              child: Text("Войти"),
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: Size.fromHeight(40),
-                                co
-                              ))
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                            child: ElevatedButton(
+                                onPressed: (){},
+                                child: Text("Войти"),
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: Size.fromHeight(40),
+                                  primary: colorMain,
+
+                                )),
+                          ),
+
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                  child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgotPassword()));
+                                      },
+                                      child: Text(forgotPassword)
+                                  ),
+                                ),
+
+                                GestureDetector(
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => const Registration()));
+                                    },
+                                    child: Text(reg)
+                                )
+                              ],
+                            ),
+                          )
+
                         ],
                       )
 
