@@ -62,6 +62,7 @@ flutter:
   assets:
     - assets/logo.jpg
     - assets/logo_control_min.svg
+    - assets/background_image.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -84,5 +85,11 @@ flutter:
    - family: Roboto
      fonts:
        - asset: fonts/Roboto-Black.ttf
+   - family: Bubicon-Medium
+     fonts:
+       - asset: fonts/Bubicon-Medium.ttf
+   - family: Bubicon-Bold
+     fonts:
+       - asset: fonts/Bubicon-Bold.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
