@@ -10,11 +10,23 @@ String ip = "Индивидуальный предприниматель";
 String ul = "Юридическое лицо";
 String forgotPassword = "Забыли пароль?";
 String reg = "Зарегестрироваться";
+String regTitle = "Регистрация";
 String login = "Войти";
 String back = "Вернуться";
 String loginAccount = "Войдите в свой аккаунт";
 String lkInputText = "Лицевой счёт, телефон, email,  ИНН";
 String lkPasswordText = "Пароль";
+String repeatPassword = "Повторите пароль";
+String clearPassword = "Сбросить пароль";
+String inn = "ИНН";
+String email = "Email";
+
+String family = "Фамилия";
+String name = "Имя";
+String patronymic = "Отчество";
+String snils = "СНИЛС";
+String contacts = "Контакты";
+
 
 String step1 = "Шаг 1";
 String step2 = "Шаг 2";

@@ -85,6 +85,7 @@ class _ChangeType extends State<ChangeType> {
                             ),
                             style: ElevatedButton.styleFrom(primary: colorMain))),
                   ),
+                  /*
                   SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,
                       height: 55.0,
@@ -96,7 +97,7 @@ class _ChangeType extends State<ChangeType> {
                             back,
                             style: const TextStyle(fontSize: 18.0),
                           ),
-                          style: ElevatedButton.styleFrom(primary: colorGray))),
+                          style: ElevatedButton.styleFrom(primary: colorGray))),*/
 
                   //ElevatedButton(onPressed: (){}, child: Text(login)),
                 ],

@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../consts.dart';
-import 'login-forgot-password.dart';
 import 'login-step-1.dart';
 
-class LoginEmail extends StatefulWidget {
-  const LoginEmail({Key? key}) : super(key: key);
+class LoginForgotPassword extends StatefulWidget {
+  const LoginForgotPassword({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _LoginEmail();
+  State<StatefulWidget> createState() => _LoginForgotPassword();
 }
 
-class _LoginEmail extends State<LoginEmail> {
+class _LoginForgotPassword extends State<LoginForgotPassword> {
   TextEditingController lkController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -32,7 +31,7 @@ class _LoginEmail extends State<LoginEmail> {
                 width: 375,
                 left: 26,
                 top: 26,
-                child: Text(loginAccount,
+                child: Text(forgotPassword,
                     style: const TextStyle(
                         fontFamily: 'Bubicon-Bold', fontSize: 36.0))),
             Positioned(
@@ -44,7 +43,7 @@ class _LoginEmail extends State<LoginEmail> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    lkInputText,
+                    inn,
                     style: TextStyle(color: colorGrayText, fontSize: 16.0),
                   ),
                   TextField(
@@ -64,7 +63,7 @@ class _LoginEmail extends State<LoginEmail> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    lkPasswordText,
+                    email,
                     style: TextStyle(color: colorGrayText, fontSize: 16.0),
                   ),
                   TextField(
@@ -88,7 +87,7 @@ class _LoginEmail extends State<LoginEmail> {
                         child: ElevatedButton(
                             onPressed: () {},
                             child: Text(
-                              login,
+                              clearPassword,
                               style: const TextStyle(fontSize: 18.0),
                             ),
                             style:
@@ -104,22 +103,6 @@ class _LoginEmail extends State<LoginEmail> {
               bottom: 20,
               child: Column(
                 children: [
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                    child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: 55.0,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder:  (context) => const LoginForgotPassword()));
-                            },
-                            child: Text(
-                              forgotPassword,
-                              style: const TextStyle(fontSize: 18.0),
-                            ),
-                            style:
-                                ElevatedButton.styleFrom(primary: colorMain))),
-                  ),
                   /*
                   SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,
@@ -135,8 +118,8 @@ class _LoginEmail extends State<LoginEmail> {
                             back,
                             style: const TextStyle(fontSize: 18.0),
                           ),
-                          style: ElevatedButton.styleFrom(primary: colorGray))),*/
-
+                          style: ElevatedButton.styleFrom(primary: colorGray))),
+*/
                   //ElevatedButton(onPressed: (){}, child: Text(login)),
                 ],
               ),
