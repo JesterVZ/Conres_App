@@ -11,11 +11,18 @@ String ul = "Юридическое лицо";
 String forgotPassword = "Забыли пароль?";
 String reg = "Зарегестрироваться";
 String login = "Войти";
+String back = "Вернуться";
+String loginAccount = "Войдите в свой аккаунт";
+String lkInputText = "Лицевой счёт, телефон, email,  ИНН";
+String lkPasswordText = "Пароль";
 
 String step1 = "Шаг 1";
 String step2 = "Шаг 2";
 String step3 = "Шаг 3";
 
-Color colorMain = const Color(0xFF5282ff);
+Color colorMain = const Color(0xFF5282FF);
+Color colorGray = const Color(0xFF4F5A6E);
+Color colorGrayText = const Color(0xFF4F5A6E);
+Color inputBorder = const Color(0xFFE8EDFF);
 Color defaultBackground = const Color(0xFFf4f5f7);
 Color colorLogo = const Color(0xFFE7EEFE);
