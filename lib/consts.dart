@@ -20,6 +20,9 @@ String repeatPassword = "Повторите пароль";
 String clearPassword = "Сбросить пароль";
 String inn = "ИНН";
 String email = "Email";
+String successRed = "Регистрация прошла успешно!";
+String sendLogin = "Ваш логин и пароль отправлен Вам на почту";
+String next = "Далее";
 
 String family = "Фамилия";
 String name = "Имя";
