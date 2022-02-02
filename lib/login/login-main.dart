@@ -1,4 +1,5 @@
 import 'package:conres_app/registration/registration-fl.dart';
+import 'package:conres_app/registration/seccessful-registration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -48,7 +49,7 @@ class _LoginPage extends State<LoginPage> {
                         height: 55.0,
                         child: ElevatedButton(
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegFL()));
+                              Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegSuccess()));
                             },
                             child: Text(
                               reg,
