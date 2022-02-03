@@ -63,6 +63,7 @@ flutter:
     - assets/logo.jpg
     - assets/logo_control_min.svg
     - assets/background_image.svg
+    - assets/back-arrow.png
     - assets/success.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -77,6 +78,15 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
+   - family: Roboto-Medium
+     fonts:
+       - asset: fonts/Roboto-Medium.ttf
+   - family: Roboto-Light
+     fonts:
+       - asset: fonts/Roboto-Light.ttf
+   - family: Roboto
+     fonts:
+       - asset: fonts/Roboto-Black.ttf
    - family: Bubicon-Medium
      fonts:
        - asset: fonts/Bubicon-Medium.ttf

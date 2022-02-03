@@ -1,5 +1,7 @@
+import 'package:conres_app/registration/seccessful-registration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import '../consts.dart';
 
@@ -13,244 +15,224 @@ class RegFL extends StatefulWidget {
 class _RegFL extends State<RegFL> {
   TextEditingController lkController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  late bool _agree = false;
 
   final Widget svg = SvgPicture.asset('assets/background_image.svg',
       color: colorLogo, semanticsLabel: 'Acme Logo');
-  final ScrollController _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    return
-        Scrollbar(
-          controller: _controller,
-          isAlwaysShown: true,
-            child: Scaffold(
-            appBar: AppBar(),
-            resizeToAvoidBottomInset: false,
-            body: Stack(
-              fit: StackFit.expand,
-              children: [
-                Positioned(
-                    width: 375,
-                    left: 26,
-                    top: 26,
-                    child: Text(regTitle,
-                        style: const TextStyle(
-                            fontFamily: 'Bubicon-Bold', fontSize: 36.0))),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+                padding: EdgeInsets.fromLTRB(21, 70, 21, 54),
+                child: Column(
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
                       children: [
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                            child: GestureDetector(
+                          onTap: () {},
+                          child: Image.asset('assets/back-arrow.png'),
+                        )),
                         Text(
-                          family,
-                          style: TextStyle(color: colorGrayText, fontSize: 16.0),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: inputBorder))),
+                          regTitle,
+                          style: TextStyle(fontSize: 34),
                         )
                       ],
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          name,
-                          style: TextStyle(color: colorGrayText, fontSize: 16.0),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: inputBorder))),
-                        )
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          patronymic,
-                          style: TextStyle(color: colorGrayText, fontSize: 16.0),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: inputBorder))),
-                        )
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          inn,
-                          style: TextStyle(color: colorGrayText, fontSize: 16.0),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: inputBorder))),
-                        )
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          snils,
-                          style: TextStyle(color: colorGrayText, fontSize: 16.0),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: inputBorder))),
-                        )
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          contacts,
-                          style: TextStyle(color: colorGrayText, fontSize: 16.0),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: inputBorder))),
-                        )
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          email,
-                          style: TextStyle(color: colorGrayText, fontSize: 16.0),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: inputBorder))),
-                        )
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          lkPasswordText,
-                          style: TextStyle(color: colorGrayText, fontSize: 16.0),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: inputBorder))),
-                        )
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          repeatPassword,
-                          style: TextStyle(color: colorGrayText, fontSize: 16.0),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: inputBorder))),
-                        )
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          repeatPassword,
-                          style: TextStyle(color: colorGrayText, fontSize: 16.0),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: inputBorder))),
-                        )
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          repeatPassword,
-                          style: TextStyle(color: colorGrayText, fontSize: 16.0),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: inputBorder))),
-                        )
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          repeatPassword,
-                          style: TextStyle(color: colorGrayText, fontSize: 16.0),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: inputBorder))),
-                        )
-                      ],
-                    ),
-
-                  ],
-                ),
-                /*
-                Positioned(
-                  width: MediaQuery.of(context).size.width,
-                  top: 320,
-                  child: Column(
-                    children: [
-                      Container(
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(0, 38, 0, 18),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(family,
+                                style: TextStyle(
+                                    color: colorGray, fontSize: 16.0)),
+                            TextField(
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: inputBorder))),
+                            )
+                          ],
+                        )),
+                    Container(
                         margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                        child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            height: 55.0,
-                            child: ElevatedButton(
-                                onPressed: () {},
-                                child: Text(
-                                  clearPassword,
-                                  style: const TextStyle(fontSize: 18.0),
-                                ),
-                                style:
-                                ElevatedButton.styleFrom(primary: colorMain))),
-                      ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(name,
+                                style: TextStyle(
+                                    color: colorGray, fontSize: 16.0)),
+                            TextField(
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: inputBorder))),
+                            )
+                          ],
+                        )),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(patronymic,
+                                style: TextStyle(
+                                    color: colorGray, fontSize: 16.0)),
+                            TextField(
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: inputBorder))),
+                            )
+                          ],
+                        )),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(inn,
+                                style: TextStyle(
+                                    color: colorGray, fontSize: 16.0)),
+                            TextField(
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: inputBorder))),
+                            )
+                          ],
+                        )),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(snils,
+                                style: TextStyle(
+                                    color: colorGray, fontSize: 16.0)),
+                            TextField(
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: inputBorder))),
+                            )
+                          ],
+                        )),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(contacts,
+                                style: TextStyle(
+                                    color: colorGray, fontSize: 16.0)),
+                            TextField(
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: inputBorder))),
+                            )
+                          ],
+                        )),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(email,
+                                style: TextStyle(
+                                    color: colorGray, fontSize: 16.0)),
+                            TextField(
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: inputBorder))),
+                            )
+                          ],
+                        )),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(lkPasswordText,
+                                style: TextStyle(
+                                    color: colorGray, fontSize: 16.0)),
+                            TextField(
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: inputBorder))),
+                            )
+                          ],
+                        )),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(repeatPassword,
+                                style: TextStyle(
+                                    color: colorGray, fontSize: 16.0)),
+                            TextField(
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: inputBorder))),
+                            )
+                          ],
+                        )),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                    child: Row(
+                      children: [
+                        Checkbox(
+                            value: _agree,
 
-                      //ElevatedButton(onPressed: (){}, child: Text(login)),
-                    ],
-                  ),
-                ),
-                 */
-              ],
-            )));
+                            activeColor: colorMain,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
+                            onChanged: (value){
+                          setState(() {
+                            _agree = !_agree;
+                          });
+                        }),
+                        Container(width: 284, child: Text("Я согласен на обработку персональных данных", style: TextStyle(fontSize: 15))),
+                      ],
+                    ),),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 55,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegSuccess()));
+                          },
+                          child: Text(
+                            login,
+                            style: const TextStyle(fontSize: 18.0),
+                          ),
+                          style: ElevatedButton.styleFrom(primary: colorMain)),
+                    )
+                    
+                  ],
+                ))
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -41,3 +41,10 @@ Color colorGrayText = const Color(0xFF4F5A6E);
 Color inputBorder = const Color(0xFFE8EDFF);
 Color defaultBackground = const Color(0xFFf4f5f7);
 Color colorLogo = const Color(0xFFE7EEFE);
+
+
+final inputLabel = TextStyle(color: colorGray, fontSize: 16.0);
+
+class inputLabelStyle extends TextStyle{
+
+}

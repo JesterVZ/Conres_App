@@ -49,7 +49,7 @@ class _LoginPage extends State<LoginPage> {
                         height: 55.0,
                         child: ElevatedButton(
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegSuccess()));
+                              Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegFL()));
                             },
                             child: Text(
                               reg,
