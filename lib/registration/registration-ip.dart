@@ -5,20 +5,22 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import '../consts.dart';
 
-class RegFL extends StatefulWidget {
-  const RegFL({Key? key}) : super(key: key);
+class RegIP extends StatefulWidget {
+  const RegIP({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _RegFL();
+  State<StatefulWidget> createState() => _RegIP();
 }
 
-class _RegFL extends State<RegFL> {
+class _RegIP extends State<RegIP> {
   TextEditingController lkController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   late bool _agree = false;
 
-  final Widget svg = SvgPicture.asset('assets/background_image.svg',
-      color: colorLogo, semanticsLabel: 'Acme Logo');
+  final Widget plusSVG = SvgPicture.asset('assets/plus.svg',
+      color: colorLogo);
+  final Widget minusSVG = SvgPicture.asset('assets/minus.svg',
+      color: colorLogo);
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +35,13 @@ class _RegFL extends State<RegFL> {
                     Row(
                       children: [
                         Container(
-                          margin: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                            margin: const EdgeInsets.fromLTRB(0, 0, 16, 0),
                             child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Image.asset('assets/back-arrow.png'),
-                        )),
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Image.asset('assets/back-arrow.png'),
+                            )),
                         Text(
                           regTitle,
                           style: TextStyle(fontSize: 34),
@@ -52,14 +54,14 @@ class _RegFL extends State<RegFL> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(family,
+                            Text(familyIP,
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: inputBorder))),
+                                      BorderSide(color: inputBorder))),
                             )
                           ],
                         )),
@@ -69,14 +71,14 @@ class _RegFL extends State<RegFL> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(name,
+                            Text(nameIP,
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: inputBorder))),
+                                      BorderSide(color: inputBorder))),
                             )
                           ],
                         )),
@@ -86,14 +88,14 @@ class _RegFL extends State<RegFL> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(patronymic,
+                            Text(patronymicIP,
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: inputBorder))),
+                                      BorderSide(color: inputBorder))),
                             )
                           ],
                         )),
@@ -110,7 +112,7 @@ class _RegFL extends State<RegFL> {
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: inputBorder))),
+                                      BorderSide(color: inputBorder))),
                             )
                           ],
                         )),
@@ -120,14 +122,14 @@ class _RegFL extends State<RegFL> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(snils,
+                            Text(ofrnip,
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: inputBorder))),
+                                      BorderSide(color: inputBorder))),
                             )
                           ],
                         )),
@@ -144,7 +146,7 @@ class _RegFL extends State<RegFL> {
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: inputBorder))),
+                                      BorderSide(color: inputBorder))),
                             )
                           ],
                         )),
@@ -161,8 +163,17 @@ class _RegFL extends State<RegFL> {
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: inputBorder))),
+                                      BorderSide(color: inputBorder))),
                             )
+                          ],
+                        )),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                        child: Column(
+                          children: [
+                            ElevatedButton(
+                                onPressed: (){},
+                                child: plusSVG)
                           ],
                         )),
                     Container(
@@ -178,7 +189,7 @@ class _RegFL extends State<RegFL> {
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: inputBorder))),
+                                      BorderSide(color: inputBorder))),
                             )
                           ],
                         )),
@@ -195,27 +206,27 @@ class _RegFL extends State<RegFL> {
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: inputBorder))),
+                                      BorderSide(color: inputBorder))),
                             )
                           ],
                         )),
                     Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                    child: Row(
-                      children: [
-                        Checkbox(
-                            value: _agree,
+                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                      child: Row(
+                        children: [
+                          Checkbox(
+                              value: _agree,
 
-                            activeColor: colorMain,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
-                            onChanged: (value){
-                          setState(() {
-                            _agree = !_agree;
-                          });
-                        }),
-                        Container(width: 284, child: Text("Я согласен на обработку персональных данных", style: TextStyle(fontSize: 15))),
-                      ],
-                    ),),
+                              activeColor: colorMain,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
+                              onChanged: (value){
+                                setState(() {
+                                  _agree = !_agree;
+                                });
+                              }),
+                          Container(width: 284, child: Text("Я согласен на обработку персональных данных", style: TextStyle(fontSize: 15))),
+                        ],
+                      ),),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: 55,
@@ -229,7 +240,7 @@ class _RegFL extends State<RegFL> {
                           ),
                           style: ElevatedButton.styleFrom(primary: colorMain)),
                     )
-                    
+
                   ],
                 ))
           ],

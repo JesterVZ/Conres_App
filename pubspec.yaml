@@ -65,6 +65,8 @@ flutter:
     - assets/background_image.svg
     - assets/back-arrow.png
     - assets/success.png
+    - assets/plus.svg
+    - assets/minus.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

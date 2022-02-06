@@ -5,14 +5,14 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import '../consts.dart';
 
-class RegFL extends StatefulWidget {
-  const RegFL({Key? key}) : super(key: key);
+class RegUL extends StatefulWidget {
+  const RegUL({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _RegFL();
+  State<StatefulWidget> createState() => _RegUL();
 }
 
-class _RegFL extends State<RegFL> {
+class _RegUL extends State<RegUL> {
   TextEditingController lkController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   late bool _agree = false;
@@ -52,7 +52,7 @@ class _RegFL extends State<RegFL> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(family,
+                            Text(fullNameUL,
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
@@ -69,24 +69,7 @@ class _RegFL extends State<RegFL> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(name,
-                                style: TextStyle(
-                                    color: colorGray, fontSize: 16.0)),
-                            TextField(
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: inputBorder))),
-                            )
-                          ],
-                        )),
-                    Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(patronymic,
+                            Text("Сокращённое наименование компании",
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
@@ -120,7 +103,24 @@ class _RegFL extends State<RegFL> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(snils,
+                            Text(ofrnip,
+                                style: TextStyle(
+                                    color: colorGray, fontSize: 16.0)),
+                            TextField(
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: inputBorder))),
+                            )
+                          ],
+                        )),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(kpp,
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(

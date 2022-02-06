@@ -24,7 +24,6 @@ class _LoginPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
         resizeToAvoidBottomInset: false,
         body: Stack(
           fit: StackFit.expand,
@@ -49,7 +48,7 @@ class _LoginPage extends State<LoginPage> {
                         height: 55.0,
                         child: ElevatedButton(
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegFL()));
+                              Navigator.push(context, MaterialPageRoute(builder:  (context) => const ChangeType()));
                             },
                             child: Text(
                               reg,
