@@ -49,6 +49,13 @@ String step1 = "Шаг 1";
 String step2 = "Шаг 2";
 String step3 = "Шаг 3";
 
+//bottom navigation
+String mainPage = "Главная";
+String contractsPage = "Договоры";
+String reportsPage = "Заявления";
+String chatPage = "Обращения";
+
+
 Color colorMain = const Color(0xFF5282FF);
 Color colorGray = const Color(0xFF4F5A6E);
 Color colorGrayText = const Color(0xFF4F5A6E);
@@ -59,10 +66,4 @@ Color profileColor = const Color(0xFFFDFDFF);
 Color borderProfileColor = const Color(0xFFCBD4F5);
 Color profileLabelColor = const Color(0xFFA3A5BC);
 Color contractBtnColor = const Color(0xFFE4ECFE);
-
-
-final inputLabel = TextStyle(color: colorGray, fontSize: 16.0);
-
-class inputLabelStyle extends TextStyle{
-
-}
+TextStyle textTitle = TextStyle(fontSize: 34);

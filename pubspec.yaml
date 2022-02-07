@@ -67,6 +67,11 @@ flutter:
     - assets/success.png
     - assets/plus.svg
     - assets/minus.svg
+    - assets/home.svg
+    - assets/contracts.svg
+    - assets/chat.svg
+    - assets/reports.svg
+    - assets/file-icon.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -95,5 +100,8 @@ flutter:
    - family: Bubicon-Bold
      fonts:
        - asset: fonts/Bubicon-Bold.ttf
+   - family: CustomIcons
+     fonts:
+       - asset: fonts/CustomIcons.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -41,7 +41,7 @@ class _RegFL extends State<RegFL> {
                         )),
                         Text(
                           regTitle,
-                          style: TextStyle(fontSize: 34),
+                          style: const TextStyle(fontSize: 34),
                         )
                       ],
                     ),
