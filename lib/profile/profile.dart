@@ -18,93 +18,106 @@ class _Profile extends State<Profile>{
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.fromLTRB(17, 59, 17, 0),
-        child: Column(
+        child: Stack(
           children: [
-            Row(
+            Column(
               children: [
-                Text(profile,  style: const TextStyle(fontSize: 24),)
-              ],
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 14, 0, 0),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                
-                color: profileColor,
-                border: Border.all(
-                  color: borderProfileColor
-                ),
-                borderRadius: BorderRadius.circular(8)
-              ),
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(19, 14, 19, 14),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
-                    Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    Text(profile,  style: const TextStyle(fontSize: 24),)
+                  ],
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 14, 0, 0),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+
+                      color: profileColor,
+                      border: Border.all(
+                          color: borderProfileColor
+                      ),
+                      borderRadius: BorderRadius.circular(8)
+                  ),
+                  child: Padding(
+                      padding: EdgeInsets.fromLTRB(19, 14, 19, 14),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(inn, style: TextStyle(color: profileLabelColor, fontSize: 15)),
+                                  Text(thisInn, style: const TextStyle(color: Colors.black, fontSize: 18))
+                                ],
+                              )
+                          ),
+                          Container(
+                              margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(gpINN, style: TextStyle(color: profileLabelColor, fontSize: 15)),
+                                  Text(needDogovor, style: const TextStyle(color: Colors.black, fontSize: 18))
+                                ],
+                              )
+                          ),
+                          Container(
+                              margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(emailProfile, style: TextStyle(color: profileLabelColor, fontSize: 15)),
+                                  const Text("Ahiro2011@gmail.com", style: TextStyle(color: Colors.black, fontSize: 18))
+                                ],
+                              )
+                          ),
+                          Container(
+                              margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(address, style: TextStyle(color: profileLabelColor, fontSize: 15)),
+                                  const Text("-/-", style: TextStyle(color: Colors.black, fontSize: 18))
+                                ],
+                              )
+                          )
+
+                        ],
+                      )
+                  )
+
+                  ,
+                ),
+              ],
+
+            ),
+            Positioned(
+                bottom: 24,
+                child:
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 70,
+                    child: ElevatedButton(
+                        onPressed: () {  },
+                        style: ElevatedButton.styleFrom(primary: contractBtnColor),
+                        child: Row(
                           children: [
-                            Text(inn, style: TextStyle(color: profileLabelColor, fontSize: 15)),
-                            Text(thisInn, style: const TextStyle(color: Colors.black, fontSize: 18))
-                          ],
-                        )
-                    ),
-                    Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(gpINN, style: TextStyle(color: profileLabelColor, fontSize: 15)),
-                            Text(needDogovor, style: const TextStyle(color: Colors.black, fontSize: 18))
-                          ],
-                        )
-                    ),
-                    Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(emailProfile, style: TextStyle(color: profileLabelColor, fontSize: 15)),
-                            const Text("Ahiro2011@gmail.com", style: TextStyle(color: Colors.black, fontSize: 18))
-                          ],
-                        )
-                    ),
-                    Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(address, style: TextStyle(color: profileLabelColor, fontSize: 15)),
-                            const Text("-/-", style: TextStyle(color: Colors.black, fontSize: 18))
+                            Text("Заключитить договор с РСО", style: TextStyle(color: colorMain),)
                           ],
                         )
                     )
-
-                  ],
                 )
-              )
-
-              ,
-            ),
-            Positioned(child:
-            ElevatedButton(
-              onPressed: () {  },
-              child: Row(
-                children: const [
-                  Text("Заключитить договор с РСО")
-                ],
-              )
-            ))
+            )
           ],
-
         )
+
       ),
        
 
