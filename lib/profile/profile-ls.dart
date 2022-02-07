@@ -5,17 +5,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../consts.dart';
 import '../icons.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+class ProfileLs extends StatefulWidget {
+  const ProfileLs({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _Profile();
+  State<StatefulWidget> createState() => _ProfileLs();
 }
 
-class _Profile extends State<Profile> {
-  final Widget fileSVG = SvgPicture.asset('assets/file-icon.svg', color: colorMain,
-      );
+class _ProfileLs extends State<ProfileLs> {
   String thisInn = "19982215874";
+  String thisLS = "345672309";
   int _selectedIndex = 0;
   void _onItemTapped(int index) {
     setState(() {
@@ -41,6 +40,45 @@ class _Profile extends State<Profile> {
                     ],
                   ),
                   Container(
+                    margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+                    decoration: BoxDecoration(
+                        color: profileColor,
+                        border: Border.all(color: borderProfileColor),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Padding(
+                        padding: EdgeInsets.fromLTRB(19, 14, 19, 14),
+                    child: Row(
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(ls,
+                                style: TextStyle(
+                                    color: profileLabelColor,
+                                    fontSize: 15, fontFamily: 'Bubicon-Medium')),
+                            Text(thisLS,
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 18, fontFamily: 'Bubicon-Medium'))
+                          ],
+                        ),
+                        const Spacer(),
+                        Container(
+                          width: 32,
+                          height: 32,
+                          decoration: BoxDecoration(
+                            color: lsButtonColor,
+                            shape: BoxShape.circle
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(13, 9, 11, 9),
+                            child: SvgPicture.asset("assets/ls-right-arrow.svg", color: colorMain,),
+                          ),
+                        )
+                      ],
+                    )),
+                  ),
+                  Container(
                     margin: EdgeInsets.fromLTRB(0, 14, 0, 0),
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
@@ -61,11 +99,12 @@ class _Profile extends State<Profile> {
                                   children: [
                                     Text(inn,
                                         style: TextStyle(
+                                            fontFamily: 'Bubicon-Medium',
                                             color: profileLabelColor,
                                             fontSize: 15)),
                                     Text(thisInn,
                                         style: const TextStyle(
-                                            color: Colors.black, fontSize: 18))
+                                            color: Colors.black, fontSize: 18, fontFamily: 'Bubicon-Medium'))
                                   ],
                                 )),
                             Container(
@@ -77,10 +116,11 @@ class _Profile extends State<Profile> {
                                     Text(gpINN,
                                         style: TextStyle(
                                             color: profileLabelColor,
-                                            fontSize: 15)),
+                                            fontSize: 15,
+                                            fontFamily: 'Bubicon-Medium')),
                                     Text(needDogovor,
                                         style: const TextStyle(
-                                            color: Colors.black, fontSize: 18))
+                                            color: Colors.black, fontSize: 18, fontFamily: 'Bubicon-Medium'))
                                   ],
                                 )),
                             Container(
@@ -92,10 +132,10 @@ class _Profile extends State<Profile> {
                                     Text(emailProfile,
                                         style: TextStyle(
                                             color: profileLabelColor,
-                                            fontSize: 15)),
+                                            fontSize: 15, fontFamily: 'Bubicon-Medium')),
                                     const Text("Ahiro2011@gmail.com",
                                         style: TextStyle(
-                                            color: Colors.black, fontSize: 18))
+                                            color: Colors.black, fontSize: 18, fontFamily: 'Bubicon-Medium'))
                                   ],
                                 )),
                             Container(
@@ -107,10 +147,10 @@ class _Profile extends State<Profile> {
                                     Text(address,
                                         style: TextStyle(
                                             color: profileLabelColor,
-                                            fontSize: 15)),
+                                            fontSize: 15, fontFamily: 'Bubicon-Medium')),
                                     const Text("-/-",
                                         style: TextStyle(
-                                            color: Colors.black, fontSize: 18))
+                                            color: Colors.black, fontSize: 18, fontFamily: 'Bubicon-Medium'))
                                   ],
                                 ))
                           ],
@@ -121,12 +161,15 @@ class _Profile extends State<Profile> {
               Positioned(
                   bottom: 24,
                   child: Container(
-                      width: MediaQuery.of(context).size.width,
+                      width: MediaQuery.of(context).size.width - 35,
                       height: 70,
                       child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                              primary: contractBtnColor),
+                              primary: colorGray, shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)
+                          )),
+
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -140,13 +183,26 @@ class _Profile extends State<Profile> {
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(10),
-                                  child: SvgPicture.asset('assets/file-icon.svg', color: colorMain,),
+                                  child: SvgPicture.asset('assets/meters-data.svg', color: colorGray,),
                                 ),
                                 margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
                               ),
-                              Text(
-                                "Заключитить договор с РСО",
-                                style: TextStyle(color: colorMain, fontSize: 18),
+                              const Text(
+                                "Передать показания",
+                                style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: 'Bubicon-Medium'),
+                              ),
+                              Container(
+                                margin: EdgeInsets.fromLTRB(45, 0, 0, 0),
+                                width: 32,
+                                height: 32,
+                                decoration: BoxDecoration(
+                                    color: meterDataColor,
+                                    shape: BoxShape.circle
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(13, 9, 11, 9),
+                                  child: SvgPicture.asset("assets/ls-right-arrow.svg", color: Colors.white,),
+                                ),
                               )
                             ],
                           ))))

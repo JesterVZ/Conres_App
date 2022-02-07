@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../consts.dart';
-import '../profile/profile.dart';
+import '../elements/header.dart';
+import '../profile/profile-ls.dart';
+import '../profile/profile-no-ls.dart';
 
 class RegSuccess extends StatefulWidget{
   const RegSuccess({Key? key}) : super(key: key);
@@ -16,7 +18,6 @@ class _RegSuccess extends State<RegSuccess>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -24,9 +25,7 @@ class _RegSuccess extends State<RegSuccess>{
               width: 375,
               left: 26,
               top: 26,
-              child: Text(successRed,
-                  style: const TextStyle(
-                      fontFamily: 'Bubicon-Bold', fontSize: 36.0))),
+              child: Container(width: 326, child: HeaderRow(successRed))),
           Positioned(top: 140, child: Column(
             children: [
               const Image(image: AssetImage('assets/success.png')),
@@ -48,7 +47,7 @@ class _RegSuccess extends State<RegSuccess>{
                       height: 55.0,
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder:  (context) => const Profile()));
+                            Navigator.push(context, MaterialPageRoute(builder:  (context) => const ProfileLs()));
                           },
                           child: Text(
                             next,

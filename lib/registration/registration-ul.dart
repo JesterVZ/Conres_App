@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import '../consts.dart';
+import '../elements/header.dart';
 
 class RegUL extends StatefulWidget {
   const RegUL({Key? key}) : super(key: key);
@@ -30,22 +31,7 @@ class _RegUL extends State<RegUL> {
                 padding: EdgeInsets.fromLTRB(21, 70, 21, 54),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                            child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Image.asset('assets/back-arrow.png'),
-                        )),
-                        Text(
-                          regTitle,
-                          style: TextStyle(fontSize: 34),
-                        )
-                      ],
-                    ),
+                    HeaderRow(regTitle),
                     Container(
                         margin: const EdgeInsets.fromLTRB(0, 38, 0, 18),
                         child: Column(

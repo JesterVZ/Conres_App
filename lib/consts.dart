@@ -6,7 +6,7 @@ String title = "тестовая компания";
 String lkTitle = "Личный кабинет потребителя";
 String lkChooseType = "Выберите тип";
 String fl = "Физическое лицо";
-String ip = "Индивидуальный предприниматель";
+String ip = "ИП";
 String ul = "Юридическое лицо";
 String forgotPassword = "Забыли пароль?";
 String reg = "Зарегестрироваться";
@@ -43,6 +43,7 @@ String gpINN = "Лицевой счёт ГП";
 String needDogovor = "Вам нужно заключить договор";
 String emailProfile = "Электронная почта";
 String address = "Адрес";
+String ls = "Лицевой счет";
 
 
 String step1 = "Шаг 1";
@@ -66,4 +67,5 @@ Color profileColor = const Color(0xFFFDFDFF);
 Color borderProfileColor = const Color(0xFFCBD4F5);
 Color profileLabelColor = const Color(0xFFA3A5BC);
 Color contractBtnColor = const Color(0xFFE4ECFE);
-TextStyle textTitle = TextStyle(fontSize: 34);
+Color lsButtonColor = const Color(0xFfE8EDFF);
+Color meterDataColor = const Color(0xFF606a7c);

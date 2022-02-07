@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../consts.dart';
-import 'login-step-2.dart';
+import '../elements/header.dart';
+import 'login-account.dart';
 
 class ChangeType extends StatefulWidget {
   const ChangeType({Key? key}) : super(key: key);
@@ -34,22 +35,7 @@ class _ChangeType extends State<ChangeType> {
                 width: 375,
                 left: 26,
                 top: 26,
-                child: Row(
-                  children: [
-                    Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Image.asset('assets/back-arrow.png'),
-                        )),
-                    Text(
-                      lkChooseType,
-                      style: TextStyle(fontFamily: 'Bubicon-Bold', fontSize: 34),
-                    )
-                  ],
-                )),
+                child: HeaderRow(lkChooseType)),
             Positioned(
               width: MediaQuery.of(context).size.width,
               bottom: 20,
