@@ -45,7 +45,7 @@ class _LoginEmail extends State<LoginEmail> {
                 children: [
                   Text(
                     lkInputText,
-                    style: TextStyle(color: colorGrayText, fontSize: 16.0),
+                    style: labelTextStyle,
                   ),
                   TextField(
                     decoration: InputDecoration(
@@ -65,7 +65,7 @@ class _LoginEmail extends State<LoginEmail> {
                 children: [
                   Text(
                     lkPasswordText,
-                    style: TextStyle(color: colorGrayText, fontSize: 16.0),
+                    style: labelTextStyle,
                   ),
                   TextField(
                     decoration: InputDecoration(
@@ -89,7 +89,7 @@ class _LoginEmail extends State<LoginEmail> {
                             onPressed: () {},
                             child: Text(
                               login,
-                              style: const TextStyle(fontSize: 18.0),
+                              style: buttonTextStyle,
                             ),
                             style:
                             ElevatedButton.styleFrom(primary: colorMain))),
@@ -115,29 +115,11 @@ class _LoginEmail extends State<LoginEmail> {
                             },
                             child: Text(
                               forgotPassword,
-                              style: const TextStyle(fontSize: 18.0),
+                              style: buttonTextStyle,
                             ),
                             style:
                                 ElevatedButton.styleFrom(primary: colorMain))),
                   ),
-                  /*
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      height: 55.0,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const ChangeType()));
-                          },
-                          child: Text(
-                            back,
-                            style: const TextStyle(fontSize: 18.0),
-                          ),
-                          style: ElevatedButton.styleFrom(primary: colorGray))),*/
-
-                  //ElevatedButton(onPressed: (){}, child: Text(login)),
                 ],
               ),
             )

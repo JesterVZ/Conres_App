@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../claims/new-claim/new-claim-step-1.dart';
 import '../consts.dart';
 import '../icons.dart';
 
@@ -121,10 +122,12 @@ class _ProfileNoLs extends State<ProfileNoLs> {
               Positioned(
                   bottom: 24,
                   child: Container(
-                      width: MediaQuery.of(context).size.width,
+                      width: MediaQuery.of(context).size.width - 35,
                       height: 70,
                       child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => NewClaimStep1()));
+                          },
                           style: ElevatedButton.styleFrom(
                               primary: contractBtnColor),
                           child: Row(
@@ -153,6 +156,7 @@ class _ProfileNoLs extends State<ProfileNoLs> {
             ],
           )),
       bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
                 icon: Icon(CustomIcons.home, color: colorGray),

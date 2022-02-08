@@ -35,7 +35,7 @@ class _ChangeType extends State<ChangeType> {
                 width: 375,
                 left: 26,
                 top: 26,
-                child: HeaderRow(lkChooseType)),
+                child: HeaderRow(lkChooseType, 34)),
             Positioned(
               width: MediaQuery.of(context).size.width,
               bottom: 20,
@@ -52,7 +52,7 @@ class _ChangeType extends State<ChangeType> {
                             },
                             child: Text(
                               ul,
-                              style: const TextStyle(fontSize: 18.0),
+                              style: buttonTextStyle,
                             ),
                             style: ElevatedButton.styleFrom(primary: colorMain))),
                   ),
@@ -67,7 +67,7 @@ class _ChangeType extends State<ChangeType> {
                             },
                             child: Text(
                               fl,
-                              style: const TextStyle(fontSize: 18.0),
+                              style: buttonTextStyle,
                             ),
                             style: ElevatedButton.styleFrom(primary: colorMain))),
                   ),
@@ -82,25 +82,10 @@ class _ChangeType extends State<ChangeType> {
                             },
                             child: Text(
                               ip,
-                              style: const TextStyle(fontSize: 18.0),
+                              style: buttonTextStyle,
                             ),
                             style: ElevatedButton.styleFrom(primary: colorMain))),
                   ),
-                  /*
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      height: 55.0,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            back,
-                            style: const TextStyle(fontSize: 18.0),
-                          ),
-                          style: ElevatedButton.styleFrom(primary: colorGray))),*/
-
-                  //ElevatedButton(onPressed: (){}, child: Text(login)),
                 ],
               ),
             )

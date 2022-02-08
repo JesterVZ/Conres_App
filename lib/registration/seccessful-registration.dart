@@ -25,13 +25,13 @@ class _RegSuccess extends State<RegSuccess>{
               width: 375,
               left: 26,
               top: 26,
-              child: Container(width: 326, child: HeaderRow(successRed))),
+              child: Container(width: 326, child: HeaderRow(successRed, 34))),
           Positioned(top: 140, child: Column(
             children: [
               const Image(image: AssetImage('assets/success.png')),
               Container(
                 width: 314,
-                child: Text(sendLogin, textAlign: TextAlign.center, style: const TextStyle(fontSize: 20, fontFamily: 'Bubicon-Medium', ),)
+                child: Text(sendLogin, textAlign: TextAlign.center, style: const TextStyle(fontSize: 20 ),)
               ),
 
             ],
@@ -47,11 +47,11 @@ class _RegSuccess extends State<RegSuccess>{
                       height: 55.0,
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder:  (context) => const ProfileLs()));
+                            Navigator.push(context, MaterialPageRoute(builder:  (context) => const ProfileNoLs()));
                           },
                           child: Text(
                             next,
-                            style: const TextStyle(fontSize: 18.0),
+                            style: buttonTextStyle,
                           ),
                           style: ElevatedButton.styleFrom(primary: colorMain))),
                 ),

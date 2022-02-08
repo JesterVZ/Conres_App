@@ -17,6 +17,12 @@ class _RegUL extends State<RegUL> {
   TextEditingController lkController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   late bool _agree = false;
+  late bool _visabillity = false;
+
+  void _addNewConfidant(){
+    _visabillity = !_visabillity;
+  }
+
 
   final Widget svg = SvgPicture.asset('assets/background_image.svg',
       color: colorLogo, semanticsLabel: 'Acme Logo');
@@ -31,7 +37,7 @@ class _RegUL extends State<RegUL> {
                 padding: EdgeInsets.fromLTRB(21, 70, 21, 54),
                 child: Column(
                   children: [
-                    HeaderRow(regTitle),
+                    HeaderRow(regTitle, 34),
                     Container(
                         margin: const EdgeInsets.fromLTRB(0, 38, 0, 18),
                         child: Column(
@@ -154,6 +160,138 @@ class _RegUL extends State<RegUL> {
                     Container(
                         margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
                         child: Column(
+                          children: [
+                            Container(
+                                height: 55,
+                                child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(primary: Colors.white),
+                                    onPressed: (){
+                                      setState(() {
+                                        _addNewConfidant();
+                                      });
+
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                            margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                            child: _visabillity ? SvgPicture.asset('assets/minus.svg') : SvgPicture.asset('assets/plus.svg')
+                                        ),
+
+
+                                        Text(confidant, style: TextStyle(color: colorMain, fontSize: 18))
+                                      ],
+                                    ))
+                            ),
+                            Visibility(
+                                visible: _visabillity,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                        margin: const EdgeInsets.fromLTRB(0, 38, 0, 18),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(familyDL,
+                                                style: TextStyle(
+                                                    color: colorGray, fontSize: 16.0)),
+                                            TextField(
+                                              decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                      borderSide:
+                                                      BorderSide(color: inputBorder))),
+                                            )
+                                          ],
+                                        )),
+                                    Container(
+                                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(nameDL,
+                                                style: TextStyle(
+                                                    color: colorGray, fontSize: 16.0)),
+                                            TextField(
+                                              decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                      borderSide:
+                                                      BorderSide(color: inputBorder))),
+                                            )
+                                          ],
+                                        )),
+                                    Container(
+                                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(patronymicDL,
+                                                style: TextStyle(
+                                                    color: colorGray, fontSize: 16.0)),
+                                            TextField(
+                                              decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                      borderSide:
+                                                      BorderSide(color: inputBorder))),
+                                            )
+                                          ],
+                                        )),
+                                    Container(
+                                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(telDL,
+                                                style: TextStyle(
+                                                    color: colorGray, fontSize: 16.0)),
+                                            TextField(
+                                              decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                      borderSide:
+                                                      BorderSide(color: inputBorder))),
+                                            )
+                                          ],
+                                        )),
+                                    Container(
+                                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(emailDL,
+                                                style: TextStyle(
+                                                    color: colorGray, fontSize: 16.0)),
+                                            TextField(
+                                              decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                      borderSide:
+                                                      BorderSide(color: inputBorder))),
+                                            )
+                                          ],
+                                        )),
+                                    Container(
+                                      height: 6,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: colorMain
+                                      ),
+                                    )
+                                  ],
+                                )
+                            )
+
+
+                          ],
+                        )),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -211,7 +349,7 @@ class _RegUL extends State<RegUL> {
                           },
                           child: Text(
                             login,
-                            style: const TextStyle(fontSize: 18.0),
+                            style: buttonTextStyle,
                           ),
                           style: ElevatedButton.styleFrom(primary: colorMain)),
                     )

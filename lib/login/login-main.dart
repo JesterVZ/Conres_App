@@ -66,7 +66,7 @@ class _LoginPage extends State<LoginPage> {
                           },
                           child: Text(
                             login,
-                            style: const TextStyle(fontSize: 18.0),
+                            style: buttonTextStyle,
                           ),
                           style: ElevatedButton.styleFrom(primary: colorGray))),
 

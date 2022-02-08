@@ -32,7 +32,7 @@ class _RegIP extends State<RegIP> {
                 padding: EdgeInsets.fromLTRB(21, 70, 21, 54),
                 child: Column(
                   children: [
-                    HeaderRow(regTitle),
+                    HeaderRow(regTitle, 34),
                     Container(
                         margin: const EdgeInsets.fromLTRB(0, 38, 0, 18),
                         child: Column(
@@ -269,6 +269,14 @@ class _RegIP extends State<RegIP> {
                                         )
                                       ],
                                     )),
+                                Container(
+                                  height: 6,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: colorMain
+                                  ),
+                                )
                               ],
                             )
                             )
@@ -336,7 +344,7 @@ class _RegIP extends State<RegIP> {
                           },
                           child: Text(
                             login,
-                            style: const TextStyle(fontSize: 18.0),
+                            style: buttonTextStyle,
                           ),
                           style: ElevatedButton.styleFrom(primary: colorMain)),
                     )

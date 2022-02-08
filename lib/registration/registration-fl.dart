@@ -30,7 +30,7 @@ class _RegFL extends State<RegFL> {
                 padding: EdgeInsets.fromLTRB(21, 70, 21, 54),
                 child: Column(
                   children: [
-                    HeaderRow(regTitle),
+                    HeaderRow(regTitle, 34),
                     Container(
                         margin: const EdgeInsets.fromLTRB(0, 38, 0, 18),
                         child: Column(
@@ -210,7 +210,7 @@ class _RegFL extends State<RegFL> {
                           },
                           child: Text(
                             login,
-                            style: const TextStyle(fontSize: 18.0),
+                            style: buttonTextStyle
                           ),
                           style: ElevatedButton.styleFrom(primary: colorMain)),
                     )

@@ -2,6 +2,8 @@ library conres_app.consts;
 
 import 'dart:ui';
 
+import 'package:flutter/widgets.dart';
+
 String title = "тестовая компания";
 String lkTitle = "Личный кабинет потребителя";
 String lkChooseType = "Выберите тип";
@@ -59,6 +61,21 @@ String mainPage = "Главная";
 String contractsPage = "Договоры";
 String reportsPage = "Заявления";
 String chatPage = "Обращения";
+//claim
+String claimStep1 = "Оформление нового заявления - Шаг 1";
+String claimStep2 = "Оформление нового заявления - Шаг 2";
+String claimStep3 = "Оформление нового заявления - Шаг 3";
+String claimStep4 = "Оформление нового заявления - Шаг 4";
+String claimStep5 = "Оформление нового заявления - Шаг 5";
+String claimStep6 = "Оформление нового заявления - Шаг 6";
+String claimInfo = "Информация о заявителе";
+String passportData = "Паспортные данные";
+String seriesPassport = "Серия";
+String numberPassport = "Номер";
+String fio = "ФИО";
+String factAddress = "Фактический адрес";
+String place = "Кем выдан";
+String date = "Дата выдачи";
 
 
 Color colorMain = const Color(0xFF5282FF);
@@ -73,3 +90,7 @@ Color profileLabelColor = const Color(0xFFA3A5BC);
 Color contractBtnColor = const Color(0xFFE4ECFE);
 Color lsButtonColor = const Color(0xFfE8EDFF);
 Color meterDataColor = const Color(0xFF606a7c);
+
+TextStyle claimTextStyle = TextStyle(color: colorMain, fontSize: 18.0, fontFamily: 'Bubicon-Bold');
+TextStyle labelTextStyle = TextStyle(color: colorGrayText, fontSize: 16.0);
+TextStyle buttonTextStyle = const TextStyle(fontSize: 18.0);
