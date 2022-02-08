@@ -8,13 +8,14 @@ import 'package:flutter_svg/svg.dart';
 import '../../consts.dart';
 import '../../icons.dart';
 import '../../profile/profile-no-ls.dart';
+import 'new-claim-step-2.dart';
 
-class NewClaimStep2 extends StatefulWidget{
+class NewClaimStep3 extends StatefulWidget{
   @override
-  State<StatefulWidget> createState() => _NewClaimStep2();
+  State<StatefulWidget> createState() => _NewClaimStep3();
 }
 
-class _NewClaimStep2 extends State<NewClaimStep2>{
+class _NewClaimStep3 extends State<NewClaimStep3>{
   int _selectedIndex = 0;
   late bool _visabillity = false;
 

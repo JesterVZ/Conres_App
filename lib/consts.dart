@@ -76,7 +76,15 @@ String fio = "ФИО";
 String factAddress = "Фактический адрес";
 String place = "Кем выдан";
 String date = "Дата выдачи";
-
+String claimAdd = "Заявление на присоединение энергопринимающих устройств";
+String cause = "В связи с";
+String choose = "Выберите причину";
+String warning = "Прошу осуществить технологическое присоединение устройств";
+String objectName = "Наименование объекта";
+String objectAddress = "Адрес объекта";
+String cadastrNumber = "Кадастровый номер (необязательно)";
+String addObject = "Добавить объект";
+String maxPowerWarning = "Максимальная мощность энергопринимающих устройств (присоединяемых и ранее присоединенных) составляет";
 
 Color colorMain = const Color(0xFF5282FF);
 Color colorGray = const Color(0xFF4F5A6E);
@@ -90,7 +98,9 @@ Color profileLabelColor = const Color(0xFFA3A5BC);
 Color contractBtnColor = const Color(0xFFE4ECFE);
 Color lsButtonColor = const Color(0xFfE8EDFF);
 Color meterDataColor = const Color(0xFF606a7c);
+Color whiteGrayColor = const Color(0xFFa7adb7);
 
 TextStyle claimTextStyle = TextStyle(color: colorMain, fontSize: 18.0, fontFamily: 'Bubicon-Bold');
 TextStyle labelTextStyle = TextStyle(color: colorGrayText, fontSize: 16.0);
 TextStyle buttonTextStyle = const TextStyle(fontSize: 18.0);
+TextStyle warningTextStyle = TextStyle(fontSize: 16.0, color: whiteGrayColor);

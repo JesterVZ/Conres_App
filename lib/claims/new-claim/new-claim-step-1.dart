@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../../consts.dart';
 import '../../icons.dart';
 import '../../profile/profile-no-ls.dart';
+import 'new-claim-step-2.dart';
 
 class NewClaimStep1 extends StatefulWidget{
   @override
@@ -45,8 +46,7 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(fio,
-                                      style: TextStyle(
-                                          color: colorGray, fontSize: 16.0)),
+                                      style: labelTextStyle),
                                   TextField(
                                     decoration: InputDecoration(
                                         border: OutlineInputBorder(
@@ -125,8 +125,7 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(place,
-                                        style: TextStyle(
-                                            color: colorGray, fontSize: 16.0)),
+                                        style: labelTextStyle),
                                     TextField(
                                       decoration: InputDecoration(
                                           border: OutlineInputBorder(
@@ -157,7 +156,7 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                 height: 55.0,
                                 child: ElevatedButton(
                                     onPressed: () {
-                                      Navigator.push(context, MaterialPageRoute(builder:  (context) => const ProfileNoLs()));
+                                      Navigator.push(context, MaterialPageRoute(builder:  (context) =>  NewClaimStep2()));
                                     },
                                     child: Text(
                                       next,
