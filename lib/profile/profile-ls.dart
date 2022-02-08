@@ -56,10 +56,10 @@ class _ProfileLs extends State<ProfileLs> {
                             Text(ls,
                                 style: TextStyle(
                                     color: profileLabelColor,
-                                    fontSize: 15, fontFamily: 'Bubicon-Medium')),
+                                    fontSize: 15)),
                             Text(thisLS,
                                 style: const TextStyle(
-                                    color: Colors.black, fontSize: 18, fontFamily: 'Bubicon-Medium'))
+                                    color: Colors.black, fontSize: 18))
                           ],
                         ),
                         const Spacer(),
@@ -99,12 +99,12 @@ class _ProfileLs extends State<ProfileLs> {
                                   children: [
                                     Text(inn,
                                         style: TextStyle(
-                                            fontFamily: 'Bubicon-Medium',
+
                                             color: profileLabelColor,
                                             fontSize: 15)),
                                     Text(thisInn,
                                         style: const TextStyle(
-                                            color: Colors.black, fontSize: 18, fontFamily: 'Bubicon-Medium'))
+                                            color: Colors.black, fontSize: 18, ))
                                   ],
                                 )),
                             Container(
@@ -117,10 +117,10 @@ class _ProfileLs extends State<ProfileLs> {
                                         style: TextStyle(
                                             color: profileLabelColor,
                                             fontSize: 15,
-                                            fontFamily: 'Bubicon-Medium')),
+                                            )),
                                     Text(needDogovor,
                                         style: const TextStyle(
-                                            color: Colors.black, fontSize: 18, fontFamily: 'Bubicon-Medium'))
+                                            color: Colors.black, fontSize: 18))
                                   ],
                                 )),
                             Container(
@@ -132,10 +132,10 @@ class _ProfileLs extends State<ProfileLs> {
                                     Text(emailProfile,
                                         style: TextStyle(
                                             color: profileLabelColor,
-                                            fontSize: 15, fontFamily: 'Bubicon-Medium')),
+                                            fontSize: 15)),
                                     const Text("Ahiro2011@gmail.com",
                                         style: TextStyle(
-                                            color: Colors.black, fontSize: 18, fontFamily: 'Bubicon-Medium'))
+                                            color: Colors.black, fontSize: 18))
                                   ],
                                 )),
                             Container(
@@ -147,10 +147,10 @@ class _ProfileLs extends State<ProfileLs> {
                                     Text(address,
                                         style: TextStyle(
                                             color: profileLabelColor,
-                                            fontSize: 15, fontFamily: 'Bubicon-Medium')),
+                                            fontSize: 15)),
                                     const Text("-/-",
                                         style: TextStyle(
-                                            color: Colors.black, fontSize: 18, fontFamily: 'Bubicon-Medium'))
+                                            color: Colors.black, fontSize: 18))
                                   ],
                                 ))
                           ],
@@ -209,18 +209,19 @@ class _ProfileLs extends State<ProfileLs> {
             ],
           )),
       bottomNavigationBar: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
+        type: BottomNavigationBarType.fixed,
+          items: [
             BottomNavigationBarItem(
-                icon: Icon(CustomIcons.home, color: colorGray),
+                icon: Icon(CustomIcons.home),
                 label: mainPage),
             BottomNavigationBarItem(
-                icon: Icon(CustomIcons.contracts, color: colorGray),
+                icon: Icon(CustomIcons.contracts),
                 label: contractsPage),
             BottomNavigationBarItem(
-                icon: Icon(CustomIcons.reports, color: colorGray),
+                icon: Icon(CustomIcons.reports),
                 label: reportsPage),
             BottomNavigationBarItem(
-                icon: Icon(CustomIcons.chat, color: colorGray),
+                icon: Icon(CustomIcons.chat),
                 label: chatPage),
           ],
           currentIndex: _selectedIndex,

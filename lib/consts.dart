@@ -26,14 +26,18 @@ String next = "Далее";
 
 String family = "Фамилия";
 String familyIP = "Фамилия руководителя";
+String familyDL = "Фамилия ДЛ";
 String name = "Имя";
 String nameIP = "Имя руководителя";
+String nameDL = "Имя ДЛ";
 String patronymic = "Отчество";
 String patronymicIP = "Отчество руководителя";
-
+String patronymicDL = "Отчество ДЛ";
 String fullNameUL = "Полное наименование компании";
 String nameUL = "Сокращённое наименование компании";
 String kpp = "КПП";
+String telDL = "Телефон  ДЛ";
+String emailDL = "Email  ДЛ";
 
 String snils = "СНИЛС";
 String ofrnip = "ОГРНИП";
@@ -44,7 +48,7 @@ String needDogovor = "Вам нужно заключить договор";
 String emailProfile = "Электронная почта";
 String address = "Адрес";
 String ls = "Лицевой счет";
-
+String confidant = "Доверенное лицо";
 
 String step1 = "Шаг 1";
 String step2 = "Шаг 2";
