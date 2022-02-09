@@ -2,6 +2,7 @@ library conres_app.consts;
 
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 String title = "тестовая компания";
@@ -85,6 +86,16 @@ String objectAddress = "Адрес объекта";
 String cadastrNumber = "Кадастровый номер (необязательно)";
 String addObject = "Добавить объект";
 String maxPowerWarning = "Максимальная мощность энергопринимающих устройств (присоединяемых и ранее присоединенных) составляет";
+//contracts
+String contractsTitle = "Договора";
+String currentLs = "Текущий ЛС";
+String dateAdded = "Дата добавления:";
+String underConsideration = "На рассмотрении";
+String closed = "Закрытый";
+String linkNewLs = "Привязать новый лицевой счет";
+String newLs = "Новый ЛС";
+String numberLS = "Номер лицевого счёта";
+String sendLinkRequest = "Отправить запрос на привязку";
 
 Color colorMain = const Color(0xFF5282FF);
 Color colorGray = const Color(0xFF4F5A6E);
@@ -99,8 +110,10 @@ Color contractBtnColor = const Color(0xFFE4ECFE);
 Color lsButtonColor = const Color(0xFfE8EDFF);
 Color meterDataColor = const Color(0xFF606a7c);
 Color whiteGrayColor = const Color(0xFFa7adb7);
+Color redColor = const Color(0xFFE63757);
 
 TextStyle claimTextStyle = TextStyle(color: colorMain, fontSize: 18.0, fontFamily: 'Bubicon-Bold');
 TextStyle labelTextStyle = TextStyle(color: colorGrayText, fontSize: 16.0);
 TextStyle buttonTextStyle = const TextStyle(fontSize: 18.0);
 TextStyle warningTextStyle = TextStyle(fontSize: 16.0, color: whiteGrayColor);
+TextStyle contractLabelTextStyle = const TextStyle(fontSize: 14.0, color: Colors.white);

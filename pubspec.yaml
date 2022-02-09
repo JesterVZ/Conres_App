@@ -74,6 +74,7 @@ flutter:
     - assets/file-icon.svg
     - assets/ls-right-arrow.svg
     - assets/meters-data.svg
+    - assets/fire.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -208,25 +208,6 @@ class _ProfileLs extends State<ProfileLs> {
                           ))))
             ],
           )),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(CustomIcons.home),
-                label: mainPage),
-            BottomNavigationBarItem(
-                icon: Icon(CustomIcons.contracts),
-                label: contractsPage),
-            BottomNavigationBarItem(
-                icon: Icon(CustomIcons.reports),
-                label: reportsPage),
-            BottomNavigationBarItem(
-                icon: Icon(CustomIcons.chat),
-                label: chatPage),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: colorMain,
-          onTap: _onItemTapped),
     );
   }
 }

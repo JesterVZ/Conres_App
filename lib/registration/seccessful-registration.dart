@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../consts.dart';
 import '../elements/header.dart';
+import '../profile/main-page.dart';
 import '../profile/profile-ls.dart';
 import '../profile/profile-no-ls.dart';
 
@@ -47,7 +48,7 @@ class _RegSuccess extends State<RegSuccess>{
                       height: 55.0,
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder:  (context) => const ProfileNoLs()));
+                            Navigator.push(context, MaterialPageRoute(builder:  (context) => const MainPage()));
                           },
                           child: Text(
                             next,
