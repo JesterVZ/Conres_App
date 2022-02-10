@@ -11,6 +11,8 @@ import '../../profile/profile-no-ls.dart';
 import 'new-claim-step-2.dart';
 
 class NewClaimStep3 extends StatefulWidget{
+  const NewClaimStep3({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _NewClaimStep3();
 }
@@ -37,7 +39,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                 padding: const EdgeInsets.fromLTRB(17, 59, 17, 0),
                 child: Column(
                   children: [
-                    HeaderRow(claimStep2, 24),
+                    HeaderRow(claimStep3, 24),
                     Column(
                       children: [
                         Container(
@@ -46,75 +48,153 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(margin: EdgeInsets.fromLTRB(0, 25, 0, 10),
-                              child: Text(claimAdd, style: claimTextStyle),),
+                              child: Text(maxPowerWarning, style: claimTextStyle),),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
 
                                 children: [
-                                  Text(cause, style: labelTextStyle),
                                   Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 55,
-                                    child: ElevatedButton(
-                                      onPressed: (){},
-                                      child: Text(choose, style: labelTextStyle),
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(8),
-                                            side: BorderSide(color: borderProfileColor)
-                                        ),
-                                      ),
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 27),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(maxPower),
+                                        Row(
+                                          children: [
+                                            Container(
+                                              width: 158,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
+                                                  TextField(
+                                                    decoration: InputDecoration(
+                                                        border: OutlineInputBorder(
+                                                            borderSide:
+                                                            BorderSide(color: inputBorder))),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Container(
+                                              width: 158,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
+                                                  TextField(
+                                                    decoration: InputDecoration(
+                                                        border: OutlineInputBorder(
+                                                            borderSide:
+                                                            BorderSide(color: inputBorder))),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
                                     ),
                                   ),
-                                  Text(warning, style: warningTextStyle, textAlign: TextAlign.center,),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(objectName,
-                                          style: labelTextStyle),
-                                      TextField(
-                                        decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                                borderSide:
-                                                BorderSide(color: inputBorder))),
-                                      )
-                                    ],
+                                  Container(
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 27),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(repeatlyConnectedPower),
+                                        Row(
+                                          children: [
+                                            Container(
+                                              width: 158,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
+                                                  TextField(
+                                                    decoration: InputDecoration(
+                                                        border: OutlineInputBorder(
+                                                            borderSide:
+                                                            BorderSide(color: inputBorder))),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Container(
+                                              width: 158,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
+                                                  TextField(
+                                                    decoration: InputDecoration(
+                                                        border: OutlineInputBorder(
+                                                            borderSide:
+                                                            BorderSide(color: inputBorder))),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                   Container(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(objectAddress,
-                                              style: TextStyle(
-                                                  color: colorGray, fontSize: 16.0)),
-                                          TextField(
-                                            decoration: InputDecoration(
-                                                border: OutlineInputBorder(
-                                                    borderSide:
-                                                    BorderSide(color: inputBorder))),
-                                          )
-                                        ],
-                                      )),
-                                  Container(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(cadastrNumber,
-                                              style: TextStyle(
-                                                  color: colorGray, fontSize: 16.0)),
-                                          TextField(
-                                            decoration: InputDecoration(
-                                                border: OutlineInputBorder(
-                                                    borderSide:
-                                                    BorderSide(color: inputBorder))),
-                                          )
-                                        ],
-                                      )),
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 27),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(previouslyConnectedPower),
+                                        Row(
+                                          children: [
+                                            Container(
+                                              width: 158,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
+                                                  TextField(
+                                                    decoration: InputDecoration(
+                                                        border: OutlineInputBorder(
+                                                            borderSide:
+                                                            BorderSide(color: inputBorder))),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Container(
+                                              width: 158,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
+                                                  TextField(
+                                                    decoration: InputDecoration(
+                                                        border: OutlineInputBorder(
+                                                            borderSide:
+                                                            BorderSide(color: inputBorder))),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                   Container(
                                       height: 55,
                                       child: ElevatedButton(

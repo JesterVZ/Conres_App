@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../consts.dart';
 import '../../icons.dart';
 import '../../profile/profile-no-ls.dart';
+import 'new-claim-step-3.dart';
 
 class NewClaimStep2 extends StatefulWidget{
   const NewClaimStep2({Key? key}) : super(key: key);
@@ -230,7 +231,7 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
                                       height: 55.0,
                                       child: ElevatedButton(
                                           onPressed: () {
-                                            Navigator.push(context, MaterialPageRoute(builder:  (context) =>  NewClaimStep2()));
+                                            Navigator.push(context, MaterialPageRoute(builder:  (context) =>  NewClaimStep3()));
                                           },
                                           child: Text(
                                               next,

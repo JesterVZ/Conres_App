@@ -86,6 +86,11 @@ String objectAddress = "Адрес объекта";
 String cadastrNumber = "Кадастровый номер (необязательно)";
 String addObject = "Добавить объект";
 String maxPowerWarning = "Максимальная мощность энергопринимающих устройств (присоединяемых и ранее присоединенных) составляет";
+String maxPower = "Максимальная мощность (всего) на напряжении:";
+String kVT = "кВт";
+String vt = "Вт";
+String previouslyConnectedPower = "Ранее присоединенная мощность на напряжении:";
+String repeatlyConnectedPower = "Ранее присоединенная мощность на напряжении:";
 //contracts
 String contractsTitle = "Договора";
 String currentLs = "Текущий ЛС";
@@ -112,9 +117,11 @@ Color lsButtonColor = const Color(0xFfE8EDFF);
 Color meterDataColor = const Color(0xFF606a7c);
 Color whiteGrayColor = const Color(0xFFa7adb7);
 Color redColor = const Color(0xFFE63757);
+Color claimLabelColor = const Color(0xFFa7acb7);
 
 TextStyle claimTextStyle = TextStyle(color: colorMain, fontSize: 18.0, fontFamily: 'Bubicon-Bold');
 TextStyle labelTextStyle = TextStyle(color: colorGrayText, fontSize: 16.0);
 TextStyle buttonTextStyle = const TextStyle(fontSize: 18.0);
 TextStyle warningTextStyle = TextStyle(fontSize: 16.0, color: whiteGrayColor);
 TextStyle contractLabelTextStyle = const TextStyle(fontSize: 14.0, color: Colors.white);
+TextStyle claimLabelTextStyle = TextStyle(fontSize: 16.0, color: claimLabelColor);
