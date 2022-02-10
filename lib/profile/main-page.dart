@@ -1,5 +1,6 @@
 import 'package:conres_app/contracts/contracts.dart';
 import 'package:conres_app/profile/profile-ls.dart';
+import 'package:conres_app/profile/profile-no-ls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,7 @@ class _MainPage extends State<MainPage>{
 
   @override
   void initState() {
-    pageList.add(const ProfileLs());
+    pageList.add(const ProfileNoLs());
     pageList.add(Contracts());
     pageList.add(const Claims());
     pageList.add(Chats());

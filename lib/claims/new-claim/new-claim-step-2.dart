@@ -10,6 +10,8 @@ import '../../icons.dart';
 import '../../profile/profile-no-ls.dart';
 
 class NewClaimStep2 extends StatefulWidget{
+  const NewClaimStep2({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _NewClaimStep2();
 }
@@ -19,7 +21,10 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
   late bool _visabillity = false;
 
   void _addNewObject(){
-    _visabillity = !_visabillity;
+    setState(() {
+      _visabillity = !_visabillity;
+    });
+
   }
   void _onItemTapped(int index) {
     setState(() {
@@ -67,22 +72,29 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
                                       ),
                                     ),
                                   ),
-                                  Text(warning, style: warningTextStyle, textAlign: TextAlign.center,),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(objectName,
-                                          style: labelTextStyle),
-                                      TextField(
-                                        decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                                borderSide:
-                                                BorderSide(color: inputBorder))),
-                                      )
-                                    ],
+                                  Container(
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 28),
+                                    child: Text(warning, style: warningTextStyle, textAlign: TextAlign.center,)
                                   ),
                                   Container(
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 12),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(objectName,
+                                            style: labelTextStyle),
+                                        TextField(
+                                          decoration: InputDecoration(
+                                              border: OutlineInputBorder(
+                                                  borderSide:
+                                                  BorderSide(color: inputBorder))),
+                                        )
+                                      ],
+                                    )
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.fromLTRB(0, 0, 0, 12),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,6 +111,7 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
                                         ],
                                       )),
                                   Container(
+                                      margin: EdgeInsets.fromLTRB(0, 0, 0, 24),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,6 +128,7 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
                                         ],
                                       )),
                                   Container(
+                                      margin: EdgeInsets.fromLTRB(0, 0, 0, 24),
                                       height: 55,
                                       child: ElevatedButton(
                                           style: ElevatedButton.styleFrom(primary: Colors.white),
@@ -122,7 +136,6 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
                                             setState(() {
                                               _addNewObject();
                                             });
-
                                           },
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.center,
@@ -132,11 +145,85 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
                                                   margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                                                   child: SvgPicture.asset('assets/plus.svg')
                                               ),
-
-
                                               Text(addObject, style: TextStyle(color: colorMain, fontSize: 18))
                                             ],
                                           ))
+                                  ),
+                                  Visibility(
+                                    visible: _visabillity,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                            margin: EdgeInsets.fromLTRB(0, 0, 0, 12),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(objectName,
+                                                    style: labelTextStyle),
+                                                TextField(
+                                                  decoration: InputDecoration(
+                                                      border: OutlineInputBorder(
+                                                          borderSide:
+                                                          BorderSide(color: inputBorder))),
+                                                )
+                                              ],
+                                            )
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.fromLTRB(0, 0, 0, 12),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(objectAddress,
+                                                    style: TextStyle(
+                                                        color: colorGray, fontSize: 16.0)),
+                                                TextField(
+                                                  decoration: InputDecoration(
+                                                      border: OutlineInputBorder(
+                                                          borderSide:
+                                                          BorderSide(color: inputBorder))),
+                                                )
+                                              ],
+                                            )),
+                                        Container(
+                                            margin: EdgeInsets.fromLTRB(0, 0, 0, 24),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(cadastrNumber,
+                                                    style: TextStyle(
+                                                        color: colorGray, fontSize: 16.0)),
+                                                TextField(
+                                                  decoration: InputDecoration(
+                                                      border: OutlineInputBorder(
+                                                          borderSide:
+                                                          BorderSide(color: inputBorder))),
+                                                )
+                                              ],
+                                            )),
+                                        Container(
+                                            margin: EdgeInsets.fromLTRB(0, 0, 0, 24),
+                                            height: 55,
+                                            child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(primary: redColor),
+                                                onPressed: (){
+                                                  setState(() {
+                                                    _visabillity = false;
+                                                  });
+                                                },
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(deleteObject, style: TextStyle(color: Colors.white, fontSize: 18))
+                                                  ],
+                                                ))
+                                        ),
+                                      ],
+                                    )
                                   ),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width * 0.9,
@@ -146,7 +233,7 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
                                             Navigator.push(context, MaterialPageRoute(builder:  (context) =>  NewClaimStep2()));
                                           },
                                           child: Text(
-                                            next,
+                                              next,
                                             style: buttonTextStyle,
                                           ),
                                           style: ElevatedButton.styleFrom(primary: colorMain))),

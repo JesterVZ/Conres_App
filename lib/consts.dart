@@ -96,6 +96,7 @@ String linkNewLs = "Привязать новый лицевой счет";
 String newLs = "Новый ЛС";
 String numberLS = "Номер лицевого счёта";
 String sendLinkRequest = "Отправить запрос на привязку";
+String deleteObject = "Удалить объект";
 
 Color colorMain = const Color(0xFF5282FF);
 Color colorGray = const Color(0xFF4F5A6E);
