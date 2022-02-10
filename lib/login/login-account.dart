@@ -23,7 +23,6 @@ class _LoginEmail extends State<LoginEmail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
         resizeToAvoidBottomInset: false,
         body: Stack(
           fit: StackFit.expand,

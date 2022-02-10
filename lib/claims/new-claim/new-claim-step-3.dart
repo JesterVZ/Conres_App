@@ -9,6 +9,7 @@ import '../../consts.dart';
 import '../../icons.dart';
 import '../../profile/profile-no-ls.dart';
 import 'new-claim-step-2.dart';
+import 'new-claim-step-4.dart';
 
 class NewClaimStep3 extends StatefulWidget{
   const NewClaimStep3({Key? key}) : super(key: key);
@@ -196,6 +197,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                     ),
                                   ),
                                   Container(
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 23),
                                       height: 55,
                                       child: ElevatedButton(
                                           style: ElevatedButton.styleFrom(primary: Colors.white),
@@ -219,12 +221,178 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                             ],
                                           ))
                                   ),
+                                  Visibility(
+                                    visible: _visabillity,
+                                      child: Column(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.fromLTRB(0, 0, 0, 27),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(maxPower),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  width: 158,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
+                                                      TextField(
+                                                        decoration: InputDecoration(
+                                                            border: OutlineInputBorder(
+                                                                borderSide:
+                                                                BorderSide(color: inputBorder))),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                const Spacer(),
+                                                Container(
+                                                  width: 158,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
+                                                      TextField(
+                                                        decoration: InputDecoration(
+                                                            border: OutlineInputBorder(
+                                                                borderSide:
+                                                                BorderSide(color: inputBorder))),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.fromLTRB(0, 0, 0, 27),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(repeatlyConnectedPower),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  width: 158,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
+                                                      TextField(
+                                                        decoration: InputDecoration(
+                                                            border: OutlineInputBorder(
+                                                                borderSide:
+                                                                BorderSide(color: inputBorder))),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                const Spacer(),
+                                                Container(
+                                                  width: 158,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
+                                                      TextField(
+                                                        decoration: InputDecoration(
+                                                            border: OutlineInputBorder(
+                                                                borderSide:
+                                                                BorderSide(color: inputBorder))),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.fromLTRB(0, 0, 0, 27),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(previouslyConnectedPower),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  width: 158,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
+                                                      TextField(
+                                                        decoration: InputDecoration(
+                                                            border: OutlineInputBorder(
+                                                                borderSide:
+                                                                BorderSide(color: inputBorder))),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                const Spacer(),
+                                                Container(
+                                                  width: 158,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
+                                                      TextField(
+                                                        decoration: InputDecoration(
+                                                            border: OutlineInputBorder(
+                                                                borderSide:
+                                                                BorderSide(color: inputBorder))),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                          margin: EdgeInsets.fromLTRB(0, 0, 0, 24),
+                                          height: 55,
+                                          child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(primary: redColor),
+                                              onPressed: (){
+                                                setState(() {
+                                                  _visabillity = false;
+                                                });
+                                              },
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(deleteObject, style: TextStyle(color: Colors.white, fontSize: 18))
+                                                ],
+                                              ))
+                                      ),
+
+                                    ],
+                                  )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width * 0.9,
                                       height: 55.0,
                                       child: ElevatedButton(
                                           onPressed: () {
-                                            Navigator.push(context, MaterialPageRoute(builder:  (context) =>  NewClaimStep2()));
+                                            Navigator.push(context, MaterialPageRoute(builder:  (context) =>  NewClaimStep4()));
                                           },
                                           child: Text(
                                             next,
