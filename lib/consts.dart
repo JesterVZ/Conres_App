@@ -117,6 +117,14 @@ String deleteObject = "Удалить объект";
 String domain = "promo.dev.conres.ru//";
 String protocol = "https://";
 int loginType = 2;
+//testimony
+String sendTestimony = "Передача показаний";
+String namePU = "Наименование ПУ";
+String numberPU = "Номер ПУ";
+String numberPoint = "Номер точки учёта";
+String addressPoint = "Адрес точки учёта";
+String typePU = "Тип ПУ";
+String linkPU = "Привязать ПУ";
 
 
 Color colorMain = const Color(0xFF5282FF);
@@ -138,6 +146,7 @@ Color claimLabelColor = const Color(0xFFa7acb7);
 TextStyle claimTextStyle = TextStyle(color: colorMain, fontSize: 18.0, fontFamily: 'Bubicon-Bold');
 TextStyle labelTextStyle = TextStyle(color: colorGrayText, fontSize: 16.0);
 TextStyle buttonTextStyle = const TextStyle(fontSize: 18.0);
+TextStyle profileHeaderTextStyle = const TextStyle(fontSize: 24.0);
 TextStyle warningTextStyle = TextStyle(fontSize: 16.0, color: whiteGrayColor);
 TextStyle contractLabelTextStyle = const TextStyle(fontSize: 14.0, color: Colors.white);
 TextStyle claimLabelTextStyle = TextStyle(fontSize: 16.0, color: claimLabelColor);

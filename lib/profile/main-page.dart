@@ -27,7 +27,7 @@ class _MainPage extends State<MainPage>{
 
   @override
   void initState() {
-    pageList.add(const ProfileNoLs());
+    pageList.add(const ProfileLs());
     pageList.add(Contracts());
     pageList.add(const Claims());
     pageList.add(Chats());

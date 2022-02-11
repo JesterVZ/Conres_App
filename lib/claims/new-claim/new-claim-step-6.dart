@@ -39,7 +39,7 @@ class _NewClaimStep6 extends State<NewClaimStep6>{
                 padding: const EdgeInsets.fromLTRB(17, 59, 17, 0),
                 child: Column(
                   children: [
-                    HeaderRow(claimStep6, 24),
+                    HeaderRow(claimStep6, 24, true),
                     Column(
                       children: [
                         Container(
@@ -66,7 +66,7 @@ class _NewClaimStep6 extends State<NewClaimStep6>{
                                           height: 70,
                                           color: contractBtnColor,
                                           decoration: BoxDecoration(
-                                            C
+
                                           ),
                                           child: Padding(
                                             padding: const EdgeInsets.fromLTRB(18, 15, 0, 15),

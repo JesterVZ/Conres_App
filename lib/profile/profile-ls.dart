@@ -1,9 +1,12 @@
+import 'package:conres_app/elements/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../consts.dart';
+import '../elements/header-notification.dart';
 import '../icons.dart';
+import '../testimony/send-testimony.dart';
 
 class ProfileLs extends StatefulWidget {
   const ProfileLs({Key? key}) : super(key: key);
@@ -31,14 +34,7 @@ class _ProfileLs extends State<ProfileLs> {
             children: [
               Column(
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        profile,
-                        style: const TextStyle(fontSize: 24),
-                      )
-                    ],
-                  ),
+                  HeaderNotification(profile),
                   Container(
                     margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                     decoration: BoxDecoration(
@@ -164,7 +160,9 @@ class _ProfileLs extends State<ProfileLs> {
                       width: MediaQuery.of(context).size.width - 35,
                       height: 70,
                       child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const SendTestimony()));
+                          },
                           style: ElevatedButton.styleFrom(
                               primary: colorGray, shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)

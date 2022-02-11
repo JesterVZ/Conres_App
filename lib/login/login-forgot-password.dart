@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../consts.dart';
-import 'login-step-1.dart';
+import 'change-type.dart';
 
 class LoginForgotPassword extends StatefulWidget {
   const LoginForgotPassword({Key? key}) : super(key: key);

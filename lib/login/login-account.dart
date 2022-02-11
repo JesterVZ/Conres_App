@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../consts.dart';
+import '../network.dart';
 import 'login-forgot-password.dart';
-import 'login-step-1.dart';
+import 'change-type.dart';
 
 class LoginEmail extends StatefulWidget {
   const LoginEmail({Key? key}) : super(key: key);
@@ -85,7 +86,9 @@ class _LoginEmail extends State<LoginEmail> {
                         width: MediaQuery.of(context).size.width * 0.9,
                         height: 55.0,
                         child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Future<String> testdata = loginfunc("123456789000", "123456");
+                            },
                             child: Text(
                               login,
                               style: buttonTextStyle,

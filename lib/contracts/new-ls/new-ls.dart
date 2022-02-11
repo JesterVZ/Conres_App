@@ -23,7 +23,7 @@ class _NewLS extends State<NewLS>{
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  HeaderRow(newLs, 24),
+                  HeaderRow(newLs, 24, true),
                   Container(margin: const EdgeInsets.fromLTRB(0, 25, 0, 10),
                     child: Text(linkNewLs, style: claimTextStyle),),
                   Container(

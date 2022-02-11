@@ -35,7 +35,7 @@ class _ChangeType extends State<ChangeType> {
                 width: 375,
                 left: 26,
                 top: 26,
-                child: HeaderRow(lkChooseType, 34)),
+                child: HeaderRow(lkChooseType, 34, false)),
             Positioned(
               width: MediaQuery.of(context).size.width,
               bottom: 20,

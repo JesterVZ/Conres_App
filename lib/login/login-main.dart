@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../consts.dart';
-import 'login-step-1.dart';
+import 'login-account.dart';
+import 'change-type.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -62,7 +63,7 @@ class _LoginPage extends State<LoginPage> {
                       height: 55.0,
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder:  (context) => const ChangeType()));
+                            Navigator.push(context, MaterialPageRoute(builder:  (context) => const LoginEmail()));
                           },
                           child: Text(
                             login,

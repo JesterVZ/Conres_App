@@ -19,5 +19,9 @@ Future<String> loginfunc(String username, String password) async {
   dio.interceptors.add(CookieManager(cookieJar));
 
   final response = await dio.post(uri, data: formData);
+  if(response.statusCode == 200){
+
+  }
   final cookies = await cookieJar.loadForRequest(Uri.parse(uri));
+  return "";
 }

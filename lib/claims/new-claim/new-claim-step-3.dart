@@ -40,7 +40,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                 padding: const EdgeInsets.fromLTRB(17, 59, 17, 0),
                 child: Column(
                   children: [
-                    HeaderRow(claimStep3, 24),
+                    HeaderRow(claimStep3, 24, true),
                     Column(
                       children: [
                         Container(

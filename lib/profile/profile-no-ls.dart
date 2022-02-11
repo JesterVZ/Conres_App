@@ -1,3 +1,4 @@
+import 'package:conres_app/elements/header-notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -33,14 +34,7 @@ class _ProfileNoLs extends State<ProfileNoLs> {
             children: [
               Column(
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        profile,
-                        style: const TextStyle(fontSize: 24),
-                      )
-                    ],
-                  ),
+                  HeaderNotification(profile),
                   Container(
                     margin: EdgeInsets.fromLTRB(0, 14, 0, 0),
                     width: MediaQuery.of(context).size.width,
