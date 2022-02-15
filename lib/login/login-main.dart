@@ -30,13 +30,17 @@ class _LoginPage extends State<LoginPage> {
           fit: StackFit.expand,
           children: [
             Positioned(right: 0, child: svg),
-            Positioned(
-                width: 375,
-                left: 26,
-                top: 26,
-                child: Text(lkTitle,
-                    style: const TextStyle(
-                        fontFamily: 'Bubicon-Bold', fontSize: 36.0))),
+            Padding(padding: EdgeInsets.only(left: 27, right: 27, top: 76),
+            child: Flex(
+              direction: Axis.vertical,
+              children: [
+                Flexible(
+                    flex: 1,
+                    child: Text(lkTitle,
+                        style: const TextStyle(
+                            fontFamily: 'Bubicon-Bold', fontSize: 36.0)))
+              ],
+            )),
             Positioned(
               width: MediaQuery.of(context).size.width,
               bottom: 20,

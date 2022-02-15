@@ -49,6 +49,7 @@ class _RegUL extends State<RegUL> {
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
                               decoration: InputDecoration(
+                                hintText: "Иванов",
                                   border: OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: inputBorder))),
@@ -66,6 +67,7 @@ class _RegUL extends State<RegUL> {
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
                               decoration: InputDecoration(
+                                hintText: "Иван",
                                   border: OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: inputBorder))),
@@ -83,6 +85,7 @@ class _RegUL extends State<RegUL> {
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
                               decoration: InputDecoration(
+                                hintText: "000000000000",
                                   border: OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: inputBorder))),
@@ -100,6 +103,7 @@ class _RegUL extends State<RegUL> {
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
                               decoration: InputDecoration(
+                                hintText: "000000000000000",
                                   border: OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: inputBorder))),
@@ -117,6 +121,7 @@ class _RegUL extends State<RegUL> {
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
                               decoration: InputDecoration(
+                                hintText: "000000000",
                                   border: OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: inputBorder))),
@@ -134,6 +139,7 @@ class _RegUL extends State<RegUL> {
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
                               decoration: InputDecoration(
+                                hintText: "+7 (___) - ___ - __ - __",
                                   border: OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: inputBorder))),
@@ -151,6 +157,7 @@ class _RegUL extends State<RegUL> {
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
                               decoration: InputDecoration(
+                                hintText: "example@email.ru",
                                   border: OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: inputBorder))),
@@ -200,6 +207,7 @@ class _RegUL extends State<RegUL> {
                                                     color: colorGray, fontSize: 16.0)),
                                             TextField(
                                               decoration: InputDecoration(
+                                                hintText: "Иванов",
                                                   border: OutlineInputBorder(
                                                       borderSide:
                                                       BorderSide(color: inputBorder))),
@@ -217,6 +225,7 @@ class _RegUL extends State<RegUL> {
                                                     color: colorGray, fontSize: 16.0)),
                                             TextField(
                                               decoration: InputDecoration(
+                                                hintText: "Иван",
                                                   border: OutlineInputBorder(
                                                       borderSide:
                                                       BorderSide(color: inputBorder))),
@@ -234,6 +243,7 @@ class _RegUL extends State<RegUL> {
                                                     color: colorGray, fontSize: 16.0)),
                                             TextField(
                                               decoration: InputDecoration(
+                                                hintText: "Иванович",
                                                   border: OutlineInputBorder(
                                                       borderSide:
                                                       BorderSide(color: inputBorder))),
@@ -251,6 +261,7 @@ class _RegUL extends State<RegUL> {
                                                     color: colorGray, fontSize: 16.0)),
                                             TextField(
                                               decoration: InputDecoration(
+                                                hintText: "+7 (___) - ___ - __ - __",
                                                   border: OutlineInputBorder(
                                                       borderSide:
                                                       BorderSide(color: inputBorder))),
@@ -268,6 +279,7 @@ class _RegUL extends State<RegUL> {
                                                     color: colorGray, fontSize: 16.0)),
                                             TextField(
                                               decoration: InputDecoration(
+                                                hintText: "example@email.ru",
                                                   border: OutlineInputBorder(
                                                       borderSide:
                                                       BorderSide(color: inputBorder))),
@@ -300,6 +312,7 @@ class _RegUL extends State<RegUL> {
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
                               decoration: InputDecoration(
+                                hintText: "Ваш пароль",
                                   border: OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: inputBorder))),
@@ -317,6 +330,7 @@ class _RegUL extends State<RegUL> {
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
                               decoration: InputDecoration(
+                                hintText: "Повторите пароль",
                                   border: OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: inputBorder))),

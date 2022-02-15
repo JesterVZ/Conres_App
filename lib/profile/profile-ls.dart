@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../consts.dart';
 import '../elements/header-notification.dart';
 import '../icons.dart';
-import '../testimony/send-testimony.dart';
+import '../testimony/link-pu.dart';
 
 class ProfileLs extends StatefulWidget {
   const ProfileLs({Key? key}) : super(key: key);
@@ -161,7 +161,7 @@ class _ProfileLs extends State<ProfileLs> {
                       height: 70,
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const SendTestimony()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const LinkPU()));
                           },
                           style: ElevatedButton.styleFrom(
                               primary: colorGray, shape: RoundedRectangleBorder(
@@ -183,14 +183,16 @@ class _ProfileLs extends State<ProfileLs> {
                                   padding: const EdgeInsets.all(10),
                                   child: SvgPicture.asset('assets/meters-data.svg', color: colorGray,),
                                 ),
-                                margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                                //margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
                               ),
+                              Spacer(),
                               const Text(
                                 "Передать показания",
                                 style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: 'Bubicon-Medium'),
                               ),
+                              Spacer(),
                               Container(
-                                margin: EdgeInsets.fromLTRB(45, 0, 0, 0),
+                                //margin: EdgeInsets.fromLTRB(45, 0, 0, 0),
                                 width: 32,
                                 height: 32,
                                 decoration: BoxDecoration(

@@ -26,7 +26,7 @@ class _RegSuccess extends State<RegSuccess> {
                 Padding(padding: EdgeInsets.fromLTRB(21, 74, 21, 0),
                 child: Column(
                   children: [
-                    HeaderRow(successRed, 34, false),
+                    HeaderRow(successRed, 33, false),
                     Container(
                         margin: const EdgeInsets.fromLTRB(0, 0, 0, 25),
                         child: Column(

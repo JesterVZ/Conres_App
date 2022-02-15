@@ -124,7 +124,14 @@ String numberPU = "Номер ПУ";
 String numberPoint = "Номер точки учёта";
 String addressPoint = "Адрес точки учёта";
 String typePU = "Тип ПУ";
+String tarifPU = "Тарифная зона ПУ";
+String multi = "Множитель показаний";
 String linkPU = "Привязать ПУ";
+String linkNewPu = "Привязать новый ПУ";
+String addRequest = "Отправить запрос";
+String puInfo = "Информация о ПУ";
+String editPU = "Редактировать";
+
 
 
 Color colorMain = const Color(0xFF5282FF);
@@ -142,6 +149,9 @@ Color meterDataColor = const Color(0xFF606a7c);
 Color whiteGrayColor = const Color(0xFFa7adb7);
 Color redColor = const Color(0xFFE63757);
 Color claimLabelColor = const Color(0xFFa7acb7);
+Color yellowColor = const Color(0xFFFFAE34);
+Color whiteBlueColor = const Color(0xFFE4EAFF);
+Color whiteLabelColor = const Color(0xFFA3A5BC);
 
 TextStyle claimTextStyle = TextStyle(color: colorMain, fontSize: 18.0, fontFamily: 'Bubicon-Bold');
 TextStyle labelTextStyle = TextStyle(color: colorGrayText, fontSize: 16.0);
@@ -150,3 +160,4 @@ TextStyle profileHeaderTextStyle = const TextStyle(fontSize: 24.0);
 TextStyle warningTextStyle = TextStyle(fontSize: 16.0, color: whiteGrayColor);
 TextStyle contractLabelTextStyle = const TextStyle(fontSize: 14.0, color: Colors.white);
 TextStyle claimLabelTextStyle = TextStyle(fontSize: 16.0, color: claimLabelColor);
+TextStyle puTextStyle = TextStyle(fontSize: 13.0, color: whiteLabelColor);

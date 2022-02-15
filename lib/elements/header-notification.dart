@@ -5,7 +5,7 @@ import '../consts.dart';
 
 class HeaderNotification extends StatelessWidget{
   late String _text = "";
-  HeaderNotification(String text){
+  HeaderNotification(String text, {Key? key}) : super(key: key){
     _text = text;
   }
   @override
@@ -13,7 +13,7 @@ class HeaderNotification extends StatelessWidget{
     return Row(
       children: [
         Text(_text, style: profileHeaderTextStyle),
-        Spacer(),
+        const Spacer(),
         GestureDetector(
           onTap: (){
 
