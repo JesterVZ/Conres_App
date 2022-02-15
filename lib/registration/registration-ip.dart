@@ -306,6 +306,8 @@ class _RegIP extends State<RegIP> {
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
+                              autofocus: false,
+                              obscureText: true,
                               decoration: InputDecoration(
                                 hintText: "Ваш пароль",
                                   border: OutlineInputBorder(
@@ -324,6 +326,8 @@ class _RegIP extends State<RegIP> {
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
+                              autofocus: false,
+                              obscureText: true,
                               decoration: InputDecoration(
                                 hintText: "Повторите пароль",
                                   border: OutlineInputBorder(
