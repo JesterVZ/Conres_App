@@ -2,8 +2,10 @@ import 'package:conres_app/registration/seccessful-registration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../consts.dart';
 import '../elements/header.dart';
+import '../elements/masks.dart';
 
 class RegFL extends StatefulWidget {
   const RegFL({Key? key}) : super(key: key);
@@ -13,8 +15,7 @@ class RegFL extends StatefulWidget {
 }
 
 class _RegFL extends State<RegFL> {
-  TextEditingController lkController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final controllerList = List<TextEditingController>.generate(9, (index) => TextEditingController());
   late bool _agree = false;
 
   final Widget svg = SvgPicture.asset('assets/background_image.svg',
@@ -41,7 +42,7 @@ class _RegFL extends State<RegFL> {
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
-
+                              controller: controllerList[0],
                               decoration: InputDecoration(
                                 hintText: "Иванов",
                                   border: OutlineInputBorder(
@@ -60,6 +61,7 @@ class _RegFL extends State<RegFL> {
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
+                              controller: controllerList[1],
                               decoration: InputDecoration(
                                 hintText: "Иван",
                                   border: OutlineInputBorder(
@@ -78,6 +80,7 @@ class _RegFL extends State<RegFL> {
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
+                              controller: controllerList[2],
                               decoration: InputDecoration(
                                 hintText: "Иванович",
                                   border: OutlineInputBorder(
@@ -95,12 +98,10 @@ class _RegFL extends State<RegFL> {
                             Text(inn,
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
-                            TextField(
-                              decoration: InputDecoration(
-                                hintText: "000000000000",
-                                  border: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: inputBorder))),
+                            MaskInput(
+                              textController: controllerList[3],
+                              formatter: MaskTextInputFormatter(mask: "############"),
+                              hint: "000000000000",
                             )
                           ],
                         )),
@@ -113,12 +114,11 @@ class _RegFL extends State<RegFL> {
                             Text(snils,
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
-                            TextField(
-                              decoration: InputDecoration(
-                                hintText: "000-000-000-00",
-                                  border: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: inputBorder))),
+
+                            MaskInput(
+                              textController: controllerList[4],
+                              formatter: MaskTextInputFormatter(mask: "###-###-###-##"),
+                              hint: "000-000-000-00",
                             )
                           ],
                         )),
@@ -131,13 +131,12 @@ class _RegFL extends State<RegFL> {
                             Text(contacts,
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
-                            TextField(
-                              decoration: InputDecoration(
-                                hintText: "+7 (___) - ___ - __ - __",
-                                  border: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: inputBorder))),
-                            )
+                            MaskInput(
+                              textController: controllerList[5],
+                              formatter: MaskTextInputFormatter(mask: "+# (###) ###-##-##"),
+                              hint: "+7 (___) - ___ - __ - __",
+                            ),
+
                           ],
                         )),
                     Container(
@@ -150,6 +149,7 @@ class _RegFL extends State<RegFL> {
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
+                              controller: controllerList[6],
                               decoration: InputDecoration(
                                 hintText: "example@email.ru",
                                   border: OutlineInputBorder(
@@ -168,6 +168,7 @@ class _RegFL extends State<RegFL> {
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
+                              controller: controllerList[7],
                               autofocus: false,
                               obscureText: true,
                               decoration: InputDecoration(
@@ -188,6 +189,7 @@ class _RegFL extends State<RegFL> {
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
+                              controller: controllerList[8],
                               autofocus: false,
                               obscureText: true,
                               decoration: InputDecoration(
@@ -220,7 +222,8 @@ class _RegFL extends State<RegFL> {
                       height: 55,
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegSuccess()));
+
+                            //Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegSuccess()));
                           },
                           child: Text(
                             login,

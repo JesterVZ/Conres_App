@@ -57,11 +57,12 @@ class PuInfoShow extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8)),
                           alignment: Alignment.center,
                           width: 160,
-                          child: const Center(
+                          child: const Padding(
+                            padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
                             child: Text("Проходит проверку",
                                 style:
-                                TextStyle(fontSize: 14, color: Colors.white))
-                          ),
+                                TextStyle(fontSize: 14, color: Colors.white)),
+                          )
                         )
                       ],
                     ),
@@ -121,7 +122,10 @@ class PuInfoShow extends StatelessWidget {
             ),
             Container(
                 margin: EdgeInsets.only(bottom: 20),
-                child: Row(
+                child: Flex(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  direction: Axis.vertical,
                   children: [
                     Container(
                         margin: EdgeInsets.only(right: 33),

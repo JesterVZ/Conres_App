@@ -133,7 +133,6 @@ String puInfo = "Информация о ПУ";
 String editPU = "Редактировать";
 
 
-
 Color colorMain = const Color(0xFF5282FF);
 Color colorGray = const Color(0xFF4F5A6E);
 Color colorGrayText = const Color(0xFF4F5A6E);

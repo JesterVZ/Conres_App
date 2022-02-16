@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../consts.dart';
 import '../elements/header.dart';
+import '../elements/masks.dart';
 
 class RegUL extends StatefulWidget {
   const RegUL({Key? key}) : super(key: key);
@@ -14,8 +16,8 @@ class RegUL extends StatefulWidget {
 }
 
 class _RegUL extends State<RegUL> {
-  TextEditingController lkController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final controllerList = List<TextEditingController>.generate(9, (index) => TextEditingController());
+  final controllerDlList = List<TextEditingController>.generate(6, (index) => TextEditingController());
   late bool _agree = false;
   late bool _visabillity = false;
 
@@ -48,6 +50,7 @@ class _RegUL extends State<RegUL> {
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
+                              controller: controllerList[0],
                               decoration: InputDecoration(
                                 hintText: "Иванов",
                                   border: OutlineInputBorder(
@@ -66,6 +69,7 @@ class _RegUL extends State<RegUL> {
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
+                              controller: controllerList[1],
                               decoration: InputDecoration(
                                 hintText: "Иван",
                                   border: OutlineInputBorder(
@@ -83,12 +87,10 @@ class _RegUL extends State<RegUL> {
                             Text(inn,
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
-                            TextField(
-                              decoration: InputDecoration(
-                                hintText: "000000000000",
-                                  border: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: inputBorder))),
+                            MaskInput(
+                              textController: controllerList[2],
+                              formatter: MaskTextInputFormatter(mask: "############"),
+                              hint: "000000000000",
                             )
                           ],
                         )),
@@ -101,12 +103,10 @@ class _RegUL extends State<RegUL> {
                             Text(ofrnip,
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
-                            TextField(
-                              decoration: InputDecoration(
-                                hintText: "000000000000000",
-                                  border: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: inputBorder))),
+                            MaskInput(
+                              textController: controllerList[3],
+                              formatter: MaskTextInputFormatter(mask: "###############"),
+                              hint: "000000000000000",
                             )
                           ],
                         )),
@@ -119,12 +119,10 @@ class _RegUL extends State<RegUL> {
                             Text(kpp,
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
-                            TextField(
-                              decoration: InputDecoration(
-                                hintText: "000000000",
-                                  border: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: inputBorder))),
+                            MaskInput(
+                              textController: controllerList[4],
+                              formatter: MaskTextInputFormatter(mask: "#########"),
+                              hint: "000000000",
                             )
                           ],
                         )),
@@ -137,12 +135,10 @@ class _RegUL extends State<RegUL> {
                             Text(contacts,
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
-                            TextField(
-                              decoration: InputDecoration(
-                                hintText: "+7 (___) - ___ - __ - __",
-                                  border: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: inputBorder))),
+                            MaskInput(
+                              textController: controllerList[5],
+                              formatter: MaskTextInputFormatter(mask: "+# (###) ###-##-##"),
+                              hint: "+7 (___) - ___ - __ - __",
                             )
                           ],
                         )),
@@ -156,6 +152,7 @@ class _RegUL extends State<RegUL> {
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
+                              controller: controllerList[6],
                               decoration: InputDecoration(
                                 hintText: "example@email.ru",
                                   border: OutlineInputBorder(
@@ -206,6 +203,7 @@ class _RegUL extends State<RegUL> {
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
                                             TextField(
+                                              controller: controllerDlList[0],
                                               decoration: InputDecoration(
                                                 hintText: "Иванов",
                                                   border: OutlineInputBorder(
@@ -224,6 +222,7 @@ class _RegUL extends State<RegUL> {
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
                                             TextField(
+                                              controller: controllerDlList[1],
                                               decoration: InputDecoration(
                                                 hintText: "Иван",
                                                   border: OutlineInputBorder(
@@ -242,6 +241,7 @@ class _RegUL extends State<RegUL> {
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
                                             TextField(
+                                              controller: controllerDlList[2],
                                               decoration: InputDecoration(
                                                 hintText: "Иванович",
                                                   border: OutlineInputBorder(
@@ -259,12 +259,10 @@ class _RegUL extends State<RegUL> {
                                             Text(telDL,
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
-                                            TextField(
-                                              decoration: InputDecoration(
-                                                hintText: "+7 (___) - ___ - __ - __",
-                                                  border: OutlineInputBorder(
-                                                      borderSide:
-                                                      BorderSide(color: inputBorder))),
+                                            MaskInput(
+                                              textController: controllerDlList[3],
+                                              formatter: MaskTextInputFormatter(mask: "+# (###) ###-##-##"),
+                                              hint: "+7 (___) - ___ - __ - __",
                                             )
                                           ],
                                         )),
@@ -278,6 +276,7 @@ class _RegUL extends State<RegUL> {
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
                                             TextField(
+                                              controller: controllerDlList[4],
                                               decoration: InputDecoration(
                                                 hintText: "example@email.ru",
                                                   border: OutlineInputBorder(
@@ -311,6 +310,7 @@ class _RegUL extends State<RegUL> {
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
+                              controller: controllerList[7],
                               autofocus: false,
                               obscureText: true,
                               decoration: InputDecoration(
@@ -331,6 +331,7 @@ class _RegUL extends State<RegUL> {
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
+                              controller: controllerList[8],
                               autofocus: false,
                               obscureText: true,
                               decoration: InputDecoration(

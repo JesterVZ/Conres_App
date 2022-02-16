@@ -87,22 +87,41 @@ class _ProfileLs extends State<ProfileLs> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(inn,
-                                        style: TextStyle(
+                            Row(
+                              children: [
+                                Container(
+                                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(inn,
+                                            style: TextStyle(
 
-                                            color: profileLabelColor,
-                                            fontSize: 15)),
-                                    Text(thisInn,
-                                        style: const TextStyle(
-                                            color: Colors.black, fontSize: 18, ))
-                                  ],
-                                )),
+                                                color: profileLabelColor,
+                                                fontSize: 15)),
+                                        Text(thisInn,
+                                            style: const TextStyle(
+                                              color: Colors.black, fontSize: 18, ))
+                                      ],
+                                    )),
+                                Spacer(),
+                                Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: colorGray,
+                                    
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: SvgPicture.asset("assets/profile-ls.svg"),
+                                  ),
+                                )
+                              ],
+                            ),
+
                             Container(
                                 margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
                                 child: Column(

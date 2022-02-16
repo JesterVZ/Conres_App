@@ -54,13 +54,40 @@ class _ProfileNoLs extends State<ProfileNoLs> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(inn,
-                                        style: TextStyle(
-                                            color: profileLabelColor,
-                                            fontSize: 15)),
-                                    Text(thisInn,
-                                        style: const TextStyle(
-                                            color: Colors.black, fontSize: 18))
+                                    Row(
+                                      children: [
+                                        Container(
+                                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(inn,
+                                                    style: TextStyle(
+
+                                                        color: profileLabelColor,
+                                                        fontSize: 15)),
+                                                Text(thisInn,
+                                                    style: const TextStyle(
+                                                      color: Colors.black, fontSize: 18, ))
+                                              ],
+                                            )),
+                                        Spacer(),
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: colorMain,
+
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(10),
+                                            child: SvgPicture.asset("assets/profile-ls.svg"),
+                                          ),
+                                        )
+                                      ],
+                                    )
                                   ],
                                 )),
                             Container(
@@ -124,16 +151,15 @@ class _ProfileNoLs extends State<ProfileNoLs> {
                           },
                           style: ElevatedButton.styleFrom(
                               primary: contractBtnColor),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                          child: Flex(
+                            direction: Axis.horizontal,
                             children: [
                               Container(
                                 width: 40,
                                 height: 40,
                                 decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle
+                                    color: Colors.white,
+                                    shape: BoxShape.circle
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(10),
@@ -141,9 +167,12 @@ class _ProfileNoLs extends State<ProfileNoLs> {
                                 ),
                                 margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
                               ),
-                              Text(
-                                "Заключитить договор с РСО",
-                                style: TextStyle(color: colorMain, fontSize: 18),
+                              Flexible(
+                                flex: 1,
+                                child: Text(
+                                  "Заключитить договор с РСО",
+                                  style: TextStyle(color: colorMain, fontSize: 18),
+                                ),
                               )
                             ],
                           ))))

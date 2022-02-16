@@ -82,6 +82,7 @@ flutter:
     - assets/fire.svg
     - assets/notification.svg
     - assets/more-actions.svg
+    - assets/profile-ls.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
