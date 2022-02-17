@@ -329,7 +329,7 @@ class _RegIP extends State<RegIP> {
                                 style: TextStyle(
                                     color: colorGray, fontSize: 16.0)),
                             TextField(
-                              controller: controllerDlList[8],
+                              controller: controllerList[8],
                               autofocus: false,
                               obscureText: true,
                               decoration: InputDecoration(

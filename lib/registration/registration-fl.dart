@@ -1,3 +1,4 @@
+import 'package:conres_app/model/result-dara.dart';
 import 'package:conres_app/registration/seccessful-registration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,8 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../consts.dart';
 import '../elements/header.dart';
 import '../elements/masks.dart';
+import '../model/model.dart';
+import '../network.dart';
 
 class RegFL extends StatefulWidget {
   const RegFL({Key? key}) : super(key: key);
@@ -17,6 +20,7 @@ class RegFL extends StatefulWidget {
 class _RegFL extends State<RegFL> {
   final controllerList = List<TextEditingController>.generate(9, (index) => TextEditingController());
   late bool _agree = false;
+  var fetchData;
 
   final Widget svg = SvgPicture.asset('assets/background_image.svg',
       color: colorLogo, semanticsLabel: 'Acme Logo');
@@ -27,6 +31,21 @@ class _RegFL extends State<RegFL> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            FutureBuilder(
+              future: fetchData,
+              builder: (context, snapshot){
+                if(snapshot.hasData){
+                  if(snapshot is ResultData){
+                    Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegSuccess()));
+                    return const Text("");
+                  } else{
+                    return const Text("Ошибка регистрации");
+                  }
+                } else {
+                  return const Text("другая ошибка");
+                }
+              }
+            ),
             Padding(
                 padding: EdgeInsets.fromLTRB(21, 70, 21, 54),
                 child: Column(
@@ -222,7 +241,19 @@ class _RegFL extends State<RegFL> {
                       height: 55,
                       child: ElevatedButton(
                           onPressed: () {
+                            Fl flObj = Fl(
+                              Family: controllerList[0].text,
+                              Name: controllerList[1].text,
+                              Patronymic: controllerList[2].text,
+                              Password: controllerList[7].text,
+                              RepeatPassword: controllerList[8].text,
+                              Inn: controllerList[3].text,
+                              Snils: controllerList[4].text,
+                              Email: controllerList[6].text,
+                              Tel: controllerList[5].text
 
+                            );
+                            fetchData = registrationFunc(flObj);
                             //Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegSuccess()));
                           },
                           child: Text(

@@ -4,8 +4,10 @@ import 'package:conres_app/elements/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../consts.dart';
+import '../../elements/masks.dart';
 import '../../icons.dart';
 import '../../profile/profile-no-ls.dart';
 import 'new-claim-step-2.dart';
@@ -19,6 +21,8 @@ class NewClaimStep3 extends StatefulWidget{
 }
 
 class _NewClaimStep3 extends State<NewClaimStep3>{
+  final controllerList = List<TextEditingController>.generate(3, (index) => TextEditingController());
+  final controllerDlList = List<TextEditingController>.generate(3, (index) => TextEditingController());
   int _selectedIndex = 0;
   late bool _visabillity = false;
 
@@ -71,11 +75,10 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
-                                                  TextField(
-                                                    decoration: InputDecoration(
-                                                        border: OutlineInputBorder(
-                                                            borderSide:
-                                                            BorderSide(color: inputBorder))),
+                                                  MaskInput(
+                                                    textController: controllerDlList[2],
+                                                    formatter: MaskTextInputFormatter(mask: "###"),
+                                                    hint: "000",
                                                   )
                                                 ],
                                               ),
@@ -88,11 +91,10 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
-                                                  TextField(
-                                                    decoration: InputDecoration(
-                                                        border: OutlineInputBorder(
-                                                            borderSide:
-                                                            BorderSide(color: inputBorder))),
+                                                  MaskInput(
+                                                    textController: controllerDlList[2],
+                                                    formatter: MaskTextInputFormatter(mask: "###"),
+                                                    hint: "000",
                                                   )
                                                 ],
                                               ),
@@ -118,11 +120,10 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
-                                                  TextField(
-                                                    decoration: InputDecoration(
-                                                        border: OutlineInputBorder(
-                                                            borderSide:
-                                                            BorderSide(color: inputBorder))),
+                                                  MaskInput(
+                                                    textController: controllerDlList[2],
+                                                    formatter: MaskTextInputFormatter(mask: "###"),
+                                                    hint: "000",
                                                   )
                                                 ],
                                               ),
@@ -135,11 +136,10 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
-                                                  TextField(
-                                                    decoration: InputDecoration(
-                                                        border: OutlineInputBorder(
-                                                            borderSide:
-                                                            BorderSide(color: inputBorder))),
+                                                  MaskInput(
+                                                    textController: controllerDlList[2],
+                                                    formatter: MaskTextInputFormatter(mask: "###"),
+                                                    hint: "000",
                                                   )
                                                 ],
                                               ),
@@ -165,11 +165,10 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
-                                                  TextField(
-                                                    decoration: InputDecoration(
-                                                        border: OutlineInputBorder(
-                                                            borderSide:
-                                                            BorderSide(color: inputBorder))),
+                                                  MaskInput(
+                                                    textController: controllerDlList[2],
+                                                    formatter: MaskTextInputFormatter(mask: "###"),
+                                                    hint: "000",
                                                   )
                                                 ],
                                               ),
@@ -182,11 +181,10 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
-                                                  TextField(
-                                                    decoration: InputDecoration(
-                                                        border: OutlineInputBorder(
-                                                            borderSide:
-                                                            BorderSide(color: inputBorder))),
+                                                  MaskInput(
+                                                    textController: controllerDlList[2],
+                                                    formatter: MaskTextInputFormatter(mask: "###"),
+                                                    hint: "000",
                                                   )
                                                 ],
                                               ),
@@ -241,11 +239,10 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
-                                                      TextField(
-                                                        decoration: InputDecoration(
-                                                            border: OutlineInputBorder(
-                                                                borderSide:
-                                                                BorderSide(color: inputBorder))),
+                                                      MaskInput(
+                                                        textController: controllerDlList[2],
+                                                        formatter: MaskTextInputFormatter(mask: "###"),
+                                                        hint: "000",
                                                       )
                                                     ],
                                                   ),
@@ -258,11 +255,10 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
-                                                      TextField(
-                                                        decoration: InputDecoration(
-                                                            border: OutlineInputBorder(
-                                                                borderSide:
-                                                                BorderSide(color: inputBorder))),
+                                                      MaskInput(
+                                                        textController: controllerDlList[2],
+                                                        formatter: MaskTextInputFormatter(mask: "###"),
+                                                        hint: "000",
                                                       )
                                                     ],
                                                   ),
@@ -288,11 +284,10 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
-                                                      TextField(
-                                                        decoration: InputDecoration(
-                                                            border: OutlineInputBorder(
-                                                                borderSide:
-                                                                BorderSide(color: inputBorder))),
+                                                      MaskInput(
+                                                        textController: controllerDlList[2],
+                                                        formatter: MaskTextInputFormatter(mask: "###"),
+                                                        hint: "000",
                                                       )
                                                     ],
                                                   ),
@@ -305,11 +300,10 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
-                                                      TextField(
-                                                        decoration: InputDecoration(
-                                                            border: OutlineInputBorder(
-                                                                borderSide:
-                                                                BorderSide(color: inputBorder))),
+                                                      MaskInput(
+                                                        textController: controllerDlList[2],
+                                                        formatter: MaskTextInputFormatter(mask: "###"),
+                                                        hint: "000",
                                                       )
                                                     ],
                                                   ),
@@ -335,11 +329,10 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
-                                                      TextField(
-                                                        decoration: InputDecoration(
-                                                            border: OutlineInputBorder(
-                                                                borderSide:
-                                                                BorderSide(color: inputBorder))),
+                                                      MaskInput(
+                                                        textController: controllerDlList[2],
+                                                        formatter: MaskTextInputFormatter(mask: "###"),
+                                                        hint: "000",
                                                       )
                                                     ],
                                                   ),
@@ -352,11 +345,10 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
-                                                      TextField(
-                                                        decoration: InputDecoration(
-                                                            border: OutlineInputBorder(
-                                                                borderSide:
-                                                                BorderSide(color: inputBorder))),
+                                                      MaskInput(
+                                                        textController: controllerDlList[2],
+                                                        formatter: MaskTextInputFormatter(mask: "###"),
+                                                        hint: "000",
                                                       )
                                                     ],
                                                   ),

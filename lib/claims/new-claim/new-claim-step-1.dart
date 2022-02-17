@@ -3,8 +3,10 @@ import 'dart:ui';
 import 'package:conres_app/elements/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../consts.dart';
+import '../../elements/masks.dart';
 import '../../icons.dart';
 import '../../profile/profile-no-ls.dart';
 import 'new-claim-step-2.dart';
@@ -15,6 +17,7 @@ class NewClaimStep1 extends StatefulWidget{
 }
 
 class _NewClaimStep1 extends State<NewClaimStep1>{
+  final controllerList = List<TextEditingController>.generate(9, (index) => TextEditingController());
   int _selectedIndex = 0;
   void _onItemTapped(int index) {
     setState(() {
@@ -40,7 +43,7 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(margin: EdgeInsets.fromLTRB(0, 25, 0, 10),
-                              child: Text(claimInfo, style: claimTextStyle),),
+                              child: Text(claimInfo, style: claimTextStyle)),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +51,9 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                   Text(fio,
                                       style: labelTextStyle),
                                   TextField(
+                                    controller: controllerList[0],
                                     decoration: InputDecoration(
+                                      hintText: "Иванов Иван Иванович",
                                         border: OutlineInputBorder(
                                             borderSide:
                                             BorderSide(color: inputBorder))),
@@ -56,6 +61,7 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                 ],
                               ),
                               Container(
+                                margin: EdgeInsets.only(top: 12),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +70,9 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                           style: TextStyle(
                                               color: colorGray, fontSize: 16.0)),
                                       TextField(
+                                        controller: controllerList[1],
                                         decoration: InputDecoration(
+                                          hintText: "Город, Улица, Дом, Квартира",
                                             border: OutlineInputBorder(
                                                 borderSide:
                                                 BorderSide(color: inputBorder))),
@@ -90,12 +98,12 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(seriesPassport),
-                                      TextField(
-                                        decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                                borderSide:
-                                                BorderSide(color: inputBorder))),
-                                      )
+                                      MaskInput(
+                                        textController: controllerList[2],
+                                        formatter: MaskTextInputFormatter(mask: "####"),
+                                        hint: "0000",
+                                      ),
+
                                     ],
                                   ),
                                 ),
@@ -107,11 +115,10 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(numberPassport),
-                                      TextField(
-                                        decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                                borderSide:
-                                                BorderSide(color: inputBorder))),
+                                      MaskInput(
+                                        textController: controllerList[3],
+                                        formatter: MaskTextInputFormatter(mask: "######"),
+                                        hint: "000000",
                                       )
                                     ],
                                   ),
@@ -119,7 +126,7 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                               ],
                             ),
                             Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                                margin: const EdgeInsets.fromLTRB(0, 12, 0, 18),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +134,9 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                     Text(place,
                                         style: labelTextStyle),
                                     TextField(
+                                      controller: controllerList[4],
                                       decoration: InputDecoration(
+                                        hintText: "Место выдачи",
                                           border: OutlineInputBorder(
                                               borderSide:
                                               BorderSide(color: inputBorder))),
@@ -143,11 +152,10 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                     Text(date,
                                         style: TextStyle(
                                             color: colorGray, fontSize: 16.0)),
-                                    TextField(
-                                      decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                              borderSide:
-                                              BorderSide(color: inputBorder))),
+                                    MaskInput(
+                                      textController: controllerList[5],
+                                      formatter: MaskTextInputFormatter(mask: "##.##.####"),
+                                      hint: "01.01.2020",
                                     )
                                   ],
                                 )),

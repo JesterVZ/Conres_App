@@ -14,8 +14,12 @@ abstract class Human {
 }
 
 class Fl extends Human {
-  Fl(this.Inn, this.Snils, this.Tel, this.Email,
-      {required String Family,
+  Fl(
+      {required this.Email,
+      required this.Tel,
+      required this.Snils,
+      required this.Inn,
+      required String Family,
       required String Name,
       required String Patronymic,
       required String Password,
