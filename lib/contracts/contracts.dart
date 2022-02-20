@@ -136,14 +136,18 @@ class _Contracts extends State<Contracts>{
                               ),
                               const Spacer(),
                               Container(
-                                width: 90,
-                                height: 30,
+                                //width: 90,
+                                //height: 30,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   color: redColor,
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: Text(closed, style: contractLabelTextStyle,)
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(10, 6, 10, 6),
+                                  child: Text(closed, style: contractLabelTextStyle,)
+                                )
+
                               ),
 
                             ],
@@ -214,14 +218,18 @@ class _Contracts extends State<Contracts>{
                               ),
                               const Spacer(),
                               Container(
-                                  width: 145,
-                                  height: 30,
+                                  //width: 145,
+                                  //height: 30,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     color: colorGray,
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  child: Text(underConsideration, style: contractLabelTextStyle,)
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 6, 10, 6),
+                                    child: Text(underConsideration, style: contractLabelTextStyle,)
+                                  )
+
                               ),
 
                             ],

@@ -4,8 +4,11 @@ import 'package:conres_app/elements/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../consts.dart';
+import '../../elements/dropdown.dart';
+import '../../elements/masks.dart';
 import '../../icons.dart';
 import '../../profile/profile-no-ls.dart';
 import 'new-claim-step-3.dart';
@@ -18,6 +21,8 @@ class NewClaimStep2 extends StatefulWidget{
 }
 
 class _NewClaimStep2 extends State<NewClaimStep2>{
+  final controllerList = List<TextEditingController>.generate(3, (index) => TextEditingController());
+  final controllerDlList = List<TextEditingController>.generate(3, (index) => TextEditingController());
   int _selectedIndex = 0;
   late bool _visabillity = false;
 
@@ -61,17 +66,12 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
                                   Container(
                                     width: MediaQuery.of(context).size.width,
                                     height: 55,
-                                    child: ElevatedButton(
-                                      onPressed: (){},
-                                      child: Text(choose, style: labelTextStyle),
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(8),
-                                            side: BorderSide(color: borderProfileColor)
-                                        ),
-                                      ),
-                                    ),
+                                      child: const CustomDropDown(title: "Выберите причину", items: [
+                                        "увеличением объема максимальной мощности",
+                                        "новым строительством",
+                                        "изменением категории надежности электроснабжения",
+                                        "другое"
+                                      ],)
                                   ),
                                   Container(
                                     margin: EdgeInsets.fromLTRB(0, 0, 0, 28),
@@ -86,7 +86,9 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
                                         Text(objectName,
                                             style: labelTextStyle),
                                         TextField(
+                                          controller: controllerList[0],
                                           decoration: InputDecoration(
+                                            hintText: "Наименование объекта",
                                               border: OutlineInputBorder(
                                                   borderSide:
                                                   BorderSide(color: inputBorder))),
@@ -104,7 +106,9 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
                                               style: TextStyle(
                                                   color: colorGray, fontSize: 16.0)),
                                           TextField(
+                                            controller: controllerList[1],
                                             decoration: InputDecoration(
+                                              hintText: "Адрес объекта",
                                                 border: OutlineInputBorder(
                                                     borderSide:
                                                     BorderSide(color: inputBorder))),
@@ -120,11 +124,10 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
                                           Text(cadastrNumber,
                                               style: TextStyle(
                                                   color: colorGray, fontSize: 16.0)),
-                                          TextField(
-                                            decoration: InputDecoration(
-                                                border: OutlineInputBorder(
-                                                    borderSide:
-                                                    BorderSide(color: inputBorder))),
+                                          MaskInput(
+                                            textController: controllerList[2],
+                                            formatter: MaskTextInputFormatter(mask: "##:##:#######:###"),
+                                            hint: "00:00:0000000:000",
                                           )
                                         ],
                                       )),
@@ -163,7 +166,9 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
                                                 Text(objectName,
                                                     style: labelTextStyle),
                                                 TextField(
+                                                  controller: controllerDlList[0],
                                                   decoration: InputDecoration(
+                                                    hintText: "Наименование объекта",
                                                       border: OutlineInputBorder(
                                                           borderSide:
                                                           BorderSide(color: inputBorder))),
@@ -181,7 +186,9 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
                                                     style: TextStyle(
                                                         color: colorGray, fontSize: 16.0)),
                                                 TextField(
+                                                  controller: controllerDlList[1],
                                                   decoration: InputDecoration(
+                                                    hintText: "Адрес объекта",
                                                       border: OutlineInputBorder(
                                                           borderSide:
                                                           BorderSide(color: inputBorder))),
@@ -197,11 +204,10 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
                                                 Text(cadastrNumber,
                                                     style: TextStyle(
                                                         color: colorGray, fontSize: 16.0)),
-                                                TextField(
-                                                  decoration: InputDecoration(
-                                                      border: OutlineInputBorder(
-                                                          borderSide:
-                                                          BorderSide(color: inputBorder))),
+                                                MaskInput(
+                                                  textController: controllerDlList[2],
+                                                  formatter: MaskTextInputFormatter(mask: "##:##:#######:###"),
+                                                  hint: "00:00:0000000:000",
                                                 )
                                               ],
                                             )),

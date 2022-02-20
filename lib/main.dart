@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:conres_app/DI/dependency-provider.dart';
 import 'package:flutter/material.dart';
 
 import 'consts.dart';
@@ -8,7 +9,11 @@ import 'login/login-main.dart';
 
 void main() {
   HttpOverrides.global = new MyHttpOverrides();
-  runApp(const MyApp());
+  runApp(
+      DependencyProvider(
+          child: const MyApp()
+      )
+  );
 }
 
 class MyHttpOverrides extends HttpOverrides {

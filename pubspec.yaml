@@ -27,6 +27,9 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  bloc: ^7.0.0
+  flutter_bloc: ^7.1.0
+  equatable: ^2.0.3
   flutter:
     sdk: flutter
   flutter_svg: ^1.0.3
@@ -34,6 +37,7 @@ dependencies:
   dio: ^4.0.4
   cookie_jar: 3.0.1
   dio_cookie_manager: 2.0.0
+  mask_text_input_formatter: ^2.1.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -80,6 +84,8 @@ flutter:
     - assets/meters-data.svg
     - assets/fire.svg
     - assets/notification.svg
+    - assets/more-actions.svg
+    - assets/profile-ls.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
