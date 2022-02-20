@@ -5,8 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import '../consts.dart';
 import '../elements/header.dart';
 import '../network.dart';
-import 'login-forgot-password.dart';
-import 'change-type.dart';
 
 class LoginEmail extends StatefulWidget {
   const LoginEmail({Key? key}) : super(key: key);
@@ -36,7 +34,7 @@ class _LoginEmail extends State<LoginEmail> {
               ),
 
               Container(
-                  margin: EdgeInsets.only(bottom: 51),
+                  margin: EdgeInsets.only(bottom: 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +82,7 @@ class _LoginEmail extends State<LoginEmail> {
                         height: 55.0,
                         child: ElevatedButton(
                             onPressed: () {
-                              Future<String> testdata = loginfunc("123456789000", "123456");
+                              Future<Object> testdata = loginfunc("123456789000", "123456");
                             },
                             child: Text(
                               login,
