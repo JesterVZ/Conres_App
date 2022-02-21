@@ -82,10 +82,14 @@ class HttpClient{
     }
   }
 
-  Future<Object>? login(List<dynamic> cookies){
+  Future<Object?> login(List<dynamic> cookies) async{
     String uri = protocol + domain + 'lk/index.php?route=common/api/api_getInfo';
     try{
-
+      final result = await _apiClient.post(uri);
+      if(result.statusCode == 200){
+        return Profile(personal: "personal", inn: "inn", personalGP: "personalGP", email: "email", address: "address");
+      }
+      return null;
     }catch(e){
       throw Exception(e);
     }
