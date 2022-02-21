@@ -14,8 +14,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _handleRegisterEvent(event);
     }
     if(event is LoginEvent){
-      yield*
+      yield* _handleLoginEvent(event);
     }
+
   }
   AuthBloc(this.repo) : super(AuthState.initial());
 
@@ -30,11 +31,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> _handleRegisterEvent(RegisterEvent event) async*{
     yield state.copyWith(loading: true, error: null);
     try{
-      Object result = await repo.registration(event.sender);
+      Object? result = await repo.registration(event.sender);
       if(result is ResultData){
         yield state.copyWith(loading: false, error: null);
-      } else {
-        yield state.copyWith(error: "Test error", loading: false);
+      } else if(result is Map<dynamic, dynamic>) {
+        yield state.copyWith(error: result, loading: false);
       }
     } catch(e){
       yield state.copyWith(error: e.toString(), loading: false);
@@ -46,8 +47,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try{
       Object result = await repo.getCookies(event.username, event.password);
       if(result is List){
-        Object loginResult = await repo.l
+        Object loginResult = await repo.login(result);
       }
+    }catch(e){
+      throw Exception(e);
     }
   }
 }

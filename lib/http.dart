@@ -50,12 +50,7 @@ class HttpClient{
         _apiClient.interceptors.add(CookieManager(cookieJar));
         final response = await _apiClient.post(url, data: formData);
         if(response.statusCode == 200){
-          if(response.data["code_result"] == 200){
-            return ResultData.fromMap(response.data);
-          } else if(response.data["code_result"] == 300) {
-            return "Ошибка регистрации";
-          }
-
+          return ResultData.fromMap(response.data);
         }
       } catch(e){
         throw Exception(e);
@@ -65,10 +60,6 @@ class HttpClient{
 
   Future<dynamic> getCookies(String username, String password) async{
     String uri = protocol + domain + 'lk/index.php?route=common/login/api';
-    var dio = Dio(BaseOptions(
-      connectTimeout: 30000,
-      contentType: Headers.jsonContentType,
-    ));
     try{
       var formData = FormData.fromMap({
         'user_lk_type_id': '2',
@@ -76,8 +67,8 @@ class HttpClient{
         'password': password
       });
       var cookieJar=CookieJar();
-      dio.interceptors.add(CookieManager(cookieJar));
-      final response = await dio.post(uri, data: formData);
+      _apiClient.interceptors.add(CookieManager(cookieJar));
+      final response = await _apiClient.post(uri, data: formData);
       if(response.statusCode == 200){
         if(response.data["code_result"] == 200){
           final cookies = await cookieJar.loadForRequest(Uri.parse(uri));
@@ -91,10 +82,13 @@ class HttpClient{
     }
   }
 
-  Future<dynamic>? login(List<dynamic> cookies){
-    return Profile(
+  Future<Object>? login(List<dynamic> cookies){
+    String uri = protocol + domain + 'lk/index.php?route=common/api/api_getInfo';
+    try{
 
-    );
+    }catch(e){
+      throw Exception(e);
+    }
   }
 
 }

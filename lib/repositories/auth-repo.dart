@@ -7,13 +7,17 @@ class AuthRepo{
 
   AuthRepo({required this.httpClient});
 
-  Future<Object>registration(Object sender) async{
-    var result = await httpClient.register(sender);
-    if(result is ResultData){
-      return result;
-    } else {
-      throw Exception(result);
+  Future<Object?>registration(Object sender) async{
+    try{
+      ResultData result = await httpClient.register(sender);
+      if((result.code_msg?.custom_fields?.length)! > 0){
+        return result.code_msg?.custom_fields;
+      }
+    } catch(e){
+      throw Exception(e);
     }
+    return null;
+
   }
 
   Future<Object> getCookies(String username, String password) async{
@@ -25,7 +29,7 @@ class AuthRepo{
     }
   }
 
-  Future<dynamic> login(List<Object> sender) async{
+  Future<dynamic> login(List<dynamic> sender) async{
     var result = await httpClient.login(sender);
     if(result is Profile){
       return result;

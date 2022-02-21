@@ -1,6 +1,6 @@
 class AuthState{
   final bool? loading;
-  final String? error;
+  final Object? error;
 
   AuthState({this.loading, this.error});
 
@@ -11,7 +11,7 @@ class AuthState{
 
   AuthState copyWith({
     bool? loading,
-    String? error,
+    Object? error,
   }){
     return AuthState(
         loading: loading ?? this.loading,

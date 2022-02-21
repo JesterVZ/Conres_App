@@ -266,7 +266,6 @@ class _RegFL extends State<RegFL> {
   }
 
   _handleRegistration(AuthState state, Object sender) {
-
     authBloc!.register(sender);
   }
 
@@ -276,6 +275,25 @@ class _RegFL extends State<RegFL> {
     }
     if(state.error == null){
       Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegSuccess()));
+    } else {
+
+      if(state.error is Map<dynamic, dynamic>){
+        showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+          title: Text((state.error as Map<dynamic, dynamic>).keys.first),
+          content: Text((state.error as Map<dynamic, dynamic>)['warning']),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK'),
+            ),
+          ]
+        ));
+      }
+
     }
   }
 

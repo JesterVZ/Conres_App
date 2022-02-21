@@ -8,7 +8,7 @@ import 'login/login-account.dart';
 import 'login/login-main.dart';
 
 void main() {
-  HttpOverrides.global = new MyHttpOverrides();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(
       DependencyProvider(
           child: const MyApp()
