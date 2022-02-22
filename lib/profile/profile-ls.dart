@@ -6,18 +6,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../consts.dart';
 import '../elements/header-notification.dart';
 import '../icons.dart';
+import '../model/profile.dart';
 import '../testimony/link-pu.dart';
 
-class ProfileLs extends StatefulWidget {
-  const ProfileLs({Key? key}) : super(key: key);
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key? key, required this.profile}) : super(key: key);
 
+  final Profile? profile;
   @override
-  State<StatefulWidget> createState() => _ProfileLs();
+  State<StatefulWidget> createState() => _ProfilePage();
 }
 
-class _ProfileLs extends State<ProfileLs> {
-  String thisInn = "19982215874";
-  String thisLS = "345672309";
+class _ProfilePage extends State<ProfilePage> {
+
   int _selectedIndex = 0;
   void _onItemTapped(int index) {
     setState(() {
@@ -35,7 +36,9 @@ class _ProfileLs extends State<ProfileLs> {
               Column(
                 children: [
                   HeaderNotification(profile),
-                  Container(
+                  Visibility(
+                      visible: widget.profile!.personal != null ? true : false,
+                      child: Container(
                     margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                     decoration: BoxDecoration(
                         color: profileColor,
@@ -43,37 +46,39 @@ class _ProfileLs extends State<ProfileLs> {
                         borderRadius: BorderRadius.circular(8)),
                     child: Padding(
                         padding: EdgeInsets.fromLTRB(19, 14, 19, 14),
-                    child: Row(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
                           children: [
-                            Text(ls,
-                                style: TextStyle(
-                                    color: profileLabelColor,
-                                    fontSize: 15)),
-                            Text(thisLS,
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 18))
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(ls,
+                                    style: TextStyle(
+                                        color: profileLabelColor,
+                                        fontSize: 15)),
+                                Text(widget.profile!.personal!,
+                                    style: const TextStyle(
+                                        color: Colors.black, fontSize: 18))
+                              ],
+                            ),
+                            const Spacer(),
+                            Container(
+                              width: 32,
+                              height: 32,
+                              decoration: BoxDecoration(
+                                  color: lsButtonColor,
+                                  shape: BoxShape.circle
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(13, 9, 11, 9),
+                                child: SvgPicture.asset("assets/ls-right-arrow.svg", color: colorMain,),
+                              ),
+                            )
                           ],
-                        ),
-                        const Spacer(),
-                        Container(
-                          width: 32,
-                          height: 32,
-                          decoration: BoxDecoration(
-                            color: lsButtonColor,
-                            shape: BoxShape.circle
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(13, 9, 11, 9),
-                            child: SvgPicture.asset("assets/ls-right-arrow.svg", color: colorMain,),
-                          ),
-                        )
-                      ],
-                    )),
+                        )),
+                  )
                   ),
+
                   Container(
                     margin: EdgeInsets.fromLTRB(0, 14, 0, 0),
                     width: MediaQuery.of(context).size.width,
@@ -100,7 +105,7 @@ class _ProfileLs extends State<ProfileLs> {
 
                                                 color: profileLabelColor,
                                                 fontSize: 15)),
-                                        Text(thisInn,
+                                        Text(widget.profile!.inn,
                                             style: const TextStyle(
                                               color: Colors.black, fontSize: 18, ))
                                       ],
@@ -133,13 +138,13 @@ class _ProfileLs extends State<ProfileLs> {
                                             color: profileLabelColor,
                                             fontSize: 15,
                                             )),
-                                    Text(needDogovor,
+                                    Text(widget.profile!.personalGP == null ? needDogovor : widget.profile!.personalGP!,
                                         style: const TextStyle(
                                             color: Colors.black, fontSize: 18))
                                   ],
                                 )),
                             Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                                margin: EdgeInsets.fromLTRB(0, 0, 0, 16),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,8 +153,8 @@ class _ProfileLs extends State<ProfileLs> {
                                         style: TextStyle(
                                             color: profileLabelColor,
                                             fontSize: 15)),
-                                    const Text("Ahiro2011@gmail.com",
-                                        style: TextStyle(
+                                    Text(widget.profile!.email,
+                                        style: const TextStyle(
                                             color: Colors.black, fontSize: 18))
                                   ],
                                 )),
@@ -163,8 +168,8 @@ class _ProfileLs extends State<ProfileLs> {
                                         style: TextStyle(
                                             color: profileLabelColor,
                                             fontSize: 15)),
-                                    const Text("-/-",
-                                        style: TextStyle(
+                                    Text(widget.profile!.address,
+                                        style: const TextStyle(
                                             color: Colors.black, fontSize: 18))
                                   ],
                                 ))
@@ -173,7 +178,9 @@ class _ProfileLs extends State<ProfileLs> {
                   ),
                 ],
               ),
-              Positioned(
+              Visibility(
+                  visible: widget.profile!.personal != null ? true : false,
+                  child: Positioned(
                   bottom: 24,
                   child: Container(
                       width: MediaQuery.of(context).size.width - 35,
@@ -184,7 +191,7 @@ class _ProfileLs extends State<ProfileLs> {
                           },
                           style: ElevatedButton.styleFrom(
                               primary: colorGray, shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)
+                              borderRadius: BorderRadius.circular(8)
                           )),
 
                           child: Row(
@@ -195,8 +202,8 @@ class _ProfileLs extends State<ProfileLs> {
                                 width: 40,
                                 height: 40,
                                 decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle
+                                    color: Colors.white,
+                                    shape: BoxShape.circle
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(10),
@@ -224,7 +231,8 @@ class _ProfileLs extends State<ProfileLs> {
                                 ),
                               )
                             ],
-                          ))))
+                          )))))
+
             ],
           )),
     );

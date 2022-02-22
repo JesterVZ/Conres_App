@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../consts.dart';
+import '../testimony/edit-pu.dart';
 
 class PuInfoShow extends StatelessWidget {
   const PuInfoShow(
@@ -227,7 +228,9 @@ class PuInfoShow extends StatelessWidget {
                     primary: colorGray, shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)
                 )),
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder:  (context) => EditPU()));
+                },
               )
             )
           ],

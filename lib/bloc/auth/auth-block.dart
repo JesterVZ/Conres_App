@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:conres_app/model/result-data.dart';
 import 'package:conres_app/repositories/auth-repo.dart';
 
+import '../../model/profile.dart';
 import 'auth-event.dart';
 import 'auth-state.dart';
 
@@ -47,10 +48,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try{
       Object result = await repo.getCookies(event.username, event.password);
       if(result is List){
-        Object loginResult = await repo.login(result);
+        Object? loginResult = await repo.login(result);
+        if(loginResult is Profile){
+          yield state.copyWith(profile: loginResult, error: null, loading: false);
+        } else {
+          yield state.copyWith(error: loginResult.toString(), loading: false);
+        }
       }
     }catch(e){
-      throw Exception(e);
+      yield state.copyWith(error: e.toString(), loading: false);
     }
   }
 }

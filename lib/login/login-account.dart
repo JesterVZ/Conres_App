@@ -9,6 +9,7 @@ import '../consts.dart';
 import '../elements/bloc-screen.dart';
 import '../elements/header.dart';
 import '../network.dart';
+import '../profile/profile-ls.dart';
 
 class LoginEmail extends StatefulWidget {
   const LoginEmail({Key? key}) : super(key: key);
@@ -121,6 +122,11 @@ class _LoginEmail extends State<LoginEmail> {
   _listener(BuildContext context, AuthState state) {
     if (state.loading!) {
       return;
+    }
+    if(state.error == null){
+      Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ProfilePage(profile: state.profile)));
+    } else {
+
     }
   }
   @override

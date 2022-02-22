@@ -276,7 +276,6 @@ class _RegFL extends State<RegFL> {
     if(state.error == null){
       Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegSuccess()));
     } else {
-
       if(state.error is Map<dynamic, dynamic>){
         showDialog(context: context, builder: (BuildContext context) => AlertDialog(
           title: Text((state.error as Map<dynamic, dynamic>).keys.first),

@@ -131,6 +131,7 @@ String linkNewPu = "Привязать новый ПУ";
 String addRequest = "Отправить запрос";
 String puInfo = "Информация о ПУ";
 String editPU = "Редактировать";
+String editPuTitle = "Редактировать ПУ";
 
 
 Color colorMain = const Color(0xFF5282FF);

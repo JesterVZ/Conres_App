@@ -87,7 +87,7 @@ class HttpClient{
     try{
       final result = await _apiClient.post(uri);
       if(result.statusCode == 200){
-        return Profile(personal: "personal", inn: "inn", personalGP: "personalGP", email: "email", address: "address");
+        return Profile.fromMap(result.data['data']);
       }
       return null;
     }catch(e){
