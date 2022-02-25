@@ -83,7 +83,7 @@ class _LoginPage extends State<LoginPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                    const LoginEmail()));
+                                    LoginEmail()));
                           },
                           child: Text(
                             login,

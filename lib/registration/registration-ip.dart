@@ -1,3 +1,4 @@
+import 'package:conres_app/model/model.dart';
 import 'package:conres_app/registration/seccessful-registration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -362,7 +363,7 @@ class _RegIP extends State<RegIP> {
                       height: 55,
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegSuccess()));
+                            Ip ipObj = Ip(Family: Family, Name: Name, Patronymic: Patronymic, Password: Password, RepeatPassword: RepeatPassword)
                           },
                           child: Text(
                             login,

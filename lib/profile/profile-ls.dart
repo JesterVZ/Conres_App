@@ -19,12 +19,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePage extends State<ProfilePage> {
 
-  int _selectedIndex = 0;
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

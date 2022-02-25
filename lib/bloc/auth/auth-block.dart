@@ -54,6 +54,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         } else {
           yield state.copyWith(error: loginResult.toString(), loading: false);
         }
+      } else {
+        yield state.copyWith(error: result.toString(), loading: false);
       }
     }catch(e){
       yield state.copyWith(error: e.toString(), loading: false);

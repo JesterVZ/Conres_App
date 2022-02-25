@@ -48,7 +48,7 @@ class _RegSuccess extends State<RegSuccess> {
             height: 55,
             child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder:  (context) => const LoginEmail()));
+                  Navigator.push(context, MaterialPageRoute(builder:  (context) => LoginEmail()));
                 },
                 child:
                 Text(

@@ -6,13 +6,15 @@ import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../consts.dart';
+import '../elements/alert.dart';
 import '../elements/bloc-screen.dart';
 import '../elements/header.dart';
 import '../network.dart';
 import '../profile/profile-ls.dart';
 
 class LoginEmail extends StatefulWidget {
-  const LoginEmail({Key? key}) : super(key: key);
+  LoginEmail({Key? key}) : super(key: key);
+  bool isLoading = false;
 
   @override
   State<StatefulWidget> createState() => _LoginEmail();
@@ -24,6 +26,7 @@ class _LoginEmail extends State<LoginEmail> {
   AuthBloc? authBloc;
   final Widget svg = SvgPicture.asset('assets/background_image.svg',
       color: colorLogo, semanticsLabel: 'Acme Logo');
+
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +108,14 @@ class _LoginEmail extends State<LoginEmail> {
 
                           //ElevatedButton(onPressed: (){}, child: Text(login)),
                         ],
+                      ),
+                      Visibility(
+                        visible: widget.isLoading,
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            child: Image.asset('assets/loading.gif'),
+                          )
                       )
 
 
@@ -121,12 +132,19 @@ class _LoginEmail extends State<LoginEmail> {
   }
   _listener(BuildContext context, AuthState state) {
     if (state.loading!) {
+      widget.isLoading = true;
       return;
+    } else {
+      widget.isLoading = false;
     }
     if(state.error == null){
       Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ProfilePage(profile: state.profile)));
     } else {
-
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => Alert(
+              title: "Ошибка",
+              text: state.error.toString()));
     }
   }
   @override

@@ -22,11 +22,7 @@ class AuthRepo{
 
   Future<Object> getCookies(String username, String password) async{
     var result = await httpClient.getCookies(username, password);
-    if(result is List){
-      return result;
-    } else {
-      throw Exception(result);
-    }
+    return result;
   }
 
   Future<dynamic> login(List<dynamic> sender) async{
