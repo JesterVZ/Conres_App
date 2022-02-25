@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
@@ -24,6 +25,7 @@ class _LoginEmail extends State<LoginEmail> {
   TextEditingController lkController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   AuthBloc? authBloc;
+
   final Widget svg = SvgPicture.asset('assets/background_image.svg',
       color: colorLogo, semanticsLabel: 'Acme Logo');
 

@@ -25,7 +25,7 @@ class HttpClient{
       try{
         var formData = FormData.fromMap({
           'user_lk_group_id': '1',
-          'user_lk_type_id': '1',
+          'user_lk_type_id': sender.User_lk_type_id,
           'agree': '1',
           'lastname': sender.Family,
           'firstname': sender.Name,
@@ -56,6 +56,47 @@ class HttpClient{
         throw Exception(e);
       }
     }
+    if(sender is Ip){
+      try{
+        var formData = FormData.fromMap({
+          'user_lk_group_id': '2',
+          'user_lk_type_id': sender.User_lk_type_id,
+          'agree': '1',
+          'lastname': sender.Family,
+          'firstname': sender.Name,
+          'patronymic': sender.Patronymic,
+          'inn': sender.inn,
+          'ogrn': sender.ogrnip,
+
+          'contacts[0][value]': sender.tel,
+          'contacts[0][contact_type_id]': '2',
+          'contacts[0][flags][1]': '1',
+
+          'contacts[1][contact_type_id]': '3',
+          'contacts[1][flags][1]': '1',
+          'contacts[1][flags][2]': '1',
+
+          'proxy[lastname]': sender.dl?.Family,
+          'proxy[firstname]': sender.dl?.Name,
+          'proxy[patronymic]': sender.dl?.Patronymic,
+          'proxy[telephone]': sender.dl?.TelDL,
+          'proxy[email]': sender.dl?.EmailDL,
+
+          'contacts[1][value]': sender.email,
+          'password': sender.Password,
+          'confirm': sender.RepeatPassword
+
+        });
+        var cookieJar=CookieJar();
+        _apiClient.interceptors.add(CookieManager(cookieJar));
+        final response = await _apiClient.post(url, data: formData);
+        if(response.statusCode == 200){
+          return ResultData.fromMap(response.data);
+        }
+      }catch(e){
+        throw Exception(e);
+      }
+    }
   }
 
   Future<dynamic> getCookies(String username, String password) async{
@@ -74,7 +115,7 @@ class HttpClient{
           final cookies = await cookieJar.loadForRequest(Uri.parse(uri));
           return cookies;
         } else {
-          return "Ошибка логина";
+          return "Неверное имя пользователя или пароль!";
         }
       }
     } catch(e){

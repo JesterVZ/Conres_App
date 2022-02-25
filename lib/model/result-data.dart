@@ -21,7 +21,7 @@ class ResultData {
 
 class Message {
   String? msg;
-  Map<dynamic, dynamic>? custom_fields;
+  dynamic custom_fields;
   Message({this.msg, this.custom_fields});
 
   factory Message.fromMap(Map<String, dynamic> map){

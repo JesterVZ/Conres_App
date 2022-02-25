@@ -8,15 +8,16 @@ class AuthRepo{
   AuthRepo({required this.httpClient});
 
   Future<Object?>registration(Object sender) async{
+    ResultData result;
     try{
-      ResultData result = await httpClient.register(sender);
+      result = await httpClient.register(sender);
       if((result.code_msg?.custom_fields?.length)! > 0){
         return result.code_msg?.custom_fields;
       }
     } catch(e){
       throw Exception(e);
     }
-    return null;
+    return result;
 
   }
 

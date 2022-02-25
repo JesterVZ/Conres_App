@@ -245,6 +245,7 @@ class _RegFL extends State<RegFL> {
                             child: ElevatedButton(
                                 onPressed: () {
                                   Fl flObj = Fl(
+                                      User_lk_type_id: '1',
                                       Family: controllerList[0].text,
                                       Name: controllerList[1].text,
                                       Patronymic: controllerList[2].text,
