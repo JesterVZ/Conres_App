@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:conres_app/DI/dependency-provider.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'consts.dart';
-import 'login/login-account.dart';
 import 'login/login-main.dart';
 
 void main() {
@@ -26,20 +26,41 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<StatefulWidget> createState() => _MyApp();
+
+}
+
+class _MyApp extends State<MyApp>{
+  @override
+  void initState() {
+
+    super.initState();
+  }
+
+  void autoLogin() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    bool? isLogin = preferences.getBool('isLogin');
+    if(isLogin!){
+
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: defaultBackground,
-        fontFamily: 'Bubicon-Medium'
+          primarySwatch: Colors.blue,
+          scaffoldBackgroundColor: defaultBackground,
+          fontFamily: 'Bubicon-Medium'
       ),
-      home: LoginPage(),
+      //home: LoginPage(),
+      routes: {
+        '/': (context) => LoginPage();
+      },
     );
   }
 }

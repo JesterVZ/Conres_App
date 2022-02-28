@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:conres_app/model/result-data.dart';
 import 'package:conres_app/repositories/auth-repo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/profile.dart';
 import 'auth-event.dart';
@@ -18,6 +19,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _handleLoginEvent(event);
     }
 
+    if(event is CheckLoginEvent){
+      yield* _handleCheckLogin(event);
+    }
+
+    if(event is GetLoginEvent){
+      yield* _handleGetLogin(event);
+    }
+
   }
   AuthBloc(this.repo) : super(AuthState.initial());
 
@@ -27,6 +36,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   login(String username, String password){
     add(LoginEvent(username, password));
+  }
+
+  checkLogin(SharedPreferences preferences){
+    add(CheckLoginEvent(preferences));
+  }
+
+  getLogin(SharedPreferences preferences){
+    add(GetLoginEvent(preferences));
   }
 
   Stream<AuthState> _handleRegisterEvent(RegisterEvent event) async*{
@@ -56,6 +73,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       } else {
         yield state.copyWith(error: result.toString(), loading: false);
+      }
+    }catch(e){
+      yield state.copyWith(error: e.toString(), loading: false);
+    }
+  }
+
+  Stream<AuthState> _handleCheckLogin(CheckLoginEvent event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      bool? result = await repo.isLogin(event.preferences);
+      yield state.copyWith(isLogin: result, loading: false, error: null);
+    }catch(e){
+      yield state.copyWith(error: e.toString(), loading: false);
+    }
+  }
+
+  Stream<AuthState> _handleGetLogin(GetLoginEvent event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      Object result = await repo.loginData(event.preferences);
+      if(result is List<dynamic>){
+        yield state.copyWith(loginData: result, loading: false, error: null);
       }
     }catch(e){
       yield state.copyWith(error: e.toString(), loading: false);

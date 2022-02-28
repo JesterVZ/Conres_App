@@ -1,6 +1,9 @@
 import 'package:conres_app/http.dart';
 import 'package:conres_app/model/profile.dart';
 import 'package:conres_app/model/result-data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../shared-preferences/shared-preferences.dart';
 
 class AuthRepo{
   final HttpClient httpClient;
@@ -29,6 +32,18 @@ class AuthRepo{
   Future<dynamic> login(List<dynamic> sender) async{
     var result = await httpClient.login(sender);
     if(result is Profile){
+      return result;
+    }
+  }
+
+  Future<bool?> isLogin(SharedPreferences preferences) async{
+    bool? result = await isGetLogin(preferences);
+    return result;
+  }
+
+  Future<dynamic> loginData(SharedPreferences preferences) async{
+    var result = await getLogin(preferences);
+    if(result is List<dynamic>){
       return result;
     }
   }

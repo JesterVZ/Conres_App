@@ -12,6 +12,7 @@ import '../elements/bloc-screen.dart';
 import '../elements/header.dart';
 import '../network.dart';
 import '../profile/profile-ls.dart';
+import '../shared-preferences/shared-preferences.dart';
 
 class LoginEmail extends StatefulWidget {
   LoginEmail({Key? key}) : super(key: key);
@@ -29,13 +30,12 @@ class _LoginEmail extends State<LoginEmail> {
   final Widget svg = SvgPicture.asset('assets/background_image.svg',
       color: colorLogo, semanticsLabel: 'Acme Logo');
 
-
   @override
   Widget build(BuildContext context) {
     return BlocScreen<AuthBloc, AuthState>(
         bloc: authBloc,
         listener: (context, state) => _listener(context, state),
-    builder: (context, state) {
+        builder: (context, state) {
           return Scaffold(
               resizeToAvoidBottomInset: false,
               body: Padding(
@@ -46,7 +46,6 @@ class _LoginEmail extends State<LoginEmail> {
                         margin: EdgeInsets.only(bottom: 14),
                         child: HeaderRow(loginAccount, 34, false),
                       ),
-
                       Container(
                           margin: EdgeInsets.only(bottom: 20),
                           child: Column(
@@ -62,11 +61,11 @@ class _LoginEmail extends State<LoginEmail> {
                                 decoration: InputDecoration(
                                     hintText: "E-mail",
                                     border: OutlineInputBorder(
-                                        borderSide: BorderSide(color: inputBorder))),
+                                        borderSide:
+                                            BorderSide(color: inputBorder))),
                               )
                             ],
-                          )
-                      ),
+                          )),
                       Container(
                           margin: EdgeInsets.only(bottom: 26),
                           child: Column(
@@ -83,11 +82,11 @@ class _LoginEmail extends State<LoginEmail> {
                                 obscureText: true,
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(
-                                        borderSide: BorderSide(color: inputBorder))),
+                                        borderSide:
+                                            BorderSide(color: inputBorder))),
                               )
                             ],
-                          )
-                      ),
+                          )),
                       Column(
                         children: [
                           Container(
@@ -97,41 +96,39 @@ class _LoginEmail extends State<LoginEmail> {
                                 height: 55.0,
                                 child: ElevatedButton(
                                     onPressed: () {
-                                      _handleLogin(state, lkController.text, passwordController.text);
 
+                                      _handleLogin(state, lkController.text,
+                                          passwordController.text);
                                     },
                                     child: Text(
                                       login,
                                       style: buttonTextStyle,
                                     ),
-                                    style:
-                                    ElevatedButton.styleFrom(primary: colorMain))),
+                                    style: ElevatedButton.styleFrom(
+                                        primary: colorMain))),
                           ),
 
                           //ElevatedButton(onPressed: (){}, child: Text(login)),
                         ],
                       ),
                       Visibility(
-                        visible: widget.isLoading,
+                          visible: widget.isLoading,
                           child: Container(
                             width: 50,
                             height: 50,
                             child: Image.asset('assets/loading.gif'),
-                          )
-                      )
-
-
+                          ))
                     ],
-                  )
-              )
-          );
-    });
-
+                  )));
+        });
   }
 
-  _handleLogin(AuthState state, String username, String password) {
+  _handleLogin(AuthState state, String username, String password) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setLogin(preferences, lkController.text, passwordController.text);
     authBloc!.login(username, password);
   }
+
   _listener(BuildContext context, AuthState state) {
     if (state.loading!) {
       widget.isLoading = true;
@@ -139,16 +136,19 @@ class _LoginEmail extends State<LoginEmail> {
     } else {
       widget.isLoading = false;
     }
-    if(state.error == null){
-      Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ProfilePage(profile: state.profile)));
+    if (state.error == null) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ProfilePage(profile: state.profile)));
     } else {
       showDialog(
           context: context,
-          builder: (BuildContext context) => Alert(
-              title: "Ошибка",
-              text: state.error.toString()));
+          builder: (BuildContext context) =>
+              Alert(title: "Ошибка", text: state.error.toString()));
     }
   }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
