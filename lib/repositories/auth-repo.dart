@@ -3,6 +3,7 @@ import 'package:conres_app/model/profile.dart';
 import 'package:conres_app/model/result-data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/meter.dart';
 import '../shared-preferences/shared-preferences.dart';
 
 class AuthRepo{
@@ -48,4 +49,8 @@ class AuthRepo{
     }
   }
 
+  Future<Meter?> getTestimony() async{
+    var result = await getTestimony();
+    return result;
+}
 }

@@ -132,7 +132,7 @@ String addRequest = "Отправить запрос";
 String puInfo = "Информация о ПУ";
 String editPU = "Редактировать";
 String editPuTitle = "Редактировать ПУ";
-
+String testimonyNotFound = "По данному лицевому счёту не найдены приборы учёта, отправьте заявку на привязку ПУ и дождитесь подтверждения.";
 
 Color colorMain = const Color(0xFF5282FF);
 Color colorGray = const Color(0xFF4F5A6E);
@@ -152,6 +152,7 @@ Color claimLabelColor = const Color(0xFFa7acb7);
 Color yellowColor = const Color(0xFFFFAE34);
 Color whiteBlueColor = const Color(0xFFE4EAFF);
 Color whiteLabelColor = const Color(0xFFA3A5BC);
+Color dashedColor = const Color(0xFF4E648A);
 
 TextStyle claimTextStyle = TextStyle(color: colorMain, fontSize: 18.0, fontFamily: 'Bubicon-Bold');
 TextStyle labelTextStyle = TextStyle(color: colorGrayText, fontSize: 16.0);

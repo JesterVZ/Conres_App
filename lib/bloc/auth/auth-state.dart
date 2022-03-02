@@ -5,9 +5,10 @@ class AuthState{
   final Profile? profile;
   final bool? loading;
   final Object? error;
+  final Object? testimony;
   final List<dynamic>? loginData;
 
-  AuthState({this.loginData, this.loading, this.error, this.profile, this.isLogin});
+  AuthState({this.loginData, this.loading, this.error, this.profile, this.isLogin, this.testimony});
 
   static initial() => AuthState(
     profile: null,

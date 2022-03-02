@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 import 'consts.dart';
+import 'model/meter.dart';
 import 'model/model.dart';
 import 'model/result-data.dart';
 
@@ -136,4 +137,16 @@ class HttpClient{
     }
   }
 
+  Future<Object?> getTestimony(List<dynamic> cookies) async{
+    String uri = protocol + domain + 'lk/index.php?route=catalog/measures/api_form';
+    try{
+      final result = await _apiClient.post(uri);
+      if(result.statusCode == 200){
+        return Meter.fromMap(result.data['data']);
+      }
+    }catch(e){
+      return e.toString();
+    }
+    return null;
+  }
 }

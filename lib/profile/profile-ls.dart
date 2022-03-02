@@ -12,6 +12,7 @@ import '../elements/header-notification.dart';
 import '../icons.dart';
 import '../model/profile.dart';
 import '../testimony/link-pu.dart';
+import '../testimony/send-testimony.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key? key, this.profile, this.loginData}) : super(key: key);
@@ -210,7 +211,7 @@ class _ProfilePage extends State<ProfilePage> {
                               height: 70,
                               child: ElevatedButton(
                                   onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LinkPU()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => SendTestimony()));
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: colorGray, shape: RoundedRectangleBorder(
@@ -426,7 +427,7 @@ class _ProfilePage extends State<ProfilePage> {
                             height: 70,
                             child: ElevatedButton(
                                 onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const LinkPU()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SendTestimony()));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     primary: colorGray, shape: RoundedRectangleBorder(

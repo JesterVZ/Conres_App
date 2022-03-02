@@ -14,7 +14,7 @@ class ResultData {
     return ResultData(
         code_result: map['code_result'],
         code_msg: map['code_msg'] != null ? Message.fromMap(map['code_msg']) : null,
-        data: null);
+        data: map['data']);
 
   }
 }
