@@ -30,4 +30,9 @@ class AuthState{
         error: error
     );
   }
+
+  @override
+  String toString() {
+    return '{isLogin: $isLogin, profile: $profile, loading: $loading, error: $error, loginData: $loginData}';
+  }
 }

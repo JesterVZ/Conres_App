@@ -19,10 +19,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _handleLoginEvent(event);
     }
 
-    if(event is CheckLoginEvent){
-      yield* _handleCheckLogin(event);
-    }
-
     if(event is GetLoginEvent){
       yield* _handleGetLogin(event);
     }
@@ -38,12 +34,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     add(LoginEvent(username, password));
   }
 
-  checkLogin(SharedPreferences preferences){
-    add(CheckLoginEvent(preferences));
-  }
-
-  getLogin(SharedPreferences preferences){
-    add(GetLoginEvent(preferences));
+  getLogin(){
+    add(const GetLoginEvent());
   }
 
   Stream<AuthState> _handleRegisterEvent(RegisterEvent event) async*{
@@ -79,20 +71,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Stream<AuthState> _handleCheckLogin(CheckLoginEvent event) async*{
-    yield state.copyWith(loading: true, error: null);
-    try{
-      bool? result = await repo.isLogin(event.preferences);
-      yield state.copyWith(isLogin: result, loading: false, error: null);
-    }catch(e){
-      yield state.copyWith(error: e.toString(), loading: false);
-    }
-  }
-
   Stream<AuthState> _handleGetLogin(GetLoginEvent event) async*{
     yield state.copyWith(loading: true, error: null);
     try{
-      Object result = await repo.loginData(event.preferences);
+      Object result = await repo.loginData();
       if(result is List<dynamic>){
         yield state.copyWith(loginData: result, loading: false, error: null);
       }

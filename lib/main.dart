@@ -1,10 +1,15 @@
 import 'dart:io';
 
 import 'package:conres_app/DI/dependency-provider.dart';
+import 'package:conres_app/profile/profile-ls.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'bloc/auth/auth-block.dart';
+import 'bloc/auth/auth-state.dart';
 import 'consts.dart';
+import 'elements/bloc-screen.dart';
+import 'loading/loading-page.dart';
 import 'login/login-main.dart';
 
 void main() {
@@ -36,31 +41,17 @@ class MyApp extends StatefulWidget {
 
 class _MyApp extends State<MyApp>{
   @override
-  void initState() {
-
-    super.initState();
-  }
-
-  void autoLogin() async{
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    bool? isLogin = preferences.getBool('isLogin');
-    if(isLogin!){
-
-    }
-  }
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Контроль ресурсов',
       theme: ThemeData(
           primarySwatch: Colors.blue,
           scaffoldBackgroundColor: defaultBackground,
           fontFamily: 'Bubicon-Medium'
       ),
-      //home: LoginPage(),
-      routes: {
-        '/': (context) => LoginPage();
-      },
+      home: LoadingPage(),
     );
+
   }
+
 }

@@ -41,8 +41,8 @@ class AuthRepo{
     return result;
   }
 
-  Future<dynamic> loginData(SharedPreferences preferences) async{
-    var result = await getLogin(preferences);
+  Future<dynamic> loginData() async{
+    var result = await getLogin();
     if(result is List<dynamic>){
       return result;
     }

@@ -21,12 +21,6 @@ class LoginEvent extends AuthEvent{
   const LoginEvent(this.username, this.password);
 }
 
-class CheckLoginEvent extends AuthEvent{
-  final SharedPreferences preferences;
-  const CheckLoginEvent(this.preferences);
-}
-
 class GetLoginEvent extends AuthEvent{
-  final SharedPreferences preferences;
-  const GetLoginEvent(this.preferences);
+  const GetLoginEvent();
 }
