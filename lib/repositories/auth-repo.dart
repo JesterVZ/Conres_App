@@ -6,51 +6,50 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../model/meter.dart';
 import '../shared-preferences/shared-preferences.dart';
 
-class AuthRepo{
+class AuthRepo {
   final HttpClient httpClient;
 
   AuthRepo({required this.httpClient});
 
-  Future<Object?>registration(Object sender) async{
+  Future<Object?> registration(Object sender) async {
     ResultData result;
-    try{
+    try {
       result = await httpClient.register(sender);
-      if((result.code_msg?.custom_fields?.length)! > 0){
+      if ((result.code_msg?.custom_fields?.length)! > 0) {
         return result.code_msg?.custom_fields;
       }
-    } catch(e){
+    } catch (e) {
       throw Exception(e);
     }
     return result;
-
   }
 
-  Future<Object> getCookies(String username, String password) async{
+  Future<Object> getCookies(String username, String password) async {
     var result = await httpClient.getCookies(username, password);
     return result;
   }
 
-  Future<dynamic> login(List<dynamic> sender) async{
+  Future<dynamic> login(List<dynamic> sender) async {
     var result = await httpClient.login(sender);
-    if(result is Profile){
+    if (result is Profile) {
       return result;
     }
   }
 
-  Future<bool?> isLogin(SharedPreferences preferences) async{
+  Future<bool?> isLogin(SharedPreferences preferences) async {
     bool? result = await isGetLogin(preferences);
     return result;
   }
 
-  Future<dynamic> loginData() async{
+  Future<dynamic> loginData() async {
     var result = await getLogin();
-    if(result is List<dynamic>){
+    if (result is List<dynamic>) {
       return result;
     }
   }
 
-  Future<Meter?> getTestimony() async{
-    var result = await getTestimony();
+  Future<Object?> getTestimonyFunc() async {
+    var result = await httpClient.getTestimony();
     return result;
-}
+  }
 }

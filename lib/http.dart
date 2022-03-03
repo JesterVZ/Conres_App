@@ -137,12 +137,17 @@ class HttpClient{
     }
   }
 
-  Future<Object?> getTestimony(List<dynamic> cookies) async{
+  Future<Object?> getTestimony() async{
     String uri = protocol + domain + 'lk/index.php?route=catalog/measures/api_form';
     try{
       final result = await _apiClient.post(uri);
+      List<Meter> meters = [];
       if(result.statusCode == 200){
-        return Meter.fromMap(result.data['data']);
+        for(int i = 0; i < result.data['data']['meters'].length; i++){
+          Meter thisMeter = Meter.fromMap(result.data['data']['meters'][i]);
+          meters.add(thisMeter);
+        }
+        return meters;
       }
     }catch(e){
       return e.toString();

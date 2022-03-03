@@ -41,8 +41,8 @@ class Meter{
   required this.address,
   required this.index_count,
   required this.measure});
- factory Meter.fromMap(Map<dynamic, dynamic> map){
-  Map<dynamic, dynamic> meter = map;
+ factory Meter.fromMap(Map<dynamic, dynamic> meter){
+
   return Meter(
    meter_id: meter['meter_id'],
    channel_id: meter['channel_id'],
@@ -65,6 +65,7 @@ class Meter{
    index_count: meter['index_count'], measure: [],
   );
  }
+
 }
 class Measure{
  final String? readings_quantity_id;
@@ -72,4 +73,36 @@ class Measure{
  final String? name;
 
  Measure(this.readings_quantity_id, this.format, this.name);
+}
+class LastReadings{
+ final String? readings_id;
+ final String? date;
+ final String? meter_id;
+ final String? indication_index;
+ final String? reading;
+ final String? readings_source_id;
+ final String? readings_analyze_id;
+ final String? readings_period_id;
+ final String? date_added;
+ final String? user_lkrso_id;
+ final String? readings_integration_responce_id;
+ final String? name;
+ final String? priority;
+ final String? status;
+
+ LastReadings(
+      this.readings_id,
+      this.date,
+      this.meter_id,
+      this.indication_index,
+      this.reading,
+      this.readings_source_id,
+      this.readings_analyze_id,
+      this.readings_period_id,
+      this.date_added,
+      this.user_lkrso_id,
+      this.readings_integration_responce_id,
+      this.name,
+      this.priority,
+      this.status);
 }

@@ -10,6 +10,7 @@ import '../bloc/auth/auth-state.dart';
 import '../consts.dart';
 import '../elements/bloc-screen.dart';
 import '../elements/header-notification.dart';
+import '../elements/testimony.dart';
 
 class SendTestimony extends StatefulWidget {
   @override
@@ -97,60 +98,43 @@ class _SendTestimony extends State<SendTestimony> {
                   )
                 ],
               ),
-              Positioned(
-                  bottom: 24,
-                  child: Container(
-                    child: Padding(
-                        padding: EdgeInsets.fromLTRB(21, 58, 21, 54),
-                        child: Container(
-                            width: MediaQuery.of(context).size.width - 35,
-                            height: 70,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const LinkPU()));
-                              },
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration: const BoxDecoration(
-                                        color: Colors.white, shape: BoxShape.circle),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: SvgPicture.asset(
-                                        'assets/plus.svg',
-                                        color: colorMain,
-                                      ),
-                                    ),
-                                    //margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                                  ),
-                                  const Spacer(),
-                                  const Text(
-                                    "Привязать прибор учёта",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontFamily: 'Bubicon-Medium'),
-                                  ),
-                                ],
-                              ),
-                            ))),
-                  ))
+
             ],
           ));
     });
 
   }
   _listener(BuildContext context, AuthState state){
+    if(state.loading!){
+      return;
+    }
+    if(state.testimony != null){
+      try{
+        List<Widget> meters = [];
+        for(int i = 0; i < state.testimony!.length; i++){
+          meters.add(Testimony(state.testimony![i]));
+        }
+        content = Container(
+          height: MediaQuery.of(context).size.height * 0.7,
+          child: Expanded(
+              flex: 1,
+              child: SingleChildScrollView(
+                  child: Column(
+                      children: meters
+                  )
+              )
+          )
+        );
 
+      } catch(e){
+        print(e.toString());
+      }
+    }
   }
   @override
   void didChangeDependencies() {
     authBloc ??= DependencyProvider.of(context)!.authBloc;
+    authBloc!.getTestimony();
     super.didChangeDependencies();
   }
 }

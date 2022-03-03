@@ -95,9 +95,9 @@ class AuthBloc extends Bloc<Event, AuthState> {
   Stream<AuthState> _handleGetTestimony(GetTestimony event) async*{
     yield state.copyWith(loading: true, error: null);
     try{
-      Object? result = await repo.getTestimony();
-      if(result is Meter){
-        yield state.copyWith(loading: false, error: null);
+      Object? result = await repo.getTestimonyFunc();
+      if(result is List<Meter>){
+        yield state.copyWith(testimony: result, loading: false, error: null);
       }
     } catch(e){
       yield state.copyWith(error: e.toString(), loading: false);
