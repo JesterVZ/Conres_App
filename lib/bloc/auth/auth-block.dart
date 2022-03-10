@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:conres_app/model/result-data.dart';
 import 'package:conres_app/repositories/auth-repo.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/meter.dart';
 import '../../model/profile.dart';
@@ -103,4 +102,5 @@ class AuthBloc extends Bloc<Event, AuthState> {
       yield state.copyWith(error: e.toString(), loading: false);
     }
   }
+
 }

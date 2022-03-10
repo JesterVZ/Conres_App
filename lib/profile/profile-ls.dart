@@ -34,6 +34,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePage extends State<ProfilePage> {
   AuthBloc? authBloc;
+
   @override
   Widget build(BuildContext context) {
     return BlocScreen<AuthBloc, AuthState>(

@@ -67,7 +67,7 @@ class Testimony extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text('Предыдущие показания'),
-                          Text('6532', style: TextStyle(fontSize: 18, color: colorMain),)
+                          Text(meter.lastReadings != null ? meter.lastReadings!.reading.toString() : "0", style: TextStyle(fontSize: 18, color: colorMain),)
                         ],
                       ),
                       const Spacer(),

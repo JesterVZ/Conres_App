@@ -38,74 +38,88 @@ class _SendTestimony extends State<SendTestimony> {
         listener: (context, state) => _listener(context, state),
     builder: (context, state) {
       return Scaffold(
-          body: Stack(
-            children: [
-              Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(21, 58, 21, 54),
-                    child: Column(
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                Stack(
+                  children: [
+                    Column(
                       children: [
-                        Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 14),
-                            child: HeaderNotification(sendTestimony)),
-                        Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 61,
-                            child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                    primary: colorGray,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8))),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: const [
-                                        Text("Текущий Лицевой счёт",
-                                            style: TextStyle(
-                                                color: Colors.white, fontSize: 14)),
-                                        Text("345672309",
-                                            style: TextStyle(
-                                                color: Colors.white, fontSize: 18))
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Container(
-                                      //margin: EdgeInsets.fromLTRB(45, 0, 0, 0),
-                                      width: 32,
-                                      height: 32,
-                                      decoration: BoxDecoration(
-                                          color: meterDataColor,
-                                          shape: BoxShape.circle),
-                                      child: Padding(
-                                        padding: EdgeInsets.fromLTRB(13, 9, 11, 9),
-                                        child: SvgPicture.asset(
-                                          "assets/ls-right-arrow.svg",
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ))),
-                        content,
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(21, 58, 21, 54),
+                          child: Column(
+                            children: [
+                              Container(
+                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 14),
+                                  child: HeaderNotification(sendTestimony)),
+                              Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 61,
+                                  child: ElevatedButton(
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                          primary: colorGray,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(8))),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: const [
+                                              Text("Текущий Лицевой счёт",
+                                                  style: TextStyle(
+                                                      color: Colors.white, fontSize: 14)),
+                                              Text("345672309",
+                                                  style: TextStyle(
+                                                      color: Colors.white, fontSize: 18))
+                                            ],
+                                          ),
+                                          Spacer(),
+                                          Container(
+                                            //margin: EdgeInsets.fromLTRB(45, 0, 0, 0),
+                                            width: 32,
+                                            height: 32,
+                                            decoration: BoxDecoration(
+                                                color: meterDataColor,
+                                                shape: BoxShape.circle),
+                                            child: Padding(
+                                              padding: EdgeInsets.fromLTRB(13, 9, 11, 9),
+                                              child: SvgPicture.asset(
+                                                "assets/ls-right-arrow.svg",
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ))),
+                              content,
+                            ],
+                          ),
+                        )
                       ],
                     ),
-                  )
-                ],
-              ),
 
-            ],
+                  ],
+                )
+              ],
+            ),
           ));
     });
 
   }
   _listener(BuildContext context, AuthState state){
     if(state.loading!){
+      content = Center(
+        child: Container(
+          width: 50,
+          height: 50,
+          child: Image.asset('assets/loading.gif')
+        )
+
+      );
       return;
     }
     if(state.testimony != null){
@@ -114,16 +128,8 @@ class _SendTestimony extends State<SendTestimony> {
         for(int i = 0; i < state.testimony!.length; i++){
           meters.add(Testimony(state.testimony![i]));
         }
-        content = Container(
-          height: MediaQuery.of(context).size.height * 0.7,
-          child: Expanded(
-              flex: 1,
-              child: SingleChildScrollView(
-                  child: Column(
-                      children: meters
-                  )
-              )
-          )
+        content = Column(
+          children: meters,
         );
 
       } catch(e){

@@ -19,13 +19,13 @@ class PuInfoShow extends StatelessWidget {
       required this.name})
       : super(key: key);
   final String name;
-  final int numberPu;
+  final String numberPu;
   final int point;
   final String address;
   final String tariff;
   final String type;
   final String countInTariff;
-  final int factor;
+  final double factor;
   final String nameTu;
 
   @override

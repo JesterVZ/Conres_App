@@ -62,6 +62,7 @@ String mainPage = "Главная";
 String contractsPage = "Договоры";
 String reportsPage = "Заявления";
 String chatPage = "Обращения";
+String moreAction = "Ещё";
 //claim
 String claimStep1 = "Оформление нового заявления - Шаг 1";
 String claimStep2 = "Оформление нового заявления - Шаг 2";

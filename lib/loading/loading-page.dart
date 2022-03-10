@@ -7,6 +7,7 @@ import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../elements/bloc-screen.dart';
+import '../profile/main-page.dart';
 import '../profile/profile-ls.dart';
 
 class LoadingPage extends StatefulWidget{
@@ -22,7 +23,6 @@ class _LoadingPage extends State<LoadingPage>{
   void initState() {
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class _LoadingPage extends State<LoadingPage>{
       return;
     }
     if(state.loginData != null){
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => ProfilePage(loginData: state.loginData!)), (route) => false);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainPage(loginData: state.loginData)), (route) => false);
     } else {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => const LoginPage()), (route) => false);
     }

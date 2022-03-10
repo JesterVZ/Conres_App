@@ -19,6 +19,7 @@ class Meter{
  final String? address;
  final int? index_count;
  final List<Measure> measure;
+ late LastReadings? lastReadings;
 
  Meter({
   required this.meter_id,
@@ -40,7 +41,8 @@ class Meter{
   required this.tu_number,
   required this.address,
   required this.index_count,
-  required this.measure});
+  required this.measure,
+  this.lastReadings});
  factory Meter.fromMap(Map<dynamic, dynamic> meter){
 
   return Meter(
@@ -62,7 +64,7 @@ class Meter{
    tu_name: meter['tu_name'],
    tu_number: meter['tu_number'],
    address: meter['address'],
-   index_count: meter['index_count'], measure: [],
+   index_count: meter['index_count'], measure: []
   );
  }
 
@@ -90,7 +92,7 @@ class LastReadings{
  final String? priority;
  final String? status;
 
- LastReadings(
+ LastReadings({
       this.readings_id,
       this.date,
       this.meter_id,
@@ -104,5 +106,23 @@ class LastReadings{
       this.readings_integration_responce_id,
       this.name,
       this.priority,
-      this.status);
+      this.status});
+ factory LastReadings.fromMap(Map<dynamic, dynamic> lastReadings){
+  return LastReadings(
+      readings_id: lastReadings['readings_id'],
+      date: lastReadings['date'],
+      meter_id: lastReadings['meter_id'],
+      indication_index: lastReadings['indication_index'],
+      reading: lastReadings['reading'],
+      readings_source_id: lastReadings['readings_source_id'],
+      readings_analyze_id: lastReadings['readings_analyze_id'],
+      readings_period_id: lastReadings['readings_period_id'],
+      date_added: lastReadings['date_added'],
+      user_lkrso_id: lastReadings['user_lkrso_id'],
+      readings_integration_responce_id:
+      lastReadings['readings_integration_responce_id'],
+      name: lastReadings['name'],
+      priority: lastReadings['priority'],
+      status: lastReadings['status']);
+ }
 }

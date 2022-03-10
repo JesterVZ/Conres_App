@@ -145,6 +145,7 @@ class HttpClient{
       if(result.statusCode == 200){
         for(int i = 0; i < result.data['data']['meters'].length; i++){
           Meter thisMeter = Meter.fromMap(result.data['data']['meters'][i]);
+          thisMeter.lastReadings = await GetLastReadings(result.data['data']['lastReadings'], thisMeter);
           meters.add(thisMeter);
         }
         return meters;
@@ -153,5 +154,16 @@ class HttpClient{
       return e.toString();
     }
     return null;
+  }
+
+  Future<LastReadings?> GetLastReadings(Map<String, dynamic> sender, Meter meter) async{
+    LastReadings result;
+    try{
+      result = LastReadings.fromMap(sender[meter.meter_id][0]);
+      return result;
+    }catch(e){
+      print(e);
+      return null;
+    }
   }
 }

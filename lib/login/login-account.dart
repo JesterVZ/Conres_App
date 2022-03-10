@@ -11,6 +11,7 @@ import '../elements/alert.dart';
 import '../elements/bloc-screen.dart';
 import '../elements/header.dart';
 import '../network.dart';
+import '../profile/main-page.dart';
 import '../profile/profile-ls.dart';
 import '../shared-preferences/shared-preferences.dart';
 
@@ -81,6 +82,7 @@ class _LoginEmail extends State<LoginEmail> {
                                 autofocus: false,
                                 obscureText: true,
                                 decoration: InputDecoration(
+                                  hintText: "Пароль",
                                     border: OutlineInputBorder(
                                         borderSide:
                                             BorderSide(color: inputBorder))),
@@ -137,10 +139,7 @@ class _LoginEmail extends State<LoginEmail> {
       widget.isLoading = false;
     }
     if (state.error == null) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ProfilePage(profile: state.profile)));
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainPage(profile: state.profile)), (route) => false);
     } else {
       showDialog(
           context: context,
