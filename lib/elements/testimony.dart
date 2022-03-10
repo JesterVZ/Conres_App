@@ -1,3 +1,4 @@
+import 'package:conres_app/elements/testimony-dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -79,6 +80,7 @@ class Testimony extends StatelessWidget {
                                 hintText: "0000",
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide(color: inputBorder))),
+                            onTap: TestimonyDialog(),
                           ))
                     ],
                   )))

@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../chats/chats.dart';
 import '../claims/claims.dart';
+import '../claims/new-claim/new-claim-step-1.dart';
 import '../consts.dart';
 import '../icons.dart';
 import '../model/profile.dart';
@@ -44,6 +45,9 @@ class _MainPage extends State<MainPage>{
             PopupMenuItem<String>(
                 child: const Text('Заявление на тех. присоединение'),
                 onTap: (){
+                  setState(() {
+                    _selectedPage = 5;
+                  });
             }),
             PopupMenuItem<String>(
                 child: const Text('Информация'), onTap:() {
@@ -76,6 +80,7 @@ class _MainPage extends State<MainPage>{
     pageList.add(const Claims());
     pageList.add(Chats());
     pageList.add(InfoPU());
+    pageList.add(NewClaimStep1());
     initSharedPreferences();
     super.initState();
   }

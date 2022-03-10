@@ -20,6 +20,7 @@ class Meter{
  final int? index_count;
  final List<Measure> measure;
  late LastReadings? lastReadings;
+ late Tariff? tariff;
 
  Meter({
   required this.meter_id,
@@ -42,7 +43,8 @@ class Meter{
   required this.address,
   required this.index_count,
   required this.measure,
-  this.lastReadings});
+  this.lastReadings,
+  this.tariff});
  factory Meter.fromMap(Map<dynamic, dynamic> meter){
 
   return Meter(
@@ -124,5 +126,31 @@ class LastReadings{
       name: lastReadings['name'],
       priority: lastReadings['priority'],
       status: lastReadings['status']);
+ }
+}
+
+class Tariff{
+ final String? tariffication_id;
+ final String? status;
+ final String? name;
+ final List<ReadingQuantity> readingsQuantity;
+
+ Tariff({required this.tariffication_id, required this.status, required this.name, required this.readingsQuantity});
+
+}
+
+class ReadingQuantity{
+ final String? readings_quantity_id;
+ final String? format;
+ final String? name;
+
+ ReadingQuantity({required this.readings_quantity_id, required this.format, required this.name});
+
+ factory ReadingQuantity.fromMap(Map<dynamic, dynamic> quantity){
+  return ReadingQuantity(
+   readings_quantity_id: quantity['readings_quantity_id'],
+   name: quantity['name'],
+   format: quantity['format']
+  );
  }
 }
