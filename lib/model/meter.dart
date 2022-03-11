@@ -128,17 +128,24 @@ class LastReadings{
       status: lastReadings['status']);
  }
 }
-
 class Tariff{
  final String? tariffication_id;
  final String? status;
  final String? name;
- final List<ReadingQuantity> readingsQuantity;
+ late List<ReadingQuantity> readingsQuantity;
 
  Tariff({required this.tariffication_id, required this.status, required this.name, required this.readingsQuantity});
 
-}
+ factory Tariff.fromMap(Map<dynamic, dynamic> tariff){
+  return Tariff(
+      tariffication_id: tariff['tariffication_id'],
+      name: tariff['name'],
+      status: tariff['status'],
+      readingsQuantity: tariff['readingsQuantity']
+  );
+ }
 
+}
 class ReadingQuantity{
  final String? readings_quantity_id;
  final String? format;

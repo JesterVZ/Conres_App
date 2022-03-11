@@ -32,7 +32,7 @@ class _MainPage extends State<MainPage>{
       if(index == 4){
         showMenu<String>(
           context: context,
-          position: const RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
+          position: const RelativeRect.fromLTRB(490.0, 490.0, 0.0, 0.0),
           items: <PopupMenuItem<String>>[
             PopupMenuItem<String>(
                 child: const Text('Информация о ПУ'),

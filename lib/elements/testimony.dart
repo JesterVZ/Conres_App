@@ -80,7 +80,7 @@ class Testimony extends StatelessWidget {
                                 hintText: "0000",
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide(color: inputBorder))),
-                            onTap: TestimonyDialog(),
+                            //onTap: TestimonyDialog(),
                           ))
                     ],
                   )))

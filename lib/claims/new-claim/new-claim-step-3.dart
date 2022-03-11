@@ -407,26 +407,6 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
           ],
         ),
       )
-,
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-                icon: Icon(CustomIcons.home, color: colorGray),
-                label: mainPage),
-            BottomNavigationBarItem(
-                icon: Icon(CustomIcons.contracts, color: colorGray),
-                label: contractsPage),
-            BottomNavigationBarItem(
-                icon: Icon(CustomIcons.reports, color: colorGray),
-                label: reportsPage),
-            BottomNavigationBarItem(
-                icon: Icon(CustomIcons.chat, color: colorGray),
-                label: chatPage),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: colorMain,
-          onTap: _onItemTapped),
     );
   }
 

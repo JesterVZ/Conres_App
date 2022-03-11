@@ -1,16 +1,9 @@
 import 'dart:io';
 
 import 'package:conres_app/DI/dependency-provider.dart';
-import 'package:conres_app/profile/profile-ls.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'bloc/auth/auth-block.dart';
-import 'bloc/auth/auth-state.dart';
 import 'consts.dart';
-import 'elements/bloc-screen.dart';
 import 'loading/loading-page.dart';
-import 'login/login-main.dart';
 
 void main() {
   HttpOverrides.global = MyHttpOverrides();
