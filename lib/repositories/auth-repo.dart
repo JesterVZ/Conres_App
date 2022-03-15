@@ -24,8 +24,8 @@ class AuthRepo {
     return result;
   }
 
-  Future<Object> getCookies(String username, String password) async {
-    var result = await httpClient.getCookies(username, password);
+  Future<Object> getCookies(String username, String password, int type) async {
+    var result = await httpClient.getCookies(username, password, type);
     return result;
   }
 

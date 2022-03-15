@@ -412,7 +412,7 @@ class _RegIP extends State<RegIP> {
 
   }
   _handleRegistration(AuthState state, Object sender) {
-    authBloc!.register(sender);
+    authBloc!.register(sender, 2);
   }
   _listener(BuildContext context, AuthState state) {
     if (state.loading!) {

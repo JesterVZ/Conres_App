@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -6,9 +7,10 @@ Future<bool?> isGetLogin(SharedPreferences preferences) async{
   return result;
 }
 
-void setLogin(SharedPreferences preferences, String login, String password) async{
+void setLogin(SharedPreferences preferences, String login, String password, int type) async{
   await preferences.setString('login', login);
   await preferences.setString('password', password);
+  await preferences.setInt('type', type);
   await preferences.setBool('isLogin', true);
 }
 
@@ -18,9 +20,11 @@ Future<List<dynamic>?> getLogin() async{
   if(isLogin == true){
     final login = await preferences.getString('login');
     final password = await preferences.getString('password');
+    final type = await preferences.getInt('type');
     List<dynamic> result = [
       login,
-      password
+      password,
+      type
     ];
 
     return result;

@@ -16,8 +16,9 @@ import '../profile/profile-ls.dart';
 import '../shared-preferences/shared-preferences.dart';
 
 class LoginEmail extends StatefulWidget {
-  LoginEmail({Key? key}) : super(key: key);
+  LoginEmail({Key? key, required this.type}) : super(key: key);
   bool isLoading = false;
+  final int type;
 
   @override
   State<StatefulWidget> createState() => _LoginEmail();
@@ -37,98 +38,101 @@ class _LoginEmail extends State<LoginEmail> {
         bloc: authBloc,
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
-          return Scaffold(
-              resizeToAvoidBottomInset: false,
-              body: Padding(
-                  padding: EdgeInsets.fromLTRB(21, 74, 21, 0),
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: 14),
-                        child: HeaderRow(loginAccount, 34, false),
-                      ),
-                      Container(
-                          margin: EdgeInsets.only(bottom: 20),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                lkInputText,
-                                style: labelTextStyle,
-                              ),
-                              TextField(
-                                controller: lkController,
-                                decoration: InputDecoration(
-                                    hintText: "E-mail",
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: inputBorder))),
-                              )
-                            ],
-                          )),
-                      Container(
-                          margin: EdgeInsets.only(bottom: 26),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                lkPasswordText,
-                                style: labelTextStyle,
-                              ),
-                              TextField(
-                                controller: passwordController,
-                                autofocus: false,
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  hintText: "Пароль",
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: inputBorder))),
-                              )
-                            ],
-                          )),
-                      Column(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                            child: SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                height: 55.0,
-                                child: ElevatedButton(
-                                    onPressed: () {
+          return GestureDetector(
+            onTap: (){
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: Scaffold(
+                resizeToAvoidBottomInset: false,
+                body: Padding(
+                    padding: EdgeInsets.fromLTRB(21, 74, 21, 0),
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(bottom: 14),
+                          child: HeaderRow(loginAccount, 34, false),
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(bottom: 20),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  lkInputText,
+                                  style: labelTextStyle,
+                                ),
+                                TextField(
+                                  controller: lkController,
+                                  decoration: InputDecoration(
+                                      hintText: "Лицевой счет",
+                                      border: OutlineInputBorder(
+                                          borderSide:
+                                          BorderSide(color: inputBorder))),
+                                )
+                              ],
+                            )),
+                        Container(
+                            margin: EdgeInsets.only(bottom: 26),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  lkPasswordText,
+                                  style: labelTextStyle,
+                                ),
+                                TextField(
+                                  controller: passwordController,
+                                  autofocus: false,
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                      hintText: "Пароль",
+                                      border: OutlineInputBorder(
+                                          borderSide:
+                                          BorderSide(color: inputBorder))),
+                                )
+                              ],
+                            )),
+                        Column(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                              child: SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 55.0,
+                                  child: ElevatedButton(
+                                      onPressed: () {
 
-                                      _handleLogin(state, lkController.text,
-                                          passwordController.text);
-                                    },
-                                    child: Text(
-                                      login,
-                                      style: buttonTextStyle,
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                        primary: colorMain))),
-                          ),
+                                        _handleLogin(state, lkController.text,
+                                            passwordController.text);
+                                      },
+                                      child: Text(
+                                        login,
+                                        style: buttonTextStyle,
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: colorMain))),
+                            ),
 
-                          //ElevatedButton(onPressed: (){}, child: Text(login)),
-                        ],
-                      ),
-                      Visibility(
-                          visible: widget.isLoading,
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            child: Image.asset('assets/loading.gif'),
-                          ))
-                    ],
-                  )));
+                            //ElevatedButton(onPressed: (){}, child: Text(login)),
+                          ],
+                        ),
+                        Visibility(
+                            visible: widget.isLoading,
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              child: Image.asset('assets/loading.gif'),
+                            ))
+                      ],
+                    ))),
+          );
         });
   }
 
   _handleLogin(AuthState state, String username, String password) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    setLogin(preferences, lkController.text, passwordController.text);
-    authBloc!.login(username, password);
+    authBloc!.login(username, password, widget.type);
   }
 
   _listener(BuildContext context, AuthState state) {

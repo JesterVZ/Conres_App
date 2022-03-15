@@ -479,7 +479,7 @@ class _ProfilePage extends State<ProfilePage> {
       );
     }
     if(widget.loginData != null){
-      authBloc!.login(widget.loginData![0], widget.loginData![1]);
+      authBloc!.login(widget.loginData![0], widget.loginData![1], widget.loginData![2]);
     }
   }
 

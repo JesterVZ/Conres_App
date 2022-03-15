@@ -10,7 +10,8 @@ import '../elements/header.dart';
 import 'login-account.dart';
 
 class ChangeType extends StatefulWidget {
-  const ChangeType({Key? key}) : super(key: key);
+  const ChangeType({Key? key, required this.isReg}) : super(key: key);
+  final bool isReg;
 
   @override
   State<StatefulWidget> createState() => _ChangeType();
@@ -48,7 +49,8 @@ class _ChangeType extends State<ChangeType> {
                         height: 55.0,
                         child: ElevatedButton(
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegUL()));
+                              widget.isReg ? Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegUL())) : Navigator.push(context, MaterialPageRoute(builder:  (context) => LoginEmail(type: 3)));
+
                             },
                             child: Text(
                               ul,
@@ -63,7 +65,7 @@ class _ChangeType extends State<ChangeType> {
                         height: 55.0,
                         child: ElevatedButton(
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegFL()));
+                              widget.isReg ? Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegFL())) : Navigator.push(context, MaterialPageRoute(builder:  (context) => LoginEmail(type: 1)));
                             },
                             child: Text(
                               fl,
@@ -78,7 +80,7 @@ class _ChangeType extends State<ChangeType> {
                         height: 55.0,
                         child: ElevatedButton(
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegIP()));
+                              widget.isReg ? Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegIP())) : Navigator.push(context, MaterialPageRoute(builder:  (context) => LoginEmail(type: 2)));
                             },
                             child: Text(
                               ip,

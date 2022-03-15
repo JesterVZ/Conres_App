@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:conres_app/model/result-data.dart';
 import 'package:conres_app/repositories/auth-repo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/meter.dart';
 import '../../model/profile.dart';
+import '../../shared-preferences/shared-preferences.dart';
 import 'auth-event.dart';
 import 'auth-state.dart';
 
@@ -30,12 +32,12 @@ class AuthBloc extends Bloc<Event, AuthState> {
   }
   AuthBloc(this.repo) : super(AuthState.initial());
 
-  register(Object sender){
-    add(RegisterEvent(sender));
+  register(Object sender, int type){
+    add(RegisterEvent(sender, type));
   }
 
-  login(String username, String password){
-    add(LoginEvent(username, password));
+  login(String username, String password, int type){
+    add(LoginEvent(username, password, type));
   }
 
   getLogin(){
@@ -43,7 +45,7 @@ class AuthBloc extends Bloc<Event, AuthState> {
   }
 
   getTestimony(){
-    add(GetTestimony());
+    add(const GetTestimony());
   }
 
   Stream<AuthState> _handleRegisterEvent(RegisterEvent event) async*{
@@ -63,10 +65,12 @@ class AuthBloc extends Bloc<Event, AuthState> {
   Stream<AuthState> _handleLoginEvent(LoginEvent event) async*{
     yield state.copyWith(loading: true, error: null);
     try{
-      Object result = await repo.getCookies(event.username, event.password);
+      Object result = await repo.getCookies(event.username, event.password, event.type);
       if(result is List){
         Object? loginResult = await repo.login(result);
         if(loginResult is Profile){
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          setLogin(preferences, event.username, event.password, event.type);
           yield state.copyWith(profile: loginResult, error: null, loading: false);
         } else {
           yield state.copyWith(error: loginResult.toString(), loading: false);
