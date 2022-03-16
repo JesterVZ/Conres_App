@@ -1,6 +1,6 @@
 import 'package:conres_app/elements/bloc-screen.dart';
-import 'package:conres_app/model/result-data.dart';
 import 'package:conres_app/registration/seccessful-registration.dart';
+import 'package:conres_app/registration/validate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -220,26 +220,13 @@ class _RegFL extends State<RegFL> {
                                 )),
                             Container(
                               margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                              child: Row(
-                                children: [
-                                  Checkbox(
-                                      value: _agree,
-                                      activeColor: colorMain,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(6.0)),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _agree = !_agree;
-                                        });
-                                      }),
-                                  Container(
-                                      width: 284,
-                                      child: const Text(
-                                          "Я согласен на обработку персональных данных",
-                                          style: TextStyle(fontSize: 15))),
-                                ],
-                              ),
+                              child: CheckboxListTile(title: const Text(
+                                  "Я согласен на обработку персональных данных",
+                                  style: TextStyle(fontSize: 15)), value: _agree, onChanged: (value) {
+                                setState(() {
+                                  _agree = !_agree;
+                                });
+                              })
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width,
@@ -262,7 +249,6 @@ class _RegFL extends State<RegFL> {
   }
   void submitData(AuthState state){
     Fl flObj = Fl(
-        User_lk_type_id: '1',
         Family: controllerList[0].text,
         Name: controllerList[1].text,
         Patronymic: controllerList[2].text,
@@ -271,17 +257,10 @@ class _RegFL extends State<RegFL> {
         Inn: controllerList[3].text,
         Snils: controllerList[4].text,
         Email: controllerList[6].text,
-        Tel: controllerList[5].text);
+        Tel: controllerList[5].text, User_lk_type_id: '1');
     _handleRegistration(state, flObj);
   }
   _handleRegistration(AuthState state, Object sender) {
-    if(controllerList[7].text != controllerList[8].text){
-      showDialog(
-          context: context,
-          builder: (BuildContext context) =>
-              Alert(title: "Ошибка", text: "Пароли не совпадают"));
-      return;
-    }
     if(controllerList[0].text == ""
         || controllerList[1].text == ""
         || controllerList[2].text == ""
@@ -302,6 +281,7 @@ class _RegFL extends State<RegFL> {
 
   _listener(BuildContext context, AuthState state) {
     if (state.loading!) {
+      _agree = false;
       return;
     }
     if (state.error == null) {
@@ -313,7 +293,7 @@ class _RegFL extends State<RegFL> {
             context: context,
             builder: (BuildContext context) => Alert(
                 title: (state.error as Map<dynamic, dynamic>).keys.first,
-                text: (state.error as Map<dynamic, dynamic>)['warning']));
+                text: validate((state.error as Map<dynamic, dynamic>).values.first)));
       }
     }
   }

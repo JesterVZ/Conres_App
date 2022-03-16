@@ -29,6 +29,10 @@ class AuthBloc extends Bloc<Event, AuthState> {
       yield* _handleGetTestimony(event);
     }
 
+    if(event is GetPuInfo){
+      yield* _handleGetPuInfo(event);
+    }
+
   }
   AuthBloc(this.repo) : super(AuthState.initial());
 
@@ -46,6 +50,10 @@ class AuthBloc extends Bloc<Event, AuthState> {
 
   getTestimony(){
     add(const GetTestimony());
+  }
+
+  getPuInfo(){
+
   }
 
   Stream<AuthState> _handleRegisterEvent(RegisterEvent event) async*{
@@ -103,6 +111,15 @@ class AuthBloc extends Bloc<Event, AuthState> {
         yield state.copyWith(testimony: result, loading: false, error: null);
       }
     } catch(e){
+      yield state.copyWith(error: e.toString(), loading: false);
+    }
+  }
+
+  Stream<AuthState> _handleGetPuInfo(GetPuInfo event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+
+    }catch(e){
       yield state.copyWith(error: e.toString(), loading: false);
     }
   }
