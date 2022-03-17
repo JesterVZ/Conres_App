@@ -15,7 +15,9 @@ import '../elements/masks.dart';
 import '../model/model.dart';
 
 class RegFL extends StatefulWidget {
-  const RegFL({Key? key}) : super(key: key);
+
+  RegFL({Key? key}) : super(key: key);
+  bool isLoading = false;
 
   @override
   State<StatefulWidget> createState() => _RegFL();
@@ -236,7 +238,14 @@ class _RegFL extends State<RegFL> {
                                   child: Text(login, style: buttonTextStyle),
                                   style: ElevatedButton.styleFrom(
                                       primary: colorMain)),
-                            )
+                            ),
+                            Visibility(
+                                visible: widget.isLoading,
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  child: Image.asset('assets/loading.gif'),
+                                ))
                           ],
                         ))
                   ],
@@ -281,8 +290,10 @@ class _RegFL extends State<RegFL> {
 
   _listener(BuildContext context, AuthState state) {
     if (state.loading!) {
-      _agree = false;
+      widget.isLoading = true;
       return;
+    } else {
+      widget.isLoading = false;
     }
     if (state.error == null) {
       Navigator.push(

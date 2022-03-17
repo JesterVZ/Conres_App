@@ -1,4 +1,5 @@
 import 'package:conres_app/contracts/contracts.dart';
+import 'package:conres_app/elements/logout-alert.dart';
 import 'package:conres_app/profile/profile-ls.dart';
 import 'package:conres_app/profile/profile-no-ls.dart';
 import 'package:conres_app/testimony/info-pu.dart';
@@ -29,11 +30,12 @@ class _MainPage extends State<MainPage>{
   late SharedPreferences preferences;
 
   void _onItemTapped(int index) {
+    //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const LoginPage()));
     setState(() {
       if(index == 4){
         showMenu<String>(
           context: context,
-          position: const RelativeRect.fromLTRB(490.0, 490.0, 0.0, 0.0),
+          position: const RelativeRect.fromLTRB(550.0, 550.0, 0.0, 0.0),
           items: <PopupMenuItem<String>>[
             PopupMenuItem<String>(
                 child: const Text('Информация о ПУ'),
@@ -55,10 +57,13 @@ class _MainPage extends State<MainPage>{
             }),
             PopupMenuItem<String>(
                 child: const Text('Выход'), onTap:() {
-                  setState((){
-                    Logout(preferences);
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => const LoginPage()), (route) => false);
-                  });
+                  Logout(preferences);
+                  //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const LoginPage()));
+                  // Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const LoginPage()));
+              setState(() {
+                LogoutAlert(title: "Предупреждение", text: "Вы уверены, что хотите выйти?");
+              });
+
             }),
           ],
           elevation: 8.0,

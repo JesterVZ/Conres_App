@@ -16,7 +16,8 @@ import '../elements/header.dart';
 import '../elements/masks.dart';
 
 class RegIP extends StatefulWidget {
-  const RegIP({Key? key}) : super(key: key);
+  RegIP({Key? key}) : super(key: key);
+  bool isLoading = false;
 
   @override
   State<StatefulWidget> createState() => _RegIP();
@@ -376,8 +377,14 @@ class _RegIP extends State<RegIP> {
                                 style: buttonTextStyle,
                               ),
                               style: ElevatedButton.styleFrom(primary: colorMain)),
-                        )
-
+                        ),
+                        Visibility(
+                            visible: widget.isLoading,
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              child: Image.asset('assets/loading.gif'),
+                            ))
                       ],
                     ))
               ],
@@ -429,7 +436,10 @@ class _RegIP extends State<RegIP> {
   }
   _listener(BuildContext context, AuthState state) {
     if (state.loading!) {
+      widget.isLoading = true;
       return;
+    } else {
+      widget.isLoading = false;
     }
     if (state.error == null) {
       Navigator.push(

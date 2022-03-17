@@ -71,6 +71,9 @@ class Ul {
     required this.FullName,
     required this.Name,
     required this.Inn,
+    required this.dl,
+    required this.Password,
+    required this.RepeatPassword
   });
   final String FullName;
   final String Name;
@@ -79,7 +82,9 @@ class Ul {
   final String Kpp;
   final String Tel;
   final String Email;
-
+  final String Password;
+  final String RepeatPassword;
+  final Dl? dl;
 }
 
 class Dl {
@@ -88,10 +93,12 @@ class Dl {
       required this.EmailDL,
       required this.Family,
       required this.Name,
-      required this.Patronymic});
+      required this.Patronymic
+      });
   final String TelDL;
   final String EmailDL;
   final String Family;
   final String Name;
   final String Patronymic;
+
 }

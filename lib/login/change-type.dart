@@ -49,7 +49,7 @@ class _ChangeType extends State<ChangeType> {
                         height: 55.0,
                         child: ElevatedButton(
                             onPressed: () {
-                              widget.isReg ? Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegUL())) : Navigator.push(context, MaterialPageRoute(builder:  (context) => LoginEmail(type: 3)));
+                              widget.isReg ? Navigator.push(context, MaterialPageRoute(builder:  (context) => RegUL())) : Navigator.push(context, MaterialPageRoute(builder:  (context) => LoginEmail(type: 3)));
 
                             },
                             child: Text(
@@ -65,7 +65,7 @@ class _ChangeType extends State<ChangeType> {
                         height: 55.0,
                         child: ElevatedButton(
                             onPressed: () {
-                              widget.isReg ? Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegFL())) : Navigator.push(context, MaterialPageRoute(builder:  (context) => LoginEmail(type: 1)));
+                              widget.isReg ? Navigator.push(context, MaterialPageRoute(builder:  (context) => RegFL())) : Navigator.push(context, MaterialPageRoute(builder:  (context) => LoginEmail(type: 1)));
                             },
                             child: Text(
                               fl,
@@ -80,7 +80,7 @@ class _ChangeType extends State<ChangeType> {
                         height: 55.0,
                         child: ElevatedButton(
                             onPressed: () {
-                              widget.isReg ? Navigator.push(context, MaterialPageRoute(builder:  (context) => const RegIP())) : Navigator.push(context, MaterialPageRoute(builder:  (context) => LoginEmail(type: 2)));
+                              widget.isReg ? Navigator.push(context, MaterialPageRoute(builder:  (context) => RegIP())) : Navigator.push(context, MaterialPageRoute(builder:  (context) => LoginEmail(type: 2)));
                             },
                             child: Text(
                               ip,

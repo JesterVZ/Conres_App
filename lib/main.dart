@@ -4,6 +4,7 @@ import 'package:conres_app/DI/dependency-provider.dart';
 import 'package:flutter/material.dart';
 import 'consts.dart';
 import 'loading/loading-page.dart';
+import 'login/login-main.dart';
 
 void main() {
   HttpOverrides.global = MyHttpOverrides();
@@ -37,6 +38,10 @@ class _MyApp extends State<MyApp>{
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Контроль ресурсов',
+      routes: {
+        '/logout': (context) => LoginPage(),
+
+      },
       theme: ThemeData(
           primarySwatch: Colors.blue,
           scaffoldBackgroundColor: defaultBackground,

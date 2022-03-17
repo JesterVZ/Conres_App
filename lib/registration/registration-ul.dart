@@ -1,5 +1,6 @@
 import 'package:conres_app/model/model.dart';
 import 'package:conres_app/registration/seccessful-registration.dart';
+import 'package:conres_app/registration/validate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,8 +15,8 @@ import '../elements/header.dart';
 import '../elements/masks.dart';
 
 class RegUL extends StatefulWidget {
-  const RegUL({Key? key}) : super(key: key);
-
+  RegUL({Key? key}) : super(key: key);
+  bool isLoading = false;
   @override
   State<StatefulWidget> createState() => _RegUL();
 }
@@ -463,7 +464,14 @@ class _RegUL extends State<RegUL> {
                                     ),
                                     style: ElevatedButton.styleFrom(
                                         primary: colorMain)),
-                              )
+                              ),
+                              Visibility(
+                                  visible: widget.isLoading,
+                                  child: Container(
+                                    width: 50,
+                                    height: 50,
+                                    child: Image.asset('assets/loading.gif'),
+                                  ))
                             ],
                           ))
                     ],
@@ -487,7 +495,10 @@ class _RegUL extends State<RegUL> {
       Orgnip: controllerList[3].text,
       Kpp: controllerList[4].text,
       Tel: controllerList[5].text,
-      Email: controllerList[6].text
+      Email: controllerList[6].text,
+      dl: dl,
+      Password: controllerList[7].text,
+      RepeatPassword: controllerList[8].text
     );
     _handleRegistration(state, ulUbj);
   }
@@ -509,7 +520,26 @@ class _RegUL extends State<RegUL> {
     }
   }
   _listener(BuildContext context, AuthState state) {
-
+    if (state.loading!) {
+      widget.isLoading = true;
+      return;
+    } else {
+      widget.isLoading = false;
+    }
+    if (state.error == null) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const RegSuccess()));
+    } else {
+      if (state.error is Map<dynamic, dynamic>) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) =>
+                Alert(
+                    title: (state.error as Map<dynamic, dynamic>).keys.first,
+                    text: validate(
+                        (state.error as Map<dynamic, dynamic>).values.first)));
+      }
+    }
   }
   @override
   void didChangeDependencies() {

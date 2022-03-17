@@ -98,6 +98,42 @@ class HttpClient{
         throw Exception(e);
       }
     }
+    if(sender is Ul){
+      try{
+        var formData = FormData.fromMap({
+          'user_lk_group_id': '2',
+          'user_lk_type_id': '3',
+          'agree': '1',
+          'company_full': sender.FullName,
+          'company_short': sender.Name,
+          'inn': sender.Inn,
+          'kpp': sender.Kpp,
+          'ogrn': sender.Orgnip,
+
+          'contacts[0][value]': sender.Tel,
+          'contacts[0][contact_type_id]': '2',
+          'contacts[0][flags][1]': '1',
+
+          'proxy[lastname]': sender.dl?.Family,
+          'proxy[firstname]': sender.dl?.Name,
+          'proxy[patronymic]': sender.dl?.Patronymic,
+          'proxy[telephone]': sender.dl?.TelDL,
+          'proxy[email]': sender.dl?.EmailDL,
+
+          'contacts[1][value]': sender.Email,
+          'password': sender.Password,
+          'confirm': sender.RepeatPassword
+        });
+        var cookieJar=CookieJar();
+        _apiClient.interceptors.add(CookieManager(cookieJar));
+        final response = await _apiClient.post(url, data: formData);
+        if(response.statusCode == 200){
+          return ResultData.fromMap(response.data);
+        }
+      }catch(e){
+        throw Exception(e);
+      }
+    }
   }
 
   Future<dynamic> getCookies(String username, String password, int type) async{

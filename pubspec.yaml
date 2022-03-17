@@ -32,7 +32,6 @@ dependencies:
   equatable: ^2.0.3
   flutter:
     sdk: flutter
-  flutter_svg: ^1.0.3
   web_socket_channel: ^2.1.0
   dio: ^4.0.4
   cookie_jar: 3.0.1
@@ -41,6 +40,7 @@ dependencies:
   shared_preferences: ^2.0.13
   dotted_decoration: ^2.0.0
   flutter_chat_ui: ^1.5.5
+  flutter_html: ^2.2.1
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -8,6 +8,12 @@ String validate(String error){
       return "Email некорректен";
     case "error_password":
       return "Пароль некорректен";
+    case "error_confirm":
+      return "Ошибка подтверждения";
+    case "error_inn_company":
+      return "Данный ИНН компании уже существует";
+    case "error_ogrn":
+      return "ОГРНИП некорректен";
   }
   return "";
 }
