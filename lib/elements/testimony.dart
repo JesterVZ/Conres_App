@@ -75,12 +75,18 @@ class Testimony extends StatelessWidget {
                       Container(
                           width: 91,
                           height: 45,
-                          child: TextField(
+                          child: TextFormField(
+                            onTap: (){
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      TestimonyDialog("День", "1", "0", "0"));
+                            },
+                            textAlign: TextAlign.center,
                             decoration: InputDecoration(
                                 hintText: "0000",
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide(color: inputBorder))),
-                            //onTap: TestimonyDialog(),
                           ))
                     ],
                   )))

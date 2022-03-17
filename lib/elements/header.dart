@@ -17,6 +17,8 @@ class HeaderRow extends StatelessWidget {
     return Row(
       children: [
         Container(
+          width: 30,
+          height: 30,
           margin: const EdgeInsets.fromLTRB(0, 0, 16, 0),
           child: GestureDetector(
             onTap: (){

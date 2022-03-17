@@ -100,11 +100,11 @@ class HttpClient{
     }
   }
 
-  Future<dynamic> getCookies(String username, String password) async{
+  Future<dynamic> getCookies(String username, String password, int type) async{
     String uri = protocol + domain + 'lk/index.php?route=common/login/api';
     try{
       var formData = FormData.fromMap({
-        'user_lk_type_id': '2',
+        'user_lk_type_id': type,
         'username': username,
         'password': password
       });
@@ -166,4 +166,5 @@ class HttpClient{
       return null;
     }
   }
+
 }

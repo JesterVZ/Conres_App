@@ -11,6 +11,7 @@ import '../claims/claims.dart';
 import '../claims/new-claim/new-claim-step-1.dart';
 import '../consts.dart';
 import '../icons.dart';
+import '../login/login-main.dart';
 import '../model/profile.dart';
 import '../shared-preferences/shared-preferences.dart';
 
@@ -56,6 +57,7 @@ class _MainPage extends State<MainPage>{
                 child: const Text('Выход'), onTap:() {
                   setState((){
                     Logout(preferences);
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => const LoginPage()), (route) => false);
                   });
             }),
           ],

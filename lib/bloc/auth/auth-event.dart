@@ -10,15 +10,17 @@ abstract class Event extends Equatable{
 
 class RegisterEvent extends Event{
   final Object sender;
+  final int type;
 
-  const RegisterEvent(this.sender);
+  const RegisterEvent(this.sender, this.type);
 }
 
 class LoginEvent extends Event{
   final String username;
   final String password;
+  final int type;
 
-  const LoginEvent(this.username, this.password);
+  const LoginEvent(this.username, this.password, this.type);
 }
 
 class GetLoginEvent extends Event{
@@ -27,4 +29,8 @@ class GetLoginEvent extends Event{
 
 class GetTestimony extends Event{
   const GetTestimony();
+}
+
+class GetPuInfo extends Event{
+  const GetPuInfo();
 }

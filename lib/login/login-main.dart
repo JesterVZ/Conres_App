@@ -65,7 +65,7 @@ class _LoginPage extends State<LoginPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                      const ChangeType()));
+                                      const ChangeType(isReg: true)));
                             },
                             child: Text(
                               reg,
@@ -84,7 +84,7 @@ class _LoginPage extends State<LoginPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        LoginEmail()));
+                                        const ChangeType(isReg: false)));
                           },
                           child: Text(
                             login,
