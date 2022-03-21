@@ -7,10 +7,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../DI/dependency-provider.dart';
+import '../bloc/auth/auth-block.dart';
+import '../bloc/auth/auth-state.dart';
 import '../chats/chats.dart';
 import '../claims/claims.dart';
 import '../claims/new-claim/new-claim-step-1.dart';
 import '../consts.dart';
+import '../elements/bloc-screen.dart';
 import '../icons.dart';
 import '../login/login-main.dart';
 import '../model/profile.dart';
@@ -28,9 +32,9 @@ class _MainPage extends State<MainPage>{
   int _selectedPage = 0;
   List<Widget> pageList = [];
   late SharedPreferences preferences;
+  AuthBloc? authBloc;
 
   void _onItemTapped(int index) {
-    //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const LoginPage()));
     setState(() {
       if(index == 4){
         showMenu<String>(
@@ -48,22 +52,13 @@ class _MainPage extends State<MainPage>{
             PopupMenuItem<String>(
                 child: const Text('Заявление на тех. присоединение'),
                 onTap: (){
-                  setState(() {
-                    _selectedPage = 5;
-                  });
             }),
             PopupMenuItem<String>(
                 child: const Text('Информация'), onTap:() {
             }),
             PopupMenuItem<String>(
                 child: const Text('Выход'), onTap:() {
-                  Logout(preferences);
-                  //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const LoginPage()));
-                  // Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const LoginPage()));
-              setState(() {
-                LogoutAlert(title: "Предупреждение", text: "Вы уверены, что хотите выйти?");
-              });
-
+                  authBloc!.logout();
             }),
           ],
           elevation: 8.0,
@@ -98,35 +93,55 @@ class _MainPage extends State<MainPage>{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(
-        index: _selectedPage,
-        children: pageList,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-              icon: const Icon(CustomIcons.home),
-              label: mainPage),
-          BottomNavigationBarItem(
-              icon: const Icon(CustomIcons.contracts),
-              label: contractsPage),
-          BottomNavigationBarItem(
-              icon: const Icon(CustomIcons.reports),
-              label: reportsPage),
-          BottomNavigationBarItem(
-              icon: const Icon(CustomIcons.chat),
-              label: chatPage),
-          BottomNavigationBarItem(
-            icon: const Icon(CustomIcons.dot_3),
-            label: moreAction
-          )
-        ],
-        currentIndex: _selectedPage,
-        selectedItemColor: colorMain,
-        onTap: _onItemTapped,
-      ),
-    );
+    return BlocScreen<AuthBloc, AuthState>(
+        bloc: authBloc,
+        listener: (context, state) => _listener(context, state),
+    builder: (context, state) {
+      return Scaffold(
+        body: IndexedStack(
+          index: _selectedPage,
+          children: pageList,
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(
+                icon: const Icon(CustomIcons.home),
+                label: mainPage),
+            BottomNavigationBarItem(
+                icon: const Icon(CustomIcons.contracts),
+                label: contractsPage),
+            BottomNavigationBarItem(
+                icon: const Icon(CustomIcons.reports),
+                label: reportsPage),
+            BottomNavigationBarItem(
+                icon: const Icon(CustomIcons.chat),
+                label: chatPage),
+            BottomNavigationBarItem(
+                icon: const Icon(CustomIcons.dot_3),
+                label: moreAction
+            )
+          ],
+          currentIndex: _selectedPage,
+          selectedItemColor: colorMain,
+          onTap: _onItemTapped,
+        ),
+      );
+    });
+
+  }
+
+  _listener(BuildContext context, AuthState state){
+    if(state.loading == true){
+      return;
+    }
+    if(state.loginData!.isEmpty){
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
+    }
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    authBloc ??= DependencyProvider.of(context)!.authBloc;
   }
 }

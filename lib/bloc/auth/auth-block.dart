@@ -29,9 +29,10 @@ class AuthBloc extends Bloc<Event, AuthState> {
       yield* _handleGetTestimony(event);
     }
 
-    if(event is GetPuInfo){
-      yield* _handleGetPuInfo(event);
+    if(event is LogoutEvent){
+      yield* _handleLogoutEvent(event);
     }
+
 
   }
   AuthBloc(this.repo) : super(AuthState.initial());
@@ -52,8 +53,8 @@ class AuthBloc extends Bloc<Event, AuthState> {
     add(const GetTestimony());
   }
 
-  getPuInfo(){
-
+  logout(){
+    add(const LogoutEvent());
   }
 
   Stream<AuthState> _handleRegisterEvent(RegisterEvent event) async*{
@@ -79,7 +80,8 @@ class AuthBloc extends Bloc<Event, AuthState> {
         if(loginResult is Profile){
           SharedPreferences preferences = await SharedPreferences.getInstance();
           setLogin(preferences, event.username, event.password, event.type);
-          yield state.copyWith(profile: loginResult, error: null, loading: false);
+          List<dynamic> loginData = [event.username, event.password, event.type];
+          yield state.copyWith(profile: loginResult, loginData: loginData, error: null, loading: false);
         } else {
           yield state.copyWith(error: loginResult.toString(), loading: false);
         }
@@ -115,13 +117,17 @@ class AuthBloc extends Bloc<Event, AuthState> {
     }
   }
 
-  Stream<AuthState> _handleGetPuInfo(GetPuInfo event) async*{
+  Stream<AuthState> _handleLogoutEvent(LogoutEvent event) async*{
     yield state.copyWith(loading: true, error: null);
     try{
-
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await logoutFunc(preferences);
+      List<dynamic> emptyLoginData = [];
+      yield state.copyWith(loginData: emptyLoginData, error: null, loading: false);
     }catch(e){
       yield state.copyWith(error: e.toString(), loading: false);
     }
   }
+
 
 }

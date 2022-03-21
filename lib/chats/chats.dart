@@ -13,10 +13,12 @@ class _Chats extends State<Chats>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          CustomDropDown(title: "Test", items: items)
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+
+          ],
+        ),
       ),
     );
   }

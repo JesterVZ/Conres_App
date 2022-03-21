@@ -34,6 +34,9 @@ Future<List<dynamic>?> getLogin() async{
 
 }
 
-void Logout(SharedPreferences preferences) async{
+Future logoutFunc(SharedPreferences preferences) async{
+  await preferences.remove('login');
+  await preferences.remove('password');
+  await preferences.remove('type');
   await preferences.remove('isLogin');
 }

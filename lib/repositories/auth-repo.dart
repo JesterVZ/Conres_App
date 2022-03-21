@@ -53,8 +53,4 @@ class AuthRepo {
     return result;
   }
 
-  Future<Object?> getpuInfoFunc() async{
-
-  }
-
 }

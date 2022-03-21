@@ -23,14 +23,14 @@ class LoginEvent extends Event{
   const LoginEvent(this.username, this.password, this.type);
 }
 
+class LogoutEvent extends Event{
+  const LogoutEvent();
+}
+
 class GetLoginEvent extends Event{
   const GetLoginEvent();
 }
 
 class GetTestimony extends Event{
   const GetTestimony();
-}
-
-class GetPuInfo extends Event{
-  const GetPuInfo();
 }
