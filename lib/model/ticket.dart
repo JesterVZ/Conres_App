@@ -24,7 +24,10 @@ class _CurrentStatus{
   final String? color_type_id;
   final String? user_lkrso_id;
   final String? date_added;
+  final String? status;
+  final String? hidden_type;
+  final String? name;
 
   _CurrentStatus(this.ticket_status_type_id, this.color_type_id,
-      this.user_lkrso_id, this.date_added);
+      this.user_lkrso_id, this.date_added, this.status, this.hidden_type, this.name);
 }

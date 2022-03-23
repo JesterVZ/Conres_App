@@ -41,7 +41,7 @@ class _LoadingPage extends State<LoadingPage>{
         });
   }
   _listener(BuildContext context, AuthState state) {
-    print(state.toString());
+    //print(state.toString());
     if(state.loading == true){
       return;
     }

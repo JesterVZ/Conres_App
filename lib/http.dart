@@ -145,11 +145,12 @@ class HttpClient{
         'password': password
       });
       var cookieJar=CookieJar();
+      _apiClient.interceptors.clear();
       _apiClient.interceptors.add(CookieManager(cookieJar));
-      final cookies = await cookieJar.loadForRequest(Uri.parse(uri));
       final response = await _apiClient.post(uri, data: formData);
       if(response.statusCode == 200){
         if(response.data["code_result"] == 200){
+          final cookies = await cookieJar.loadForRequest(Uri.parse(uri));
           return cookies;
         } else {
           return "Неверное имя пользователя или пароль!";
@@ -161,7 +162,7 @@ class HttpClient{
   }
 
   Future<Object?> login(List<dynamic> cookies) async{
-    String uri = protocol + domain + 'lk/index.php?route=common/api/api_getInfo';
+    String uri = protocol + domain + 'lk/index.php?route=common/api/api_getInfo_old';
     try{
       final result = await _apiClient.post(uri);
       if(result.statusCode == 200){

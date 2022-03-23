@@ -23,7 +23,6 @@ class NewClaimStep2 extends StatefulWidget{
 class _NewClaimStep2 extends State<NewClaimStep2>{
   final controllerList = List<TextEditingController>.generate(3, (index) => TextEditingController());
   final controllerDlList = List<TextEditingController>.generate(3, (index) => TextEditingController());
-  int _selectedIndex = 0;
   late bool _visabillity = false;
 
   void _addNewObject(){
@@ -31,11 +30,6 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
       _visabillity = !_visabillity;
     });
 
-  }
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
   @override
   Widget build(BuildContext context) {

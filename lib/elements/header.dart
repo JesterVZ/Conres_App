@@ -16,17 +16,16 @@ class HeaderRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          width: 30,
-          height: 30,
-          margin: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-          child: GestureDetector(
-            onTap: (){
-              Navigator.pop(context);
-            },
+        GestureDetector(
+          onTap: (){
+            Navigator.pop(context);
+          },
+          child: Container(
+            width: 30,
+            height: 30,
+            margin: const EdgeInsets.fromLTRB(0, 0, 16, 0),
             child: Image.asset('assets/back-arrow.png'),
-          )
-
+          ),
         ),
         Flexible(
             child: Text(

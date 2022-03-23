@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../consts.dart';
+import '../../elements/dropdown.dart';
 import '../../icons.dart';
 import '../../profile/profile-no-ls.dart';
 import 'new-claim-step-2.dart';
@@ -19,16 +20,10 @@ class NewClaimStep5 extends StatefulWidget{
 }
 
 class _NewClaimStep5 extends State<NewClaimStep5>{
-  int _selectedIndex = 0;
   late bool _visabillity = false;
 
   void _addNewObject(){
     _visabillity = !_visabillity;
-  }
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
   @override
   Widget build(BuildContext context) {
@@ -71,136 +66,20 @@ class _NewClaimStep5 extends State<NewClaimStep5>{
                                       ],
                                     ),
                                   ),
-
                                   Container(
-                                      margin: EdgeInsets.fromLTRB(0, 0, 0, 23),
-                                      height: 55,
-                                      child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(primary: Colors.white),
-                                          onPressed: (){
-                                            setState(() {
-                                              _addNewObject();
-                                            });
-
-                                          },
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                  margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                                                  child: SvgPicture.asset('assets/plus.svg')
-                                              ),
-
-
-                                              Text(addObject, style: TextStyle(color: colorMain, fontSize: 18))
-                                            ],
-                                          ))
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 27),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: const [
+                                        Text("Тип договора:"),
+                                        CustomDropDown(title: "Выберите причину", items: [
+                                          "Договор электроснабжения",
+                                          "Договор купли-продажи"
+                                        ])
+                                      ],
+                                    ),
                                   ),
-                                  Visibility(
-                                    visible: _visabillity,
-                                      child: Column(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.fromLTRB(0, 0, 0, 27),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(stage),
-                                            TextField(
-                                              decoration: InputDecoration(
-                                                  border: OutlineInputBorder(
-                                                      borderSide:
-                                                      BorderSide(color: inputBorder))),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.fromLTRB(0, 0, 0, 27),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(desighTime),
-                                            TextField(
-                                              decoration: InputDecoration(
-                                                  border: OutlineInputBorder(
-                                                      borderSide:
-                                                      BorderSide(color: inputBorder))),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.fromLTRB(0, 0, 0, 27),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(inputTime),
-                                            TextField(
-                                              decoration: InputDecoration(
-                                                  border: OutlineInputBorder(
-                                                      borderSide:
-                                                      BorderSide(color: inputBorder))),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.fromLTRB(0, 0, 0, 27),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(maxPowerDevices),
-                                            TextField(
-                                              decoration: InputDecoration(
-                                                  border: OutlineInputBorder(
-                                                      borderSide:
-                                                      BorderSide(color: inputBorder))),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.fromLTRB(0, 0, 0, 27),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(reliabilityCategory),
-                                            TextField(
-                                              decoration: InputDecoration(
-                                                  border: OutlineInputBorder(
-                                                      borderSide:
-                                                      BorderSide(color: inputBorder))),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                          margin: EdgeInsets.fromLTRB(0, 0, 0, 24),
-                                          height: 55,
-                                          child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(primary: redColor),
-                                              onPressed: (){
-                                                setState(() {
-                                                  _visabillity = false;
-                                                });
-                                              },
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                children: [
-                                                  Text(deleteObject, style: TextStyle(color: Colors.white, fontSize: 18))
-                                                ],
-                                              ))
-                                      ),
-                                    ],
-                                  )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width * 0.9,
                                       height: 55.0,

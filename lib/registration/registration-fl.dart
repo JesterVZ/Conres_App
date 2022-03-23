@@ -47,7 +47,7 @@ class _RegFL extends State<RegFL> {
                 child: Column(
                   children: [
                     Padding(
-                        padding: EdgeInsets.fromLTRB(21, 70, 21, 54),
+                        padding: EdgeInsets.fromLTRB(21, 50, 21, 54),
                         child: Column(
                           children: [
                             HeaderRow(regTitle, 34, false),

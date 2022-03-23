@@ -4,11 +4,7 @@ import 'package:conres_app/elements/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../consts.dart';
-import '../../icons.dart';
-import '../../profile/profile-no-ls.dart';
-import 'new-claim-step-2.dart';
 import 'new-claim-step-5.dart';
 
 class NewClaimStep4 extends StatefulWidget{
@@ -19,16 +15,9 @@ class NewClaimStep4 extends StatefulWidget{
 }
 
 class _NewClaimStep4 extends State<NewClaimStep4>{
-  int _selectedIndex = 0;
   late bool _visabillity = false;
-
   void _addNewObject(){
     _visabillity = !_visabillity;
-  }
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
   @override
   Widget build(BuildContext context) {
@@ -64,6 +53,7 @@ class _NewClaimStep4 extends State<NewClaimStep4>{
                                         Text(stage),
                                         TextField(
                                           decoration: InputDecoration(
+                                            hintText: "1 очередь",
                                               border: OutlineInputBorder(
                                                   borderSide:
                                                   BorderSide(color: inputBorder))),
@@ -80,6 +70,7 @@ class _NewClaimStep4 extends State<NewClaimStep4>{
                                         Text(desighTime),
                                         TextField(
                                           decoration: InputDecoration(
+                                            hintText: "Июнь 2022",
                                               border: OutlineInputBorder(
                                                   borderSide:
                                                   BorderSide(color: inputBorder))),
@@ -96,6 +87,7 @@ class _NewClaimStep4 extends State<NewClaimStep4>{
                                         Text(inputTime),
                                         TextField(
                                           decoration: InputDecoration(
+                                            hintText: "Июнь 2022",
                                               border: OutlineInputBorder(
                                                   borderSide:
                                                   BorderSide(color: inputBorder))),
@@ -112,6 +104,7 @@ class _NewClaimStep4 extends State<NewClaimStep4>{
                                         Text(maxPowerDevices),
                                         TextField(
                                           decoration: InputDecoration(
+                                            hintText: "000",
                                               border: OutlineInputBorder(
                                                   borderSide:
                                                   BorderSide(color: inputBorder))),
@@ -128,6 +121,7 @@ class _NewClaimStep4 extends State<NewClaimStep4>{
                                         Text(reliabilityCategory),
                                         TextField(
                                           decoration: InputDecoration(
+                                            hintText: "1 или 2 или 3",
                                               border: OutlineInputBorder(
                                                   borderSide:
                                                   BorderSide(color: inputBorder))),
@@ -173,6 +167,7 @@ class _NewClaimStep4 extends State<NewClaimStep4>{
                                             Text(stage),
                                             TextField(
                                               decoration: InputDecoration(
+                                                hintText: "1 очередь",
                                                   border: OutlineInputBorder(
                                                       borderSide:
                                                       BorderSide(color: inputBorder))),
@@ -189,6 +184,7 @@ class _NewClaimStep4 extends State<NewClaimStep4>{
                                             Text(desighTime),
                                             TextField(
                                               decoration: InputDecoration(
+                                                hintText: "Июнь 2022",
                                                   border: OutlineInputBorder(
                                                       borderSide:
                                                       BorderSide(color: inputBorder))),
@@ -205,6 +201,7 @@ class _NewClaimStep4 extends State<NewClaimStep4>{
                                             Text(inputTime),
                                             TextField(
                                               decoration: InputDecoration(
+                                                hintText: "Июнь 2022",
                                                   border: OutlineInputBorder(
                                                       borderSide:
                                                       BorderSide(color: inputBorder))),
@@ -221,6 +218,7 @@ class _NewClaimStep4 extends State<NewClaimStep4>{
                                             Text(maxPowerDevices),
                                             TextField(
                                               decoration: InputDecoration(
+                                                hintText: "000",
                                                   border: OutlineInputBorder(
                                                       borderSide:
                                                       BorderSide(color: inputBorder))),
@@ -237,6 +235,7 @@ class _NewClaimStep4 extends State<NewClaimStep4>{
                                             Text(reliabilityCategory),
                                             TextField(
                                               decoration: InputDecoration(
+                                                hintText: "1 или 2 или 3",
                                                   border: OutlineInputBorder(
                                                       borderSide:
                                                       BorderSide(color: inputBorder))),

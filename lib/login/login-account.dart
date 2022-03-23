@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
@@ -10,10 +9,7 @@ import '../consts.dart';
 import '../elements/alert.dart';
 import '../elements/bloc-screen.dart';
 import '../elements/header.dart';
-import '../network.dart';
 import '../profile/main-page.dart';
-import '../profile/profile-ls.dart';
-import '../shared-preferences/shared-preferences.dart';
 
 class LoginEmail extends StatefulWidget {
   LoginEmail({Key? key, required this.type}) : super(key: key);
@@ -45,7 +41,7 @@ class _LoginEmail extends State<LoginEmail> {
             child: Scaffold(
                 resizeToAvoidBottomInset: false,
                 body: Padding(
-                    padding: EdgeInsets.fromLTRB(21, 74, 21, 0),
+                    padding: EdgeInsets.fromLTRB(21, 70, 21, 0),
                     child: Column(
                       children: [
                         Container(
@@ -143,6 +139,7 @@ class _LoginEmail extends State<LoginEmail> {
       widget.isLoading = false;
     }
     if (state.error == null) {
+      print(state.loginData);
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainPage(profile: state.profile)), (route) => false);
     } else {
       showDialog(
