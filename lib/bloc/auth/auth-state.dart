@@ -7,8 +7,9 @@ class AuthState{
   final Object? error;
   final List<Meter>? testimony;
   final List<dynamic>? loginData;
+  final String? cookieData;
 
-  AuthState({this.loginData, this.loading, this.error, this.profile, this.testimony});
+  AuthState({this.loginData, this.loading, this.error, this.profile, this.testimony, this.cookieData});
 
   static initial() => AuthState(
     profile: null,

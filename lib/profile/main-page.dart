@@ -1,3 +1,4 @@
+import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/contracts/contracts.dart';
 import 'package:conres_app/elements/logout-alert.dart';
 import 'package:conres_app/profile/profile-ls.dart';
@@ -6,6 +7,7 @@ import 'package:conres_app/testimony/info-pu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
@@ -33,6 +35,8 @@ class _MainPage extends State<MainPage>{
   List<Widget> pageList = [];
   late SharedPreferences preferences;
   AuthBloc? authBloc;
+  ProfileBloc? profileBloc;
+  WebSocketChannel? webSocketChannel;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -106,7 +110,30 @@ class _MainPage extends State<MainPage>{
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
-                icon: const Icon(CustomIcons.home),
+                icon: Stack(
+                  children: [
+                    const Icon(CustomIcons.home),
+                    Positioned(
+                      right: 0,
+                      child: Container(
+                        padding: EdgeInsets.all(1),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          color: Colors.red,
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 12,
+                          maxHeight: 12
+                        ),
+                        child: const Text("10", style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 8
+                        ),
+                        textAlign: TextAlign.center,),
+                      ),
+                    )
+                  ],
+                ),
                 label: mainPage),
             BottomNavigationBarItem(
                 icon: const Icon(CustomIcons.contracts),
@@ -143,5 +170,8 @@ class _MainPage extends State<MainPage>{
   void didChangeDependencies() {
     super.didChangeDependencies();
     authBloc ??= DependencyProvider.of(context)!.authBloc;
+    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
+
+    webSocketChannel?.sink.add(data)
   }
 }

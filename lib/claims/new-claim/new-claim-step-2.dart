@@ -14,8 +14,9 @@ import '../../profile/profile-no-ls.dart';
 import 'new-claim-step-3.dart';
 
 class NewClaimStep2 extends StatefulWidget{
-  const NewClaimStep2({Key? key}) : super(key: key);
+  const NewClaimStep2({Key? key, required List<TextEditingController> controllerList}) : super(key: key);
 
+  final controllerList = List<TextEditingController>;
   @override
   State<StatefulWidget> createState() => _NewClaimStep2();
 }

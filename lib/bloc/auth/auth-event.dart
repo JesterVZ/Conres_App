@@ -34,3 +34,7 @@ class GetLoginEvent extends Event{
 class GetTestimony extends Event{
   const GetTestimony();
 }
+
+class GetCookieForSocket extends Event{
+  const GetCookieForSocket();
+}

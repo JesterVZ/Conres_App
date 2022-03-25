@@ -33,7 +33,6 @@ class AuthBloc extends Bloc<Event, AuthState> {
       yield* _handleLogoutEvent(event);
     }
 
-
   }
   AuthBloc(this.repo) : super(AuthState.initial());
 
@@ -45,7 +44,7 @@ class AuthBloc extends Bloc<Event, AuthState> {
     add(LoginEvent(username, password, type));
   }
 
-  getLogin(){
+   getLogin(){
     add(const GetLoginEvent());
   }
 

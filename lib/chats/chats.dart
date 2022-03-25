@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
@@ -15,6 +17,8 @@ class Chats extends StatefulWidget{
 
 class _Chats extends State<Chats>{
   AuthBloc? authBloc;
+  late WebSocketChannel? webSocketChannel;
+
   @override
   Widget build(BuildContext context) {
     return BlocScreen<AuthBloc, AuthState>(
@@ -38,6 +42,10 @@ class _Chats extends State<Chats>{
 
   _listener(BuildContext context, AuthState state) {
 
+  }
+
+  void _connectToSocket() async{
+    webSocketChannel = IOWebSocketChannel.connect("wss://promo.dev.conres.ru:2450/");
   }
   @override
   void didChangeDependencies() {

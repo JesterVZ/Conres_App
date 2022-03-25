@@ -1,14 +1,9 @@
-import 'dart:ui';
-
 import 'package:conres_app/elements/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-
 import '../../consts.dart';
 import '../../elements/masks.dart';
-import '../../icons.dart';
-import '../../profile/profile-no-ls.dart';
 import 'new-claim-step-2.dart';
 
 class NewClaimStep1 extends StatefulWidget{
@@ -18,12 +13,6 @@ class NewClaimStep1 extends StatefulWidget{
 
 class _NewClaimStep1 extends State<NewClaimStep1>{
   final controllerList = List<TextEditingController>.generate(9, (index) => TextEditingController());
-  int _selectedIndex = 0;
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,12 +26,12 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                     HeaderRow(claimStep1, 24, true),
                     Column(
                       children: [
-                        Container(
+                        SizedBox(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(margin: EdgeInsets.fromLTRB(0, 25, 0, 10),
+                              Container(margin: const EdgeInsets.fromLTRB(0, 25, 0, 10),
                               child: Text(claimInfo, style: claimTextStyle)),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -61,7 +50,7 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                 ],
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 12),
+                                margin: const EdgeInsets.only(top: 12),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,11 +76,11 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(margin: EdgeInsets.fromLTRB(0, 25, 0, 10),
+                            Container(margin: const EdgeInsets.fromLTRB(0, 25, 0, 10),
                               child: Text(passportData, style: claimTextStyle),),
                             Row(
                               children: [
-                                Container(
+                                SizedBox(
                                   width: 158,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -108,7 +97,7 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                   ),
                                 ),
                                 const Spacer(),
-                                Container(
+                                SizedBox(
                                   width: 158,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -164,7 +153,7 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                 height: 55.0,
                                 child: ElevatedButton(
                                     onPressed: () {
-                                      Navigator.push(context, MaterialPageRoute(builder:  (context) =>  NewClaimStep2()));
+                                      Navigator.push(context, MaterialPageRoute(builder:  (context) => NewClaimStep2(controllerList: controllerList)));
                                     },
                                     child: Text(
                                       next,

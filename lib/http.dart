@@ -161,6 +161,29 @@ class HttpClient{
     }
   }
 
+  Future<String> getCookieStringForWebSocket(String uri) async{
+    var cookieJar=CookieJar();
+    final cookies = await cookieJar.loadForRequest(Uri.parse(uri));
+
+    String pf = cookies[2].value;
+    String pa = cookies[3].value;
+    String pc = cookies[4].value;
+    String pp = cookies[5].value;
+    String pd = cookies[6].value;
+
+    String result = '{"cmd":"connect","cookie":"pf=' +
+        pf +
+        '; pa=' +
+        pa +
+        '; pc=' +
+        pc +
+        '; pp='
+        + pp +
+        '; pd='
+        + pd + '"}';
+    return result;
+  }
+
   Future<Object?> login(List<dynamic> cookies) async{
     String uri = protocol + domain + 'lk/index.php?route=common/api/api_getInfo_old';
     try{
