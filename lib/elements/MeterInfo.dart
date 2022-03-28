@@ -15,7 +15,7 @@ class MeterInfo extends StatelessWidget{
       child: PuInfoShow(
         numberPu: meter.pu_number!,
         point: 3235,
-        address: meter.address!,
+        address: "meter.address!",
         tariff: "Двухфазный",
         type: "Электроэнергия",
         countInTariff: "2 ( День, Ночь )",

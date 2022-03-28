@@ -2,8 +2,9 @@ class ProfileState {
   final String? cookieStr;
   final bool? loading;
   final String? error;
+  final List<dynamic>? loginData;
 
-  ProfileState({this.cookieStr, this.loading, this.error});
+  ProfileState({this.loginData, this.cookieStr, this.loading, this.error});
 
   static initial() => ProfileState(
         cookieStr: null,
@@ -13,12 +14,14 @@ class ProfileState {
   ProfileState copyWith({
     String? cookieStr,
     bool? loading,
+    List<dynamic>? loginData,
     String? error
   }){
     return ProfileState(
       error: error,
       loading: loading ?? this.loading,
-      cookieStr: cookieStr ?? this.cookieStr
+      cookieStr: cookieStr ?? this.cookieStr,
+      loginData: loginData ?? this.loginData
     );
   }
 }

@@ -1,16 +1,20 @@
 import 'package:conres_app/bloc/auth/auth-block.dart';
+import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/http.dart';
 import 'package:conres_app/repositories/auth-repo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import '../repositories/profile-repo.dart';
 
 // ignore: must_be_immutable
 class DependencyProvider extends InheritedWidget{
   HttpClient? _httpClient;
   AuthBloc? _authBloc;
+  ProfileBloc? _profileBloc;
   AuthRepo? _authRepo;
+  ProfileRepo? _profileRepo;
   SharedPreferences? _sharedPreferences;
   WebSocketChannel? _webSocketChannel;
 
@@ -37,11 +41,20 @@ class DependencyProvider extends InheritedWidget{
     return _authRepo!;
   }
 
+  ProfileRepo get profileRepo{
+    _profileRepo ??= ProfileRepo(httpClient: httpClient);
+    return _profileRepo!;
+  }
+
   AuthBloc get authBloc {
     _authBloc ??= AuthBloc(authRepo);
     return _authBloc!;
   }
 
+  ProfileBloc get profileBloc{
+    _profileBloc ??= ProfileBloc(profileRepo);
+    return _profileBloc!;
+  }
 
   static DependencyProvider? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<DependencyProvider>();

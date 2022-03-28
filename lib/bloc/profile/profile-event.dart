@@ -7,6 +7,12 @@ abstract class ProfileEvent extends Equatable {
 }
 
 class GetCookieStrEvent extends ProfileEvent{
-  final String uri;
-  const GetCookieStrEvent(this.uri);
+  final String username;
+  final String password;
+  final int type;
+  const GetCookieStrEvent(this.username, this.password, this.type);
+}
+
+class GetLoginData extends ProfileEvent{
+  const GetLoginData();
 }

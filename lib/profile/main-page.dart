@@ -1,4 +1,5 @@
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
+import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/contracts/contracts.dart';
 import 'package:conres_app/elements/logout-alert.dart';
 import 'package:conres_app/profile/profile-ls.dart';
@@ -97,8 +98,8 @@ class _MainPage extends State<MainPage>{
 
   @override
   Widget build(BuildContext context) {
-    return BlocScreen<AuthBloc, AuthState>(
-        bloc: authBloc,
+    return BlocScreen<ProfileBloc, ProfileState>(
+        bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
     builder: (context, state) {
       return Scaffold(
@@ -107,33 +108,12 @@ class _MainPage extends State<MainPage>{
           children: pageList,
         ),
         bottomNavigationBar: BottomNavigationBar(
+          iconSize: 30,
+          backgroundColor: Colors.green,
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
-                icon: Stack(
-                  children: [
-                    const Icon(CustomIcons.home),
-                    Positioned(
-                      right: 0,
-                      child: Container(
-                        padding: EdgeInsets.all(1),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color: Colors.red,
-                        ),
-                        constraints: const BoxConstraints(
-                          minWidth: 12,
-                          maxHeight: 12
-                        ),
-                        child: const Text("10", style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 8
-                        ),
-                        textAlign: TextAlign.center,),
-                      ),
-                    )
-                  ],
-                ),
+                icon: const Icon(CustomIcons.home),
                 label: mainPage),
             BottomNavigationBarItem(
                 icon: const Icon(CustomIcons.contracts),
@@ -142,7 +122,30 @@ class _MainPage extends State<MainPage>{
                 icon: const Icon(CustomIcons.reports),
                 label: reportsPage),
             BottomNavigationBarItem(
-                icon: const Icon(CustomIcons.chat),
+                icon: Stack(
+                  children: [
+                    const Icon(CustomIcons.chat),
+                    Positioned(
+                      right: 0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          color: Colors.red,
+                        ),
+                        constraints: const BoxConstraints(
+                            minWidth: 15,
+                            maxHeight: 15
+                        ),
+                        child: const Text("9+", style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10
+
+                        ),
+                          textAlign: TextAlign.center,),
+                      ),
+                    )
+                  ],
+                ),
                 label: chatPage),
             BottomNavigationBarItem(
                 icon: const Icon(CustomIcons.dot_3),
@@ -158,20 +161,27 @@ class _MainPage extends State<MainPage>{
 
   }
 
-  _listener(BuildContext context, AuthState state){
+  _listener(BuildContext context, ProfileState state){
     if(state.loading == true){
       return;
     }
     if(state.loginData!.isEmpty){
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
+    } else if(state.cookieStr == null){
+      profileBloc!.getCookies(state.loginData![0], state.loginData![1], state.loginData![2]);
+    }
+    if(state.cookieStr != null){
+      webSocketChannel!.sink.add(state.cookieStr);
+      webSocketChannel!.stream.listen((event) {
+
+      });
     }
   }
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    authBloc ??= DependencyProvider.of(context)!.authBloc;
+    profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    profileBloc!.getLoginData();
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
-
-    webSocketChannel?.sink.add(data)
   }
 }

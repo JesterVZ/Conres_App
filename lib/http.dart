@@ -161,9 +161,8 @@ class HttpClient{
     }
   }
 
-  Future<String> getCookieStringForWebSocket(String uri) async{
-    var cookieJar=CookieJar();
-    final cookies = await cookieJar.loadForRequest(Uri.parse(uri));
+  Future<String> getCookieStringForWebSocket(String username, String password, int type) async{
+    List<dynamic> cookies = await getCookies(username, password, type);
 
     String pf = cookies[2].value;
     String pa = cookies[3].value;
