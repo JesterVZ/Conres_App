@@ -16,3 +16,7 @@ class GetCookieStrEvent extends ProfileEvent{
 class GetLoginData extends ProfileEvent{
   const GetLoginData();
 }
+
+class GetWebSocketData extends ProfileEvent{
+  const GetWebSocketData();
+}

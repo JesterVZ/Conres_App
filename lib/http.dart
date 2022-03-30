@@ -170,7 +170,7 @@ class HttpClient{
     String pp = cookies[5].value;
     String pd = cookies[6].value;
 
-    String result = '{"cmd":"connect","cookie":"pf=' +
+    String result = '{"cmd":"connect","cookie": "salp0-36=1; salp0-37=1; salp0-38=1; time_offset=5; pf=' +
         pf +
         '; pa=' +
         pa +
@@ -179,13 +179,21 @@ class HttpClient{
         '; pp='
         + pp +
         '; pd='
-        + pd + '"}';
+        + pd + '; currency=RUB; language=ru-ru; _ga=GA1.1.682084980.1646901701; time_offset=5; _ga_4LXS3K46R3=GS1.1.1648636976.49.0.1648637488.0"}';
     return result;
   }
 
   Future<Object?> login(List<dynamic> cookies) async{
     String uri = protocol + domain + 'lk/index.php?route=common/api/api_getInfo_old';
     try{
+      var formData = FormData.fromMap({
+        'user_lk_type_id': type,
+        'username': username,
+        'password': password
+      });
+      var cookieJar=CookieJar();
+      _apiClient.interceptors.clear();
+      _apiClient.interceptors.add(CookieManager(cookieJar));
       final result = await _apiClient.post(uri);
       if(result.statusCode == 200){
         return Profile.fromMap(result.data['data']);

@@ -15,6 +15,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
     if(event is GetLoginData){
       yield* _handleGetData(event);
     }
+    if(event is GetWebSocketData){
+      yield* _handleGetWebSocketData(event);
+    }
   }
 
   ProfileBloc(this.repo) : super(ProfileState.initial());
@@ -25,6 +28,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
 
   getLoginData(){
     add(const GetLoginData());
+  }
+
+  getWebSocketData(){
+    add(const GetWebSocketData());
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async*{
@@ -43,6 +50,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
       if(result is List<dynamic>){
         yield state.copyWith(loading: false, error: null, loginData: result);
       }
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+  Stream<ProfileState> _handleGetWebSocketData(GetWebSocketData event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }

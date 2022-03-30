@@ -1,18 +1,15 @@
+import 'dart:convert';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/contracts/contracts.dart';
-import 'package:conres_app/elements/logout-alert.dart';
 import 'package:conres_app/profile/profile-ls.dart';
-import 'package:conres_app/profile/profile-no-ls.dart';
 import 'package:conres_app/testimony/info-pu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-
 import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
-import '../bloc/auth/auth-state.dart';
 import '../chats/chats.dart';
 import '../claims/claims.dart';
 import '../claims/new-claim/new-claim-step-1.dart';
@@ -21,7 +18,7 @@ import '../elements/bloc-screen.dart';
 import '../icons.dart';
 import '../login/login-main.dart';
 import '../model/profile.dart';
-import '../shared-preferences/shared-preferences.dart';
+import '../websocket/websocket.dart';
 
 class MainPage extends StatefulWidget{
   const MainPage({Key? key, this.loginData, this.profile}) : super(key: key);
@@ -38,6 +35,9 @@ class _MainPage extends State<MainPage>{
   AuthBloc? authBloc;
   ProfileBloc? profileBloc;
   WebSocketChannel? webSocketChannel;
+  WebSocketData? webSocketData;
+  int? ticketCounter;
+  int? claimCounter;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -122,7 +122,7 @@ class _MainPage extends State<MainPage>{
                 icon: const Icon(CustomIcons.reports),
                 label: reportsPage),
             BottomNavigationBarItem(
-                icon: Stack(
+                icon: ticketCounter == 0 ?Stack(
                   children: [
                     const Icon(CustomIcons.chat),
                     Positioned(
@@ -136,7 +136,7 @@ class _MainPage extends State<MainPage>{
                             minWidth: 15,
                             maxHeight: 15
                         ),
-                        child: const Text("9+", style: TextStyle(
+                        child: Text(ticketCounter.toString(), style: const TextStyle(
                             color: Colors.white,
                             fontSize: 10
 
@@ -145,7 +145,7 @@ class _MainPage extends State<MainPage>{
                       ),
                     )
                   ],
-                ),
+                ) : const Icon(CustomIcons.chat),
                 label: chatPage),
             BottomNavigationBarItem(
                 icon: const Icon(CustomIcons.dot_3),
@@ -172,10 +172,17 @@ class _MainPage extends State<MainPage>{
     }
     if(state.cookieStr != null){
       webSocketChannel!.sink.add(state.cookieStr);
-      webSocketChannel!.stream.listen((event) {
 
-      });
     }
+  }
+  void getData() async{
+    webSocketChannel!.stream.listen((event) {
+      print(event);
+      setState(() {
+        webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
+        ticketCounter = webSocketData!.data!.counters!.new_ticket_messages_count;
+      });
+    });
   }
   @override
   void didChangeDependencies() {
@@ -183,5 +190,6 @@ class _MainPage extends State<MainPage>{
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     profileBloc!.getLoginData();
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
+    getData();
   }
 }
