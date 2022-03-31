@@ -109,7 +109,6 @@ class _MainPage extends State<MainPage>{
         ),
         bottomNavigationBar: BottomNavigationBar(
           iconSize: 30,
-          backgroundColor: Colors.green,
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
@@ -167,12 +166,9 @@ class _MainPage extends State<MainPage>{
     }
     if(state.loginData!.isEmpty){
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
-    } else if(state.cookieStr == null){
-      profileBloc!.getCookies(state.loginData![0], state.loginData![1], state.loginData![2]);
     }
     if(state.cookieStr != null){
       webSocketChannel!.sink.add(state.cookieStr);
-
     }
   }
   void getData() async{
@@ -188,7 +184,7 @@ class _MainPage extends State<MainPage>{
   void didChangeDependencies() {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
-    profileBloc!.getLoginData();
+    //profileBloc!.getCookies(widget.loginData![0], widget.loginData![1], widget.loginData![2]);
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
     getData();
   }
