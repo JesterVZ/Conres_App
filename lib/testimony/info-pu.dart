@@ -1,15 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
 import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
-import '../consts.dart';
 import '../elements/MeterInfo.dart';
 import '../elements/bloc-screen.dart';
-import '../elements/header-notification.dart';
-import '../elements/pu-info-show.dart';
 
 class InfoPU extends StatefulWidget {
   @override

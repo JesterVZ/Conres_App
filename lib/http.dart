@@ -150,6 +150,7 @@ class HttpClient{
         'username': username,
         'password': password
       });
+      _apiClient.interceptors.add(CookieManager(_cookieJar));
       final response = await _apiClient.post(uri, data: formData);
       if(response.statusCode == 200){
         if(response.data["code_result"] == 200){
@@ -186,7 +187,7 @@ class HttpClient{
     return result;
   }
 
-  Future<Object?> login(String username, String password, int type) async{
+  Future<Object?> login(List<dynamic> cookies) async{
     String uri = protocol + domain + 'lk/index.php?route=common/api/api_getInfo_old';
     try{
       final result = await _apiClient.post(uri);

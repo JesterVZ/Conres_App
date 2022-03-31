@@ -29,8 +29,8 @@ class AuthRepo {
     return result;
   }
 
-  Future<dynamic> login(String username, String password, int type) async {
-    var result = await httpClient.login(username, password, type);
+  Future<dynamic> login(List<dynamic> sender) async {
+    var result = await httpClient.login(sender);
     if (result is Profile) {
       return result;
     }

@@ -73,14 +73,19 @@ class AuthBloc extends Bloc<Event, AuthState> {
   Stream<AuthState> _handleLoginEvent(LoginEvent event) async*{
     yield state.copyWith(loading: true, error: null);
     try{
-      Object? loginResult = await repo.login(event.username, event.password, event.type);
-      if(loginResult is Profile){
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        setLogin(preferences, event.username, event.password, event.type);
-        List<dynamic> loginData = [event.username, event.password, event.type];
-        yield state.copyWith(profile: loginResult, loginData: loginData, error: null, loading: false);
+      Object result = await repo.getCookies(event.username, event.password, event.type);
+      if(result is List){
+        Object? loginResult = await repo.login(result);
+        if(loginResult is Profile){
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          setLogin(preferences, event.username, event.password, event.type);
+          List<dynamic> loginData = [event.username, event.password, event.type];
+          yield state.copyWith(profile: loginResult, loginData: loginData, error: null, loading: false);
+        } else {
+          yield state.copyWith(error: loginResult.toString(), loading: false);
+        }
       } else {
-        yield state.copyWith(error: loginResult.toString(), loading: false);
+        yield state.copyWith(error: result.toString(), loading: false);
       }
     }catch(e){
       yield state.copyWith(error: e.toString(), loading: false);
