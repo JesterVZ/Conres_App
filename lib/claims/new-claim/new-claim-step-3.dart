@@ -79,6 +79,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     textController: controllerDlList[2],
                                                     formatter: MaskTextInputFormatter(mask: "###"),
                                                     hint: "000",
+                                                    type: "kvt",
                                                   )
                                                 ],
                                               ),
@@ -95,6 +96,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     textController: controllerDlList[2],
                                                     formatter: MaskTextInputFormatter(mask: "###"),
                                                     hint: "000",
+                                                    type: "vt",
                                                   )
                                                 ],
                                               ),
@@ -124,6 +126,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     textController: controllerDlList[2],
                                                     formatter: MaskTextInputFormatter(mask: "###"),
                                                     hint: "000",
+                                                    type: "kvt",
                                                   )
                                                 ],
                                               ),
@@ -140,6 +143,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     textController: controllerDlList[2],
                                                     formatter: MaskTextInputFormatter(mask: "###"),
                                                     hint: "000",
+                                                    type: "vt"
                                                   )
                                                 ],
                                               ),
@@ -169,6 +173,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     textController: controllerDlList[2],
                                                     formatter: MaskTextInputFormatter(mask: "###"),
                                                     hint: "000",
+                                                    type: "kvt",
                                                   )
                                                 ],
                                               ),
@@ -185,6 +190,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     textController: controllerDlList[2],
                                                     formatter: MaskTextInputFormatter(mask: "###"),
                                                     hint: "000",
+                                                    type: "vt"
                                                   )
                                                 ],
                                               ),
@@ -243,6 +249,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                         textController: controllerDlList[2],
                                                         formatter: MaskTextInputFormatter(mask: "###"),
                                                         hint: "000",
+                                                        type: "kvt",
                                                       )
                                                     ],
                                                   ),
@@ -259,6 +266,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                         textController: controllerDlList[2],
                                                         formatter: MaskTextInputFormatter(mask: "###"),
                                                         hint: "000",
+                                                        type: "vt",
                                                       )
                                                     ],
                                                   ),
@@ -288,6 +296,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                         textController: controllerDlList[2],
                                                         formatter: MaskTextInputFormatter(mask: "###"),
                                                         hint: "000",
+                                                        type: "kvt",
                                                       )
                                                     ],
                                                   ),
@@ -304,6 +313,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                         textController: controllerDlList[2],
                                                         formatter: MaskTextInputFormatter(mask: "###"),
                                                         hint: "000",
+                                                        type: "vt"
                                                       )
                                                     ],
                                                   ),
@@ -333,6 +343,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                         textController: controllerDlList[2],
                                                         formatter: MaskTextInputFormatter(mask: "###"),
                                                         hint: "000",
+                                                        type: "kvt"
                                                       )
                                                     ],
                                                   ),
@@ -349,6 +360,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                         textController: controllerDlList[2],
                                                         formatter: MaskTextInputFormatter(mask: "###"),
                                                         hint: "000",
+                                                        type: "vt"
                                                       )
                                                     ],
                                                   ),

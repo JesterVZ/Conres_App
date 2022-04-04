@@ -123,6 +123,7 @@ class _RegIP extends State<RegIP> {
                                   textController: controllerList[3],
                                   formatter: MaskTextInputFormatter(mask: "############"),
                                   hint: "000000000000",
+                                  type: "inn",
                                 )
                               ],
                             )),
@@ -139,6 +140,7 @@ class _RegIP extends State<RegIP> {
                                   textController: controllerList[4],
                                   formatter: MaskTextInputFormatter(mask: "###############"),
                                   hint: "000000000000000",
+                                  type: "ofrnip",
                                 )
                               ],
                             )),
@@ -155,6 +157,7 @@ class _RegIP extends State<RegIP> {
                                   textController: controllerList[5],
                                   formatter: MaskTextInputFormatter(mask: "+7 (###) ###-##-##"),
                                   hint: "+7 (___) - ___ - __ - __",
+                                  type: "contacts",
                                 )
                               ],
                             )),
@@ -279,6 +282,7 @@ class _RegIP extends State<RegIP> {
                                                   textController: controllerDlList[3],
                                                   formatter: MaskTextInputFormatter(mask: "+7 (###) ###-##-##"),
                                                   hint: "+7 (___) - ___ - __ - __",
+                                                  type: "phone",
                                                 )
                                               ],
                                             )),

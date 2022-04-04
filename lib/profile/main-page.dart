@@ -32,7 +32,6 @@ class _MainPage extends State<MainPage>{
   int _selectedPage = 0;
   List<Widget> pageList = [];
   late SharedPreferences preferences;
-  AuthBloc? authBloc;
   ProfileBloc? profileBloc;
   WebSocketChannel? webSocketChannel;
   WebSocketData? webSocketData;
@@ -63,7 +62,7 @@ class _MainPage extends State<MainPage>{
             }),
             PopupMenuItem<String>(
                 child: const Text('Выход'), onTap:() {
-                  authBloc!.logout();
+                  profileBloc!.logout();
             }),
           ],
           elevation: 8.0,
@@ -184,7 +183,6 @@ class _MainPage extends State<MainPage>{
   void didChangeDependencies() {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
-    //profileBloc!.getCookies(widget.loginData![0], widget.loginData![1], widget.loginData![2]);
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
     getData();
   }

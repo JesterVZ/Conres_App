@@ -116,6 +116,7 @@ class _RegUL extends State<RegUL> {
                                         formatter: MaskTextInputFormatter(
                                             mask: "############"),
                                         hint: "000000000000",
+                                        type: "inn",
                                       )
                                     ],
                                   )),
@@ -136,6 +137,7 @@ class _RegUL extends State<RegUL> {
                                         formatter: MaskTextInputFormatter(
                                             mask: "###############"),
                                         hint: "000000000000000",
+                                        type: "ofrnip",
                                       )
                                     ],
                                   )),
@@ -156,6 +158,7 @@ class _RegUL extends State<RegUL> {
                                         formatter: MaskTextInputFormatter(
                                             mask: "#########"),
                                         hint: "000000000",
+                                        type: "kpp",
                                       )
                                     ],
                                   )),
@@ -176,6 +179,7 @@ class _RegUL extends State<RegUL> {
                                         formatter: MaskTextInputFormatter(
                                             mask: "+7 (###) ###-##-##"),
                                         hint: "+7 (___) - ___ - __ - __",
+                                        type: "phone",
                                       )
                                     ],
                                   )),
@@ -350,6 +354,7 @@ class _RegUL extends State<RegUL> {
                                                                     "+7 (###) ###-##-##"),
                                                         hint:
                                                             "+7 (___) - ___ - __ - __",
+                                                        type: "phone",
                                                       )
                                                     ],
                                                   )),

@@ -20,3 +20,7 @@ class GetLoginData extends ProfileEvent{
 class GetWebSocketData extends ProfileEvent{
   const GetWebSocketData();
 }
+
+class LogoutEvent extends ProfileEvent{
+  const LogoutEvent();
+}
