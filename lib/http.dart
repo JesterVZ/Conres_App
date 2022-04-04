@@ -10,8 +10,10 @@ import 'model/result-data.dart';
 
 class HttpClient{
   static final String url = protocol + domain + 'lk/index.php?route=common/registration/api';
+  static final String loginUri = protocol + domain + 'lk/index.php?route=common/login/api';
 
   final Dio _apiClient = _getDio(baseUrl: url);
+  final CookieJar _cookieJar = _getCookieJar();
 
   static Dio _getDio({String? baseUrl}) {
     return Dio(BaseOptions(
@@ -19,6 +21,10 @@ class HttpClient{
       connectTimeout: 30000,
       contentType: Headers.jsonContentType,
     ));
+  }
+
+  static CookieJar _getCookieJar(){
+    return CookieJar();
   }
 
   Future<dynamic> register(Object sender) async{
@@ -144,16 +150,14 @@ class HttpClient{
         'username': username,
         'password': password
       });
-      var cookieJar=CookieJar();
-      _apiClient.interceptors.clear();
-      _apiClient.interceptors.add(CookieManager(cookieJar));
+      _apiClient.interceptors.add(CookieManager(_cookieJar));
       final response = await _apiClient.post(uri, data: formData);
       if(response.statusCode == 200){
         if(response.data["code_result"] == 200){
-          final cookies = await cookieJar.loadForRequest(Uri.parse(uri));
+          final cookies = await _cookieJar.loadForRequest(Uri.parse(uri));
           return cookies;
         } else {
-          return "Неверное имя пользователя или пароль!";
+          return "Ошибка получения cookie!";
         }
       }
     } catch(e){
@@ -170,7 +174,7 @@ class HttpClient{
     String pp = cookies[5].value;
     String pd = cookies[6].value;
 
-    String result = '{"cmd":"connect","cookie":"pf=' +
+    String result = '{"cmd":"connect","cookie": "salp0-36=1; salp0-37=1; salp0-38=1; time_offset=5; pf=' +
         pf +
         '; pa=' +
         pa +
@@ -179,7 +183,7 @@ class HttpClient{
         '; pp='
         + pp +
         '; pd='
-        + pd + '"}';
+        + pd + '; currency=RUB; language=ru-ru; _ga=GA1.1.682084980.1646901701; time_offset=5; _ga_4LXS3K46R3=GS1.1.1648636976.49.0.1648637488.0"}';
     return result;
   }
 
@@ -195,6 +199,7 @@ class HttpClient{
       throw Exception(e);
     }
   }
+
 
   Future<Object?> getTestimony() async{
     String uri = protocol + domain + 'lk/index.php?route=catalog/measures/api_form';

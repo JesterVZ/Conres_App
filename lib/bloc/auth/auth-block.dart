@@ -29,9 +29,6 @@ class AuthBloc extends Bloc<Event, AuthState> {
       yield* _handleGetTestimony(event);
     }
 
-    if(event is LogoutEvent){
-      yield* _handleLogoutEvent(event);
-    }
 
   }
   AuthBloc(this.repo) : super(AuthState.initial());
@@ -50,10 +47,6 @@ class AuthBloc extends Bloc<Event, AuthState> {
 
   getTestimony(){
     add(const GetTestimony());
-  }
-
-  logout(){
-    add(const LogoutEvent());
   }
 
   Stream<AuthState> _handleRegisterEvent(RegisterEvent event) async*{
@@ -116,17 +109,6 @@ class AuthBloc extends Bloc<Event, AuthState> {
     }
   }
 
-  Stream<AuthState> _handleLogoutEvent(LogoutEvent event) async*{
-    yield state.copyWith(loading: true, error: null);
-    try{
-      SharedPreferences preferences = await SharedPreferences.getInstance();
-      await logoutFunc(preferences);
-      List<dynamic> emptyLoginData = [];
-      yield state.copyWith(loginData: emptyLoginData, error: null, loading: false);
-    }catch(e){
-      yield state.copyWith(error: e.toString(), loading: false);
-    }
-  }
 
 
 }

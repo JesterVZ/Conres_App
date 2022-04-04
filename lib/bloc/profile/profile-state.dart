@@ -3,8 +3,9 @@ class ProfileState {
   final bool? loading;
   final String? error;
   final List<dynamic>? loginData;
+  final dynamic webSocketData;
 
-  ProfileState({this.loginData, this.cookieStr, this.loading, this.error});
+  ProfileState({this.loginData, this.cookieStr, this.loading, this.error, this.webSocketData});
 
   static initial() => ProfileState(
         cookieStr: null,

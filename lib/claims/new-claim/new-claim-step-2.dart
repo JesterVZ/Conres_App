@@ -123,6 +123,7 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
                                             textController: controllerList[2],
                                             formatter: MaskTextInputFormatter(mask: "##:##:#######:###"),
                                             hint: "00:00:0000000:000",
+                                            type: "kadastr",
                                           )
                                         ],
                                       )),
@@ -203,6 +204,7 @@ class _NewClaimStep2 extends State<NewClaimStep2>{
                                                   textController: controllerDlList[2],
                                                   formatter: MaskTextInputFormatter(mask: "##:##:#######:###"),
                                                   hint: "00:00:0000000:000",
+                                                  type: "kadastr",
                                                 )
                                               ],
                                             )),

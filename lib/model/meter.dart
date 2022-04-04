@@ -4,7 +4,7 @@ class Meter{
  final String? name;
  final String? pu_type_id;
  final String? tariff_type_id;
- final String point_id;
+ final String? point_id;
  final String? pu_number;
  final String? measure_multipler;
  final String? date_revise;

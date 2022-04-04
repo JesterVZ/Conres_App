@@ -23,9 +23,6 @@ class LoginEvent extends Event{
   const LoginEvent(this.username, this.password, this.type);
 }
 
-class LogoutEvent extends Event{
-  const LogoutEvent();
-}
 
 class GetLoginEvent extends Event{
   const GetLoginEvent();

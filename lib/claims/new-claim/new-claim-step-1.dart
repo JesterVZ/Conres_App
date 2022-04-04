@@ -87,10 +87,12 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(seriesPassport),
+
                                       MaskInput(
                                         textController: controllerList[2],
                                         formatter: MaskTextInputFormatter(mask: "####"),
                                         hint: "0000",
+                                        type: "series",
                                       ),
 
                                     ],
@@ -108,6 +110,7 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                         textController: controllerList[3],
                                         formatter: MaskTextInputFormatter(mask: "######"),
                                         hint: "000000",
+                                        type: "number",
                                       )
                                     ],
                                   ),
@@ -145,6 +148,7 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                       textController: controllerList[5],
                                       formatter: MaskTextInputFormatter(mask: "##.##.####"),
                                       hint: "01.01.2020",
+                                      type: "date",
                                     )
                                   ],
                                 )),

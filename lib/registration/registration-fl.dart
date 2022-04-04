@@ -13,6 +13,7 @@ import '../elements/alert.dart';
 import '../elements/header.dart';
 import '../elements/masks.dart';
 import '../model/model.dart';
+import '../validation/validation.dart';
 
 class RegFL extends StatefulWidget {
 
@@ -26,7 +27,9 @@ class RegFL extends StatefulWidget {
 class _RegFL extends State<RegFL> {
   final controllerList = List<TextEditingController>.generate(
       9, (index) => TextEditingController());
-  late bool _agree = false;
+  bool _agree = false;
+  bool _isEmailValidation = false;
+  bool _isPhoneValidation = false;
   AuthBloc? authBloc;
 
   final Widget svg = SvgPicture.asset('assets/background_image.svg',
@@ -122,6 +125,7 @@ class _RegFL extends State<RegFL> {
                                       formatter: MaskTextInputFormatter(
                                           mask: "############"),
                                       hint: "000000000000",
+                                      type: "inn",
                                     )
                                   ],
                                 )),
@@ -139,6 +143,7 @@ class _RegFL extends State<RegFL> {
                                       formatter: MaskTextInputFormatter(
                                           mask: "###-###-###-##"),
                                       hint: "000-000-000-00",
+                                      type: "snils",
                                     )
                                   ],
                                 )),
@@ -156,6 +161,7 @@ class _RegFL extends State<RegFL> {
                                       formatter: MaskTextInputFormatter(
                                           mask: "+7 (###) ###-##-##"),
                                       hint: "+7 (___) - ___ - __ - __",
+                                      type: "phone",
                                     ),
                                   ],
                                 )),
@@ -169,12 +175,25 @@ class _RegFL extends State<RegFL> {
                                         style: TextStyle(
                                             color: colorGray, fontSize: 16.0)),
                                     TextField(
+                                      style: TextStyle(
+                                        color: _isEmailValidation ? Colors.green : Colors.red
+                                      ),
                                       controller: controllerList[6],
                                       decoration: InputDecoration(
                                           hintText: "example@email.ru",
                                           border: OutlineInputBorder(
                                               borderSide: BorderSide(
-                                                  color: inputBorder))),
+                                                  color: borderProfileColor)),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: _isEmailValidation ? Colors.green : Colors.red
+                                        )
+                                      )),
+                                      onChanged: (value){
+                                        setState(() {
+                                          _isEmailValidation = isEmailValidate(value);
+                                        });
+                                      },
                                     )
                                   ],
                                 )),
