@@ -21,6 +21,9 @@ class _MaskInput extends State<MaskInput>{
   bool _isPhoneValidate = false;
   bool _isInnValidate = false;
   bool _isSnilsValidate = false;
+  bool _isOfrnipValidate = false;
+  bool _isEmailValidate = false;
+  bool _isKppValidate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +89,7 @@ class _MaskInput extends State<MaskInput>{
           },
         );
       case "snils":
-          return TextFormField(
+        return TextFormField(
             style: TextStyle(
                 color: _isSnilsValidate ? Colors.green : Colors.red
             ),
@@ -111,6 +114,84 @@ class _MaskInput extends State<MaskInput>{
               });
             },
           );
+      case "ofrnip":
+        return TextFormField(
+          style: TextStyle(
+              color: _isOfrnipValidate ? Colors.green : Colors.red
+          ),
+          controller: textEditingController,
+          inputFormatters: [textInputFormatter],
+          keyboardType: TextInputType.phone,
+          autocorrect: false,
+          autovalidateMode: AutovalidateMode.always,
+          decoration: InputDecoration(
+              hintText: hint,
+              border: OutlineInputBorder(
+                  borderSide:
+                  BorderSide(color: inputBorder)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: _isOfrnipValidate ? Colors.green : Colors.red
+                  ))
+          ),
+          onChanged: (value){
+            setState(() {
+              _isOfrnipValidate = isOgrnipValidate(value);
+            });
+          },
+        );
+      case "email":
+        return TextFormField(
+          style: TextStyle(
+              color: _isEmailValidate ? Colors.green : Colors.red
+          ),
+          controller: textEditingController,
+          inputFormatters: [textInputFormatter],
+          keyboardType: TextInputType.phone,
+          autocorrect: false,
+          autovalidateMode: AutovalidateMode.always,
+          decoration: InputDecoration(
+              hintText: hint,
+              border: OutlineInputBorder(
+                  borderSide:
+                  BorderSide(color: inputBorder)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: _isEmailValidate ? Colors.green : Colors.red
+                  ))
+          ),
+          onChanged: (value){
+            setState(() {
+              _isEmailValidate = isEmailValidate(value);
+            });
+          },
+        );
+      case "kpp":
+        return TextFormField(
+          style: TextStyle(
+              color: _isKppValidate ? Colors.green : Colors.red
+          ),
+          controller: textEditingController,
+          inputFormatters: [textInputFormatter],
+          keyboardType: TextInputType.phone,
+          autocorrect: false,
+          autovalidateMode: AutovalidateMode.always,
+          decoration: InputDecoration(
+              hintText: hint,
+              border: OutlineInputBorder(
+                  borderSide:
+                  BorderSide(color: inputBorder)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: _isKppValidate ? Colors.green : Colors.red
+                  ))
+          ),
+          onChanged: (value){
+            setState(() {
+              _isKppValidate = isKppValidate(value);
+            });
+          },
+        );
     }
     return TextFormField(
       controller: textEditingController,

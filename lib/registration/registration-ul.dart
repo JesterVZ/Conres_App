@@ -13,6 +13,7 @@ import '../elements/alert.dart';
 import '../elements/bloc-screen.dart';
 import '../elements/header.dart';
 import '../elements/masks.dart';
+import '../validation/validation.dart';
 
 class RegUL extends StatefulWidget {
   RegUL({Key? key}) : super(key: key);
@@ -28,6 +29,8 @@ class _RegUL extends State<RegUL> {
       6, (index) => TextEditingController());
   late bool _agree = false;
   late bool _visabillity = false;
+  bool _isEmailValidation = false;
+
   AuthBloc? authBloc;
   void _addNewConfidant() {
     _visabillity = !_visabillity;
@@ -196,12 +199,25 @@ class _RegUL extends State<RegUL> {
                                               color: colorGray,
                                               fontSize: 16.0)),
                                       TextField(
+                                        style: TextStyle(
+                                            color: _isEmailValidation ? Colors.green : Colors.red
+                                        ),
                                         controller: controllerList[6],
                                         decoration: InputDecoration(
                                             hintText: "example@email.ru",
                                             border: OutlineInputBorder(
                                                 borderSide: BorderSide(
-                                                    color: inputBorder))),
+                                                    color: borderProfileColor)),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: _isEmailValidation ? Colors.green : Colors.red
+                                                )
+                                            )),
+                                        onChanged: (value){
+                                          setState(() {
+                                            _isEmailValidation = isEmailValidate(value);
+                                          });
+                                        },
                                       )
                                     ],
                                   )),
@@ -374,16 +390,25 @@ class _RegUL extends State<RegUL> {
                                                               color: colorGray,
                                                               fontSize: 16.0)),
                                                       TextField(
-                                                        controller:
-                                                            controllerDlList[4],
+                                                        style: TextStyle(
+                                                            color: _isEmailValidation ? Colors.green : Colors.red
+                                                        ),
+                                                        controller: controllerList[6],
                                                         decoration: InputDecoration(
-                                                            hintText:
-                                                                "example@email.ru",
+                                                            hintText: "example@email.ru",
                                                             border: OutlineInputBorder(
-                                                                borderSide:
-                                                                    BorderSide(
-                                                                        color:
-                                                                            inputBorder))),
+                                                                borderSide: BorderSide(
+                                                                    color: borderProfileColor)),
+                                                            focusedBorder: OutlineInputBorder(
+                                                                borderSide: BorderSide(
+                                                                    color: _isEmailValidation ? Colors.green : Colors.red
+                                                                )
+                                                            )),
+                                                        onChanged: (value){
+                                                          setState(() {
+                                                            _isEmailValidation = isEmailValidate(value);
+                                                          });
+                                                        },
                                                       )
                                                     ],
                                                   )),
