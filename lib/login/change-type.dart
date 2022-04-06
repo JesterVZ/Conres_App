@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../consts.dart';
-import '../elements/header.dart';
+import '../elements/header/header.dart';
 import 'login-account.dart';
 
 class ChangeType extends StatefulWidget {

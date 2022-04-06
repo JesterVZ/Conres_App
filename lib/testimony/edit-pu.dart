@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../consts.dart';
 import '../elements/dropdown.dart';
-import '../elements/header-notification.dart';
+import '../elements/header/header-notification.dart';
 
 class EditPU extends StatefulWidget{
   @override

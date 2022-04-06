@@ -1,4 +1,4 @@
-import 'package:conres_app/elements/header.dart';
+import 'package:conres_app/elements/header/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,8 +7,8 @@ import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../consts.dart';
-import '../elements/bloc-screen.dart';
-import '../elements/header-notification.dart';
+import '../elements/bloc/bloc-screen.dart';
+import '../elements/header/header-notification.dart';
 import '../icons.dart';
 import '../model/profile.dart';
 import '../testimony/link-pu.dart';

@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../consts.dart';
+import '../../consts.dart';
+
 
 class TestimonyDialog extends StatelessWidget{
   String time;

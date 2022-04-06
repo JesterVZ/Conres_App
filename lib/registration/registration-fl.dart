@@ -1,4 +1,4 @@
-import 'package:conres_app/elements/bloc-screen.dart';
+import 'package:conres_app/elements/bloc/bloc-screen.dart';
 import 'package:conres_app/registration/seccessful-registration.dart';
 import 'package:conres_app/registration/validate.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +10,7 @@ import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../consts.dart';
 import '../elements/alert.dart';
-import '../elements/header.dart';
+import '../elements/header/header.dart';
 import '../elements/masks.dart';
 import '../model/model.dart';
 import '../validation/validation.dart';
