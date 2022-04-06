@@ -139,8 +139,11 @@ class _LoginEmail extends State<LoginEmail> {
       widget.isLoading = false;
     }
     if (state.error == null) {
-      print(state.loginData);
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainPage(profile: state.profile)), (route) => false);
+l      print(state.loginData);
+      Navigator.pushAndRemoveUntil(context,
+          PageRouteBuilder(pageBuilder: (context, animation1, animation2) => MainPage(profile: state.profile),
+          transitionDuration: Duration.zero,
+          reverseTransitionDuration: Duration.zero));
     } else {
       showDialog(
           context: context,
