@@ -9,6 +9,7 @@ import '../consts.dart';
 import '../elements/alert.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/header/header.dart';
+import '../elements/route/def-page-router.dart';
 import '../profile/main-page.dart';
 
 class LoginEmail extends StatefulWidget {
@@ -139,11 +140,8 @@ class _LoginEmail extends State<LoginEmail> {
       widget.isLoading = false;
     }
     if (state.error == null) {
-l      print(state.loginData);
-      Navigator.pushAndRemoveUntil(context,
-          PageRouteBuilder(pageBuilder: (context, animation1, animation2) => MainPage(profile: state.profile),
-          transitionDuration: Duration.zero,
-          reverseTransitionDuration: Duration.zero));
+      print(state.loginData);
+      Navigator.of(context).pushAndRemoveUntil(DefaultPageRouter(MainPage(profile: state.profile)), (route) => false);
     } else {
       showDialog(
           context: context,

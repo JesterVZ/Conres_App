@@ -9,8 +9,6 @@ class DefaultPageRouter extends PageRouteBuilder{
       return widget;
     },
     transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondAnimation, Widget child){
-      return FadeTr
-    }
-    )
-  )
+      return child;
+    });
 }
