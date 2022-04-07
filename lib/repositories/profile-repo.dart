@@ -16,4 +16,8 @@ class ProfileRepo{
       return result;
     }
   }
+  Future<dynamic> bindLs(String number, String address) async{
+    var result = await httpClient.bindNewLS(number, address);
+    return result;
+  }
 }

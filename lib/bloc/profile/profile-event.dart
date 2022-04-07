@@ -24,3 +24,9 @@ class GetWebSocketData extends ProfileEvent{
 class LogoutEvent extends ProfileEvent{
   const LogoutEvent();
 }
+
+class BindNewLS extends ProfileEvent{
+  final String number;
+  final String address;
+  const BindNewLS(this.number, this.address);
+}

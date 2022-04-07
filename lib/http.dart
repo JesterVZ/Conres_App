@@ -27,6 +27,23 @@ class HttpClient{
     return CookieJar();
   }
 
+  Future<dynamic> bindNewLS(String accountNumber, String accountAddress) async{
+    String uri = protocol + domain + 'lk/index.php?route=catalog/account_binding/api_bind_request';
+    try{
+      var formData = FormData.fromMap({
+        'account_bind_number': accountNumber,
+        'account_bind_address': accountAddress
+      });
+      final result = await _apiClient.post(uri, data: formData);
+      if(result.statusCode == 200){
+        print(result);
+        return ResultData.fromMap(result.data);
+      }
+    }catch(e){
+      throw Exception(e);
+    }
+  }
+
   Future<dynamic> register(Object sender) async{
     if(sender is Fl){
       try{
@@ -199,7 +216,6 @@ class HttpClient{
       throw Exception(e);
     }
   }
-
 
   Future<Object?> getTestimony() async{
     String uri = protocol + domain + 'lk/index.php?route=catalog/measures/api_form';

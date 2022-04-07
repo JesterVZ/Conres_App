@@ -1,28 +1,33 @@
+import 'package:conres_app/model/result-data.dart';
+
 class ProfileState {
   final String? cookieStr;
   final bool? loading;
   final String? error;
   final List<dynamic>? loginData;
   final dynamic webSocketData;
+  final ResultData? bindLsData;
 
-  ProfileState({this.loginData, this.cookieStr, this.loading, this.error, this.webSocketData});
+  ProfileState(
+      {this.loginData,
+      this.cookieStr,
+      this.loading,
+      this.error,
+      this.webSocketData,
+      this.bindLsData});
 
-  static initial() => ProfileState(
-        cookieStr: null,
-        loading: null,
-        error: null
-      );
-  ProfileState copyWith({
-    String? cookieStr,
-    bool? loading,
-    List<dynamic>? loginData,
-    String? error
-  }){
+  static initial() => ProfileState(cookieStr: null, loading: null, error: null);
+  ProfileState copyWith(
+      {String? cookieStr,
+      bool? loading,
+      List<dynamic>? loginData,
+      ResultData? bindLsData,
+      String? error}) {
     return ProfileState(
-      error: error,
-      loading: loading ?? this.loading,
-      cookieStr: cookieStr ?? this.cookieStr,
-      loginData: loginData ?? this.loginData
-    );
+        error: error,
+        loading: loading ?? this.loading,
+        cookieStr: cookieStr ?? this.cookieStr,
+        loginData: loginData ?? this.loginData,
+        bindLsData: bindLsData ?? this.bindLsData);
   }
 }

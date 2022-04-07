@@ -275,7 +275,7 @@ class _Contracts extends State<Contracts>{
           height: 55,
           child: ElevatedButton(
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder:  (context) =>  const NewLS()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const NewLS()));
             },
             child: Text(linkNewLs, style: buttonTextStyle),
             style: ElevatedButton.styleFrom(
@@ -284,7 +284,7 @@ class _Contracts extends State<Contracts>{
             )
             ),
           ),
-        ),)
+        ))
           ],
         ))
 
