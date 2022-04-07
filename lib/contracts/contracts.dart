@@ -26,8 +26,8 @@ class _Contracts extends State<Contracts>{
     builder: (context, state) {
       return Scaffold(
           body: Stack(
+            fit: StackFit.expand,
             children: [
-              Expanded(child:
               SingleChildScrollView(
                   child: Column(
                     children: [
@@ -52,7 +52,7 @@ class _Contracts extends State<Contracts>{
                           ))
                     ],
                   )
-              )),
+              ),
               Positioned(
                   width: MediaQuery.of(context).size.width,
                   bottom: 12,
