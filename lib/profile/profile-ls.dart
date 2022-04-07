@@ -1,3 +1,4 @@
+import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/elements/header/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePage extends State<ProfilePage> {
   AuthBloc? authBloc;
+  ProfileBloc? profileBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,7 @@ class _ProfilePage extends State<ProfilePage> {
     if(state.loading == true){
       return;
     }
+
 
     if(state.profile != null){
       setState(() {
@@ -261,6 +264,7 @@ class _ProfilePage extends State<ProfilePage> {
                 ],
               )),
         );
+        profileBloc!.getContracts();
       });
     }
   }
@@ -268,6 +272,8 @@ class _ProfilePage extends State<ProfilePage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     authBloc ??= DependencyProvider.of(context)!.authBloc;
+    profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+
     if(widget.profile != null){
       widget.content = Scaffold(
         body: Padding(
@@ -480,6 +486,7 @@ class _ProfilePage extends State<ProfilePage> {
     }
     if(widget.loginData != null){
       authBloc!.login(widget.loginData![0], widget.loginData![1], widget.loginData![2]);
+
     }
   }
 

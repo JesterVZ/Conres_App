@@ -30,3 +30,7 @@ class BindNewLS extends ProfileEvent{
   final String address;
   const BindNewLS(this.number, this.address);
 }
+
+class GetContracts extends ProfileEvent{
+  const GetContracts();
+}

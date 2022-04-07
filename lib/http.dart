@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 import 'consts.dart';
+import 'model/contract.dart';
 import 'model/meter.dart';
 import 'model/model.dart';
 import 'model/result-data.dart';
@@ -244,6 +245,23 @@ class HttpClient{
     }catch(e){
       print(e);
       return null;
+    }
+  }
+
+  Future<dynamic> getContracts() async{
+    String uri = protocol + domain + 'lk/index.php?route=contracts/contracts/api_list';
+    try{
+      final result = await _apiClient.post(uri);
+      List<Contract> contracts = [];
+      if(result.statusCode == 200){
+        for(int i = 0; i < result.data['data']['accounts'].length; i++){
+          Contract thisContract = Contract.fromMap(result.data['data']['accounts'][i]);
+          contracts.add(thisContract);
+        }
+        return contracts;
+      }
+    }catch(e){
+      return e.toString();
     }
   }
 

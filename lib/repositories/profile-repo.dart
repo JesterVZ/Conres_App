@@ -20,4 +20,8 @@ class ProfileRepo{
     var result = await httpClient.bindNewLS(number, address);
     return result;
   }
+  Future<dynamic> getContracts() async{
+    var result = await httpClient.getContracts();
+    return result;
+  }
 }
