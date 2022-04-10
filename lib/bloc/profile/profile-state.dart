@@ -8,6 +8,7 @@ class ProfileState {
   final String? error;
   final List<dynamic>? loginData;
   final List<Contract>? contracts;
+  final List<String>? numbers;
   final dynamic webSocketData;
   final ResultData? bindLsData;
 
@@ -18,7 +19,8 @@ class ProfileState {
       this.error,
       this.webSocketData,
       this.bindLsData,
-      this.contracts});
+      this.contracts,
+      this.numbers});
 
   static initial() => ProfileState(cookieStr: null, loading: null, error: null);
   ProfileState copyWith(
@@ -27,6 +29,7 @@ class ProfileState {
       List<dynamic>? loginData,
       ResultData? bindLsData,
       List<Contract>? contracts,
+      List<String>? numbers,
       String? error}) {
     return ProfileState(
         error: error,
@@ -34,6 +37,7 @@ class ProfileState {
         cookieStr: cookieStr ?? this.cookieStr,
         loginData: loginData ?? this.loginData,
         bindLsData: bindLsData ?? this.bindLsData,
-        contracts: contracts ?? this.contracts);
+        contracts: contracts ?? this.contracts,
+        numbers: numbers ?? this.numbers);
   }
 }

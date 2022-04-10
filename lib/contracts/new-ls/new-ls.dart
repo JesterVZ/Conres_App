@@ -26,79 +26,84 @@ class _NewLS extends State<NewLS>{
         bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
     builder: (context, state) {
-      return Scaffold(
-          body: Padding(padding: EdgeInsets.fromLTRB(19, 59, 19, 23),
-              child:
-              Stack(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      HeaderRow(newLs, 24, true),
-                      Container(margin: const EdgeInsets.fromLTRB(0, 25, 0, 10),
-                        child: Text(linkNewLs, style: claimTextStyle),),
-                      Container(
-                          margin: EdgeInsets.fromLTRB(0, 0, 0, 12),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(numberLS,
-                                  style: labelTextStyle),
-                              TextField(
-                                controller: lsController,
-                                decoration: InputDecoration(
-                                  hintText: "000000000",
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: inputBorder))),
-                              )
-                            ],
-                          )
-                      ),
-
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(objectAddress,
-                              style: labelTextStyle),
-                          TextField(
-                            controller: addressController,
-                            decoration: InputDecoration(
-                              hintText: "Город, Улица, Дом, Квартира",
-                                border: OutlineInputBorder(
-                                    borderSide:
-                                    BorderSide(color: inputBorder))),
-                          )
-                        ],
-                      ),
-
-
-                    ],
-                  ),
-                  Positioned(
-                      width: MediaQuery.of(context).size.width - 44,
-                      bottom: 0,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 55,
-                        child: ElevatedButton(
-                          onPressed: (){
-                            profileBloc!.bindNewLS(lsController.text, addressController.text);
-                          },
-                          child: Text(sendLinkRequest, style: buttonTextStyle),
-                          style: ElevatedButton.styleFrom(
-                              primary: colorMain,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)
-                              )
-                          ),
+      return GestureDetector(
+        onTap: (){
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Scaffold(
+            body: Padding(padding: EdgeInsets.fromLTRB(19, 59, 19, 23),
+                child:
+                Stack(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        HeaderRow(newLs, 24, true),
+                        Container(margin: const EdgeInsets.fromLTRB(0, 25, 0, 10),
+                          child: Text(linkNewLs, style: claimTextStyle),),
+                        Container(
+                            margin: EdgeInsets.fromLTRB(0, 0, 0, 12),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(numberLS,
+                                    style: labelTextStyle),
+                                TextField(
+                                  controller: lsController,
+                                  decoration: InputDecoration(
+                                      hintText: "000000000",
+                                      border: OutlineInputBorder(
+                                          borderSide:
+                                          BorderSide(color: inputBorder))),
+                                )
+                              ],
+                            )
                         ),
-                      ))
-                ],
-              ))
+
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(objectAddress,
+                                style: labelTextStyle),
+                            TextField(
+                              controller: addressController,
+                              decoration: InputDecoration(
+                                  hintText: "Город, Улица, Дом, Квартира",
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                      BorderSide(color: inputBorder))),
+                            )
+                          ],
+                        ),
+
+
+                      ],
+                    ),
+                    Positioned(
+                        width: MediaQuery.of(context).size.width - 44,
+                        bottom: 0,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 55,
+                          child: ElevatedButton(
+                            onPressed: (){
+                              profileBloc!.bindNewLS(lsController.text, addressController.text);
+                            },
+                            child: Text(sendLinkRequest, style: buttonTextStyle),
+                            style: ElevatedButton.styleFrom(
+                                primary: colorMain,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)
+                                )
+                            ),
+                          ),
+                        ))
+                  ],
+                ))
+        ),
       );
     });
 

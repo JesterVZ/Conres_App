@@ -265,4 +265,20 @@ class HttpClient{
     }
   }
 
+  Future<Object?> getLinkedNumbers() async{
+    String uri = protocol + domain + 'lk/index.php?route=common/api/api_getInfo';
+    try{
+      final result = await _apiClient.post(uri);
+      if(result.statusCode == 200){
+        List<String> numbers = [];
+        for(int i = 0; i < result.data['data']['accounts_lk'].length; i++){
+          numbers.add(result.data['data']['accounts_lk'][i]['account_number']);
+        }
+        return numbers;
+      }
+    }catch(e){
+      print(e);
+    }
+  }
+
 }

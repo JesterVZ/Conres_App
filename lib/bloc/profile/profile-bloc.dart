@@ -31,6 +31,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
     if(event is GetContracts){
       yield* _handleGetContracts(event);
     }
+    if(event is GetNumbers){
+      yield* _handleGetNumbers(event);
+    }
   }
 
   ProfileBloc(this.repo) : super(ProfileState.initial());
@@ -57,6 +60,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
 
   getContracts(){
     add(const GetContracts());
+  }
+
+  getNumbers(){
+    add(const GetNumbers());
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async*{
@@ -119,6 +126,18 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
       Object result = await repo.getContracts();
       if(result is List<Contract>){
         yield state.copyWith(loading: false, error: null, contracts: result);
+      }
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleGetNumbers(GetNumbers event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      Object result = await repo.getNumbers();
+      if(result is List<String>){
+        yield state.copyWith(loading: false, error: null, numbers: result);
       }
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());

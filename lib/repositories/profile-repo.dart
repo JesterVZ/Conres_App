@@ -24,4 +24,8 @@ class ProfileRepo{
     var result = await httpClient.getContracts();
     return result;
   }
+  Future<dynamic> getNumbers() async{
+    var result = await httpClient.getLinkedNumbers();
+    return result;
+  }
 }

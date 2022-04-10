@@ -34,3 +34,7 @@ class BindNewLS extends ProfileEvent{
 class GetContracts extends ProfileEvent{
   const GetContracts();
 }
+
+class GetNumbers extends ProfileEvent{
+  const GetNumbers();
+}
