@@ -8,9 +8,9 @@ import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../consts.dart';
-import '../elements/bloc-screen.dart';
-import '../elements/header-notification.dart';
-import '../elements/testimony.dart';
+import '../elements/bloc/bloc-screen.dart';
+import '../elements/header/header-notification.dart';
+import '../elements/testimony/testimony.dart';
 
 class SendTestimony extends StatefulWidget {
   @override

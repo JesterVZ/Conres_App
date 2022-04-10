@@ -1,4 +1,5 @@
-import 'package:conres_app/elements/header.dart';
+import 'package:conres_app/bloc/profile/profile-bloc.dart';
+import 'package:conres_app/elements/header/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,12 +8,13 @@ import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../consts.dart';
-import '../elements/bloc-screen.dart';
-import '../elements/header-notification.dart';
+import '../elements/bloc/bloc-screen.dart';
+import '../elements/header/header-notification.dart';
 import '../icons.dart';
 import '../model/profile.dart';
 import '../testimony/link-pu.dart';
 import '../testimony/send-testimony.dart';
+import 'change-ls.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key? key, this.profile, this.loginData}) : super(key: key);
@@ -34,6 +36,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePage extends State<ProfilePage> {
   AuthBloc? authBloc;
+  ProfileBloc? profileBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -63,44 +66,49 @@ class _ProfilePage extends State<ProfilePage> {
                       HeaderNotification(profile),
                       Visibility(
                           visible: widget.profile!.personal != null ? true : false,
-                          child: Container(
-                            margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-                            decoration: BoxDecoration(
-                                color: profileColor,
-                                border: Border.all(color: borderProfileColor),
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Padding(
-                                padding: EdgeInsets.fromLTRB(19, 14, 19, 14),
-                                child: Row(
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(ls,
-                                            style: TextStyle(
-                                                color: profileLabelColor,
-                                                fontSize: 15)),
-                                        Text(widget.profile!.personal!,
-                                            style: const TextStyle(
-                                                color: Colors.black, fontSize: 18))
-                                      ],
-                                    ),
-                                    const Spacer(),
-                                    Container(
-                                      width: 32,
-                                      height: 32,
-                                      decoration: BoxDecoration(
-                                          color: lsButtonColor,
-                                          shape: BoxShape.circle
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => ChangeLs()));
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+                              decoration: BoxDecoration(
+                                  color: profileColor,
+                                  border: Border.all(color: borderProfileColor),
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Padding(
+                                  padding: EdgeInsets.fromLTRB(19, 14, 19, 14),
+                                  child: Row(
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(ls,
+                                              style: TextStyle(
+                                                  color: profileLabelColor,
+                                                  fontSize: 15)),
+                                          Text(widget.profile!.personal!,
+                                              style: const TextStyle(
+                                                  color: Colors.black, fontSize: 18))
+                                        ],
                                       ),
-                                      child: Padding(
-                                        padding: EdgeInsets.fromLTRB(13, 9, 11, 9),
-                                        child: SvgPicture.asset("assets/ls-right-arrow.svg", color: colorMain,),
-                                      ),
-                                    )
-                                  ],
-                                )),
+                                      const Spacer(),
+                                      Container(
+                                        width: 32,
+                                        height: 32,
+                                        decoration: BoxDecoration(
+                                            color: lsButtonColor,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.fromLTRB(13, 9, 11, 9),
+                                          child: SvgPicture.asset("assets/ls-right-arrow.svg", color: colorMain,),
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                            ),
                           )
                       ),
 
@@ -261,6 +269,7 @@ class _ProfilePage extends State<ProfilePage> {
                 ],
               )),
         );
+        profileBloc!.getContracts();
       });
     }
   }
@@ -268,6 +277,8 @@ class _ProfilePage extends State<ProfilePage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     authBloc ??= DependencyProvider.of(context)!.authBloc;
+    profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+
     if(widget.profile != null){
       widget.content = Scaffold(
         body: Padding(
@@ -480,6 +491,7 @@ class _ProfilePage extends State<ProfilePage> {
     }
     if(widget.loginData != null){
       authBloc!.login(widget.loginData![0], widget.loginData![1], widget.loginData![2]);
+
     }
   }
 

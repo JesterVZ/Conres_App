@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../consts.dart';
+import '../../consts.dart';
 
 class HeaderRow extends StatelessWidget {
   late String _text = "";

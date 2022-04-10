@@ -14,7 +14,7 @@ import '../chats/chats.dart';
 import '../claims/claims.dart';
 import '../claims/new-claim/new-claim-step-1.dart';
 import '../consts.dart';
-import '../elements/bloc-screen.dart';
+import '../elements/bloc/bloc-screen.dart';
 import '../icons.dart';
 import '../login/login-main.dart';
 import '../model/profile.dart';

@@ -7,8 +7,9 @@ import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../consts.dart';
 import '../elements/alert.dart';
-import '../elements/bloc-screen.dart';
-import '../elements/header.dart';
+import '../elements/bloc/bloc-screen.dart';
+import '../elements/header/header.dart';
+import '../elements/route/def-page-router.dart';
 import '../profile/main-page.dart';
 
 class LoginEmail extends StatefulWidget {
@@ -140,7 +141,7 @@ class _LoginEmail extends State<LoginEmail> {
     }
     if (state.error == null) {
       print(state.loginData);
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainPage(profile: state.profile)), (route) => false);
+      Navigator.of(context).pushAndRemoveUntil(DefaultPageRouter(MainPage(profile: state.profile)), (route) => false);
     } else {
       showDialog(
           context: context,

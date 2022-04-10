@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../consts.dart';
-import '../notification/notification-list.dart';
+import '../../consts.dart';
+import '../../notification/notification-list.dart';
+
 
 class HeaderNotification extends StatelessWidget{
   late String _text = "";

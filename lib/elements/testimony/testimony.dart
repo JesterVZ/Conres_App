@@ -1,10 +1,10 @@
-import 'package:conres_app/elements/testimony-dialog.dart';
+import 'package:conres_app/elements/testimony/testimony-dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../consts.dart';
-import '../model/meter.dart';
+import '../../consts.dart';
+import '../../model/meter.dart';
 
 class Testimony extends StatelessWidget {
   final Meter meter;

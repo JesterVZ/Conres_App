@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 import 'consts.dart';
+import 'model/contract.dart';
 import 'model/meter.dart';
 import 'model/model.dart';
 import 'model/result-data.dart';
@@ -25,6 +26,23 @@ class HttpClient{
 
   static CookieJar _getCookieJar(){
     return CookieJar();
+  }
+
+  Future<dynamic> bindNewLS(String accountNumber, String accountAddress) async{
+    String uri = protocol + domain + 'lk/index.php?route=catalog/account_binding/api_bind_request';
+    try{
+      var formData = FormData.fromMap({
+        'account_bind_number': accountNumber,
+        'account_bind_address': accountAddress
+      });
+      final result = await _apiClient.post(uri, data: formData);
+      if(result.statusCode == 200){
+        print(result);
+        return ResultData.fromMap(result.data);
+      }
+    }catch(e){
+      throw Exception(e);
+    }
   }
 
   Future<dynamic> register(Object sender) async{
@@ -200,7 +218,6 @@ class HttpClient{
     }
   }
 
-
   Future<Object?> getTestimony() async{
     String uri = protocol + domain + 'lk/index.php?route=catalog/measures/api_form';
     try{
@@ -228,6 +245,39 @@ class HttpClient{
     }catch(e){
       print(e);
       return null;
+    }
+  }
+
+  Future<dynamic> getContracts() async{
+    String uri = protocol + domain + 'lk/index.php?route=contracts/contracts/api_list';
+    try{
+      final result = await _apiClient.post(uri);
+      List<Contract> contracts = [];
+      if(result.statusCode == 200){
+        for(int i = 0; i < result.data['data']['accounts'].length; i++){
+          Contract thisContract = Contract.fromMap(result.data['data']['accounts'][i]);
+          contracts.add(thisContract);
+        }
+        return contracts;
+      }
+    }catch(e){
+      return e.toString();
+    }
+  }
+
+  Future<Object?> getLinkedNumbers() async{
+    String uri = protocol + domain + 'lk/index.php?route=common/api/api_getInfo';
+    try{
+      final result = await _apiClient.post(uri);
+      if(result.statusCode == 200){
+        List<String> numbers = [];
+        for(int i = 0; i < result.data['data']['accounts_lk'].length; i++){
+          numbers.add(result.data['data']['accounts_lk'][i]['account_number']);
+        }
+        return numbers;
+      }
+    }catch(e){
+      print(e);
     }
   }
 

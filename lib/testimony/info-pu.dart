@@ -4,7 +4,7 @@ import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../elements/MeterInfo.dart';
-import '../elements/bloc-screen.dart';
+import '../elements/bloc/bloc-screen.dart';
 
 class InfoPU extends StatefulWidget {
   @override
