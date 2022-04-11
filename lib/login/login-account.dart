@@ -139,7 +139,7 @@ class _LoginEmail extends State<LoginEmail> {
     } else {
       widget.isLoading = false;
     }
-    if (state.error == null) {
+    if(state.error == null) {
       print(state.loginData);
       Navigator.of(context).pushAndRemoveUntil(DefaultPageRouter(MainPage(profile: state.profile)), (route) => false);
     } else {

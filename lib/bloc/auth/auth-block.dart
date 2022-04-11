@@ -41,12 +41,40 @@ class AuthBloc extends Bloc<Event, AuthState> {
     add(LoginEvent(username, password, type));
   }
 
-   getLogin(){
+  getLogin(){
     add(const GetLoginEvent());
   }
 
   getTestimony(){
     add(const GetTestimony());
+  }
+
+  getCookies(String username, String password, int type){
+    add(GetCookieStrEvent(username, password, type));
+  }
+
+  getLoginData(){
+    add(const GetLoginData());
+  }
+
+  getWebSocketData(){
+    add(const GetWebSocketData());
+  }
+
+  logout(){
+    add(const LogoutEvent());
+  }
+
+  bindNewLS(String number, String address){
+    add(BindNewLS(number, address));
+  }
+
+  getContracts(){
+    add(const GetContracts());
+  }
+
+  getNumbers(){
+    add(const GetNumbers());
   }
 
   Stream<AuthState> _handleRegisterEvent(RegisterEvent event) async*{

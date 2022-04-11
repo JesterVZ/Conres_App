@@ -168,6 +168,7 @@ class HttpClient{
         'username': username,
         'password': password
       });
+      _apiClient.interceptors.clear();
       _apiClient.interceptors.add(CookieManager(_cookieJar));
       final response = await _apiClient.post(uri, data: formData);
       if(response.statusCode == 200){

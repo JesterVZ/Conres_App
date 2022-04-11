@@ -63,6 +63,7 @@ class _MainPage extends State<MainPage>{
             PopupMenuItem<String>(
                 child: const Text('Выход'), onTap:() {
                   profileBloc!.logout();
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
             }),
           ],
           elevation: 8.0,
@@ -137,7 +138,6 @@ class _MainPage extends State<MainPage>{
                         child: Text(ticketCounter.toString(), style: const TextStyle(
                             color: Colors.white,
                             fontSize: 10
-
                         ),
                           textAlign: TextAlign.center,),
                       ),
@@ -163,11 +163,12 @@ class _MainPage extends State<MainPage>{
     if(state.loading == true){
       return;
     }
-    if(state.loginData!.isEmpty){
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
-    }
+
     if(state.cookieStr != null){
       webSocketChannel!.sink.add(state.cookieStr);
+      if(state.loginData!.isEmpty){
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
+      }
     }
   }
   void getData() async{
