@@ -1,5 +1,4 @@
 import 'package:conres_app/bloc/auth/auth-block.dart';
-import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/http.dart';
 import 'package:conres_app/repositories/auth-repo.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +11,6 @@ import '../repositories/profile-repo.dart';
 class DependencyProvider extends InheritedWidget{
   HttpClient? _httpClient;
   AuthBloc? _authBloc;
-  ProfileBloc? _profileBloc;
   AuthRepo? _authRepo;
   ProfileRepo? _profileRepo;
   SharedPreferences? _sharedPreferences;
@@ -51,15 +49,9 @@ class DependencyProvider extends InheritedWidget{
     return _authBloc!;
   }
 
-  ProfileBloc get profileBloc{
-    _profileBloc ??= ProfileBloc(profileRepo);
-    return _profileBloc!;
-  }
-
   static DependencyProvider? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<DependencyProvider>();
   }
-
 
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) => true;

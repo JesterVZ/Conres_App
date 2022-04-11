@@ -137,4 +137,81 @@ class AuthBloc extends Bloc<Event, AuthState> {
     }
   }
 
+  Stream<AuthState> _handleGetCookies(GetCookieStrEvent event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      String result = await repo.getCookie(event.username, event.password, event.type);
+
+      yield state.copyWith(loading: false, error: null, cookieStr: result);
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+  Stream<AuthState> _handleGetData(GetLoginData event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      Object result = await repo.loginData();
+      if(result is List<dynamic>){
+        yield state.copyWith(loading: false, error: null, loginData: result);
+      }
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+  Stream<AuthState> _handleGetWebSocketData(GetWebSocketData event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+  Stream<AuthState> _handleLogout(LogoutEvent event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await logoutFunc(preferences);
+      List<dynamic> emptyLoginData = [];
+      yield state.copyWith(loginData: emptyLoginData, error: null, loading: false);
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+
+  }
+
+  Stream<AuthState> _handleBindNewLS(BindNewLS event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      Object result = await repo.bindLs(event.number, event.address);
+      if(result is ResultData){
+        yield state.copyWith(loading: false, error: null, bindLsData: result);
+      }
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<AuthState> _handleGetContracts(GetContracts event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      Object result = await repo.getContracts();
+      if(result is List<Contract>){
+        yield state.copyWith(loading: false, error: null, contracts: result);
+      }
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<AuthState> _handleGetNumbers(GetNumbers event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      Object result = await repo.getNumbers();
+      if(result is List<String>){
+        yield state.copyWith(loading: false, error: null, numbers: result);
+      }
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
 }

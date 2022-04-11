@@ -1,6 +1,5 @@
 import 'dart:convert';
-import 'package:conres_app/bloc/profile/profile-bloc.dart';
-import 'package:conres_app/bloc/profile/profile-state.dart';
+import 'package:conres_app/bloc/auth/auth-state.dart';
 import 'package:conres_app/contracts/contracts.dart';
 import 'package:conres_app/profile/profile-ls.dart';
 import 'package:conres_app/testimony/info-pu.dart';
@@ -32,7 +31,7 @@ class _MainPage extends State<MainPage>{
   int _selectedPage = 0;
   List<Widget> pageList = [];
   late SharedPreferences preferences;
-  ProfileBloc? profileBloc;
+  AuthBloc? authBloc;
   WebSocketChannel? webSocketChannel;
   WebSocketData? webSocketData;
   int? ticketCounter;
@@ -62,7 +61,7 @@ class _MainPage extends State<MainPage>{
             }),
             PopupMenuItem<String>(
                 child: const Text('Выход'), onTap:() {
-                  profileBloc!.logout();
+                  authBloc!.logout();
                   Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
             }),
           ],
@@ -98,8 +97,8 @@ class _MainPage extends State<MainPage>{
 
   @override
   Widget build(BuildContext context) {
-    return BlocScreen<ProfileBloc, ProfileState>(
-        bloc: profileBloc,
+    return BlocScreen<AuthBloc, AuthState>(
+        bloc: authBloc,
         listener: (context, state) => _listener(context, state),
     builder: (context, state) {
       return Scaffold(
@@ -159,16 +158,17 @@ class _MainPage extends State<MainPage>{
 
   }
 
-  _listener(BuildContext context, ProfileState state){
+  _listener(BuildContext context, AuthState state){
     if(state.loading == true){
       return;
     }
 
     if(state.cookieStr != null){
       webSocketChannel!.sink.add(state.cookieStr);
-      if(state.loginData!.isEmpty){
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
-      }
+
+    }
+    if(state.loginData!.isEmpty){
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
     }
   }
   void getData() async{
@@ -183,7 +183,7 @@ class _MainPage extends State<MainPage>{
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    authBloc ??= DependencyProvider.of(context)!.authBloc;
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
     getData();
   }
