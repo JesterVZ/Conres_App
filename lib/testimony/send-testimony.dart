@@ -13,6 +13,10 @@ import '../elements/header/header-notification.dart';
 import '../elements/testimony/testimony.dart';
 
 class SendTestimony extends StatefulWidget {
+  final String? personal;
+
+  const SendTestimony({required this.personal});
+
   @override
   State<StatefulWidget> createState() => _SendTestimony();
 }
@@ -46,11 +50,11 @@ class _SendTestimony extends State<SendTestimony> {
                     Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.fromLTRB(21, 58, 21, 54),
+                          padding: const EdgeInsets.fromLTRB(21, 58, 21, 54),
                           child: Column(
                             children: [
                               Container(
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 14),
+                                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 14),
                                   child: HeaderNotification(sendTestimony)),
                               Container(
                                   width: MediaQuery.of(context).size.width,
@@ -68,16 +72,16 @@ class _SendTestimony extends State<SendTestimony> {
                                           Column(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: const [
-                                              Text("Текущий Лицевой счёт",
+                                            children: [
+                                              const Text("Текущий Лицевой счёт",
                                                   style: TextStyle(
                                                       color: Colors.white, fontSize: 14)),
-                                              Text("345672309",
-                                                  style: TextStyle(
+                                              Text(widget.personal!,
+                                                  style: const TextStyle(
                                                       color: Colors.white, fontSize: 18))
                                             ],
                                           ),
-                                          Spacer(),
+                                          const Spacer(),
                                           Container(
                                             //margin: EdgeInsets.fromLTRB(45, 0, 0, 0),
                                             width: 32,
@@ -86,7 +90,7 @@ class _SendTestimony extends State<SendTestimony> {
                                                 color: meterDataColor,
                                                 shape: BoxShape.circle),
                                             child: Padding(
-                                              padding: EdgeInsets.fromLTRB(13, 9, 11, 9),
+                                              padding: const EdgeInsets.fromLTRB(13, 9, 11, 9),
                                               child: SvgPicture.asset(
                                                 "assets/ls-right-arrow.svg",
                                                 color: Colors.white,

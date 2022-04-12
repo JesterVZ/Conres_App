@@ -220,7 +220,7 @@ class _ProfilePage extends State<ProfilePage> {
                               height: 70,
                               child: ElevatedButton(
                                   onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => SendTestimony()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => SendTestimony(personal: widget.profile!.personal)));
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: colorGray, shape: RoundedRectangleBorder(
@@ -439,7 +439,7 @@ class _ProfilePage extends State<ProfilePage> {
                             height: 70,
                             child: ElevatedButton(
                                 onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SendTestimony()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SendTestimony(personal: widget.profile!.personal)));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     primary: colorGray, shape: RoundedRectangleBorder(
