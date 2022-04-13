@@ -68,7 +68,7 @@ class Testimony extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text('Предыдущие показания'),
-                          Text(meter.lastReadings != null ? meter.lastReadings!.reading.toString() : "0", style: TextStyle(fontSize: 18, color: colorMain),)
+                          Text(meter.lastReadings != null ? meter.lastReadings!.reading.toString() : "0", style: TextStyle(fontSize: 18, color: colorMain))
                         ],
                       ),
                       const Spacer(),
@@ -76,11 +76,13 @@ class Testimony extends StatelessWidget {
                           width: 91,
                           height: 45,
                           child: TextFormField(
+                            readOnly: true,
+                            autofocus: false,
                             onTap: (){
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) =>
-                                      TestimonyDialog("День", "1", "0", "0"));
+                                      TestimonyDialog("День", meter.measure_multipler != null ? meter.measure_multipler! : "", "0", meter.lastReadings != null ? meter.lastReadings!.reading! : ""));
                             },
                             textAlign: TextAlign.center,
                             decoration: InputDecoration(
