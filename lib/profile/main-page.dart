@@ -3,6 +3,7 @@ import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/contracts/contracts.dart';
 import 'package:conres_app/profile/profile-ls.dart';
+import 'package:conres_app/profile/tab-item.dart';
 import 'package:conres_app/testimony/info-pu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,10 @@ import '../icons.dart';
 import '../login/login-main.dart';
 import '../model/profile.dart';
 import '../websocket/websocket.dart';
+import 'bottom-nav/bottom-navigation-custom.dart';
+import 'navigators/tab-nav.dart';
 
+/*
 class MainPage extends StatefulWidget{
   const MainPage({Key? key, this.loginData, this.profile}) : super(key: key);
   final List<dynamic>? loginData;
@@ -186,4 +190,80 @@ class _MainPage extends State<MainPage>{
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
     getData();
   }
+}
+
+Старый вариант
+ */
+
+class MainPage extends StatefulWidget{
+  final Profile? profile;
+  final List<dynamic>? loginData;
+  MainPage({this.profile, this.loginData});
+
+  @override
+  State<StatefulWidget> createState() => _MainPage();
+}
+
+class _MainPage extends State<MainPage>{
+  var _currentTab = TabItem.main;
+  final _navKeys = {
+    TabItem.main: GlobalKey<NavigatorState>(),
+    TabItem.contracts: GlobalKey<NavigatorState>(),
+    TabItem.claims: GlobalKey<NavigatorState>(),
+    TabItem.chats: GlobalKey<NavigatorState>()
+
+  };
+
+  void _selectTab(TabItem tabItem) {
+    if(tabItem == _currentTab){
+      _navKeys[tabItem]!.currentState!.popUntil((route) => route.isFirst);
+    } else {
+      setState(() {
+        _currentTab = tabItem;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(onWillPop: () async {
+      final isFirstRouteInCurrentTab = !await _navKeys[_currentTab]!.currentState!.maybePop();
+
+      if(isFirstRouteInCurrentTab){
+        //Не страница 'main'
+        if(_currentTab != TabItem.main){
+          _selectTab(TabItem.main);
+          return false;
+        }
+      }
+      return isFirstRouteInCurrentTab;
+    },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            _buildOffstageNavigator(TabItem.main),
+            _buildOffstageNavigator(TabItem.contracts),
+            _buildOffstageNavigator(TabItem.claims),
+            _buildOffstageNavigator(TabItem.chats),
+          ],
+        ),
+        bottomNavigationBar: BottomNavigation(
+          currentTab: _currentTab,
+          onSelectTab: _selectTab,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOffstageNavigator(TabItem tabItem) {
+    return Offstage(
+      offstage: _currentTab != tabItem,
+      child: TabNavigator(
+        navigatorKey: _navKeys[tabItem],
+        tabItem: tabItem,
+        profile: widget.profile
+      ),
+    );
+  }
+
 }
