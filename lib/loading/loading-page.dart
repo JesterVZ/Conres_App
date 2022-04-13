@@ -33,9 +33,6 @@ class _LoadingPage extends State<LoadingPage>{
           return Scaffold(
               body:  Stack(
                 fit: StackFit.expand,
-                children: [
-
-                ],
               )
           );
         });
