@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../chats/chats.dart';
+import '../../claims/claims.dart';
+import '../../contracts/contracts.dart';
 import '../../model/profile.dart';
 import '../../testimony/send-testimony.dart';
 import '../profile-test.dart';
@@ -12,11 +15,12 @@ class TabNavigatorRoutes {
 }
 
 class TabNavigator extends StatelessWidget{
-  TabNavigator({required this.navigatorKey, required this.tabItem, this.profile, this.loginData});
+  TabNavigator({required this.navigatorKey, this.profile, this.loginData, this.rootPage});
+
   final GlobalKey<NavigatorState>? navigatorKey;
-  final TabItem tabItem;
-  Profile? profile;
+  final Profile? profile;
   final List<dynamic>? loginData;
+  final Widget? rootPage;
 
   void _push(BuildContext context, {required String? personal}){
     var routeBuilders = _routeBuilders(context, personal);
@@ -30,18 +34,17 @@ class TabNavigator extends StatelessWidget{
     );
   }
 
+
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context, String? personal){
     return {
-      TabNavigatorRoutes.root: (context) => ProfilePageTest(profile: profile, loginData: loginData, onPush: (value){
-        _push(context, personal: personal);
-      }),
-      TabNavigatorRoutes.testimony: (context) => SendTestimony(personal: personal)
+      TabNavigatorRoutes.root: (context) => rootPage,
+      TabNavigatorRoutes.testimony: (context) => SendTestimony(personal: personal),
     };
   }
 
   @override
   Widget build(BuildContext context) {
-    final routeBuilders = _routeBuilders(context, profile!.personal);
+    final routeBuilders = _routeBuilders(context, profile != null ? profile!.personal : '');
     return Navigator(
       key: navigatorKey,
       initialRoute: TabNavigatorRoutes.root,

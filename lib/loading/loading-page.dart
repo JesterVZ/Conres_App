@@ -38,12 +38,15 @@ class _LoadingPage extends State<LoadingPage>{
         });
   }
   _listener(BuildContext context, AuthState state) {
-    //print(state.toString());
     if(state.loading == true){
       return;
     }
     if(state.loginData != null){
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainPage(loginData: state.loginData)), (route) => false);
+      if(state.profile == null){
+        authBloc!.login(state.loginData![0], state.loginData![1], state.loginData![2]);
+      } else {
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainPage(profile: state.profile)), (route) => false);
+      }
     } else {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => const LoginPage()), (route) => false);
     }

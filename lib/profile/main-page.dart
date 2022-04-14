@@ -3,6 +3,7 @@ import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/contracts/contracts.dart';
 import 'package:conres_app/profile/profile-ls.dart';
+import 'package:conres_app/profile/profile-test.dart';
 import 'package:conres_app/profile/tab-item.dart';
 import 'package:conres_app/testimony/info-pu.dart';
 import 'package:flutter/cupertino.dart';
@@ -211,8 +212,12 @@ class _MainPage extends State<MainPage>{
     TabItem.contracts: GlobalKey<NavigatorState>(),
     TabItem.claims: GlobalKey<NavigatorState>(),
     TabItem.chats: GlobalKey<NavigatorState>()
-
   };
+
+  List<Widget> navigatorList = [
+
+  ];
+
 
   void _selectTab(TabItem tabItem) {
     if(tabItem == _currentTab){
@@ -260,8 +265,8 @@ class _MainPage extends State<MainPage>{
       offstage: _currentTab != tabItem,
       child: TabNavigator(
         navigatorKey: _navKeys[tabItem],
-        tabItem: tabItem,
-        profile: widget.profile
+        profile: widget.profile,
+        rootPage: ProfilePageTest(profile: widget.profile, loginData: widget.loginData),
       ),
     );
   }

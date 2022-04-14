@@ -17,11 +17,9 @@ import '../testimony/send-testimony.dart';
 import 'change-ls.dart';
 
 class ProfilePageTest extends StatefulWidget {
-  ProfilePageTest({Key? key, this.profile, this.loginData, this.onPush}) : super(key: key);
-
+  ProfilePageTest({Key? key, this.profile, this.loginData}) : super(key: key);
   Profile? profile;
   final List<dynamic>? loginData;
-  final ValueChanged? onPush;
   Widget content = Scaffold(
     body: Center(
         child: Container(
@@ -441,8 +439,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                             height: 70,
                             child: ElevatedButton(
                                 onPressed: () {
-                                  //Navigator.push(context, MaterialPageRoute(builder: (context) => SendTestimony(personal: widget.profile!.personal)));
-                                  widget.onPush?.call(1);
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SendTestimony(personal: widget.profile!.personal)));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     primary: colorGray, shape: RoundedRectangleBorder(
@@ -492,10 +489,12 @@ class _ProfilePage extends State<ProfilePageTest> {
             )),
       );
     }
+    /*
     if(widget.loginData != null){
       authBloc!.login(widget.loginData![0], widget.loginData![1], widget.loginData![2]);
-
     }
+    Уже не используется
+     */
   }
 
 }

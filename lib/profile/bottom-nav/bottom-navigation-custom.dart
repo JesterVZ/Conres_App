@@ -19,17 +19,24 @@ class BottomNavigation extends StatelessWidget {
         _buildItem(TabItem.claims),
         _buildItem(TabItem.chats),
       ],
+      onTap: (index) => onSelectTab(
+        TabItem.values[index]
+      ),
+      currentIndex: currentTab.index,
     );
   }
 
   BottomNavigationBarItem _buildItem(TabItem tabItem) {
     return BottomNavigationBarItem(
       icon: Icon(
-        Icons.layers,
-        color: colorMain,
+        TabIcons[tabItem],
+        color: _colorMatching(tabItem),
       ),
       label: tabName[tabItem],
     );
   }
 
+  Color _colorMatching(TabItem item){
+    return currentTab == item ? colorMain : Colors.grey;
+  }
 }
