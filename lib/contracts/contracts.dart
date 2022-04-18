@@ -105,6 +105,7 @@ class _Contracts extends State<Contracts>{
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    profileBloc!.getContracts();
     super.didChangeDependencies();
   }
 }

@@ -1,8 +1,11 @@
 import 'package:conres_app/elements/header/header.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:intl/intl.dart';
 import '../../consts.dart';
+import '../../elements/datetime/datetime-dialog-picker.dart';
 import '../../elements/masks.dart';
 import 'new-claim-step-2.dart';
 
@@ -144,12 +147,7 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                     Text(date,
                                         style: TextStyle(
                                             color: colorGray, fontSize: 16.0)),
-                                    MaskInput(
-                                      textController: controllerList[5],
-                                      formatter: MaskTextInputFormatter(mask: "##.##.####"),
-                                      hint: "01.01.2020",
-                                      type: "date",
-                                    )
+                                    BasicDateField()
                                   ],
                                 )),
                             SizedBox(
