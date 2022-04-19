@@ -1,3 +1,5 @@
+import 'package:conres_app/bloc/profile/profile-bloc.dart';
+import 'package:conres_app/elements/header/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,10 +16,10 @@ import '../testimony/link-pu.dart';
 import '../testimony/send-testimony.dart';
 import 'change-ls.dart';
 
-class ProfilePage extends StatefulWidget {
-  ProfilePage({Key? key, this.profile, this.loginData}) : super(key: key);
-
+class ProfilePageTest extends StatefulWidget {
+  ProfilePageTest({Key? key, this.profile, this.loginData}) : super(key: key);
   Profile? profile;
+  final List<dynamic>? loginData;
   Widget content = Scaffold(
     body: Center(
         child: Container(
@@ -27,13 +29,14 @@ class ProfilePage extends StatefulWidget {
         )
     )
   );
-  final List<dynamic>? loginData;
+
   @override
   State<StatefulWidget> createState() => _ProfilePage();
 }
 
-class _ProfilePage extends State<ProfilePage> {
+class _ProfilePage extends State<ProfilePageTest> {
   AuthBloc? authBloc;
+  ProfileBloc? profileBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -266,7 +269,7 @@ class _ProfilePage extends State<ProfilePage> {
                 ],
               )),
         );
-        authBloc!.getContracts();
+        profileBloc!.getContracts();
       });
     }
   }
@@ -274,6 +277,7 @@ class _ProfilePage extends State<ProfilePage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     authBloc ??= DependencyProvider.of(context)!.authBloc;
+    profileBloc ??= DependencyProvider.of(context)!.profileBloc;
 
     if(widget.profile != null){
       widget.content = Scaffold(
@@ -485,10 +489,12 @@ class _ProfilePage extends State<ProfilePage> {
             )),
       );
     }
+    /*
     if(widget.loginData != null){
       authBloc!.login(widget.loginData![0], widget.loginData![1], widget.loginData![2]);
-
     }
+    Уже не используется
+     */
   }
 
 }

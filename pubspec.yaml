@@ -42,6 +42,8 @@ dependencies:
   flutter_chat_ui: ^1.5.5
   flutter_svg: ^1.0.3
   file_picker: ^4.5.1
+  datetime_picker_formfield: ^2.0.0
+  animated_splash_screen: ^1.2.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -93,6 +95,8 @@ flutter:
     - assets/loading.gif
     - assets/background.png
     - assets/remove-file.svg
+    - assets/splash.jpg
+    - assets/splash-logo.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

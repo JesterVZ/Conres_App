@@ -1,190 +1,110 @@
 import 'dart:convert';
-import 'package:conres_app/bloc/auth/auth-state.dart';
-import 'package:conres_app/contracts/contracts.dart';
-import 'package:conres_app/profile/profile-ls.dart';
-import 'package:conres_app/testimony/info-pu.dart';
+import 'package:conres_app/chats/chats.dart';
+import 'package:conres_app/profile/profile-test.dart';
+import 'package:conres_app/profile/tab-item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
-import '../DI/dependency-provider.dart';
-import '../bloc/auth/auth-block.dart';
-import '../chats/chats.dart';
 import '../claims/claims.dart';
-import '../claims/new-claim/new-claim-step-1.dart';
-import '../consts.dart';
-import '../elements/bloc/bloc-screen.dart';
-import '../icons.dart';
-import '../login/login-main.dart';
+import '../contracts/contracts.dart';
 import '../model/profile.dart';
-import '../websocket/websocket.dart';
+import '../more/more.dart';
+import 'bottom-nav/bottom-navigation-custom.dart';
+import 'navigators/tab-nav.dart';
+
 
 class MainPage extends StatefulWidget{
-  const MainPage({Key? key, this.loginData, this.profile}) : super(key: key);
-  final List<dynamic>? loginData;
   final Profile? profile;
+  final List<dynamic>? loginData;
+  MainPage({this.profile, this.loginData});
 
   @override
   State<StatefulWidget> createState() => _MainPage();
 }
+
 class _MainPage extends State<MainPage>{
-  int _selectedPage = 0;
-  List<Widget> pageList = [];
-  late SharedPreferences preferences;
-  AuthBloc? authBloc;
-  WebSocketChannel? webSocketChannel;
-  WebSocketData? webSocketData;
-  int? ticketCounter;
-  int? claimCounter;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      if(index == 4){
-        showMenu<String>(
-          context: context,
-          position: const RelativeRect.fromLTRB(550.0, 550.0, 0.0, 0.0),
-          items: <PopupMenuItem<String>>[
-            PopupMenuItem<String>(
-                child: const Text('Информация о ПУ'),
-                onTap: (){
-                  setState(() {
-                    _selectedPage = 4;
-                  });
-
-            }),
-            PopupMenuItem<String>(
-                child: const Text('Заявление на тех. присоединение'),
-                onTap: (){
-            }),
-            PopupMenuItem<String>(
-                child: const Text('Информация'), onTap:() {
-            }),
-            PopupMenuItem<String>(
-                child: const Text('Выход'), onTap:() {
-                  authBloc!.logout();
-                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
-            }),
-          ],
-          elevation: 8.0,
-      );
-      } else {
-        _selectedPage = index;
-      }
-
-    });
-  }
+  var _currentTab = TabItem.main;
+  final _navKeys = {
+    TabItem.main: GlobalKey<NavigatorState>(),
+    TabItem.contracts: GlobalKey<NavigatorState>(),
+    TabItem.claims: GlobalKey<NavigatorState>(),
+    TabItem.chats: GlobalKey<NavigatorState>(),
+    TabItem.more: GlobalKey<NavigatorState>()
+  };
+  List<Widget> navigatorList = [];
 
   @override
   void initState() {
-    if(widget.loginData != null){
-      pageList.add(ProfilePage(loginData: widget.loginData));
-    }
-    if(widget.profile != null){
-      pageList.add(ProfilePage(profile: widget.profile));
-    }
-    pageList.add(Contracts());
-    pageList.add(const Claims());
-    pageList.add(Chats());
-    pageList.add(InfoPU());
-    pageList.add(NewClaimStep1());
-    initSharedPreferences();
-    super.initState();
+    navigatorList.add(TabNavigator(
+      navigatorKey: _navKeys[TabItem.main],
+      profile: widget.profile,
+      rootPage: ProfilePageTest(profile: widget.profile, loginData: widget.loginData),
+    ));
+    navigatorList.add(TabNavigator(
+      navigatorKey: _navKeys[TabItem.contracts],
+      rootPage: Contracts()
+    ));
+    navigatorList.add(TabNavigator(
+        navigatorKey: _navKeys[TabItem.claims],
+        rootPage: Claims()
+    ));
+    navigatorList.add(TabNavigator(
+        navigatorKey: _navKeys[TabItem.chats],
+        rootPage: Chats()
+    ));
+    navigatorList.add(TabNavigator(
+        navigatorKey: _navKeys[TabItem.more],
+        rootPage: MoreScreen()
+    ));
   }
 
-  void initSharedPreferences() async{
-    preferences = await SharedPreferences.getInstance();
+  void _selectTab(TabItem tabItem) {
+    if(tabItem == _currentTab){
+      _navKeys[tabItem]!.currentState!.popUntil((route) => route.isFirst);
+    } else {
+      setState(() {
+        _currentTab = tabItem;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocScreen<AuthBloc, AuthState>(
-        bloc: authBloc,
-        listener: (context, state) => _listener(context, state),
-    builder: (context, state) {
-      return Scaffold(
+    return WillPopScope(onWillPop: () async {
+      final isFirstRouteInCurrentTab = !await _navKeys[_currentTab]!.currentState!.maybePop();
+
+      if(isFirstRouteInCurrentTab){
+        //Не страница 'main'
+        if(_currentTab != TabItem.main){
+          _selectTab(TabItem.main);
+          return false;
+        }
+      }
+      return isFirstRouteInCurrentTab;
+    },
+      child: Scaffold(
         body: IndexedStack(
-          index: _selectedPage,
-          children: pageList,
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          iconSize: 30,
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(
-                icon: const Icon(CustomIcons.home),
-                label: mainPage),
-            BottomNavigationBarItem(
-                icon: const Icon(CustomIcons.contracts),
-                label: contractsPage),
-            BottomNavigationBarItem(
-                icon: const Icon(CustomIcons.reports),
-                label: reportsPage),
-            BottomNavigationBarItem(
-                icon: ticketCounter == 0 ?Stack(
-                  children: [
-                    const Icon(CustomIcons.chat),
-                    Positioned(
-                      right: 0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color: Colors.red,
-                        ),
-                        constraints: const BoxConstraints(
-                            minWidth: 15,
-                            maxHeight: 15
-                        ),
-                        child: Text(ticketCounter.toString(), style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 10
-                        ),
-                          textAlign: TextAlign.center,),
-                      ),
-                    )
-                  ],
-                ) : const Icon(CustomIcons.chat),
-                label: chatPage),
-            BottomNavigationBarItem(
-                icon: const Icon(CustomIcons.dot_3),
-                label: moreAction
-            )
+          index: _currentTab.index,
+          children: [
+            _buildOffstageNavigator(TabItem.main, navigatorList[0]),
+            _buildOffstageNavigator(TabItem.contracts, navigatorList[1]),
+            _buildOffstageNavigator(TabItem.claims, navigatorList[2]),
+            _buildOffstageNavigator(TabItem.chats, navigatorList[3]),
+            _buildOffstageNavigator(TabItem.more, navigatorList[4]),
           ],
-          currentIndex: _selectedPage,
-          selectedItemColor: colorMain,
-          onTap: _onItemTapped,
         ),
-      );
-    });
-
+        bottomNavigationBar: BottomNavigation(
+          currentTab: _currentTab,
+          onSelectTab: _selectTab,
+        ),
+      ),
+    );
   }
 
-  _listener(BuildContext context, AuthState state){
-    if(state.loading == true){
-      return;
-    }
+  Widget _buildOffstageNavigator(TabItem tabItem, Widget navigator) {
+    return Offstage(
+      offstage: _currentTab != tabItem,
+      child: navigator,
+    );
+  }
 
-    if(state.cookieStr != null){
-      webSocketChannel!.sink.add(state.cookieStr);
-
-    }
-    if(state.loginData!.isEmpty){
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
-    }
-  }
-  void getData() async{
-    webSocketChannel!.stream.listen((event) {
-      print(event);
-      setState(() {
-        webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
-        ticketCounter = webSocketData!.data!.counters!.new_ticket_messages_count;
-      });
-    });
-  }
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    authBloc ??= DependencyProvider.of(context)!.authBloc;
-    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
-    getData();
-  }
 }

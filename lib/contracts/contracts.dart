@@ -1,8 +1,9 @@
-import 'package:conres_app/bloc/auth/auth-block.dart';
-import 'package:conres_app/bloc/auth/auth-state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import '../DI/dependency-provider.dart';
+import '../bloc/profile/profile-bloc.dart';
+import '../bloc/profile/profile-state.dart';
 import '../consts.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/contracts/contract-element.dart';
@@ -14,13 +15,13 @@ class Contracts extends StatefulWidget{
 }
 
 class _Contracts extends State<Contracts>{
-  AuthBloc? authBloc;
+  ProfileBloc? profileBloc;
   List<Widget> contracts = [];
 
   @override
   Widget build(BuildContext context) {
-    return BlocScreen<AuthBloc, AuthState>(
-        bloc: authBloc,
+    return BlocScreen<ProfileBloc, ProfileState>(
+        bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
     builder: (context, state) {
       return Scaffold(
@@ -84,7 +85,7 @@ class _Contracts extends State<Contracts>{
 
   }
 
-  _listener(BuildContext context, AuthState state){
+  _listener(BuildContext context, ProfileState state){
     if(state.loading == true){
       return;
     }
@@ -103,7 +104,8 @@ class _Contracts extends State<Contracts>{
 
   @override
   void didChangeDependencies() {
-    authBloc ??= DependencyProvider.of(context)!.authBloc;
+    profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    profileBloc!.getContracts();
     super.didChangeDependencies();
   }
 }
