@@ -147,7 +147,7 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                     Text(date,
                                         style: TextStyle(
                                             color: colorGray, fontSize: 16.0)),
-                                    BasicDateField()
+                                    BasicDateField(controller: controllerList[5], format: DateFormat("dd.MM.yyyy"))
                                   ],
                                 )),
                             SizedBox(
@@ -164,11 +164,8 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                     style: ElevatedButton.styleFrom(primary: colorMain))),
                           ],
                         ),
-
                       ],
                     ),
-
-
                   ],
                 ))
           ],

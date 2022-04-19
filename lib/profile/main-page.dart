@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../claims/claims.dart';
 import '../contracts/contracts.dart';
 import '../model/profile.dart';
+import '../more/more.dart';
 import 'bottom-nav/bottom-navigation-custom.dart';
 import 'navigators/tab-nav.dart';
 
@@ -26,7 +27,8 @@ class _MainPage extends State<MainPage>{
     TabItem.main: GlobalKey<NavigatorState>(),
     TabItem.contracts: GlobalKey<NavigatorState>(),
     TabItem.claims: GlobalKey<NavigatorState>(),
-    TabItem.chats: GlobalKey<NavigatorState>()
+    TabItem.chats: GlobalKey<NavigatorState>(),
+    TabItem.more: GlobalKey<NavigatorState>()
   };
   List<Widget> navigatorList = [];
 
@@ -48,6 +50,10 @@ class _MainPage extends State<MainPage>{
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.chats],
         rootPage: Chats()
+    ));
+    navigatorList.add(TabNavigator(
+        navigatorKey: _navKeys[TabItem.more],
+        rootPage: MoreScreen()
     ));
   }
 
@@ -83,6 +89,7 @@ class _MainPage extends State<MainPage>{
             _buildOffstageNavigator(TabItem.contracts, navigatorList[1]),
             _buildOffstageNavigator(TabItem.claims, navigatorList[2]),
             _buildOffstageNavigator(TabItem.chats, navigatorList[3]),
+            _buildOffstageNavigator(TabItem.more, navigatorList[4]),
           ],
         ),
         bottomNavigationBar: BottomNavigation(

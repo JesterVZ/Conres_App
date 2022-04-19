@@ -5,11 +5,16 @@ import 'package:intl/intl.dart';
 import '../../consts.dart';
 
 class BasicDateField extends StatelessWidget {
-  final format = DateFormat("yyyy-MM-dd");
+  DateFormat format;
+  TextEditingController controller;
+
+  BasicDateField({Key? key, required this.controller, required this.format}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: DateTimeField(
+        controller: controller,
         format: format,
         decoration: InputDecoration(
             hintText: "01.01.2020",

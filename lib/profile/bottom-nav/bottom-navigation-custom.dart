@@ -18,6 +18,7 @@ class BottomNavigation extends StatelessWidget {
         _buildItem(TabItem.contracts),
         _buildItem(TabItem.claims),
         _buildItem(TabItem.chats),
+        _buildItem(TabItem.more)
       ],
       onTap: (index) => onSelectTab(
         TabItem.values[index]
