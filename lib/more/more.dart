@@ -6,6 +6,8 @@ import '../elements/header/header.dart';
 import '../testimony/info-pu.dart';
 
 class MoreScreen extends StatefulWidget{
+  final VoidCallback logout;
+  MoreScreen(this.logout);
   @override
   State<StatefulWidget> createState() => _MoreScreen();
 }
@@ -206,6 +208,37 @@ class _MoreScreen extends State<MoreScreen>{
                             ),
                           )
                         ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        widget.logout.call();
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: Column(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: Offset(0, 3),
+                                    )
+                                  ]
+                              ),
+                              child: const Center(
+                                child: Text("Выход"),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     )
                   ],

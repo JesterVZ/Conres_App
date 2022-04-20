@@ -1,11 +1,17 @@
 import 'dart:convert';
+import 'dart:math';
+import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/chats/chats.dart';
 import 'package:conres_app/profile/profile-test.dart';
 import 'package:conres_app/profile/tab-item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../DI/dependency-provider.dart';
+import '../bloc/profile/profile-state.dart';
 import '../claims/claims.dart';
 import '../contracts/contracts.dart';
+import '../elements/bloc/bloc-screen.dart';
+import '../login/login-main.dart';
 import '../model/profile.dart';
 import '../more/more.dart';
 import 'bottom-nav/bottom-navigation-custom.dart';
@@ -31,6 +37,7 @@ class _MainPage extends State<MainPage>{
     TabItem.more: GlobalKey<NavigatorState>()
   };
   List<Widget> navigatorList = [];
+  ProfileBloc? profileBloc;
 
   @override
   void initState() {
@@ -53,8 +60,12 @@ class _MainPage extends State<MainPage>{
     ));
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.more],
-        rootPage: MoreScreen()
+        rootPage: MoreScreen(logout)
     ));
+  }
+
+  void logout(){
+    profileBloc!.logout();
   }
 
   void _selectTab(TabItem tabItem) {
@@ -69,42 +80,63 @@ class _MainPage extends State<MainPage>{
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(onWillPop: () async {
-      final isFirstRouteInCurrentTab = !await _navKeys[_currentTab]!.currentState!.maybePop();
+    return BlocScreen<ProfileBloc, ProfileState>(
+        bloc: profileBloc,
+        listener: (context, state) => _listener(context, state),
+        builder: (context, state) {
+          return WillPopScope(onWillPop: () async {
+            final isFirstRouteInCurrentTab = !await _navKeys[_currentTab]!.currentState!.maybePop();
 
-      if(isFirstRouteInCurrentTab){
-        //Не страница 'main'
-        if(_currentTab != TabItem.main){
-          _selectTab(TabItem.main);
-          return false;
-        }
-      }
-      return isFirstRouteInCurrentTab;
-    },
-      child: Scaffold(
-        body: IndexedStack(
-          index: _currentTab.index,
-          children: [
-            _buildOffstageNavigator(TabItem.main, navigatorList[0]),
-            _buildOffstageNavigator(TabItem.contracts, navigatorList[1]),
-            _buildOffstageNavigator(TabItem.claims, navigatorList[2]),
-            _buildOffstageNavigator(TabItem.chats, navigatorList[3]),
-            _buildOffstageNavigator(TabItem.more, navigatorList[4]),
-          ],
-        ),
-        bottomNavigationBar: BottomNavigation(
-          currentTab: _currentTab,
-          onSelectTab: _selectTab,
-        ),
-      ),
-    );
+            if(isFirstRouteInCurrentTab){
+              //Не страница 'main'
+              if(_currentTab != TabItem.main){
+                _selectTab(TabItem.main);
+                return false;
+              }
+            }
+            return isFirstRouteInCurrentTab;
+          },
+            child: Scaffold(
+              body: IndexedStack(
+                index: _currentTab.index,
+                children: [
+                  _buildOffstageNavigator(TabItem.main, navigatorList[0]),
+                  _buildOffstageNavigator(TabItem.contracts, navigatorList[1]),
+                  _buildOffstageNavigator(TabItem.claims, navigatorList[2]),
+                  _buildOffstageNavigator(TabItem.chats, navigatorList[3]),
+                  _buildOffstageNavigator(TabItem.more, navigatorList[4]),
+                ],
+              ),
+              bottomNavigationBar: BottomNavigation(
+                currentTab: _currentTab,
+                onSelectTab: _selectTab,
+              ),
+            ),
+          );
+        });
+
   }
+  _listener(BuildContext context, ProfileState state) {
+    if(state.loading == true){
+      return;
+    }
+    if(state.loginData!.isEmpty){
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
+    }
+  }
+
 
   Widget _buildOffstageNavigator(TabItem tabItem, Widget navigator) {
     return Offstage(
       offstage: _currentTab != tabItem,
       child: navigator,
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    profileBloc ??= DependencyProv♀ider.of(context)!.profileBloc;
   }
 
 }
