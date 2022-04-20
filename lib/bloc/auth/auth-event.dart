@@ -31,36 +31,3 @@ class GetLoginEvent extends Event{
 class GetTestimony extends Event{
   const GetTestimony();
 }
-
-class GetCookieStrEvent extends Event{
-  final String username;
-  final String password;
-  final int type;
-  const GetCookieStrEvent(this.username, this.password, this.type);
-}
-
-class GetLoginData extends Event{
-  const GetLoginData();
-}
-
-class GetWebSocketData extends Event{
-  const GetWebSocketData();
-}
-
-class LogoutEvent extends Event{
-  const LogoutEvent();
-}
-
-class BindNewLS extends Event{
-  final String number;
-  final String address;
-  const BindNewLS(this.number, this.address);
-}
-
-class GetContracts extends Event{
-  const GetContracts();
-}
-
-class GetNumbers extends Event{
-  const GetNumbers();
-}

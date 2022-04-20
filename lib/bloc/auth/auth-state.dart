@@ -1,22 +1,14 @@
-import '../../model/contract.dart';
 import '../../model/meter.dart';
 import '../../model/profile.dart';
-import '../../model/result-data.dart';
 
 class AuthState{
-  final String? cookieStr;
   final Profile? profile;
   final bool? loading;
   final Object? error;
   final List<Meter>? testimony;
   final List<dynamic>? loginData;
-  final List<Contract>? contracts;
-  final List<String>? numbers;
-  final dynamic webSocketData;
-  final ResultData? bindLsData;
 
-
-  AuthState({this.loginData, this.loading, this.error, this.profile, this.testimony, this.numbers, this.bindLsData, this.contracts, this.cookieStr, this.webSocketData});
+  AuthState({this.loginData, this.loading, this.error, this.profile, this.testimony});
 
   static initial() => AuthState(
     profile: null,
@@ -29,23 +21,13 @@ class AuthState{
     bool? loading,
     Object? error,
     List<dynamic>? loginData,
-    List<Meter>? testimony,
-    String? cookieStr,
-    List<Contract>? contracts,
-    List<String>? numbers,
-    dynamic webSocketData,
-    ResultData? bindLsData
+    List<Meter>? testimony
   }){
     return AuthState(
         profile: profile ?? this.profile,
         loading: loading ?? this.loading,
         loginData: loginData ?? this.loginData,
         testimony: testimony ?? this.testimony,
-        bindLsData: bindLsData ?? this.bindLsData,
-        contracts: contracts ?? this.contracts,
-        cookieStr: cookieStr ?? this.cookieStr,
-        numbers: numbers ?? this.numbers,
-        webSocketData: webSocketData ?? this.webSocketData,
         error: error
     );
   }

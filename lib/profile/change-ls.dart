@@ -1,3 +1,5 @@
+import 'package:conres_app/bloc/profile/profile-bloc.dart';
+import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,12 +15,12 @@ class ChangeLs extends StatefulWidget{
 }
 
 class _ChangeLs extends State<ChangeLs>{
-  AuthBloc? authBloc;
+  ProfileBloc? profileBloc;
   List<Widget> numbers = [];
   @override
   Widget build(BuildContext context) {
-    return BlocScreen<AuthBloc, AuthState>(
-        bloc: authBloc,
+    return BlocScreen<ProfileBloc, ProfileState>(
+        bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
     builder: (context, state) {
           return Scaffold(
@@ -30,7 +32,7 @@ class _ChangeLs extends State<ChangeLs>{
           );
     });
   }
-  _listener(BuildContext context, AuthState state){
+  _listener(BuildContext context, ProfileState state){
     if(state.loading == true){
       return;
     }
@@ -44,7 +46,7 @@ class _ChangeLs extends State<ChangeLs>{
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    authBloc ??= DependencyProvider.of(context)!.authBloc;
-    authBloc!.getNumbers();
+    profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    profileBloc!.getNumbers();
   }
 }

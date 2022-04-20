@@ -1,9 +1,10 @@
-import 'package:conres_app/bloc/auth/auth-block.dart';
-import 'package:conres_app/bloc/auth/auth-state.dart';
 import 'package:conres_app/elements/header/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import '../../DI/dependency-provider.dart';
+import '../../bloc/profile/profile-bloc.dart';
+import '../../bloc/profile/profile-state.dart';
 import '../../consts.dart';
 import '../../elements/alert.dart';
 import '../../elements/bloc/bloc-screen.dart';
@@ -16,13 +17,13 @@ class NewLS extends StatefulWidget{
 }
 
 class _NewLS extends State<NewLS>{
-  AuthBloc? authBloc;
+  ProfileBloc? profileBloc;
   TextEditingController lsController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return BlocScreen<AuthBloc, AuthState>(
-        bloc: authBloc,
+    return BlocScreen<ProfileBloc, ProfileState>(
+        bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
     builder: (context, state) {
       return GestureDetector(
@@ -89,7 +90,7 @@ class _NewLS extends State<NewLS>{
                           height: 55,
                           child: ElevatedButton(
                             onPressed: (){
-                              authBloc!.bindNewLS(lsController.text, addressController.text);
+                              profileBloc!.bindNewLS(lsController.text, addressController.text);
                             },
                             child: Text(sendLinkRequest, style: buttonTextStyle),
                             style: ElevatedButton.styleFrom(
@@ -107,7 +108,7 @@ class _NewLS extends State<NewLS>{
     });
 
   }
-  _listener(BuildContext context, AuthState state){
+  _listener(BuildContext context, ProfileState state){
     if(state.loading == true){
       return;
     }
@@ -126,7 +127,7 @@ class _NewLS extends State<NewLS>{
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    authBloc ??= DependencyProvider.of(context)!.authBloc;
+    profileBloc ??= DependencyProvider.of(context)!.profileBloc;
   }
   
 }

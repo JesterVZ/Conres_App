@@ -52,20 +52,5 @@ class AuthRepo {
     var result = await httpClient.getTestimony();
     return result;
   }
-  Future<String>getCookie(String username, String password, int type) async{
-    String result = await httpClient.getCookieStringForWebSocket(username, password, type);
-    return result;
-  }
-  Future<dynamic> bindLs(String number, String address) async{
-    var result = await httpClient.bindNewLS(number, address);
-    return result;
-  }
-  Future<dynamic> getContracts() async{
-    var result = await httpClient.getContracts();
-    return result;
-  }
-  Future<dynamic> getNumbers() async{
-    var result = await httpClient.getLinkedNumbers();
-    return result;
-  }
+
 }
