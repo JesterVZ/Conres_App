@@ -136,7 +136,7 @@ class _MainPage extends State<MainPage>{
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    profileBloc ??= DependencyProv♀ider.of(context)!.profileBloc;
+    profileBloc ??= DependencyProvider.of(context)!.profileBloc;
   }
 
 }
