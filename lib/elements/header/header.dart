@@ -5,12 +5,10 @@ import 'package:flutter_svg/svg.dart';
 import '../../consts.dart';
 
 class HeaderRow extends StatelessWidget {
-  late String _text = "";
-  late double _fontSize;
-  HeaderRow(String text, double fontSize, bool isLS) {
-    _text = text;
-    _fontSize = fontSize;
-  }
+  String text = "";
+  double fontSize;
+
+  HeaderRow({required this.text, required this.fontSize});
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +27,8 @@ class HeaderRow extends StatelessWidget {
         ),
         Flexible(
             child: Text(
-          _text,
-          style: TextStyle(fontFamily: 'Bubicon-Bold', fontSize: _fontSize),
+          text,
+          style: TextStyle(fontFamily: 'Bubicon-Bold', fontSize: fontSize),
         )),
       ],
     );

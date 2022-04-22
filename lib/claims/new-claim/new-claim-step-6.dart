@@ -31,7 +31,7 @@ class _NewClaimStep6 extends State<NewClaimStep6>{
                 padding: const EdgeInsets.fromLTRB(17, 59, 17, 0),
                 child: Column(
                   children: [
-                    HeaderRow(claimStep6, 24, true),
+                    HeaderRow(text: claimStep6, fontSize: 24),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

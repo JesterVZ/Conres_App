@@ -55,7 +55,7 @@ class _RegIP extends State<RegIP> {
                     padding: EdgeInsets.fromLTRB(21, 70, 21, 54),
                     child: Column(
                       children: [
-                        HeaderRow(regTitle, 34, false),
+                        HeaderRow(text: regTitle, fontSize: 24),
                         Container(
                             margin: const EdgeInsets.fromLTRB(0, 38, 0, 18),
                             child: Column(
