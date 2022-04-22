@@ -43,7 +43,7 @@ class _LoadingPage extends State<LoadingPage>{
       if(state.profile == null){
         authBloc!.login(state.loginData![0], state.loginData![1], state.loginData![2]);
       } else {
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainPage(profile: state.profile)), (route) => false);
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainPage(profile: state.profile, loginData: state.loginData)), (route) => false);
       }
     } else {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => const LoginPage()), (route) => false);

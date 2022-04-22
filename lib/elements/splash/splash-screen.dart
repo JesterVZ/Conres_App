@@ -18,18 +18,17 @@ class _SplashScreen extends State<SplashScreen>{
   }
 
   _navigateToHome() async{
-    await Future.delayed(Duration(milliseconds: 1500));
+    await Future.delayed(Duration(milliseconds: 3000));
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoadingPage()), (route) => false);
   }
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          child: Image.asset('assets/splash.jpg'),
-        ),
-
-      ],
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/splash.jpg')
+        )
+      ),
     );
   }
 }

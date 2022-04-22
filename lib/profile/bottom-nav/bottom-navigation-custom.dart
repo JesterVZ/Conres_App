@@ -4,9 +4,10 @@ import '../../consts.dart';
 import '../tab-item.dart';
 
 class BottomNavigation extends StatelessWidget {
-  BottomNavigation({required this.currentTab, required this.onSelectTab});
+  BottomNavigation({required this.currentTab, required this.onSelectTab, required this.ticketCounter});
   final TabItem currentTab;
   final ValueChanged<TabItem> onSelectTab;
+  final int? ticketCounter;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class BottomNavigation extends StatelessWidget {
       items: [
         _buildItem(TabItem.main, false),
         _buildItem(TabItem.contracts, false),
-        _buildItem(TabItem.claims, false),
+        _buildItem(TabItem.claims, true),
         _buildItem(TabItem.chats, true),
         _buildItem(TabItem.more, false)
       ],
@@ -37,6 +38,7 @@ class BottomNavigation extends StatelessWidget {
           Positioned(
             right: 0,
             child: Container(
+              padding: EdgeInsets.only(left: 2, right: 2),
               decoration: BoxDecoration(
                 color: Colors.red,
                 borderRadius: BorderRadius.circular(10),
@@ -48,13 +50,14 @@ class BottomNavigation extends StatelessWidget {
               child: const Text(
                 "0",
                 style: TextStyle(
-                  color: Colors.white
+                    color: Colors.white,
+                    fontSize: 10
                 ),
               ),
             ),
           )
         ],
-      ) : Icon(
+      )  : Icon(
         TabIcons[tabItem],
         color: _colorMatching(tabItem),
       ),

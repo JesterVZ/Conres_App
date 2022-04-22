@@ -41,14 +41,13 @@ class _MyApp extends State<MyApp>{
       title: 'Контроль ресурсов',
       routes: {
         '/logout': (context) => LoginPage(),
-
       },
       theme: ThemeData(
           primarySwatch: Colors.blue,
           scaffoldBackgroundColor: defaultBackground,
           fontFamily: 'Bubicon-Medium'
       ),
-      home: LoadingPage(),
+      home: SplashScreen(),
     );
 
   }

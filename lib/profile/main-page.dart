@@ -116,6 +116,7 @@ class _MainPage extends State<MainPage>{
               bottomNavigationBar: BottomNavigation(
                 currentTab: _currentTab,
                 onSelectTab: _selectTab,
+                ticketCounter: ticketCounter,
               ),
             ),
           );
@@ -128,6 +129,10 @@ class _MainPage extends State<MainPage>{
     }
     if(state.loginData!.isEmpty){
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
+    }
+    if(state.cookieStr != null){
+      String? str = state.cookieStr;
+      print('\x1B[31m$str\x1B[0m');
     }
   }
 
@@ -154,6 +159,7 @@ class _MainPage extends State<MainPage>{
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
+    profileBloc!.getCookies(widget.loginData![0], widget.loginData![1], widget.loginData![2]);
     getData();
   }
 }
