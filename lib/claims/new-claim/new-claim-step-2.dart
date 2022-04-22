@@ -9,8 +9,6 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../../consts.dart';
 import '../../elements/dropdown.dart';
 import '../../elements/masks.dart';
-import '../../icons.dart';
-import '../../profile/profile-no-ls.dart';
 import 'new-claim-step-3.dart';
 
 class NewClaimStep2 extends StatefulWidget{

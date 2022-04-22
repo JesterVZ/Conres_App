@@ -30,9 +30,6 @@ class _Contracts extends State<Contracts>{
             children: [
               Container(
                 height: 100,
-                decoration: BoxDecoration(
-                    color: Colors.red
-                ),
                 child: HeaderRow(text: contractsTitle, fontSize: 24)
               ),
               Expanded(child: Scrollbar(child: SingleChildScrollView(

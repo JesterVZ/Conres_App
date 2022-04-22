@@ -281,4 +281,8 @@ class HttpClient{
     }
   }
 
+  Future<Object?>? getMessagesTicket(){
+    return null; //доделать
+  }
+
 }

@@ -2,16 +2,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
-import '../bloc/auth/auth-state.dart';
 import '../consts.dart';
-import '../elements/bloc/bloc-screen.dart';
-import '../profile/profile-ls.dart';
-import '../shared-preferences/shared-preferences.dart';
-import 'login-account.dart';
 import 'change-type.dart';
 
 class LoginPage extends StatefulWidget {

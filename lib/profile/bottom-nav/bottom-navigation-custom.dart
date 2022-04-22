@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../consts.dart';
@@ -14,11 +13,11 @@ class BottomNavigation extends StatelessWidget {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       items: [
-        _buildItem(TabItem.main),
-        _buildItem(TabItem.contracts),
-        _buildItem(TabItem.claims),
-        _buildItem(TabItem.chats),
-        _buildItem(TabItem.more)
+        _buildItem(TabItem.main, false),
+        _buildItem(TabItem.contracts, false),
+        _buildItem(TabItem.claims, false),
+        _buildItem(TabItem.chats, true),
+        _buildItem(TabItem.more, false)
       ],
       onTap: (index) => onSelectTab(
         TabItem.values[index]
@@ -27,9 +26,35 @@ class BottomNavigation extends StatelessWidget {
     );
   }
 
-  BottomNavigationBarItem _buildItem(TabItem tabItem) {
+  BottomNavigationBarItem _buildItem(TabItem tabItem, bool isCanGetWsData) {
     return BottomNavigationBarItem(
-      icon: Icon(
+      icon: isCanGetWsData ? Stack(
+        children: [
+          Icon(
+            TabIcons[tabItem],
+            color: _colorMatching(tabItem),
+          ),
+          Positioned(
+            right: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              constraints: const BoxConstraints(
+                minWidth: 12,
+                minHeight: 12,
+              ),
+              child: const Text(
+                "0",
+                style: TextStyle(
+                  color: Colors.white
+                ),
+              ),
+            ),
+          )
+        ],
+      ) : Icon(
         TabIcons[tabItem],
         color: _colorMatching(tabItem),
       ),

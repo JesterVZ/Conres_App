@@ -1,15 +1,8 @@
-import 'dart:ui';
-
 import 'package:conres_app/elements/header/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
 import '../../consts.dart';
 import '../../elements/dropdown.dart';
-import '../../icons.dart';
-import '../../profile/profile-no-ls.dart';
-import 'new-claim-step-2.dart';
 import 'new-claim-step-6.dart';
 
 class NewClaimStep5 extends StatefulWidget{

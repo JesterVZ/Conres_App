@@ -6,6 +6,7 @@ import 'package:conres_app/profile/profile-test.dart';
 import 'package:conres_app/profile/tab-item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import '../DI/dependency-provider.dart';
 import '../bloc/profile/profile-state.dart';
 import '../claims/claims.dart';
@@ -14,6 +15,7 @@ import '../elements/bloc/bloc-screen.dart';
 import '../login/login-main.dart';
 import '../model/profile.dart';
 import '../more/more.dart';
+import '../websocket/websocket.dart';
 import 'bottom-nav/bottom-navigation-custom.dart';
 import 'navigators/tab-nav.dart';
 
@@ -28,6 +30,10 @@ class MainPage extends StatefulWidget{
 }
 
 class _MainPage extends State<MainPage>{
+  WebSocketChannel? webSocketChannel;
+  WebSocketData? webSocketData;
+  int? ticketCounter;
+  int? claimCounter;
   var _currentTab = TabItem.main;
   final _navKeys = {
     TabItem.main: GlobalKey<NavigatorState>(),
@@ -133,10 +139,21 @@ class _MainPage extends State<MainPage>{
     );
   }
 
+  void getData() async{
+    webSocketChannel!.stream.listen((event) {
+      print('\x1B[31m$event\x1B[0m');
+      setState(() {
+        webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
+        ticketCounter = webSocketData!.data!.counters!.new_ticket_messages_count;
+      });
+    });
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
+    getData();
   }
-
 }

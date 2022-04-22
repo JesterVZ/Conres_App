@@ -1,3 +1,4 @@
+import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -24,6 +25,7 @@ class _LoginEmail extends State<LoginEmail> {
   TextEditingController lkController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   AuthBloc? authBloc;
+  ProfileBloc? profileBloc;
 
   final Widget svg = SvgPicture.asset('assets/background_image.svg',
       color: colorLogo, semanticsLabel: 'Acme Logo');
@@ -153,5 +155,6 @@ class _LoginEmail extends State<LoginEmail> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     authBloc ??= DependencyProvider.of(context)!.authBloc;
+    profileBloc ??= DependencyProvider.of(context)!.profileBloc;
   }
 }

@@ -1,13 +1,8 @@
 import 'package:conres_app/login/change-type.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../consts.dart';
 import '../elements/header/header.dart';
-import '../login/login-account.dart';
-import '../profile/main-page.dart';
-import '../profile/profile-ls.dart';
-import '../profile/profile-no-ls.dart';
 
 class RegSuccess extends StatefulWidget {
   const RegSuccess({Key? key}) : super(key: key);
@@ -26,7 +21,7 @@ class _RegSuccess extends State<RegSuccess> {
                 Padding(padding: EdgeInsets.fromLTRB(21, 74, 21, 0),
                 child: Column(
                   children: [
-                    HeaderRow(successRed, 33, false),
+                    HeaderRow(text: successRed, fontSize: 34),
                     Container(
                         margin: const EdgeInsets.fromLTRB(0, 0, 0, 25),
                         child: Column(

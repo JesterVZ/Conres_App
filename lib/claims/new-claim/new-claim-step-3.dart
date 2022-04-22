@@ -5,11 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-
 import '../../consts.dart';
 import '../../elements/masks.dart';
-import '../../icons.dart';
-import '../../profile/profile-no-ls.dart';
 import 'new-claim-step-2.dart';
 import 'new-claim-step-4.dart';
 

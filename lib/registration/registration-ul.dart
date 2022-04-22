@@ -57,7 +57,7 @@ class _RegUL extends State<RegUL> {
                           padding: const EdgeInsets.fromLTRB(21, 70, 21, 54),
                           child: Column(
                             children: [
-                              HeaderRow(regTitle, 34, false),
+                              HeaderRow(text: regTitle, fontSize: 24,),
                               Container(
                                   margin:
                                       const EdgeInsets.fromLTRB(0, 38, 0, 18),
