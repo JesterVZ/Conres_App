@@ -18,8 +18,6 @@ class _LoginPage extends State<LoginPage> {
   TextEditingController lkController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   AuthBloc? authBloc;
-  final Widget svg = SvgPicture.asset('assets/background_image.svg',
-      color: colorLogo, semanticsLabel: 'Acme Logo');
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +26,6 @@ class _LoginPage extends State<LoginPage> {
         body: Stack(
           fit: StackFit.expand,
           children: [
-            Positioned(right: 0, child: svg),
             Padding(
                 padding: EdgeInsets.only(left: 27, right: 27, top: 76),
                 child: Flex(
@@ -67,7 +64,6 @@ class _LoginPage extends State<LoginPage> {
                             style: ElevatedButton.styleFrom(
                                 primary: colorMain))),
                   ),
-
                   SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,
                       height: 55.0,
@@ -85,7 +81,6 @@ class _LoginPage extends State<LoginPage> {
                           ),
                           style: ElevatedButton.styleFrom(
                               primary: colorGray))),
-
                   //ElevatedButton(onPressed: (){}, child: Text(login)),
                 ],
               ),
@@ -93,5 +88,4 @@ class _LoginPage extends State<LoginPage> {
           ],
         ));
   }
-
 }

@@ -1,4 +1,3 @@
-import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,16 +17,21 @@ class _SplashScreen extends State<SplashScreen>{
   }
 
   _navigateToHome() async{
-    await Future.delayed(Duration(milliseconds: 3000));
+    await Future.delayed(Duration(milliseconds: 1500));
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoadingPage()), (route) => false);
   }
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
+        color: Colors.red,
         image: DecorationImage(
+          fit: BoxFit.fill,
           image: AssetImage('assets/splash.jpg')
         )
+      ),
+      child: Center(
+        child: SvgPicture.asset('assets/splash-logo.svg'),
       ),
     );
   }

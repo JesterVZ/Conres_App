@@ -163,3 +163,5 @@ TextStyle warningTextStyle = TextStyle(fontSize: 16.0, color: whiteGrayColor);
 TextStyle contractLabelTextStyle = const TextStyle(fontSize: 14.0, color: Colors.white);
 TextStyle claimLabelTextStyle = TextStyle(fontSize: 16.0, color: claimLabelColor);
 TextStyle puTextStyle = TextStyle(fontSize: 13.0, color: whiteLabelColor);
+
+BorderRadius buttonRadius = BorderRadius.circular(10);
