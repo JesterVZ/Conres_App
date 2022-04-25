@@ -66,7 +66,8 @@ class _LoginEmail extends State<LoginEmail> {
                                       hintText: "Лицевой счет",
                                       border: OutlineInputBorder(
                                           borderSide:
-                                          BorderSide(color: inputBorder))),
+                                          BorderSide(color: inputBorder),
+                                      borderRadius: buttonRadius),),
                                 )
                               ],
                             )),
@@ -87,8 +88,9 @@ class _LoginEmail extends State<LoginEmail> {
                                   decoration: InputDecoration(
                                       hintText: "Пароль",
                                       border: OutlineInputBorder(
-                                          borderSide:
-                                          BorderSide(color: inputBorder))),
+                                          borderSide: BorderSide(color: inputBorder),
+                                          borderRadius: buttonRadius,
+                                          )),
                                 )
                               ],
                             )),
@@ -101,7 +103,6 @@ class _LoginEmail extends State<LoginEmail> {
                                   height: 55.0,
                                   child: ElevatedButton(
                                       onPressed: () {
-
                                         _handleLogin(state, lkController.text,
                                             passwordController.text);
                                       },
@@ -110,7 +111,10 @@ class _LoginEmail extends State<LoginEmail> {
                                         style: buttonTextStyle,
                                       ),
                                       style: ElevatedButton.styleFrom(
-                                          primary: colorMain))),
+                                          primary: colorMain,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: buttonRadius
+                                          )))),
                             ),
 
                             //ElevatedButton(onPressed: (){}, child: Text(login)),

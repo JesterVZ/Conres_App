@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../DI/dependency-provider.dart';
 import '../bloc/profile/profile-state.dart';
+import '../chats/messages.dart';
 import '../claims/claims.dart';
 import '../contracts/contracts.dart';
 import '../elements/bloc/bloc-screen.dart';
@@ -62,7 +63,7 @@ class _MainPage extends State<MainPage>{
     ));
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.chats],
-        rootPage: Chats()
+        rootPage: MessagesPage()
     ));
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.more],
@@ -159,7 +160,7 @@ class _MainPage extends State<MainPage>{
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
-    profileBloc!.getCookies(widget.loginData![0], widget.loginData![1], widget.loginData![2]);
+    //profileBloc!.getCookies(widget.loginData![0], widget.loginData![1], widget.loginData![2]);
     getData();
   }
 }

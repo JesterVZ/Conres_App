@@ -62,7 +62,10 @@ class _LoginPage extends State<LoginPage> {
                               style: const TextStyle(fontSize: 18.0),
                             ),
                             style: ElevatedButton.styleFrom(
-                                primary: colorMain))),
+                                primary: colorMain,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: buttonRadius
+                            )))),
                   ),
                   SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,
@@ -75,12 +78,16 @@ class _LoginPage extends State<LoginPage> {
                                     builder: (context) =>
                                         const ChangeType(isReg: false)));
                           },
+
                           child: Text(
                             login,
                             style: buttonTextStyle,
                           ),
                           style: ElevatedButton.styleFrom(
-                              primary: colorGray))),
+                              primary: colorGray,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: buttonRadius
+                          )))),
                   //ElevatedButton(onPressed: (){}, child: Text(login)),
                 ],
               ),

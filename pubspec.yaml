@@ -98,6 +98,8 @@ flutter:
     - assets/splash.jpg
     - assets/splash-logo.svg
     - assets/mail.png
+    - assets/clip.svg
+    - assets/arrow-type2.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

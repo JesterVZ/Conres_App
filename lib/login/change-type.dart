@@ -21,9 +21,6 @@ class _ChangeType extends State<ChangeType> {
   TextEditingController lkController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  final Widget svg = SvgPicture.asset('assets/background_image.svg',
-      color: colorLogo, semanticsLabel: 'Acme Logo');
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +28,6 @@ class _ChangeType extends State<ChangeType> {
         body: Stack(
           fit: StackFit.expand,
           children: [
-            Positioned(right: 0, child: svg),
             Positioned(
                 width: 375,
                 left: 26,
@@ -50,13 +46,16 @@ class _ChangeType extends State<ChangeType> {
                         child: ElevatedButton(
                             onPressed: () {
                               widget.isReg ? Navigator.push(context, MaterialPageRoute(builder:  (context) => RegUL())) : Navigator.push(context, MaterialPageRoute(builder:  (context) => LoginEmail(type: 3)));
-
                             },
                             child: Text(
                               ul,
                               style: buttonTextStyle,
                             ),
-                            style: ElevatedButton.styleFrom(primary: colorMain))),
+                            style: ElevatedButton.styleFrom(
+                                primary: colorMain,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: buttonRadius
+                            )))),
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
@@ -71,7 +70,11 @@ class _ChangeType extends State<ChangeType> {
                               fl,
                               style: buttonTextStyle,
                             ),
-                            style: ElevatedButton.styleFrom(primary: colorMain))),
+                            style: ElevatedButton.styleFrom(
+                                primary: colorMain,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: buttonRadius
+                            )))),
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
@@ -86,7 +89,11 @@ class _ChangeType extends State<ChangeType> {
                               ip,
                               style: buttonTextStyle,
                             ),
-                            style: ElevatedButton.styleFrom(primary: colorMain))),
+                            style: ElevatedButton.styleFrom(
+                                primary: colorMain,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: buttonRadius
+                            )))),
                   ),
                 ],
               ),
