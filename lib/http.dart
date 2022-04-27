@@ -1,3 +1,4 @@
+import 'package:conres_app/model/claim.dart';
 import 'package:conres_app/model/profile.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
@@ -283,6 +284,21 @@ class HttpClient{
 
   Future<Object?>? getMessagesTicket(){
     return null; //доделать
+  }
+  Future<Object?> getClaims() async{
+    String uri = protocol + domain + 'lk/index.php?route=claims/claims/api';
+    try{
+      final result = await _apiClient.post(uri);
+      if(result.statusCode == 200){
+        List<Claim> claims = [];
+        for(int i = 0; i < result.data['data']['user_claims'].length; i++){
+          claims.add(Claim.fromMap(result.data['data']['user_claims'][0]));
+        }
+        return claims;
+      }
+    }catch(e){
+      print(e);
+    }
   }
 
 }

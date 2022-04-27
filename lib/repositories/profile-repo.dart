@@ -28,4 +28,8 @@ class ProfileRepo{
     var result = await httpClient.getLinkedNumbers();
     return result;
   }
+  Future<dynamic> getClaims() async{
+    var result = await httpClient.getClaims();
+    return result;
+  }
 }

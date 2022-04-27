@@ -1,86 +1,85 @@
+import 'package:conres_app/elements/claims/status-element.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../consts.dart';
+import '../../model/claim.dart';
 
 class ClaimElement extends StatefulWidget{
-
-  final String claimName;
-  final String claimNumber;
-  final DateTime date;
-
-  ClaimElement({Key? key, required this.claimName, required this.claimNumber, required this.date}) : super(key: key);
-
+  final Claim currentClaim;
+  ClaimElement({Key? key, required this.currentClaim}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _ClaimElement();
-
 }
 
 class _ClaimElement extends State<ClaimElement>{
+
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(bottom: 28),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(11)
+      ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Название заявления", style: TextStyle(
-                color: whiteLabelColor,
-                fontSize: 15
-              )),
-              Text(widget.claimName)
+              Container(
+                margin: const EdgeInsets.only(bottom: 3),
+                child: Text("Название заявления", style: TextStyle(
+                  fontSize: 15,
+                  color: colorGrayClaim
+                ))
+              ),
+              Text(widget.currentClaim.name!, style: const TextStyle(
+                fontSize: 18
+              ))
             ],
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
+          Row(
             children: [
-              Text("Номер заявления", style: TextStyle(
-                  color: whiteLabelColor,
-                  fontSize: 15
-              )),
-              Text(widget.claimNumber)
+              Container(
+                margin: EdgeInsets.only(right: 20),
+                child: Column(
+                  children: [
+                    Container(
+                        margin: const EdgeInsets.only(bottom: 3),
+                        child: Text("Номер заявления", style: TextStyle(
+                            fontSize: 15,
+                            color: colorGrayClaim
+                        ))
+                    ),
+                    Text(widget.currentClaim.claim_id!, style: const TextStyle(
+                        fontSize: 18
+                    ))
+                  ],
+                ),
+              ),
+              Column(
+                children: [
+                  Container(
+                      margin: const EdgeInsets.only(bottom: 3),
+                      child: Text("Дата", style: TextStyle(
+                          fontSize: 15,
+                          color: colorGrayClaim
+                      ))
+                  ),
+                  Text(widget.currentClaim.date!, style: const TextStyle(
+                      fontSize: 18
+                  ))
+                ],
+              )
             ],
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text("Дата", style: TextStyle(
-                  color: whiteLabelColor,
-                  fontSize: 15
-              )),
-              Text(widget.date.toString())
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text("Статус заявления", style: TextStyle(
-                  color: whiteLabelColor,
-                  fontSize: 15
-              )),
-              Text(widget.date.toString())
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text("Статус оплаты", style: TextStyle(
-                  color: whiteLabelColor,
-                  fontSize: 15
-              )),
-              Text(widget.date.toString())
-            ],
-          ),
-          ElevatedButton(onPressed: (){},
-              child: const Text("Скачать заявление"))
+          StatusElement(status: widget.currentClaim.status_name!)
         ],
-      )
+      ),
     );
   }
 }

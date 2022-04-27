@@ -137,6 +137,7 @@ String testimonyNotFound = "По данному лицевому счёту не
 
 Color colorMain = const Color(0xFF4574F7);
 Color colorGray = const Color(0xFF4F5A6E);
+Color colorGrayClaim = const Color(0xFF9B9BAE);
 Color colorGrayText = const Color(0xFF4F5A6E);
 Color inputBorder = const Color(0xFFE8EDFF);
 Color defaultBackground = const Color(0xFFFFFFFF);
@@ -151,10 +152,12 @@ Color whiteGrayColor = const Color(0xFFa7adb7);
 Color redColor = const Color(0xFFE63757);
 Color claimLabelColor = const Color(0xFFa7acb7);
 Color yellowColor = const Color(0xFFFFAE34);
+Color yellowStatusColor = const Color(0xFFFDE7C6);
 Color whiteBlueColor = const Color(0xFFE4EAFF);
 Color whiteLabelColor = const Color(0xFFA3A5BC);
 Color dashedColor = const Color(0xFF4E648A);
 Color messageColor = const Color(0xFFECF2FE);
+Color pageColor = const Color(0xFFF4F5FA);
 
 TextStyle claimTextStyle = TextStyle(color: colorMain, fontSize: 18.0, fontFamily: 'Bubicon-Bold');
 TextStyle labelTextStyle = TextStyle(color: colorGrayText, fontSize: 16.0);

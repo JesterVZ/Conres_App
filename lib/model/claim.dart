@@ -1,0 +1,75 @@
+import 'dart:core';
+
+class Claim{
+  String? claim_id;
+  String? name;
+  String? account_id;
+  String? date;
+  String? date_close;
+  String? rso_is_read;
+  String? last_claim_rso;
+  String? lk_is_read;
+  String? last_claim_lk;
+  String? claim_types_id;
+  String? status;
+  String? payment_status;
+  String? user_lk_id;
+  String? document_href;
+  String? basename;
+  String? color_type_id;
+  String? status_name;
+  String? color_type_payment;
+  String? status_name_payment;
+  String? status_color;
+  String? status_pay;
+  String? status_pay_color;
+
+  Claim({
+    required this.claim_id,
+    required this.name,
+    required this.account_id,
+    required this.date,
+    required this.date_close,
+    required this.rso_is_read,
+    required this.last_claim_rso,
+    required this.lk_is_read,
+    required this.last_claim_lk,
+    required this.claim_types_id,
+    required this.status,
+    required this.payment_status,
+    required this.user_lk_id,
+    required this.document_href,
+    required this.basename,
+    required this.color_type_id,
+    required this.status_name,
+    required this.color_type_payment,
+    required this.status_name_payment,
+    required this.status_color,
+    required this.status_pay,
+    required this.status_pay_color});
+  factory Claim.fromMap(Map<dynamic, dynamic> map){
+    return Claim(
+        claim_id: map['claim_id'],
+        name: map['name'],
+        account_id: map['account_id'],
+        date: map['date'],
+        date_close: map['date_close'],
+        rso_is_read: map['rso_is_read'],
+        last_claim_rso: map['last_claim_rso'],
+        lk_is_read: map['lk_is_read'],
+        last_claim_lk: map['last_claim_lk'],
+        claim_types_id: map['claim_types_id'],
+        status: map['status'],
+        payment_status: map['payment_status'],
+        user_lk_id: map['user_lk_id'],
+        document_href: map['document_href'],
+        basename: map['basename'],
+        color_type_id: map['color_type_id'],
+        status_name: map['status_name'],
+        color_type_payment: map['color_type_payment'],
+        status_name_payment: map['status_name_payment'],
+        status_color: map['status_color'],
+        status_pay: map['status_pay'],
+        status_pay_color: map['status_pay_color']);
+  }
+}

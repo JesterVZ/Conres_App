@@ -44,6 +44,7 @@ dependencies:
   file_picker: ^4.5.1
   datetime_picker_formfield: ^2.0.0
   sliding_up_panel: ^2.0.0+1
+  accordion: ^2.1.2
 
 
   # The following adds the Cupertino Icons font to your application.

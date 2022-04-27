@@ -38,3 +38,7 @@ class GetContracts extends ProfileEvent{
 class GetNumbers extends ProfileEvent{
   const GetNumbers();
 }
+
+class GetClaims extends ProfileEvent{
+  const GetClaims();
+}

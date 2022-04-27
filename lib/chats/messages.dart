@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../consts.dart';
+import '../elements/chat/m-element.dart';
+import '../elements/chat/mesage-row.dart';
 import '../elements/header/header.dart';
 
 class MessagesPage extends StatefulWidget {
@@ -12,6 +14,13 @@ class MessagesPage extends StatefulWidget {
 
 class _MessagesPage extends State<MessagesPage>{
   List<Widget> messages = [];
+  TextEditingController controller = TextEditingController();
+  void _send(){
+    setState(() {
+      messages.add(MessageRow(text: controller.text, isOwn: true));
+      controller.text = "";
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,15 +53,13 @@ class _MessagesPage extends State<MessagesPage>{
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: (){
-
-                    },
                     child: SvgPicture.asset('assets/clip.svg')
                   ),
                   const Spacer(),
                   Container(
                     width: 245,
                     child: TextField(
+                      controller: controller,
                       decoration: InputDecoration(
                           hintText: "Сообщение...",
                           fillColor: messageColor,
@@ -65,6 +72,9 @@ class _MessagesPage extends State<MessagesPage>{
                   ),
                   const Spacer(),
                   GestureDetector(
+                    onTap: (){
+                      _send();
+                    },
                     child: Container(
                       padding: EdgeInsets.all(14),
                       width: 45,

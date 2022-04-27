@@ -37,7 +37,6 @@ class _Contracts extends State<Contracts>{
                     children: [
                       Column(
                         children: [
-
                           //здесь договоры
                           Column(
                             children: contracts,

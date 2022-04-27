@@ -1,10 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:conres_app/bloc/profile/profile-event.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
+import 'package:conres_app/claims/claims.dart';
 import 'package:conres_app/model/contract.dart';
 import 'package:conres_app/model/result-data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../model/claim.dart';
 import '../../repositories/profile-repo.dart';
 import '../../shared-preferences/shared-preferences.dart';
 
@@ -33,6 +35,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
     }
     if(event is GetNumbers){
       yield* _handleGetNumbers(event);
+    }
+    if(event is GetClaims){
+      yield* _handleGetClaims(event);
     }
   }
 
@@ -64,6 +69,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
 
   getNumbers(){
     add(const GetNumbers());
+  }
+
+  getClaims(){
+    add(const GetClaims());
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async*{
@@ -137,6 +146,18 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
       Object result = await repo.getNumbers();
       if(result is List<String>){
         yield state.copyWith(loading: false, error: null, numbers: result);
+      }
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleGetClaims(GetClaims event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      Object result = await repo.getClaims();
+      if(result is List<Claim>){
+        yield state.copyWith(loading: false, error: null, claims: result);
       }
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
