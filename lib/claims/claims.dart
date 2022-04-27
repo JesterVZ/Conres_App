@@ -1,3 +1,4 @@
+import 'package:accordion/accordion.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,12 +41,7 @@ class _Claims extends State<Claims> {
                       child: Column(
                         children: [
                           Column(
-                            children: [
-                              //здесь договоры
-                              Column(
-                                children: claims,
-                              ),
-                            ],
+                            children: claims
                           )
                         ],
                       )
