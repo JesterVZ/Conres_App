@@ -9,6 +9,7 @@ import '../DI/dependency-provider.dart';
 import '../consts.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/chat/ticket-row.dart';
+import '../model/ticket.dart';
 
 
 class Chats extends StatefulWidget{
@@ -59,10 +60,17 @@ class _Chats extends State<Chats>{
     }
     if(state.tickets != null){
       for(int i= 0; i < state.tickets!.length; i++){
-        tickets.add(TicketRow(ticket: state.tickets![i],));
+        tickets.add(TicketRow(ticket: state.tickets![i], openChat: _openChat));
       }
     }
+    if(state.messages != null){
 
+    }
+
+  }
+
+  void _openChat(Ticket ticket){
+    profileBloc!.getMessages(ticket.ticket_id.toString(), "1", "1");
   }
 
   void _connectToSocket() async{

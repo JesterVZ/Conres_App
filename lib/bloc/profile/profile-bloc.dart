@@ -43,6 +43,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
     if(event is GetTickets){
       yield* _handleGetTickets(event);
     }
+    if(event is GetMessages){
+      yield* _handleGetMessages(event);
+    }
 
   }
 
@@ -82,6 +85,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
 
   getTickets(){
     add(const GetTickets());
+  }
+
+  getMessages(String chat_id, String page, String last_message_id){
+    add(GetMessages(chat_id, page, last_message_id));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async*{
@@ -179,6 +186,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
       Object result = await repo.getTickets();
       if(result is List<Ticket>){
         yield state.copyWith(loading: false, tickets: result);
+      }
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+  Stream<ProfileState> _handleGetMessages(GetMessages event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      Object result = await repo.getMessageFromTicket(event.chat_id, event.page, event.last_message_id);
+      if(result is List<Message>){
+        yield state.copyWith(loading: false, error: null, messages: result);
       }
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());

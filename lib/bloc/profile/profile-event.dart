@@ -46,3 +46,10 @@ class GetClaims extends ProfileEvent{
 class GetTickets extends ProfileEvent{
   const GetTickets();
 }
+
+class GetMessages extends ProfileEvent{
+  final String chat_id;
+  final String page;
+  final String last_message_id;
+  const GetMessages(this.chat_id, this.page, this.last_message_id);
+}

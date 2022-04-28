@@ -6,13 +6,13 @@ import '../../model/ticket.dart';
 
 class TicketRow extends StatelessWidget{
   Ticket ticket;
-  VoidCallback? openChat;
+  ValueChanged<Ticket>? openChat;
   TicketRow({required this.ticket, this.openChat});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        openChat;
+        openChat!.call(this.ticket);
       },
       child: Container(
         padding: EdgeInsets.all(15),

@@ -309,6 +309,9 @@ class HttpClient{
         'last_message_id': last_message_id
       });
       final result = await _apiClient.post(uri, data: formData);
+      if(result.statusCode == 200){
+        List<Message> messages = [];
+      }
     }catch(e){
       print(e);
     }

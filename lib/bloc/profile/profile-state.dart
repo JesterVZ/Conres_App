@@ -13,6 +13,7 @@ class ProfileState {
   final List<String>? numbers;
   final List<Claim>? claims;
   final List<Ticket>? tickets;
+  final List<Message>? messages;
   final dynamic webSocketData;
   final ResultData? bindLsData;
 
@@ -26,7 +27,8 @@ class ProfileState {
       this.contracts,
       this.numbers,
       this.claims,
-      this.tickets});
+      this.tickets,
+      this.messages});
 
   static initial() => ProfileState(cookieStr: null, loading: null, error: null);
   ProfileState copyWith(
@@ -38,7 +40,8 @@ class ProfileState {
       List<String>? numbers,
       String? error,
       List<Claim>? claims,
-      List<Ticket>? tickets}) {
+      List<Ticket>? tickets,
+      List<Message>? messages}) {
     return ProfileState(
         error: error,
         loading: loading ?? this.loading,
@@ -48,6 +51,7 @@ class ProfileState {
         contracts: contracts ?? this.contracts,
         numbers: numbers ?? this.numbers,
         claims: claims ?? this.claims,
-        tickets: tickets ?? this.tickets);
+        tickets: tickets ?? this.tickets,
+        messages: messages ?? this.messages);
   }
 }
