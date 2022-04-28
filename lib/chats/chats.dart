@@ -1,14 +1,15 @@
+import 'package:conres_app/bloc/profile/profile-bloc.dart';
+import 'package:conres_app/bloc/profile/profile-state.dart';
+import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-
 import '../DI/dependency-provider.dart';
-import '../bloc/auth/auth-block.dart';
-import '../bloc/auth/auth-state.dart';
+import '../consts.dart';
 import '../elements/bloc/bloc-screen.dart';
-import '../elements/chat/ticket-element.dart';
-import '../elements/dropdown.dart';
+import '../elements/chat/ticket-row.dart';
+
 
 class Chats extends StatefulWidget{
   @override
@@ -16,31 +17,51 @@ class Chats extends StatefulWidget{
 }
 
 class _Chats extends State<Chats>{
-  AuthBloc? authBloc;
+  ProfileBloc? profileBloc;
   late WebSocketChannel? webSocketChannel;
+  List<Widget> tickets = [];
 
   @override
   Widget build(BuildContext context) {
-    return BlocScreen<AuthBloc, AuthState>(
-        bloc: authBloc,
+    return BlocScreen<ProfileBloc, ProfileState>(
+        bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
     builder: (context, state) {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                TicketElement(1, "test"),
-                TicketElement(1, "test"),
-                TicketElement(1, "test"),
-                TicketElement(1, "test"),
-                TicketElement(1, "test"),
-              ],
-            )
-
+          return Scaffold(
+              body: Container(
+                padding: const EdgeInsets.only(left: 18, right: 18),
+                color: pageColor,
+                child: Column(
+                  children: [
+                    Container(
+                        height: 100,
+                        child: HeaderNotification(text: reportsPage)
+                    ),
+                    Expanded(child: Scrollbar(child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Column(
+                                children: tickets
+                            )
+                          ],
+                        )
+                    ))),
+                  ],
+                ),
+              )
           );
     });
   }
 
-  _listener(BuildContext context, AuthState state) {
+  _listener(BuildContext context, ProfileState state) {
+    if(state.loading == true){
+      return;
+    }
+    if(state.tickets != null){
+      for(int i= 0; i < state.tickets!.length; i++){
+        tickets.add(TicketRow(ticket: state.tickets![i],));
+      }
+    }
 
   }
 
@@ -50,6 +71,7 @@ class _Chats extends State<Chats>{
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    authBloc ??= DependencyProvider.of(context)!.authBloc;
+    profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    profileBloc!.getTickets();
   }
 }

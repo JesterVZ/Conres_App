@@ -1,6 +1,7 @@
 import 'package:accordion/accordion.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
+import 'package:conres_app/claims/new-claim/new-claim-step-1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -53,9 +54,9 @@ class _Claims extends State<Claims> {
                       padding: EdgeInsets.only(left: 18, right: 18),
                       child: ElevatedButton(
                         onPressed: (){
-                          //Navigator.push(context, MaterialPageRoute(builder: (context) => const NewLS()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => NewClaimStep1()));
                         },
-                        child: Text(linkNewLs, style: buttonTextStyle),
+                        child: Text("Новое заявление", style: buttonTextStyle),
                         style: ElevatedButton.styleFrom(
                             primary: colorMain,shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)

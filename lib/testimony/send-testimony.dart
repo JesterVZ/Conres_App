@@ -44,72 +44,18 @@ class _SendTestimony extends State<SendTestimony> {
         listener: (context, state) => _listener(context, state),
     builder: (context, state) {
       return Scaffold(
-          body: SingleChildScrollView(
+          body: Container(
+            padding: const EdgeInsets.only(left: 18, right: 18),
+            color: pageColor,
             child: Column(
               children: [
-                Stack(
-                  children: [
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(21, 58, 21, 54),
-                          child: Column(
-                            children: [
-                              Container(
-                                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 14),
-                                  child: HeaderNotification(sendTestimony)),
-                              Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 61,
-                                  child: ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                          primary: colorGray,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(8))),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              const Text("Текущий Лицевой счёт",
-                                                  style: TextStyle(
-                                                      color: Colors.white, fontSize: 14)),
-                                              Text(widget.personal!,
-                                                  style: const TextStyle(
-                                                      color: Colors.white, fontSize: 18))
-                                            ],
-                                          ),
-                                          const Spacer(),
-                                          Container(
-                                            //margin: EdgeInsets.fromLTRB(45, 0, 0, 0),
-                                            width: 32,
-                                            height: 32,
-                                            decoration: BoxDecoration(
-                                                color: meterDataColor,
-                                                shape: BoxShape.circle),
-                                            child: Padding(
-                                              padding: const EdgeInsets.fromLTRB(13, 9, 11, 9),
-                                              child: SvgPicture.asset(
-                                                "assets/ls-right-arrow.svg",
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ))),
-                              content,
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-
-                  ],
-                )
+                Container(
+                    height: 100,
+                    child: HeaderNotification(text: "Передача показаний")
+                ),
+                Expanded(child: Scrollbar(child: SingleChildScrollView(
+                    child: content
+                ))),
               ],
             ),
           ));

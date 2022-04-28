@@ -23,7 +23,7 @@ class _EditPU extends State<EditPU>{
                 children: [
                   Container(
                       margin: EdgeInsets.fromLTRB(0, 0, 0, 14),
-                      child: HeaderNotification(editPuTitle)),
+                      child: HeaderNotification(text: editPuTitle)),
                   Container(
                       margin: EdgeInsets.fromLTRB(0, 0, 0, 14),
                       child: Column(

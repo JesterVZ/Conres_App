@@ -21,6 +21,7 @@ class _NewClaimStep6 extends State<NewClaimStep6>{
     "2": null,
     "3": null
   };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,51 +48,54 @@ class _NewClaimStep6 extends State<NewClaimStep6>{
                             children: [
                               Text("Паспорт страницы 1-2", style: TextStyle(
                                   fontSize: 16,
-                                  color: colorGrayText)),
+                                  color: colorGrayText,)),
                               GestureDetector(
                                 onTap: (){
                                   _loadImage(1);
                                 },
-                                child: Container(
-                                  padding: EdgeInsets.only(left: 18, right: 18),
-                                  height: 70,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      color: imagesMap["1"] != null ? Colors.white : contractBtnColor,
-                                    border: imagesMap["1"] != null ? Border.all(color: borderProfileColor) : null
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        width: 40,
-                                        height: 40,
-                                        decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white
+                                child: Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                    padding: EdgeInsets.only(left: 18, right: 18),
+                                    height: 70,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: imagesMap["1"] != null ? Colors.white : contractBtnColor,
+                                        border: imagesMap["1"] != null ? Border.all(color: borderProfileColor) : null
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(right: 10),
+                                          width: 40,
+                                          height: 40,
+                                          decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.white
+                                          ),
+                                          child:
+                                          Padding(padding: EdgeInsets.all(10),
+                                              child: SvgPicture.asset("assets/file-icon.svg", color: colorMain)),
                                         ),
-                                        child:
-                                        Padding(padding: EdgeInsets.all(10),
-                                            child: SvgPicture.asset("assets/file-icon.svg", color: colorMain)),
-                                      ),
-                                      Text(imagesMap["1"] != null ? imagesMap["1"]!.names[0].toString() : "Выбрать файл", style: TextStyle(
-                                          color: colorMain
-                                      )),
-                                      const Spacer(),
-                                      Visibility(
-                                        visible: imagesMap["1"] != null ? true : false,
-                                          child: GestureDetector(
-                                            onTap: (){
-                                              _removeImage(1);
-                                            },
-                                                child: Container(
-                                                  width: 20,
-                                                  height: 20,
-                                                  child: SvgPicture.asset('assets/remove-file.svg'),
-                                                ),
-                                      ))
+                                        Text(imagesMap["1"] != null ? imagesMap["1"]!.names[0].toString() : "Выбрать файл", overflow: TextOverflow.ellipsis, style: TextStyle(
+                                            color: colorMain
+                                        )),
+                                        const Spacer(),
+                                        Visibility(
+                                            visible: imagesMap["1"] != null ? true : false,
+                                            child: GestureDetector(
+                                              onTap: (){
+                                                _removeImage(1);
+                                              },
+                                              child: Container(
+                                                width: 20,
+                                                height: 20,
+                                                child: SvgPicture.asset('assets/remove-file.svg'),
+                                              ),
+                                            ))
 
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 )
                               )
@@ -133,9 +137,15 @@ class _NewClaimStep6 extends State<NewClaimStep6>{
                                         Padding(padding: EdgeInsets.all(10),
                                             child: SvgPicture.asset("assets/file-icon.svg", color: colorMain)),
                                       ),
-                                      Text(imagesMap["2"] != null ? imagesMap["2"]!.names[0].toString() : "Выбрать файл", style: TextStyle(
-                                          color: colorMain
-                                      )),
+                                      Flex(
+                                        direction: Axis.vertical,
+                                        children: [
+                                          Text(imagesMap["2"] != null ? imagesMap["2"]!.names[0].toString() : "Выбрать файл", style: TextStyle(
+                                              color: colorMain
+                                          )),
+                                        ],
+                                      ),
+
                                       const Spacer(),
                                       Visibility(
                                           visible: imagesMap["2"] != null ? true : false,
@@ -237,8 +247,6 @@ class _NewClaimStep6 extends State<NewClaimStep6>{
                                         margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                                         child: SvgPicture.asset('assets/plus.svg')
                                     ),
-
-
                                     Text("Добавить документ", style: TextStyle(color: colorMain, fontSize: 18))
                                   ],
                                 ))

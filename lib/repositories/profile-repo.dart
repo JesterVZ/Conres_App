@@ -32,4 +32,8 @@ class ProfileRepo{
     var result = await httpClient.getClaims();
     return result;
   }
+  Future<dynamic> getTickets() async{
+    var result = await httpClient.getTickets();
+    return result;
+  }
 }

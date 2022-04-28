@@ -26,7 +26,7 @@ class _LinkPU extends State<LinkPU> {
                 children: [
                   Container(
                       margin: EdgeInsets.fromLTRB(0, 0, 0, 14),
-                      child: HeaderNotification(linkPU)),
+                      child: HeaderNotification(text: linkPU)),
                   Container(
                       margin: EdgeInsets.fromLTRB(0, 0, 0, 14),
                       child: Column(

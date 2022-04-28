@@ -63,7 +63,7 @@ class _MainPage extends State<MainPage>{
     ));
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.chats],
-        rootPage: MessagesPage()
+        rootPage: Chats()
     ));
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.more],

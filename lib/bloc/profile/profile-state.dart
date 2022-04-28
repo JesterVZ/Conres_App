@@ -1,4 +1,5 @@
 import 'package:conres_app/model/result-data.dart';
+import 'package:conres_app/model/ticket.dart';
 
 import '../../model/claim.dart';
 import '../../model/contract.dart';
@@ -11,6 +12,7 @@ class ProfileState {
   final List<Contract>? contracts;
   final List<String>? numbers;
   final List<Claim>? claims;
+  final List<Ticket>? tickets;
   final dynamic webSocketData;
   final ResultData? bindLsData;
 
@@ -23,7 +25,8 @@ class ProfileState {
       this.bindLsData,
       this.contracts,
       this.numbers,
-      this.claims});
+      this.claims,
+      this.tickets});
 
   static initial() => ProfileState(cookieStr: null, loading: null, error: null);
   ProfileState copyWith(
@@ -34,7 +37,8 @@ class ProfileState {
       List<Contract>? contracts,
       List<String>? numbers,
       String? error,
-      List<Claim>? claims}) {
+      List<Claim>? claims,
+      List<Ticket>? tickets}) {
     return ProfileState(
         error: error,
         loading: loading ?? this.loading,
@@ -43,6 +47,7 @@ class ProfileState {
         bindLsData: bindLsData ?? this.bindLsData,
         contracts: contracts ?? this.contracts,
         numbers: numbers ?? this.numbers,
-        claims: claims ?? this.claims);
+        claims: claims ?? this.claims,
+        tickets: tickets ?? this.tickets);
   }
 }

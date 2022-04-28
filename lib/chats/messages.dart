@@ -1,3 +1,4 @@
+import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -32,7 +33,7 @@ class _MessagesPage extends State<MessagesPage>{
           children: [
             Container(
                 height: 100,
-                child: HeaderRow(text: "Сообщения", fontSize: 24)
+                child: HeaderNotification(text: "Сообщения")
             ),
             Expanded(child: Scrollbar(child: SingleChildScrollView(
                 child: Column(

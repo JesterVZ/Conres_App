@@ -18,14 +18,22 @@ class _Testimony extends State<Testimony>{
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          )
+        ]
+      ),
         margin: EdgeInsets.only(bottom: 21),
         child: Column(
           children: [
             Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: borderProfileColor),
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(8), topRight: Radius.circular(8))),
                 child: Padding(
                     padding: EdgeInsets.all(17),
                     child: Row(
@@ -58,11 +66,6 @@ class _Testimony extends State<Testimony>{
                       ],
                     ))),
             Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: borderProfileColor),
-                    borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(8),
-                        bottomRight: Radius.circular(8))),
                 child: Padding(
                     padding: EdgeInsets.all(17),
                     child: Row(

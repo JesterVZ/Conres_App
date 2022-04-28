@@ -22,7 +22,7 @@ class _MoreScreen extends State<MoreScreen>{
                 padding: EdgeInsets.fromLTRB(21, 50, 21, 54),
                 child: Column(
                   children: [
-                    HeaderNotification("Ещё"),
+                    HeaderNotification(text: "Ещё"),
                     GestureDetector(
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => InfoPU()));

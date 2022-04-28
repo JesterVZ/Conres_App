@@ -42,3 +42,7 @@ class GetNumbers extends ProfileEvent{
 class GetClaims extends ProfileEvent{
   const GetClaims();
 }
+
+class GetTickets extends ProfileEvent{
+  const GetTickets();
+}

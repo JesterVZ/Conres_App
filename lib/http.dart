@@ -9,6 +9,7 @@ import 'model/contract.dart';
 import 'model/meter.dart';
 import 'model/model.dart';
 import 'model/result-data.dart';
+import 'model/ticket.dart';
 
 class HttpClient{
   static final String url = protocol + domain + 'lk/index.php?route=common/registration/api';
@@ -282,9 +283,37 @@ class HttpClient{
     }
   }
 
-  Future<Object?>? getMessagesTicket(){
-    return null; //доделать
+  Future<Object?>? getTickets() async{
+    String uri = protocol + domain + 'lk/index.php?route=catalog/ticket/api_getTickets';
+    try{
+      final result = await _apiClient.post(uri);
+      if(result.statusCode == 200){
+        List<Ticket> tickets = [];
+        for(int i = 0; i < result.data['data']['tickets'].length; i++){
+          tickets.add(Ticket.fromMap(result.data['data']['tickets'][i]));
+        }
+        return tickets;
+      }
+    }catch(e){
+      print(e);
+    }
   }
+
+  Future<Object?>? getMessagesFromTicket(String chat_id, String page, String last_message_id) async{
+    String uri = protocol + domain + 'lk/index.php?route=catalog/ticket/api_getMessagesTicket';
+    try{
+      var formData = FormData.fromMap({
+        'chat_id': chat_id,
+        'type': 'scroll',
+        'page': page,
+        'last_message_id': last_message_id
+      });
+      final result = await _apiClient.post(uri, data: formData);
+    }catch(e){
+      print(e);
+    }
+  }
+
   Future<Object?> getClaims() async{
     String uri = protocol + domain + 'lk/index.php?route=claims/claims/api';
     try{
