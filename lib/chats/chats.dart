@@ -10,6 +10,7 @@ import '../consts.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/chat/ticket-row.dart';
 import '../model/ticket.dart';
+import 'messages.dart';
 
 
 class Chats extends StatefulWidget{
@@ -64,7 +65,7 @@ class _Chats extends State<Chats>{
       }
     }
     if(state.messages != null){
-
+      Navigator.push(context, MaterialPageRoute(builder:  (context) => MessagesPage(messages: state.messages)));
     }
 
   }

@@ -3,6 +3,7 @@ import 'package:conres_app/bloc/profile/profile-event.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/claims/claims.dart';
 import 'package:conres_app/model/contract.dart';
+import 'package:conres_app/model/message.dart';
 import 'package:conres_app/model/result-data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

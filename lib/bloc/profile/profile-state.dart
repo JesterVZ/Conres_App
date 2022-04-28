@@ -3,6 +3,7 @@ import 'package:conres_app/model/ticket.dart';
 
 import '../../model/claim.dart';
 import '../../model/contract.dart';
+import '../../model/message.dart';
 
 class ProfileState {
   final String? cookieStr;

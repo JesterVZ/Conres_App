@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class ResultData {
   int? code_result;
-  Message? code_msg;
+  _Message? code_msg;
   dynamic data;
 
   ResultData(
@@ -13,19 +13,19 @@ class ResultData {
   factory ResultData.fromMap(Map<String, dynamic> map){
     return ResultData(
         code_result: map['code_result'],
-        code_msg: map['code_msg'] != null ? Message.fromMap(map['code_msg']) : null,
+        code_msg: map['code_msg'] != null ? _Message.fromMap(map['code_msg']) : null,
         data: map['data']);
 
   }
 }
 
-class Message {
+class _Message {
   String? msg;
   dynamic custom_fields;
-  Message({this.msg, this.custom_fields});
+  _Message({this.msg, this.custom_fields});
 
-  factory Message.fromMap(Map<String, dynamic> map){
-    return Message(
+  factory _Message.fromMap(Map<String, dynamic> map){
+    return _Message(
         msg: map['msg'],
         custom_fields: map['custom_fields']
     );

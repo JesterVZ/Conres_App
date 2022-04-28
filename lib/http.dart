@@ -1,4 +1,5 @@
 import 'package:conres_app/model/claim.dart';
+import 'package:conres_app/model/message.dart';
 import 'package:conres_app/model/profile.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
@@ -311,6 +312,10 @@ class HttpClient{
       final result = await _apiClient.post(uri, data: formData);
       if(result.statusCode == 200){
         List<Message> messages = [];
+        for(int i = 0; i < result.data['data']['messages'].length; i++){
+          messages.add(Message.fromMap(result.data['data']['messages'][i]));
+        }
+        return messages;
       }
     }catch(e){
       print(e);
