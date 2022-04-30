@@ -14,7 +14,6 @@ import '../icons.dart';
 import '../model/profile.dart';
 import '../testimony/link-pu.dart';
 import '../testimony/send-testimony.dart';
-import 'change-ls.dart';
 
 class ProfilePageTest extends StatefulWidget {
   ProfilePageTest({Key? key, this.profile, this.loginData}) : super(key: key);
@@ -58,7 +57,6 @@ class _ProfilePage extends State<ProfilePageTest> {
     super.didChangeDependencies();
     authBloc ??= DependencyProvider.of(context)!.authBloc;
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
-
     if(widget.profile != null){
       widget.content = Scaffold(
         body: Container(
@@ -145,7 +143,7 @@ class _ProfilePage extends State<ProfilePageTest> {
 
                                                     color: profileLabelColor,
                                                     fontSize: 15)),
-                                            Text(widget.profile!.inn,
+                                            Text(widget.profile!.inn!,
                                                 style: const TextStyle(
                                                   color: Colors.black, fontSize: 18, ))
                                           ],
@@ -193,7 +191,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                                             style: TextStyle(
                                                 color: profileLabelColor,
                                                 fontSize: 15)),
-                                        Text(widget.profile!.email,
+                                        Text(widget.profile!.email!,
                                             style: const TextStyle(
                                                 color: Colors.black, fontSize: 18))
                                       ],
@@ -208,7 +206,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                                             style: TextStyle(
                                                 color: profileLabelColor,
                                                 fontSize: 15)),
-                                        Text(widget.profile!.address,
+                                        Text(widget.profile!.address!,
                                             style: const TextStyle(
                                                 color: Colors.black, fontSize: 18))
                                       ],
@@ -278,6 +276,7 @@ class _ProfilePage extends State<ProfilePageTest> {
         )
       );
     }
+
   }
 
 }

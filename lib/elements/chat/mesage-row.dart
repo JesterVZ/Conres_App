@@ -21,7 +21,10 @@ class MessageRow extends StatelessWidget{
       ],
     ) : Row(
       children: [
-        MessageBox(text: text, rectangleColor: messageColor, textColor: Colors.black),
+        Container(
+            margin: EdgeInsets.only(left: 22, bottom: 10),
+          child: MessageBox(text: text, rectangleColor: messageColor, textColor: Colors.black),
+        ),
         const Spacer()
       ],
     );

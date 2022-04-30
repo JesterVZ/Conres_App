@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import '../model/profile.dart';
 import '../repositories/profile-repo.dart';
 
 // ignore: must_be_immutable

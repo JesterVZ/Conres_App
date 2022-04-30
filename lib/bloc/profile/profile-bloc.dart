@@ -35,9 +35,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
     if(event is GetContracts){
       yield* _handleGetContracts(event);
     }
-    if(event is GetNumbers){
-      yield* _handleGetNumbers(event);
-    }
     if(event is GetClaims){
       yield* _handleGetClaims(event);
     }
@@ -46,6 +43,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
     }
     if(event is GetMessages){
       yield* _handleGetMessages(event);
+    }
+    if(event is GetAllInfo){
+      yield* _handleGetAllInfo(event);
     }
 
   }
@@ -76,10 +76,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
     add(const GetContracts());
   }
 
-  getNumbers(){
-    add(const GetNumbers());
-  }
-
   getClaims(){
     add(const GetClaims());
   }
@@ -90,6 +86,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
 
   getMessages(String chat_id, String page, String last_message_id){
     add(GetMessages(chat_id, page, last_message_id));
+  }
+
+  getAllInfo(){
+    add(const GetAllInfo());
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async*{
@@ -156,19 +156,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
-
-  Stream<ProfileState> _handleGetNumbers(GetNumbers event) async*{
-    yield state.copyWith(loading: true, error: null);
-    try{
-      Object result = await repo.getNumbers();
-      if(result is List<String>){
-        yield state.copyWith(loading: false, error: null, numbers: result);
-      }
-    }catch(e){
-      yield state.copyWith(loading: false, error: e.toString());
-    }
-  }
-
   Stream<ProfileState> _handleGetClaims(GetClaims event) async*{
     yield state.copyWith(loading: true, error: null);
     try{
@@ -192,12 +179,25 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
+
   Stream<ProfileState> _handleGetMessages(GetMessages event) async*{
     yield state.copyWith(loading: true, error: null);
     try{
       Object result = await repo.getMessageFromTicket(event.chat_id, event.page, event.last_message_id);
       if(result is List<Message>){
         yield state.copyWith(loading: false, error: null, messages: result);
+      }
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleGetAllInfo(GetAllInfo event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      Object result = await repo.getAllInfo();
+      if(result is ResultData){
+        yield state.copyWith(loading: false, bindLsData: result);
       }
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());

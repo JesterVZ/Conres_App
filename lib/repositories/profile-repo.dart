@@ -24,8 +24,8 @@ class ProfileRepo{
     var result = await httpClient.getContracts();
     return result;
   }
-  Future<dynamic> getNumbers() async{
-    var result = await httpClient.getLinkedNumbers();
+  Future<dynamic> getInfo() async{
+    var result = await httpClient.getInfo();
     return result;
   }
   Future<dynamic> getClaims() async{
@@ -38,6 +38,10 @@ class ProfileRepo{
   }
   Future<dynamic> getMessageFromTicket(String chat_id, String page, String last_message_id) async{
     var result = await httpClient.getMessagesFromTicket(chat_id, page, last_message_id);
+    return result;
+  }
+  Future<dynamic> getAllInfo() async{
+    var result = await httpClient.getInfo();
     return result;
   }
 }

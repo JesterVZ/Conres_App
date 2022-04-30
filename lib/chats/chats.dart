@@ -9,11 +9,14 @@ import '../DI/dependency-provider.dart';
 import '../consts.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/chat/ticket-row.dart';
+import '../model/profile.dart';
 import '../model/ticket.dart';
 import 'messages.dart';
 
 
 class Chats extends StatefulWidget{
+  Profile profile;
+  Chats({Key? key, required this.profile}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _Chats();
 }
@@ -22,6 +25,7 @@ class _Chats extends State<Chats>{
   ProfileBloc? profileBloc;
   late WebSocketChannel? webSocketChannel;
   List<Widget> tickets = [];
+  String? userId;
 
   @override
   Widget build(BuildContext context) {
@@ -59,28 +63,30 @@ class _Chats extends State<Chats>{
     if(state.loading == true){
       return;
     }
+    if(state.bindLsData != null){
+      userId = state.bindLsData!.data['user_id'];
+    }
     if(state.tickets != null){
+      tickets.clear();
       for(int i= 0; i < state.tickets!.length; i++){
         tickets.add(TicketRow(ticket: state.tickets![i], openChat: _openChat));
       }
-    }
-    if(state.messages != null){
-      Navigator.push(context, MaterialPageRoute(builder:  (context) => MessagesPage(messages: state.messages)));
     }
 
   }
 
   void _openChat(Ticket ticket){
-    profileBloc!.getMessages(ticket.ticket_id.toString(), "1", "1");
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder:  (context) => MessagesPage(userId: userId!, ticketId: ticket.ticket_id.toString(), page: '1', lastMessageId: '1')));
   }
 
-  void _connectToSocket() async{
-    webSocketChannel = IOWebSocketChannel.connect("wss://promo.dev.conres.ru:2450/");
-  }
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    profileBloc!.getAllInfo();
     profileBloc!.getTickets();
   }
 }
