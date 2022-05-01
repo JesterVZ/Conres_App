@@ -1,4 +1,4 @@
-package com.example.conres_app
+package com.degamsoft.conres_app
 
 import io.flutter.embedding.android.FlutterActivity
 

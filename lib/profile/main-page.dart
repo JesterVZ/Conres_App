@@ -20,8 +20,7 @@ import '../websocket/websocket.dart';
 import 'bottom-nav/bottom-navigation-custom.dart';
 import 'navigators/tab-nav.dart';
 
-
-class MainPage extends StatefulWidget{
+class MainPage extends StatefulWidget {
   final Profile? profile;
   final List<dynamic>? loginData;
   MainPage({this.profile, this.loginData});
@@ -30,7 +29,7 @@ class MainPage extends StatefulWidget{
   State<StatefulWidget> createState() => _MainPage();
 }
 
-class _MainPage extends State<MainPage>{
+class _MainPage extends State<MainPage> {
   WebSocketChannel? webSocketChannel;
   WebSocketData? webSocketData;
   int? ticketCounter;
@@ -51,32 +50,26 @@ class _MainPage extends State<MainPage>{
     navigatorList.add(TabNavigator(
       navigatorKey: _navKeys[TabItem.main],
       profile: widget.profile,
-      rootPage: ProfilePageTest(profile: widget.profile, loginData: widget.loginData),
+      rootPage:
+          ProfilePageTest(profile: widget.profile, loginData: widget.loginData),
     ));
     navigatorList.add(TabNavigator(
-      navigatorKey: _navKeys[TabItem.contracts],
-      rootPage: Contracts()
-    ));
+        navigatorKey: _navKeys[TabItem.contracts], rootPage: Contracts()));
     navigatorList.add(TabNavigator(
-        navigatorKey: _navKeys[TabItem.claims],
-        rootPage: Claims()
-    ));
+        navigatorKey: _navKeys[TabItem.claims], rootPage: Claims()));
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.chats],
-        rootPage: Chats(profile: widget.profile!)
-    ));
+        rootPage: Chats(profile: widget.profile!)));
     navigatorList.add(TabNavigator(
-        navigatorKey: _navKeys[TabItem.more],
-        rootPage: MoreScreen(logout)
-    ));
+        navigatorKey: _navKeys[TabItem.more], rootPage: MoreScreen(logout)));
   }
 
-  void logout(){
+  void logout() {
     profileBloc!.logout();
   }
 
   void _selectTab(TabItem tabItem) {
-    if(tabItem == _currentTab){
+    if (tabItem == _currentTab) {
       _navKeys[tabItem]!.currentState!.popUntil((route) => route.isFirst);
     } else {
       setState(() {
@@ -91,18 +84,20 @@ class _MainPage extends State<MainPage>{
         bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
-          return WillPopScope(onWillPop: () async {
-            final isFirstRouteInCurrentTab = !await _navKeys[_currentTab]!.currentState!.maybePop();
+          return WillPopScope(
+            onWillPop: () async {
+              final isFirstRouteInCurrentTab =
+                  !await _navKeys[_currentTab]!.currentState!.maybePop();
 
-            if(isFirstRouteInCurrentTab){
-              //Не страница 'main'
-              if(_currentTab != TabItem.main){
-                _selectTab(TabItem.main);
-                return false;
+              if (isFirstRouteInCurrentTab) {
+                //Не страница 'main'
+                if (_currentTab != TabItem.main) {
+                  _selectTab(TabItem.main);
+                  return false;
+                }
               }
-            }
-            return isFirstRouteInCurrentTab;
-          },
+              return isFirstRouteInCurrentTab;
+            },
             child: Scaffold(
               body: IndexedStack(
                 index: _currentTab.index,
@@ -122,20 +117,21 @@ class _MainPage extends State<MainPage>{
             ),
           );
         });
-
   }
+
   _listener(BuildContext context, ProfileState state) {
-    if(state.loading == true){
+    if (state.loading == true) {
       return;
     }
-    if(state.cookieStr != null){
+    if (state.cookieStr != null) {
       webSocketChannel!.sink.add(state.cookieStr);
     }
-    if(state.loginData!.isEmpty){
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
+    if (state.loginData!.isEmpty) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+          (route) => false);
     }
   }
-
 
   Widget _buildOffstageNavigator(TabItem tabItem, Widget navigator) {
     return Offstage(
@@ -144,12 +140,13 @@ class _MainPage extends State<MainPage>{
     );
   }
 
-  void getData() async{
+  void getData() async {
     webSocketChannel!.stream.listen((event) {
       print('\x1B[31m$event\x1B[0m');
       setState(() {
         webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
-        ticketCounter = webSocketData!.data!.counters!.new_ticket_messages_count;
+        ticketCounter =
+            webSocketData!.data!.counters!.new_ticket_messages_count;
       });
     });
   }
@@ -159,7 +156,8 @@ class _MainPage extends State<MainPage>{
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
-    profileBloc!.getCookies(widget.loginData![0], widget.loginData![1], widget.loginData![2]);
+    profileBloc!.getCookies(
+        widget.loginData![0], widget.loginData![1], widget.loginData![2]);
     getData();
   }
 }

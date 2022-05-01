@@ -37,7 +37,7 @@ class _LoginEmail extends State<LoginEmail> {
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
           return GestureDetector(
-            onTap: (){
+            onTap: () {
               FocusScope.of(context).requestFocus(FocusNode());
             },
             child: Scaffold(
@@ -63,11 +63,12 @@ class _LoginEmail extends State<LoginEmail> {
                                 TextField(
                                   controller: lkController,
                                   decoration: InputDecoration(
-                                      hintText: "Лицевой счет",
-                                      border: OutlineInputBorder(
-                                          borderSide:
-                                          BorderSide(color: inputBorder),
-                                      borderRadius: buttonRadius),),
+                                    hintText: "Лицевой счет",
+                                    border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: inputBorder),
+                                        borderRadius: buttonRadius),
+                                  ),
                                 )
                               ],
                             )),
@@ -88,9 +89,10 @@ class _LoginEmail extends State<LoginEmail> {
                                   decoration: InputDecoration(
                                       hintText: "Пароль",
                                       border: OutlineInputBorder(
-                                          borderSide: BorderSide(color: inputBorder),
-                                          borderRadius: buttonRadius,
-                                          )),
+                                        borderSide:
+                                            BorderSide(color: inputBorder),
+                                        borderRadius: buttonRadius,
+                                      )),
                                 )
                               ],
                             )),
@@ -113,8 +115,7 @@ class _LoginEmail extends State<LoginEmail> {
                                       style: ElevatedButton.styleFrom(
                                           primary: colorMain,
                                           shape: RoundedRectangleBorder(
-                                              borderRadius: buttonRadius
-                                          )))),
+                                              borderRadius: buttonRadius)))),
                             ),
 
                             //ElevatedButton(onPressed: (){}, child: Text(login)),
@@ -146,7 +147,10 @@ class _LoginEmail extends State<LoginEmail> {
     }
     if (state.error == null) {
       print(state.loginData);
-      Navigator.of(context).pushAndRemoveUntil(DefaultPageRouter(MainPage(profile: state.profile)), (route) => false);
+      Navigator.of(context).pushAndRemoveUntil(
+          DefaultPageRouter(
+              MainPage(profile: state.profile, loginData: state.loginData)),
+          (route) => false);
     } else {
       showDialog(
           context: context,
