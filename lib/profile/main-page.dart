@@ -113,6 +113,7 @@ class _MainPage extends State<MainPage> {
                 currentTab: _currentTab,
                 onSelectTab: _selectTab,
                 ticketCounter: ticketCounter,
+                claimCounter: claimCounter,
               ),
             ),
           );
@@ -147,6 +148,7 @@ class _MainPage extends State<MainPage> {
         webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
         ticketCounter =
             webSocketData!.data!.counters!.new_ticket_messages_count;
+        claimCounter = webSocketData!.data!.counters!.new_claims_messages_count;
       });
     });
   }
