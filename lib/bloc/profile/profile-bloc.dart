@@ -96,7 +96,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
     yield state.copyWith(loading: true, error: null);
     try{
       String result = await repo.getCookie(event.username, event.password, event.type);
-      yield state.copyWith(loading: false, error: null, cookieStr: result);
+      yield state.copyWith(loading: false, error: result, cookieStr: result);
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }
