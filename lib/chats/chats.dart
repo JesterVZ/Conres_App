@@ -13,15 +13,14 @@ import '../model/profile.dart';
 import '../model/ticket.dart';
 import 'messages.dart';
 
-
-class Chats extends StatefulWidget{
+class Chats extends StatefulWidget {
   Profile profile;
   Chats({Key? key, required this.profile}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _Chats();
 }
 
-class _Chats extends State<Chats>{
+class _Chats extends State<Chats> {
   ProfileBloc? profileBloc;
   late WebSocketChannel? webSocketChannel;
   List<Widget> tickets = [];
@@ -32,54 +31,52 @@ class _Chats extends State<Chats>{
     return BlocScreen<ProfileBloc, ProfileState>(
         bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
-    builder: (context, state) {
+        builder: (context, state) {
           return Scaffold(
               body: Container(
-                padding: const EdgeInsets.only(left: 18, right: 18),
-                color: pageColor,
-                child: Column(
-                  children: [
-                    Container(
-                        height: 100,
-                        child: HeaderNotification(text: reportsPage)
-                    ),
-                    Expanded(child: Scrollbar(child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Column(
-                                children: tickets
-                            )
-                          ],
-                        )
-                    ))),
-                  ],
-                ),
-              )
-          );
-    });
+            padding: const EdgeInsets.only(left: 18, right: 18),
+            color: pageColor,
+            child: Column(
+              children: [
+                Container(
+                    height: 100, child: HeaderNotification(text: reportsPage)),
+                Expanded(
+                    child: Scrollbar(
+                        child: SingleChildScrollView(
+                            child: Column(
+                  children: [Column(children: tickets)],
+                )))),
+              ],
+            ),
+          ));
+        });
   }
 
   _listener(BuildContext context, ProfileState state) {
-    if(state.loading == true){
+    if (state.loading == true) {
       return;
     }
-    if(state.bindLsData != null){
+    if (state.bindLsData != null) {
       userId = state.bindLsData!.data['user_id'];
     }
-    if(state.tickets != null){
+    if (state.tickets != null) {
       tickets.clear();
-      for(int i= 0; i < state.tickets!.length; i++){
+      for (int i = 0; i < state.tickets!.length; i++) {
         tickets.add(TicketRow(ticket: state.tickets![i], openChat: _openChat));
       }
     }
-
   }
 
-  void _openChat(Ticket ticket){
+  void _openChat(Ticket ticket) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder:  (context) => MessagesPage(userId: userId!, ticketId: ticket.ticket_id.toString(), page: '1', lastMessageId: '1')));
+            builder: (context) => MessagesPage(
+                userId: userId!,
+                ticketId: ticket.ticket_id.toString(),
+                page: '1',
+                lastMessageId: '1',
+                profile: widget.profile)));
   }
 
   @override
