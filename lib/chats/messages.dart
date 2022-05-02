@@ -76,7 +76,8 @@ class _MessagesPage extends State<MessagesPage> {
                   firstname: fio[0],
                   lastname: fio[1],
                   patronymic: fio[2],
-                  contacts: "",
+                  contacts: Contacts(
+                      phone: "79024733651", email: "degamsoft-test@yandex.ru"),
                   href:
                       "index.php?route=user/user_lk/edit&user_lk_id=${widget.userId}"),
               date_group: DateTime.now().toString(),

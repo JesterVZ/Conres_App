@@ -104,7 +104,7 @@ class UserInfo {
   String? firstname;
   String? lastname;
   String? patronymic;
-  dynamic? contacts;
+  Contacts? contacts;
   String? href;
 
   UserInfo(
@@ -119,7 +119,14 @@ class UserInfo {
         'firstname': firstname,
         'lastname': lastname,
         'patronymic': patronymic,
-        'contacts': contacts,
+        'contacts': contacts != null ? contacts!.toJson() : null,
         'href': href
       };
+}
+
+class Contacts {
+  String? phone;
+  String? email;
+  Contacts({required this.phone, required this.email});
+  Map<String, dynamic> toJson() => {'2': phone, '3': email};
 }
