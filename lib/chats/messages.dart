@@ -41,6 +41,7 @@ class _MessagesPage extends State<MessagesPage> {
   WebSocketChannel? webSocketChannel;
   String lastId = "";
   TextEditingController controller = TextEditingController();
+  ScrollController scrollController = ScrollController();
   void _send() {
     setState(() {
       messagesList.add(MessageRow(text: controller.text, isOwn: true));
@@ -118,18 +119,19 @@ class _MessagesPage extends State<MessagesPage> {
                       Expanded(
                           child: Scrollbar(
                               child: SingleChildScrollView(
+                                  controller: scrollController,
                                   child: Column(
-                        children: [
-                          Column(
-                            children: [
-                              //здесь сообщения
-                              Column(
-                                children: messagesList,
-                              ),
-                            ],
-                          )
-                        ],
-                      )))),
+                                    children: [
+                                      Column(
+                                        children: [
+                                          //здесь сообщения
+                                          Column(
+                                            children: messagesList,
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  )))),
                       Container(
                         width: MediaQuery.of(context).size.width,
                         height: 55,
@@ -198,6 +200,7 @@ class _MessagesPage extends State<MessagesPage> {
               isOwn:
                   state.messages![i].user_id != widget.userId ? false : true));
         }
+        scrollController.position.maxScrollExtent;
       }
     }
   }
@@ -208,6 +211,7 @@ class _MessagesPage extends State<MessagesPage> {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
     fio = widget.profile!.userName!.split(" ");
+
     profileBloc!
         .getMessages(widget.ticketId!, widget.page!, widget.lastMessageId!);
   }
