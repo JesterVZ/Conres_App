@@ -53,3 +53,11 @@ class GetMessages extends ProfileEvent{
   final String last_message_id;
   const GetMessages(this.chat_id, this.page, this.last_message_id);
 }
+
+class SendMessageEvent extends ProfileEvent{
+  //ticket_status_id: Открыт/Закрыт/В обработке
+  final String ticket_id;
+  final String message;
+  final String ticket_status_id;
+  const SendMessageEvent(this.ticket_id, this.message, this.ticket_status_id);
+}

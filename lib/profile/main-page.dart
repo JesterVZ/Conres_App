@@ -143,7 +143,7 @@ class _MainPage extends State<MainPage> {
 
   void getData() async {
     webSocketChannel!.stream.listen((event) {
-      print('\x1B[31m$event\x1B[0m');
+      print('\x1B[33m$event\x1B[0m');
       setState(() {
         webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
         ticketCounter =

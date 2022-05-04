@@ -47,6 +47,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
     if(event is GetAllInfo){
       yield* _handleGetAllInfo(event);
     }
+    if(event is SendMessageEvent){
+      yield* _handleSendMessage(event);
+    }
 
   }
 
@@ -90,6 +93,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
 
   getAllInfo(){
     add(const GetAllInfo());
+  }
+
+  sendMessage(String ticket_id, String message, String ticket_status_id){
+    add(SendMessageEvent(ticket_id, message, ticket_status_id));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async*{
@@ -198,6 +205,18 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
       Object result = await repo.getAllInfo();
       if(result is ResultData){
         yield state.copyWith(loading: false, bindLsData: result);
+      }
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleSendMessage(SendMessageEvent event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      Object result = await repo.sendMessage(event.ticket_id, event.message, event.ticket_status_id);
+      if(result is Map<String, dynamic>){
+        yield state.copyWith(loading: false, sendMessageData: result);
       }
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());

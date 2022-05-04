@@ -15,6 +15,7 @@ import '../consts.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/chat/mesage-row.dart';
 import '../model/profile.dart';
+import 'package:intl/intl.dart';
 
 class MessagesPage extends StatefulWidget {
   String userId;
@@ -42,52 +43,53 @@ class _MessagesPage extends State<MessagesPage> {
   String lastId = "";
   TextEditingController controller = TextEditingController();
   ScrollController scrollController = ScrollController();
+  String _dateGroupGenerate(String date){
+    List<String> splittedDate = date.split('.');
+    String? month;
+    String? result;
+    switch(splittedDate[1]){
+      case '01':
+        month = "января";
+        break;
+      case '02':
+        month = "февраля";
+        break;
+      case '03':
+        month = "марта";
+        break;
+      case '04':
+        month = "апреля";
+        break;
+      case '05':
+        month = "мая";
+        break;
+      case '06':
+        month = "июня";
+        break;
+      case '07':
+        month = "июля";
+        break;
+      case '08':
+        month = "августа";
+        break;
+      case '09':
+        month = "сентября";
+        break;
+      case '10':
+        month = "октября";
+        break;
+      case '11':
+        month = "ноября";
+        break;
+      case '12':
+        month = "декабря";
+        break;
+    }
+    result = '${splittedDate[0]} $month, ${splittedDate[2]}';
+    return result;
+  }
   void _send() {
-    setState(() {
-      messagesList.add(MessageRow(text: controller.text, isOwn: true));
-      List<dynamic> files = [];
-      int messageId = int.parse(widget.lastMessageId!);
-      MessageSend message = MessageSend(
-          cmd: "publish",
-          subject: "store-3",
-          event: "ticket_msg",
-          data: Data(
-              user_type: "lk",
-              user_id: int.parse(widget.userId),
-              files: files,
-              ticket_id: int.parse(widget.ticketId!),
-              ticket_info: [
-                TicketInfo(
-                    ticket_message_id: (int.parse(lastId) + 1).toString(),
-                    ticket_id: widget.ticketId,
-                    message: controller.text,
-                    data: "",
-                    ticket_status_type_id: "5",
-                    model_user: "user_lk",
-                    user_id: widget.userId,
-                    user_name: widget.profile?.userName!,
-                    date_added: DateTime.now().toString(),
-                    name: "Открыт",
-                    color_type_id: "3",
-                    last_tm_resiver: widget.ticketId,
-                    files: [])
-              ],
-              user_info: UserInfo(
-                  inn: widget.profile?.inn,
-                  firstname: fio[0],
-                  lastname: fio[1],
-                  patronymic: fio[2],
-                  contacts: Contacts(
-                      phone: "79024733651", email: "degamsoft-test@yandex.ru"),
-                  href:
-                      "index.php?route=user/user_lk/edit&user_lk_id=${widget.userId}"),
-              date_group: DateTime.now().toString(),
-              date_group_name: ""),
-          to_id: int.parse(widget.userId));
-      String data = jsonEncode(message.toJson());
-      webSocketChannel!.sink.add(data);
-      controller.text = "";
-    });
+    profileBloc!.sendMessage(widget.ticketId!, controller.text, "Открыт");
   }
 
   @override
@@ -202,6 +204,53 @@ class _MessagesPage extends State<MessagesPage> {
         }
         scrollController.position.maxScrollExtent;
       }
+    }
+    if(state.sendMessageData != null){
+      setState(() {
+        messagesList.add(MessageRow(text: controller.text, isOwn: true));
+        String thisDate = state.sendMessageData!['date_group'];
+        String dateGroup = state.sendMessageData!['date_group_name'];
+        MessageSend message = MessageSend(
+            cmd: "publish",
+            subject: "store-3",
+            event: "ticket_msg",
+            data: Data(
+                user_type: "lk",
+                user_id: int.parse(widget.userId),
+                files: state.sendMessageData!['ticket_message_files'],
+                ticket_id: int.parse(widget.ticketId!),
+                ticket_info: [
+                  TicketInfo(
+                      ticket_message_id: state.sendMessageData!['ticket_info'][0]['ticket_message_id'],
+                      ticket_id: state.sendMessageData!['ticket_info'][0]['ticket_id'],
+                      message: state.sendMessageData!['ticket_info'][0]['message'],
+                      data: state.sendMessageData!['ticket_info'][0]['data'],
+                      ticket_status_type_id: state.sendMessageData!['ticket_info'][0]['ticket_status_type_id'],
+                      model_user: state.sendMessageData!['ticket_info'][0]['model_user'],
+                      user_id: state.sendMessageData!['ticket_info'][0]['user_id'],
+                      user_name: state.sendMessageData!['ticket_info'][0]['user_name'],
+                      date_added: state.sendMessageData!['ticket_info'][0]['date_added'],
+                      name: state.sendMessageData!['ticket_info'][0]['name'],
+                      color_type_id: state.sendMessageData!['ticket_info'][0]['color_type_id'],
+                      last_tm_resiver: state.sendMessageData!['ticket_info'][0]['last_tm_resiver'],
+                      files: state.sendMessageData!['ticket_info'][0]['files'])
+                ],
+                user_info: UserInfo(
+                    inn: state.sendMessageData!['user_info']['inn'],
+                    firstname: state.sendMessageData!['user_info']['firstname'],
+                    lastname: state.sendMessageData!['user_info']['lastname'],
+                    patronymic: state.sendMessageData!['user_info']['patronymic'],
+                    contacts: Contacts(
+                        phone: state.sendMessageData!['user_info']['contacts']['2'], 
+                        email: state.sendMessageData!['user_info']['contacts']['3']),
+                    href: state.sendMessageData!['user_info']['href']),
+                date_group: state.sendMessageData!['date_group'],
+                date_group_name: state.sendMessageData!['date_group_name']),
+            to_id: int.parse(widget.userId));
+        String data = jsonEncode(message.toJson());
+        webSocketChannel!.sink.add(data);
+        controller.text = "";
+      });
     }
   }
 

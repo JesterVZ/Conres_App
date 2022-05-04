@@ -97,6 +97,22 @@ class TicketInfo {
         'last_tm_resiver': last_tm_resiver,
         'files': files
       };
+  factory TicketInfo.fromMap(Map<String, dynamic> map){
+    return TicketInfo(
+      ticket_message_id: map['ticket_message_id'], 
+      ticket_id: map['ticket_id'], 
+      message: map['message'], 
+      data: map['data'], 
+      ticket_status_type_id: map['ticket_status_type_id'], 
+      model_user: map['model_user'], 
+      user_id: map['user_id'], 
+      user_name: map['user_name'], 
+      date_added: map['date_added'], 
+      name: map['name'], 
+      color_type_id: map['color_type_id'], 
+      last_tm_resiver: map['last_tm_resiver'], 
+      files: map['files']);
+  }
 }
 
 class UserInfo {

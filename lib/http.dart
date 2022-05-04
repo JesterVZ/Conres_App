@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:conres_app/model/claim.dart';
 import 'package:conres_app/model/message.dart';
 import 'package:conres_app/model/profile.dart';
@@ -334,4 +336,21 @@ class HttpClient{
     }
   }
 
+  Future<Object?> sendMessage(String ticketId, String message, String ticketStatusId) async{
+    String uri = protocol + domain + 'lk/index.php?route=catalog/ticket/sendMessage';
+    try{
+      var formData = FormData.fromMap({
+        'ticket_id': ticketId,
+        'message': message,
+        'ticket_status_id': ticketStatusId
+      });
+      final result = await _apiClient.post(uri, data: formData);
+      if(result.statusCode == 200){
+        //return ResultData.fromMap(result.data);
+        return json.decode(result.data);
+      }
+    }catch(e){
+      print(e);
+    }
+  }
 }
