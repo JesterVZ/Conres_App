@@ -43,51 +43,6 @@ class _MessagesPage extends State<MessagesPage> {
   String lastId = "";
   TextEditingController controller = TextEditingController();
   ScrollController scrollController = ScrollController();
-  String _dateGroupGenerate(String date){
-    List<String> splittedDate = date.split('.');
-    String? month;
-    String? result;
-    switch(splittedDate[1]){
-      case '01':
-        month = "января";
-        break;
-      case '02':
-        month = "февраля";
-        break;
-      case '03':
-        month = "марта";
-        break;
-      case '04':
-        month = "апреля";
-        break;
-      case '05':
-        month = "мая";
-        break;
-      case '06':
-        month = "июня";
-        break;
-      case '07':
-        month = "июля";
-        break;
-      case '08':
-        month = "августа";
-        break;
-      case '09':
-        month = "сентября";
-        break;
-      case '10':
-        month = "октября";
-        break;
-      case '11':
-        month = "ноября";
-        break;
-      case '12':
-        month = "декабря";
-        break;
-    }
-    result = '${splittedDate[0]} $month, ${splittedDate[2]}';
-    return result;
-  }
   void _send() {
     profileBloc!.sendMessage(widget.ticketId!, controller.text, "Открыт");
   }
@@ -199,17 +154,19 @@ class _MessagesPage extends State<MessagesPage> {
         for (int i = 0; i < state.messages!.length; i++) {
           messagesList.add(MessageRow(
               text: state.messages![i].message!,
-              isOwn:
-                  state.messages![i].user_id != widget.userId ? false : true));
+              isOwn: state.messages![i].user_id != widget.userId ? false : true,
+              time: state.messages![i].date_added!));
         }
         scrollController.position.maxScrollExtent;
       }
     }
     if(state.sendMessageData != null){
       setState(() {
-        messagesList.add(MessageRow(text: controller.text, isOwn: true));
-        String thisDate = state.sendMessageData!['date_group'];
-        String dateGroup = state.sendMessageData!['date_group_name'];
+        messagesList.add(
+          MessageRow(
+            text: controller.text, 
+            isOwn: true,
+            time: state.sendMessageData!['ticket_info'][0]['date_added']));
         MessageSend message = MessageSend(
             cmd: "publish",
             subject: "store-3",

@@ -309,9 +309,9 @@ class HttpClient{
       });
       final result = await _apiClient.post(uri, data: formData);
       if(result.statusCode == 200){
-        List<Message> messages = [];
+        List<TicketMessage> messages = [];
         for(int i = 0; i < result.data['data']['messages'].length; i++){
-          messages.add(Message.fromMap(result.data['data']['messages'][i]));
+          messages.add(TicketMessage.fromMap(result.data['data']['messages'][i]));
         }
         return messages;
       }

@@ -1,4 +1,4 @@
-class Message{
+class TicketMessage{
   String? ticket_message_id;
   String? ticket_id;
   String? message;
@@ -14,7 +14,7 @@ class Message{
   String? message_id;
   String? date_group;
 
-  Message({
+  TicketMessage({
     required this.ticket_message_id,
     required this.ticket_id,
     required this.message,
@@ -29,8 +29,8 @@ class Message{
     required this.last_tm_resiver,
     required this.message_id,
     required this.date_group});
-  factory Message.fromMap(Map<dynamic, dynamic> map){
-    return Message(
+  factory TicketMessage.fromMap(Map<dynamic, dynamic> map){
+    return TicketMessage(
         ticket_message_id: map['ticket_message_id'],
         ticket_id: map['ticket_id'],
         message: map['message'],

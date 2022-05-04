@@ -191,7 +191,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
     yield state.copyWith(loading: true, error: null);
     try{
       Object result = await repo.getMessageFromTicket(event.chat_id, event.page, event.last_message_id);
-      if(result is List<Message>){
+      if(result is List<TicketMessage>){
         yield state.copyWith(loading: false, error: null, messages: result);
       }
     }catch(e){

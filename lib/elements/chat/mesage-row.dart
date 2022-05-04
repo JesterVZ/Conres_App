@@ -7,7 +7,8 @@ import 'm-element.dart';
 class MessageRow extends StatelessWidget{
   bool isOwn;
   String text;
-  MessageRow({required this.isOwn, required this.text});
+  String time;
+  MessageRow({required this.isOwn, required this.text, required this.time});
 
   @override
   Widget build(BuildContext context) {
