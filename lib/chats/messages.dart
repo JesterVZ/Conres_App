@@ -45,9 +45,24 @@ class _MessagesPage extends State<MessagesPage> {
   String lastId = "";
   TextEditingController controller = TextEditingController();
   ScrollController scrollController = ScrollController();
+  int page = 1;
   void _send() {
     profileBloc!.sendMessage(widget.ticketId!, controller.text, "Открыт");
   }
+  @override
+  void initState() {
+    page = int.parse(widget.page!);
+    scrollController.addListener(pagination);
+    super.initState();
+  }
+  void pagination(){
+    if(scrollController.position.pixels == scrollController.position.maxScrollExtent){
+      setState(() {
+        page++;
+        profileBloc!.getMessages(widget.ticketId!, page.toString(), widget.lastMessageId!);
+      });
+    }
+  } 
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +92,7 @@ class _MessagesPage extends State<MessagesPage> {
                           child: HeaderNotification(text: "Сообщения")),
                       Expanded(
                           child: GroupedListView<TicketMessage, DateTime>(
+                            controller: scrollController,
                         order: GroupedListOrder.DESC,
                         reverse: true,
                         useStickyGroupSeparators: true,
@@ -166,20 +182,19 @@ class _MessagesPage extends State<MessagesPage> {
       return;
     }
     if (state.messages != null) {
-      //lastId = state.messages!.last.message_id!;
       if (testMessagwList.isEmpty) {
         testMessagwList = state.messages!;
         for (int i = 0; i < state.messages!.length; i++) {
           testMessagwList[i].isOwn =
               state.messages![i].user_id != widget.userId ? false : true;
         }
-        /*
-        for (int i = 0; i < state.messages!.length; i++) {
-          messagesList.add(MessageRow(
-              text: state.messages![i].message!,
-              isOwn: state.messages![i].user_id != widget.userId ? false : true,
-              time: state.messages![i].date_added!));
-        }*/
+      }
+      if(page > 1){
+          testMessagwList += state.messages!;
+          for (int i = (state.messages!.length - 1); i < testMessagwList.length; i++) {
+          testMessagwList[i].isOwn =
+              state.messages![i].user_id != widget.userId ? false : true;
+        }
       }
     }
     if (state.sendMessageData != null) {
