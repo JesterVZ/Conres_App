@@ -167,7 +167,7 @@ class _MessagesPage extends State<MessagesPage> {
     }
     if (state.messages != null) {
       //lastId = state.messages!.last.message_id!;
-      if (messagesList.isEmpty) {
+      if (testMessagwList.isEmpty) {
         testMessagwList = state.messages!;
         for (int i = 0; i < state.messages!.length; i++) {
           testMessagwList[i].isOwn =
@@ -183,7 +183,6 @@ class _MessagesPage extends State<MessagesPage> {
       }
     }
     if (state.sendMessageData != null) {
-      setState(() {
         MessageSend message = MessageSend(
             cmd: "publish",
             subject: "store-3",
@@ -238,7 +237,7 @@ class _MessagesPage extends State<MessagesPage> {
         String data = jsonEncode(message.toJson());
         webSocketChannel!.sink.add(data);
         controller.text = "";
-
+      setState(() {
         testMessagwList.add(TicketMessage(
           isOwn: true,
             date_added: DateTime.parse(state.sendMessageData!['ticket_info'][0]['date_added']),
