@@ -5,6 +5,7 @@ import 'package:conres_app/model/message.dart';
 import 'package:conres_app/websocket/message-send.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -74,21 +75,9 @@ class _MessagesPage extends State<MessagesPage> {
                           height: 100,
                           child: HeaderNotification(text: "Сообщения")),
                       Expanded(
-                          child: Scrollbar(
-                              child: SingleChildScrollView(
-                                  controller: scrollController,
-                                  child: Column(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          //здесь сообщения
-                                          Column(
-                                            children: messagesList,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  )))),
+                          child: Chat(
+                        messages: [],
+                      )),
                       Container(
                         width: MediaQuery.of(context).size.width,
                         height: 55,
@@ -160,11 +149,10 @@ class _MessagesPage extends State<MessagesPage> {
         scrollController.position.maxScrollExtent;
       }
     }
-    if(state.sendMessageData != null){
+    if (state.sendMessageData != null) {
       setState(() {
-        messagesList.add(
-          MessageRow(
-            text: controller.text, 
+        messagesList.add(MessageRow(
+            text: controller.text,
             isOwn: true,
             time: state.sendMessageData!['ticket_info'][0]['date_added']));
         MessageSend message = MessageSend(
@@ -178,28 +166,42 @@ class _MessagesPage extends State<MessagesPage> {
                 ticket_id: int.parse(widget.ticketId!),
                 ticket_info: [
                   TicketInfo(
-                      ticket_message_id: state.sendMessageData!['ticket_info'][0]['ticket_message_id'],
-                      ticket_id: state.sendMessageData!['ticket_info'][0]['ticket_id'],
-                      message: state.sendMessageData!['ticket_info'][0]['message'],
+                      ticket_message_id: state.sendMessageData!['ticket_info']
+                          [0]['ticket_message_id'],
+                      ticket_id: state.sendMessageData!['ticket_info'][0]
+                          ['ticket_id'],
+                      message: state.sendMessageData!['ticket_info'][0]
+                          ['message'],
                       data: state.sendMessageData!['ticket_info'][0]['data'],
-                      ticket_status_type_id: state.sendMessageData!['ticket_info'][0]['ticket_status_type_id'],
-                      model_user: state.sendMessageData!['ticket_info'][0]['model_user'],
-                      user_id: state.sendMessageData!['ticket_info'][0]['user_id'],
-                      user_name: state.sendMessageData!['ticket_info'][0]['user_name'],
-                      date_added: state.sendMessageData!['ticket_info'][0]['date_added'],
+                      ticket_status_type_id:
+                          state.sendMessageData!['ticket_info'][0]
+                              ['ticket_status_type_id'],
+                      model_user: state.sendMessageData!['ticket_info'][0]
+                          ['model_user'],
+                      user_id: state.sendMessageData!['ticket_info'][0]
+                          ['user_id'],
+                      user_name: state.sendMessageData!['ticket_info'][0]
+                          ['user_name'],
+                      date_added: state.sendMessageData!['ticket_info'][0]
+                          ['date_added'],
                       name: state.sendMessageData!['ticket_info'][0]['name'],
-                      color_type_id: state.sendMessageData!['ticket_info'][0]['color_type_id'],
-                      last_tm_resiver: state.sendMessageData!['ticket_info'][0]['last_tm_resiver'],
+                      color_type_id: state.sendMessageData!['ticket_info'][0]
+                          ['color_type_id'],
+                      last_tm_resiver: state.sendMessageData!['ticket_info'][0]
+                          ['last_tm_resiver'],
                       files: state.sendMessageData!['ticket_info'][0]['files'])
                 ],
                 user_info: UserInfo(
                     inn: state.sendMessageData!['user_info']['inn'],
                     firstname: state.sendMessageData!['user_info']['firstname'],
                     lastname: state.sendMessageData!['user_info']['lastname'],
-                    patronymic: state.sendMessageData!['user_info']['patronymic'],
+                    patronymic: state.sendMessageData!['user_info']
+                        ['patronymic'],
                     contacts: Contacts(
-                        phone: state.sendMessageData!['user_info']['contacts']['2'], 
-                        email: state.sendMessageData!['user_info']['contacts']['3']),
+                        phone: state.sendMessageData!['user_info']['contacts']
+                            ['2'],
+                        email: state.sendMessageData!['user_info']['contacts']
+                            ['3']),
                     href: state.sendMessageData!['user_info']['href']),
                 date_group: state.sendMessageData!['date_group'],
                 date_group_name: state.sendMessageData!['date_group_name']),
