@@ -7,12 +7,13 @@ class TicketMessage{
   String? model_user;
   String? user_id;
   String? user_name;
-  String? date_added;
+  DateTime? date_added;
   String? name;
   String? color_type_id;
   String? last_tm_resiver;
   String? message_id;
   String? date_group;
+  bool? isOwn; 
 
   TicketMessage({
     required this.ticket_message_id,
@@ -28,7 +29,8 @@ class TicketMessage{
     required this.color_type_id,
     required this.last_tm_resiver,
     required this.message_id,
-    required this.date_group});
+    required this.date_group,
+    this.isOwn});
   factory TicketMessage.fromMap(Map<dynamic, dynamic> map){
     return TicketMessage(
         ticket_message_id: map['ticket_message_id'],
@@ -39,7 +41,7 @@ class TicketMessage{
         model_user: map['model_user'],
         user_id: map['user_id'],
         user_name: map['user_name'],
-        date_added: map['date_added'],
+        date_added: DateTime.parse(map['date_added']),
         name: map['name'],
         color_type_id: map['color_type_id'],
         last_tm_resiver: map['last_tm_resiver'],

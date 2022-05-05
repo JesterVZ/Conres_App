@@ -22,6 +22,14 @@ class Claims extends StatefulWidget {
 class _Claims extends State<Claims> {
   ProfileBloc? profileBloc;
   List<ClaimElement> claims = [];
+  ScrollController controller = ScrollController();
+
+  @override
+  void initState() {
+    controller.addListener(pagination);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(
@@ -38,15 +46,11 @@ class _Claims extends State<Claims> {
                       height: 100,
                       child: HeaderRow(text: reportsPage, fontSize: 24)
                   ),
-                  Expanded(child: Scrollbar(child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Column(
-                            children: claims
-                          )
-                        ],
-                      )
-                  ))),
+                  Expanded(child: ListView(
+                    controller: controller,
+                    children: claims,
+                    
+                  )),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: 55,
@@ -77,11 +81,26 @@ class _Claims extends State<Claims> {
       return;
     }
     if(state.claims != null){
-      for(int i = 0; i < state.claims!.length; i++){
-        claims.add(ClaimElement(currentClaim: state.claims![i]));
-      }
+      if(claims.isEmpty){
+        setState(() {
+          for(int i = 0; i < state.claims!.length; i++){
+            claims.add(ClaimElement(currentClaim: state.claims![i]));
+          }
+        });
+        
+    }
+      
     }
   }
+
+  void pagination(){
+    if(controller.position.pixels == controller.position.maxScrollExtent){
+      setState(() {
+        print("pagination");
+      });
+    }
+  } 
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();

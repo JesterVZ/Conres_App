@@ -77,7 +77,8 @@ class _Contracts extends State<Contracts>{
       return;
     }
     if(state.contracts != null){
-      for(int i = 0; i < state.contracts!.length; i++){
+      if(contracts.isEmpty){
+        for(int i = 0; i < 5; i++){
         contracts.add(
             ContractElement(
                 thisLs: state.contracts![i].account_number!,
@@ -86,6 +87,8 @@ class _Contracts extends State<Contracts>{
                 status: int.parse(state.contracts![i].status!))
         );
       }
+      }
+      
     }
   }
 
