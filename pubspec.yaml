@@ -45,6 +45,7 @@ dependencies:
   datetime_picker_formfield: ^2.0.0
   sliding_up_panel: ^2.0.0+1
   accordion: ^2.1.2
+  url_launcher: ^6.1.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -102,6 +103,9 @@ flutter:
     - assets/clip.svg
     - assets/arrow-type2.svg
     - assets/user_id.png
+    - assets/main.svg
+    - assets/confidant.svg
+    - assets/contacts.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
