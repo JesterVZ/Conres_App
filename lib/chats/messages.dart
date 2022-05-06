@@ -38,7 +38,7 @@ class MessagesPage extends StatefulWidget {
 class _MessagesPage extends State<MessagesPage> {
   ProfileBloc? profileBloc;
   List<Widget> messagesList = [];
-  List<TicketMessage> testMessagwList = [];
+  List<TicketMessage> pagesMessageList = [];
   List<String> fio = [];
   bool isLoading = true;
   WebSocketChannel? webSocketChannel;
@@ -97,7 +97,7 @@ class _MessagesPage extends State<MessagesPage> {
                         reverse: true,
                         useStickyGroupSeparators: true,
                         floatingHeader: true,
-                        elements: testMessagwList,
+                        elements: pagesMessageList,
                         groupBy: (message) => DateTime(message.date_added!.year,
                             message.date_added!.month, message.date_added!.day),
                         groupHeaderBuilder: (TicketMessage message) => Text(
@@ -182,19 +182,20 @@ class _MessagesPage extends State<MessagesPage> {
       return;
     }
     if (state.messages != null) {
-      if (testMessagwList.isEmpty) {
-        testMessagwList = state.messages!;
+      if (pagesMessageList.isEmpty) {
+        pagesMessageList = state.messages!;
         for (int i = 0; i < state.messages!.length; i++) {
-          testMessagwList[i].isOwn =
+          pagesMessageList[i].isOwn =
               state.messages![i].user_id != widget.userId ? false : true;
         }
       }
       if(page > 1){
-          testMessagwList += state.messages!;
-          for (int i = (state.messages!.length - 1); i < testMessagwList.length; i++) {
-          testMessagwList[i].isOwn =
+          pagesMessageList = state.messages! + pagesMessageList;
+          for (int i = 0; i < state.messages!.length; i++) {
+          pagesMessageList[i].isOwn =
               state.messages![i].user_id != widget.userId ? false : true;
         }
+        print(pagesMessageList);
       }
     }
     if (state.sendMessageData != null) {
@@ -253,7 +254,7 @@ class _MessagesPage extends State<MessagesPage> {
         webSocketChannel!.sink.add(data);
         controller.text = "";
       setState(() {
-        testMessagwList.add(TicketMessage(
+        pagesMessageList.add(TicketMessage(
           isOwn: true,
             date_added: DateTime.parse(state.sendMessageData!['ticket_info'][0]['date_added']),
             ticket_message_id: state.sendMessageData!['ticket_info'][0]

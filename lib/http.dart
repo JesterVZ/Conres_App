@@ -184,7 +184,7 @@ class HttpClient{
         }
       }
     } catch(e){
-      throw Exception("Ошибка получения cookie");
+      return"Ошибка получения cookie";
     }
   }
 
