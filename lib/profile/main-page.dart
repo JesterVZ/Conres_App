@@ -146,10 +146,12 @@ class _MainPage extends State<MainPage> {
       print('\x1B[33m$event\x1B[0m');
       setState(() {
         webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
+        profileBloc!.getWebSocketData(webSocketData!);
         ticketCounter =
             webSocketData!.data!.counters!.new_ticket_messages_count;
-        claimCounter = webSocketData!.data!.counters!.new_claims_messages_count;
+        claimCounter = webSocketData!.data!.counters!.new_claims_messages_count;     
       });
+
     });
   }
 
@@ -158,6 +160,7 @@ class _MainPage extends State<MainPage> {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
+    webSocketData ??= DependencyProvider.of(context)!.webSocketData;
     profileBloc!.getCookies(
         widget.loginData![0], widget.loginData![1], widget.loginData![2]);
     getData();

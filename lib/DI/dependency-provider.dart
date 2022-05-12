@@ -2,11 +2,11 @@ import 'package:conres_app/bloc/auth/auth-block.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/http.dart';
 import 'package:conres_app/repositories/auth-repo.dart';
+import 'package:conres_app/websocket/websocket.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import '../model/profile.dart';
 import '../repositories/profile-repo.dart';
 
 // ignore: must_be_immutable
@@ -18,6 +18,7 @@ class DependencyProvider extends InheritedWidget{
   ProfileRepo? _profileRepo;
   SharedPreferences? _sharedPreferences;
   WebSocketChannel? _webSocketChannel;
+  WebSocketData? _webSocketData;
 
   DependencyProvider({Key? key, Widget? child})
       : assert(child != null),
@@ -26,6 +27,10 @@ class DependencyProvider extends InheritedWidget{
   WebSocketChannel? get webSocketChannel{
     _webSocketChannel ??= IOWebSocketChannel.connect("wss://promo.dev.conres.ru:2450/");
     return _webSocketChannel;
+  }
+  WebSocketData? get webSocketData{
+    _webSocketData ??= WebSocketData();
+    return _webSocketData;
   }
   Future<SharedPreferences> get sharedPreferences async{
     _sharedPreferences ??= await SharedPreferences.getInstance();
@@ -60,7 +65,6 @@ class DependencyProvider extends InheritedWidget{
   static DependencyProvider? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<DependencyProvider>();
   }
-
 
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) => true;

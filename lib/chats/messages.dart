@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../DI/dependency-provider.dart';
@@ -17,6 +18,8 @@ import '../elements/bloc/bloc-screen.dart';
 import '../elements/chat/mesage-row.dart';
 import '../model/profile.dart';
 import 'package:intl/intl.dart';
+
+import '../websocket/websocket.dart';
 
 class MessagesPage extends StatefulWidget {
   String userId;
@@ -43,6 +46,7 @@ class _MessagesPage extends State<MessagesPage> {
   List<String> fio = [];
   bool isLoading = true;
   WebSocketChannel? webSocketChannel;
+  WebSocketData? webSocketData;
   String lastId = "";
   TextEditingController controller = TextEditingController();
   ScrollController scrollController = ScrollController();
@@ -123,11 +127,20 @@ class _MessagesPage extends State<MessagesPage> {
                                     message.isOwn! ? colorMain : messageColor),
                             margin: const EdgeInsets.all(10),
                             padding: const EdgeInsets.all(10),
-                            child: Text("${message.message!} ${message.data != null ? "\n ${message.data!.document_name}" : ""}",
+                            child: Column(children: [
+                              Text("${message.message!}",
                                 style: TextStyle(
                                     color: message.isOwn!
                                         ? Colors.white
                                         : Colors.black)),
+                              Visibility(
+                                visible: message.data != null ? true : false,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    launchUrl(Uri.parse(loadLink + message.data!.file_href!));
+                                  },
+                                  child: Text(message.data != null ? message.data!.document_name! : "", style: const TextStyle(decoration: TextDecoration.underline, color: Colors.white))))
+                            ]),
                           ),
                         ),
                       )),
@@ -187,10 +200,6 @@ class _MessagesPage extends State<MessagesPage> {
 
   _listener(BuildContext context, ProfileState state) {
     isLoading = state.loading!;
-
-    if (state.error != null) {
-      print(state.error);
-    }
 
     if (state.messages != null) {
       if (pagesMessageList.isEmpty) {

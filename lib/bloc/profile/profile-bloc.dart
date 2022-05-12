@@ -5,6 +5,7 @@ import 'package:conres_app/claims/claims.dart';
 import 'package:conres_app/model/contract.dart';
 import 'package:conres_app/model/message.dart';
 import 'package:conres_app/model/result-data.dart';
+import 'package:conres_app/websocket/websocket.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/claim.dart';
@@ -50,7 +51,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is SendMessageEvent) {
       yield* _handleSendMessage(event);
     }
-
   }
 
   ProfileBloc(this.repo) : super(ProfileState.initial());
@@ -63,8 +63,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(const GetLoginData());
   }
 
-  getWebSocketData() {
-    add(const GetWebSocketData());
+  getWebSocketData(WebSocketData webSocketData) {
+    add(GetWebSocketData(webSocketData));
   }
 
   logout() {
@@ -231,6 +231,4 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
-
-
 }
