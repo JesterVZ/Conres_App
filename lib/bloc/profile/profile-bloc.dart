@@ -12,214 +12,222 @@ import '../../model/ticket.dart';
 import '../../repositories/profile-repo.dart';
 import '../../shared-preferences/shared-preferences.dart';
 
-class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
+class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileRepo repo;
 
   @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
-    if(event is GetCookieStrEvent){
+    if (event is GetCookieStrEvent) {
       yield* _handleGetCookies(event);
     }
-    if(event is GetLoginData){
+    if (event is GetLoginData) {
       yield* _handleGetData(event);
     }
-    if(event is GetWebSocketData){
+    if (event is GetWebSocketData) {
       yield* _handleGetWebSocketData(event);
     }
-    if(event is LogoutEvent){
+    if (event is LogoutEvent) {
       yield* _handleLogout(event);
     }
-    if(event is BindNewLS){
+    if (event is BindNewLS) {
       yield* _handleBindNewLS(event);
     }
-    if(event is GetContracts){
+    if (event is GetContracts) {
       yield* _handleGetContracts(event);
     }
-    if(event is GetClaims){
+    if (event is GetClaims) {
       yield* _handleGetClaims(event);
     }
-    if(event is GetTickets){
+    if (event is GetTickets) {
       yield* _handleGetTickets(event);
     }
-    if(event is GetMessages){
+    if (event is GetMessages) {
       yield* _handleGetMessages(event);
     }
-    if(event is GetAllInfo){
+    if (event is GetAllInfo) {
       yield* _handleGetAllInfo(event);
     }
-    if(event is SendMessageEvent){
+    if (event is SendMessageEvent) {
       yield* _handleSendMessage(event);
     }
-
   }
 
   ProfileBloc(this.repo) : super(ProfileState.initial());
 
-  getCookies(String username, String password, int type){
+  getCookies(String username, String password, int type) {
     add(GetCookieStrEvent(username, password, type));
   }
 
-  getLoginData(){
+  getLoginData() {
     add(const GetLoginData());
   }
 
-  getWebSocketData(){
+  getWebSocketData() {
     add(const GetWebSocketData());
   }
 
-  logout(){
+  logout() {
     add(const LogoutEvent());
   }
 
-  bindNewLS(String number, String address){
+  bindNewLS(String number, String address) {
     add(BindNewLS(number, address));
   }
 
-  getContracts(){
+  getContracts() {
     add(const GetContracts());
   }
 
-  getClaims(){
+  getClaims() {
     add(const GetClaims());
   }
 
-  getTickets(){
+  getTickets() {
     add(const GetTickets());
   }
 
-  getMessages(String chat_id, String page, String last_message_id){
+  getMessages(String chat_id, String page, String last_message_id) {
     add(GetMessages(chat_id, page, last_message_id));
   }
 
-  getAllInfo(){
+  getAllInfo() {
     add(const GetAllInfo());
   }
 
-  sendMessage(String ticket_id, String message, String ticket_status_id){
+  sendMessage(String ticket_id, String message, String ticket_status_id) {
     add(SendMessageEvent(ticket_id, message, ticket_status_id));
   }
 
-  Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async*{
+  Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
-      String result = await repo.getCookie(event.username, event.password, event.type);
+    try {
+      String result =
+          await repo.getCookie(event.username, event.password, event.type);
       yield state.copyWith(loading: false, error: result, cookieStr: result);
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
-  Stream<ProfileState> _handleGetData(GetLoginData event) async*{
+
+  Stream<ProfileState> _handleGetData(GetLoginData event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
+    try {
       Object result = await repo.loginData();
-      if(result is List<dynamic>){
+      if (result is List<dynamic>) {
         yield state.copyWith(loading: false, error: null, loginData: result);
       }
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
-  Stream<ProfileState> _handleGetWebSocketData(GetWebSocketData event) async*{
-    yield state.copyWith(loading: true, error: null);
-    try{
 
-    }catch(e){
+  Stream<ProfileState> _handleGetWebSocketData(GetWebSocketData event) async* {
+    yield state.copyWith(loading: true, error: null);
+    try {} catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
-  Stream<ProfileState> _handleLogout(LogoutEvent event) async*{
+
+  Stream<ProfileState> _handleLogout(LogoutEvent event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
+    try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await logoutFunc(preferences);
       List<dynamic> emptyLoginData = [];
-      yield state.copyWith(loginData: emptyLoginData, error: null, loading: false);
-    }catch(e){
+      yield state.copyWith(
+          loginData: emptyLoginData, error: null, loading: false);
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
-
   }
 
-  Stream<ProfileState> _handleBindNewLS(BindNewLS event) async*{
+  Stream<ProfileState> _handleBindNewLS(BindNewLS event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
+    try {
       Object result = await repo.bindLs(event.number, event.address);
-      if(result is ResultData){
+      if (result is ResultData) {
         yield state.copyWith(loading: false, error: null, bindLsData: result);
       }
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleGetContracts(GetContracts event) async*{
+  Stream<ProfileState> _handleGetContracts(GetContracts event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
+    try {
       Object result = await repo.getContracts();
-      if(result is List<Contract>){
+      if (result is List<Contract>) {
         yield state.copyWith(loading: false, error: null, contracts: result);
       }
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
-  Stream<ProfileState> _handleGetClaims(GetClaims event) async*{
+
+  Stream<ProfileState> _handleGetClaims(GetClaims event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
+    try {
       Object result = await repo.getClaims();
-      if(result is List<Claim>){
+      if (result is List<Claim>) {
         yield state.copyWith(loading: false, error: null, claims: result);
       }
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleGetTickets(GetTickets event) async*{
+  Stream<ProfileState> _handleGetTickets(GetTickets event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
+    try {
       Object result = await repo.getTickets();
-      if(result is List<Ticket>){
+      if (result is List<Ticket>) {
         yield state.copyWith(loading: false, tickets: result);
       }
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleGetMessages(GetMessages event) async*{
+  Stream<ProfileState> _handleGetMessages(GetMessages event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
-      Object result = await repo.getMessageFromTicket(event.chat_id, event.page, event.last_message_id);
-      if(result is List<TicketMessage>){
-        yield state.copyWith(loading: false, error: null, messages: result);
+    try {
+      Object result = await repo.getMessageFromTicket(
+          event.chat_id, event.page, event.last_message_id);
+      if (result is List<TicketMessage>) {
+        yield state.copyWith(
+            loading: false,
+            error: null,
+            messages: result,
+            sendMessageData: null);
       }
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleGetAllInfo(GetAllInfo event) async*{
+  Stream<ProfileState> _handleGetAllInfo(GetAllInfo event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
+    try {
       Object result = await repo.getAllInfo();
-      if(result is ResultData){
+      if (result is ResultData) {
         yield state.copyWith(loading: false, bindLsData: result);
       }
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleSendMessage(SendMessageEvent event) async*{
+  Stream<ProfileState> _handleSendMessage(SendMessageEvent event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
-      Object result = await repo.sendMessage(event.ticket_id, event.message, event.ticket_status_id);
-      if(result is Map<String, dynamic>){
-        yield state.copyWith(loading: false, sendMessageData: result);
-        yield state.copyWith(messages: null);
+    try {
+      Object result = await repo.sendMessage(
+          event.ticket_id, event.message, event.ticket_status_id);
+      if (result is Map<String, dynamic>) {
+        yield state.copyWith(
+            loading: false, sendMessageData: result, messages: null);
       }
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
