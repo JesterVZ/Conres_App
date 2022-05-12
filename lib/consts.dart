@@ -4,6 +4,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+//load link
+String loadLink = "https://promo.dev.conres.ru/lk/load_ticket_addit_file?link=";
 
 String title = "тестовая компания";
 String lkTitle = "Личный кабинет потребителя";

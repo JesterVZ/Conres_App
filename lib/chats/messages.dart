@@ -123,7 +123,7 @@ class _MessagesPage extends State<MessagesPage> {
                                     message.isOwn! ? colorMain : messageColor),
                             margin: const EdgeInsets.all(10),
                             padding: const EdgeInsets.all(10),
-                            child: Text(message.message!,
+                            child: Text("${message.message!} ${message.data != null ? "\n ${message.data!.document_name}" : ""}",
                                 style: TextStyle(
                                     color: message.isOwn!
                                         ? Colors.white

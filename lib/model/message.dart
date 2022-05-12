@@ -1,8 +1,9 @@
+import 'dart:convert';
 class TicketMessage{
   String? ticket_message_id;
   String? ticket_id;
   String? message;
-  String? data;
+  TicketFile? data;
   String? ticket_status_type_id;
   String? model_user;
   String? user_id;
@@ -36,7 +37,7 @@ class TicketMessage{
         ticket_message_id: map['ticket_message_id'],
         ticket_id: map['ticket_id'],
         message: map['message'],
-        data: map['data'],
+        data: map['data'] != "" ? TicketFile.fromJson(map['data']) : null,
         ticket_status_type_id: map['ticket_status_type_id'],
         model_user: map['model_user'],
         user_id: map['user_id'],
@@ -47,5 +48,29 @@ class TicketMessage{
         last_tm_resiver: map['last_tm_resiver'],
         message_id: map['message_id'],
         date_group: map['date_group']);
+  }
+}
+class TicketFile{
+  String? document_name;
+  String? filename;
+  String? file_href;
+  String? file_href_mail;
+
+  TicketFile({
+    required this.document_name,
+    required this.filename,
+    required this.file_href,
+    required this.file_href_mail
+  });
+
+  factory TicketFile.fromJson(String source) => TicketFile.fromMap(json.decode(source));
+
+  factory TicketFile.fromMap(Map<dynamic, dynamic> map){
+    return TicketFile(
+      document_name: map['files'][0]['document_name'],
+      filename: map['files'][0]['filename'],
+      file_href: map['files'][0]['file_href'],
+      file_href_mail: map['files'][0]['file_href_mail']
+    );
   }
 }
