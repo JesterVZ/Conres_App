@@ -76,7 +76,8 @@ class _Chats extends State<Chats> {
                 ticketId: ticket.ticket_id.toString(),
                 page: '1',
                 lastMessageId: '1',
-                profile: widget.profile)));
+                profile: widget.profile,
+                statusName: ticket.cur_status!.name)));
   }
 
   @override

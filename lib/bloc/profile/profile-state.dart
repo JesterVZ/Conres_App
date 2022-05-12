@@ -34,6 +34,7 @@ class ProfileState {
       this.sendMessageData});
 
   static initial() => ProfileState(cookieStr: null, loading: null, error: null);
+  static clear() => ProfileState(loading: false, sendMessageData: null, error: null);
   ProfileState copyWith(
       {String? cookieStr,
       bool? loading,
@@ -56,7 +57,7 @@ class ProfileState {
         numbers: numbers ?? this.numbers,
         claims: claims ?? this.claims,
         tickets: tickets ?? this.tickets,
-        messages: messages ?? this.messages,
-        sendMessageData: sendMessageData ?? this.sendMessageData);
+        messages: messages,
+        sendMessageData: sendMessageData);
   }
 }

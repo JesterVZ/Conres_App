@@ -50,6 +50,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is SendMessageEvent) {
       yield* _handleSendMessage(event);
     }
+
   }
 
   ProfileBloc(this.repo) : super(ProfileState.initial());
@@ -190,7 +191,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Stream<ProfileState> _handleGetMessages(GetMessages event) async* {
-    yield state.copyWith(loading: true, error: null);
+    yield state.copyWith(loading: true, error: null, messages: null);
     try {
       Object result = await repo.getMessageFromTicket(
           event.chat_id, event.page, event.last_message_id);
@@ -198,8 +199,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         yield state.copyWith(
             loading: false,
             error: null,
-            messages: result,
-            sendMessageData: null);
+            messages: result);
       }
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
@@ -219,7 +219,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Stream<ProfileState> _handleSendMessage(SendMessageEvent event) async* {
-    yield state.copyWith(loading: true, error: null);
+    yield state.copyWith(loading: true, error: null, messages: null);
     try {
       Object result = await repo.sendMessage(
           event.ticket_id, event.message, event.ticket_status_id);
@@ -231,4 +231,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
+
+
 }

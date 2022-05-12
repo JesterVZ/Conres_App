@@ -23,14 +23,15 @@ class MessagesPage extends StatefulWidget {
   String? ticketId;
   String? page;
   String? lastMessageId;
-  String? userName;
+  String? statusName; //Открыт/Закрыт/В обработке и т.д
   Profile? profile;
   MessagesPage(
       {required this.userId,
       required this.ticketId,
       required this.page,
       required this.lastMessageId,
-      required this.profile});
+      required this.profile,
+      required this.statusName});
   @override
   State<StatefulWidget> createState() => _MessagesPage();
 }
@@ -47,7 +48,7 @@ class _MessagesPage extends State<MessagesPage> {
   ScrollController scrollController = ScrollController();
   int page = 1;
   void _send() {
-    profileBloc!.sendMessage(widget.ticketId!, controller.text, "Открыт");
+    profileBloc!.sendMessage(widget.ticketId!, controller.text, widget.statusName!);
   }
 
   @override
@@ -96,7 +97,7 @@ class _MessagesPage extends State<MessagesPage> {
                           child: Padding(
                               padding:
                                   const EdgeInsets.only(left: 20, right: 20),
-                              child: HeaderNotification(text: "Сообщения"))),
+                              child: HeaderNotification(text: "Обращение № ${widget.ticketId}"))),
                       Expanded(
                           child: GroupedListView<TicketMessage, DateTime>(
                         controller: scrollController,
