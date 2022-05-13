@@ -2,6 +2,7 @@ import 'package:conres_app/bloc/auth/auth-block.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/http.dart';
 import 'package:conres_app/repositories/auth-repo.dart';
+import 'package:conres_app/websocket/websocket-listener.dart';
 import 'package:conres_app/websocket/websocket.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +20,7 @@ class DependencyProvider extends InheritedWidget {
   SharedPreferences? _sharedPreferences;
   WebSocketChannel? _webSocketChannel;
   WebSocketData? _webSocketData;
+  WebSocketListener? _webSocketListener;
 
   DependencyProvider({Key? key, Widget? child})
       : assert(child != null),
@@ -28,6 +30,11 @@ class DependencyProvider extends InheritedWidget {
     _webSocketChannel ??=
         IOWebSocketChannel.connect("wss://promo.dev.conres.ru:2450/");
     return _webSocketChannel;
+  }
+
+  WebSocketListener? get webSocketListener{
+    _webSocketListener ??=WebSocketListener();
+    return _webSocketListener;
   }
 
   WebSocketData? get webSocketData {

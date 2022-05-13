@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/model/message.dart';
 import 'package:conres_app/websocket/message-send.dart';
+import 'package:conres_app/websocket/websocket-listener.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -46,7 +47,7 @@ class _MessagesPage extends State<MessagesPage> {
   List<String> fio = [];
   bool isLoading = true;
   WebSocketChannel? webSocketChannel;
-  WebSocketData? webSocketData;
+  WebSocketListener? webSocketListener;
   String lastId = "";
   TextEditingController controller = TextEditingController();
   ScrollController scrollController = ScrollController();
@@ -219,6 +220,13 @@ class _MessagesPage extends State<MessagesPage> {
               state.messages![i].user_id != widget.userId ? false : true;
         }
       }
+      if(pagesMessageList[15].message != state.messages![15].message){
+        pagesMessageList = state.messages!;
+        for (int i = 0; i < state.messages!.length; i++) {
+          pagesMessageList[i].isOwn =
+              state.messages![i].user_id != widget.userId ? false : true;
+        }
+      }
       if (page > 1) {
         pagesMessageList = state.messages! + pagesMessageList;
         for (int i = 0; i < state.messages!.length; i++) {
@@ -306,10 +314,12 @@ class _MessagesPage extends State<MessagesPage> {
     }
   }
 
-  void getData() async {
-    webSocketChannel!.stream.listen((event) {
-      print('\x1B[32m$event\x1B[0m');
-    });
+  void getData(dynamic event) async {
+    print(event);
+    if(isLoading == false){
+      profileBloc!.getMessages(widget.ticketId!, widget.page!, widget.lastMessageId!);
+    }
+    //profileBloc!.getMessages(widget.ticketId!, widget.page!, widget.lastMessageId!);
   }
 
   @override
@@ -317,10 +327,12 @@ class _MessagesPage extends State<MessagesPage> {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
+    webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
+    webSocketListener?.webSocketChannel = webSocketChannel;
+    webSocketListener?.function = getData;
     fio = widget.profile!.userName!.split(" ");
 
     profileBloc!
         .getMessages(widget.ticketId!, widget.page!, widget.lastMessageId!);
-    getData();
   }
 }
