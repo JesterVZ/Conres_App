@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/model/message.dart';
 import 'package:conres_app/websocket/message-send.dart';
+import 'package:conres_app/websocket/websocket-listener.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../DI/dependency-provider.dart';
@@ -17,19 +20,22 @@ import '../elements/chat/mesage-row.dart';
 import '../model/profile.dart';
 import 'package:intl/intl.dart';
 
+import '../websocket/websocket.dart';
+
 class MessagesPage extends StatefulWidget {
   String userId;
   String? ticketId;
   String? page;
   String? lastMessageId;
-  String? userName;
+  String? statusName; //Открыт/Закрыт/В обработке и т.д
   Profile? profile;
   MessagesPage(
       {required this.userId,
       required this.ticketId,
       required this.page,
       required this.lastMessageId,
-      required this.profile});
+      required this.profile,
+      required this.statusName});
   @override
   State<StatefulWidget> createState() => _MessagesPage();
 }
@@ -37,14 +43,36 @@ class MessagesPage extends StatefulWidget {
 class _MessagesPage extends State<MessagesPage> {
   ProfileBloc? profileBloc;
   List<Widget> messagesList = [];
+  List<TicketMessage> pagesMessageList = [];
   List<String> fio = [];
   bool isLoading = true;
   WebSocketChannel? webSocketChannel;
+  WebSocketListener? webSocketListener;
   String lastId = "";
   TextEditingController controller = TextEditingController();
   ScrollController scrollController = ScrollController();
+  int page = 1;
   void _send() {
-    profileBloc!.sendMessage(widget.ticketId!, controller.text, "Открыт");
+    profileBloc!
+        .sendMessage(widget.ticketId!, controller.text, widget.statusName!);
+  }
+
+  @override
+  void initState() {
+    page = int.parse(widget.page!);
+    scrollController.addListener(pagination);
+    super.initState();
+  }
+
+  void pagination() {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      setState(() {
+        page++;
+        profileBloc!.getMessages(
+            widget.ticketId!, page.toString(), widget.lastMessageId!);
+      });
+    }
   }
 
   @override
@@ -72,23 +100,61 @@ class _MessagesPage extends State<MessagesPage> {
                     children: [
                       Container(
                           height: 100,
-                          child: HeaderNotification(text: "Сообщения")),
+                          child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20, right: 20),
+                              child: HeaderNotification(
+                                  text: "Обращение № ${widget.ticketId}"))),
                       Expanded(
-                          child: Scrollbar(
-                              child: SingleChildScrollView(
-                                  controller: scrollController,
-                                  child: Column(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          //здесь сообщения
-                                          Column(
-                                            children: messagesList,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  )))),
+                          child: GroupedListView<TicketMessage, DateTime>(
+                        controller: scrollController,
+                        order: GroupedListOrder.DESC,
+                        reverse: true,
+                        useStickyGroupSeparators: true,
+                        floatingHeader: true,
+                        elements: pagesMessageList,
+                        groupBy: (message) => DateTime(message.date_added!.year,
+                            message.date_added!.month, message.date_added!.day),
+                        groupHeaderBuilder: (TicketMessage message) => Text(
+                            DateFormat.yMMMd().format(message.date_added!),
+                            style: TextStyle(color: claimLabelColor),
+                            textAlign: TextAlign.center),
+                        itemBuilder: (context, TicketMessage message) => Align(
+                          alignment: message.isOwn!
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color:
+                                    message.isOwn! ? colorMain : messageColor),
+                            margin: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
+                            child: Column(children: [
+                              Text("${message.message!}",
+                                  style: TextStyle(
+                                      color: message.isOwn!
+                                          ? Colors.white
+                                          : Colors.black)),
+                              Visibility(
+                                  visible: message.data != null ? true : false,
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        launchUrl(Uri.parse(loadLink +
+                                            message.data!.file_href!));
+                                      },
+                                      child: Text(
+                                          message.data != null
+                                              ? message.data!.document_name!
+                                              : "",
+                                          style: const TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              color: Colors.white))))
+                            ]),
+                          ),
+                        ),
+                      )),
                       Container(
                         width: MediaQuery.of(context).size.width,
                         height: 55,
@@ -145,70 +211,115 @@ class _MessagesPage extends State<MessagesPage> {
 
   _listener(BuildContext context, ProfileState state) {
     isLoading = state.loading!;
-    if (state.loading == true) {
-      return;
-    }
+
     if (state.messages != null) {
-      lastId = state.messages!.last.message_id!;
-      if (messagesList.isEmpty) {
+      if (pagesMessageList.isEmpty) {
+        pagesMessageList = state.messages!;
         for (int i = 0; i < state.messages!.length; i++) {
-          messagesList.add(MessageRow(
-              text: state.messages![i].message!,
-              isOwn: state.messages![i].user_id != widget.userId ? false : true,
-              time: state.messages![i].date_added!));
+          pagesMessageList[i].isOwn =
+              state.messages![i].user_id != widget.userId ? false : true;
         }
-        scrollController.position.maxScrollExtent;
+      }
+      if(pagesMessageList[15].message != state.messages![15].message){
+        pagesMessageList = state.messages!;
+        for (int i = 0; i < state.messages!.length; i++) {
+          pagesMessageList[i].isOwn =
+              state.messages![i].user_id != widget.userId ? false : true;
+        }
+      }
+      if (page > 1) {
+        pagesMessageList = state.messages! + pagesMessageList;
+        for (int i = 0; i < state.messages!.length; i++) {
+          pagesMessageList[i].isOwn =
+              state.messages![i].user_id != widget.userId ? false : true;
+        }
       }
     }
-    if(state.sendMessageData != null){
+    if (state.sendMessageData != null) {
+      MessageSend message = MessageSend(
+          cmd: "publish",
+          subject: "store-3",
+          event: "ticket_msg",
+          data: Data(
+              user_type: "lk",
+              user_id: int.parse(widget.userId),
+              files: state.sendMessageData!['ticket_message_files'],
+              ticket_id: int.parse(widget.ticketId!),
+              ticket_info: [
+                TicketInfo(
+                    ticket_message_id: state.sendMessageData!['ticket_info'][0]
+                        ['ticket_message_id'],
+                    ticket_id: state.sendMessageData!['ticket_info'][0]
+                        ['ticket_id'],
+                    message: state.sendMessageData!['ticket_info'][0]
+                        ['message'],
+                    data: state.sendMessageData!['ticket_info'][0]['data'],
+                    ticket_status_type_id: state.sendMessageData!['ticket_info']
+                        [0]['ticket_status_type_id'],
+                    model_user: state.sendMessageData!['ticket_info'][0]
+                        ['model_user'],
+                    user_id: state.sendMessageData!['ticket_info'][0]
+                        ['user_id'],
+                    user_name: state.sendMessageData!['ticket_info'][0]
+                        ['user_name'],
+                    date_added: state.sendMessageData!['ticket_info'][0]
+                        ['date_added'],
+                    name: state.sendMessageData!['ticket_info'][0]['name'],
+                    color_type_id: state.sendMessageData!['ticket_info'][0]
+                        ['color_type_id'],
+                    last_tm_resiver: state.sendMessageData!['ticket_info'][0]
+                        ['last_tm_resiver'],
+                    files: state.sendMessageData!['ticket_info'][0]['files'])
+              ],
+              user_info: UserInfo(
+                  inn: state.sendMessageData!['user_info']['inn'],
+                  firstname: state.sendMessageData!['user_info']['firstname'],
+                  lastname: state.sendMessageData!['user_info']['lastname'],
+                  patronymic: state.sendMessageData!['user_info']['patronymic'],
+                  contacts: Contacts(
+                      phone: state.sendMessageData!['user_info']['contacts']
+                          ['2'],
+                      email: state.sendMessageData!['user_info']['contacts']
+                          ['3']),
+                  href: state.sendMessageData!['user_info']['href']),
+              date_group: state.sendMessageData!['date_group'],
+              date_group_name: state.sendMessageData!['date_group_name']),
+          to_id: int.parse(widget.userId));
+      String data = jsonEncode(message.toJson());
+      webSocketChannel!.sink.add(data);
+      controller.text = "";
       setState(() {
-        messagesList.add(
-          MessageRow(
-            text: controller.text, 
+        pagesMessageList.add(TicketMessage(
             isOwn: true,
-            time: state.sendMessageData!['ticket_info'][0]['date_added']));
-        MessageSend message = MessageSend(
-            cmd: "publish",
-            subject: "store-3",
-            event: "ticket_msg",
-            data: Data(
-                user_type: "lk",
-                user_id: int.parse(widget.userId),
-                files: state.sendMessageData!['ticket_message_files'],
-                ticket_id: int.parse(widget.ticketId!),
-                ticket_info: [
-                  TicketInfo(
-                      ticket_message_id: state.sendMessageData!['ticket_info'][0]['ticket_message_id'],
-                      ticket_id: state.sendMessageData!['ticket_info'][0]['ticket_id'],
-                      message: state.sendMessageData!['ticket_info'][0]['message'],
-                      data: state.sendMessageData!['ticket_info'][0]['data'],
-                      ticket_status_type_id: state.sendMessageData!['ticket_info'][0]['ticket_status_type_id'],
-                      model_user: state.sendMessageData!['ticket_info'][0]['model_user'],
-                      user_id: state.sendMessageData!['ticket_info'][0]['user_id'],
-                      user_name: state.sendMessageData!['ticket_info'][0]['user_name'],
-                      date_added: state.sendMessageData!['ticket_info'][0]['date_added'],
-                      name: state.sendMessageData!['ticket_info'][0]['name'],
-                      color_type_id: state.sendMessageData!['ticket_info'][0]['color_type_id'],
-                      last_tm_resiver: state.sendMessageData!['ticket_info'][0]['last_tm_resiver'],
-                      files: state.sendMessageData!['ticket_info'][0]['files'])
-                ],
-                user_info: UserInfo(
-                    inn: state.sendMessageData!['user_info']['inn'],
-                    firstname: state.sendMessageData!['user_info']['firstname'],
-                    lastname: state.sendMessageData!['user_info']['lastname'],
-                    patronymic: state.sendMessageData!['user_info']['patronymic'],
-                    contacts: Contacts(
-                        phone: state.sendMessageData!['user_info']['contacts']['2'], 
-                        email: state.sendMessageData!['user_info']['contacts']['3']),
-                    href: state.sendMessageData!['user_info']['href']),
-                date_group: state.sendMessageData!['date_group'],
-                date_group_name: state.sendMessageData!['date_group_name']),
-            to_id: int.parse(widget.userId));
-        String data = jsonEncode(message.toJson());
-        webSocketChannel!.sink.add(data);
-        controller.text = "";
+            date_added: DateTime.parse(
+                state.sendMessageData!['ticket_info'][0]['date_added']),
+            ticket_message_id: state.sendMessageData!['ticket_info'][0]
+                ['ticket_message_id'],
+            ticket_id: state.sendMessageData!['ticket_info'][0]['ticket_id'],
+            message_id: null,
+            message: state.sendMessageData!['ticket_info'][0]['message'],
+            data: state.sendMessageData!['ticket_info'][0]['data'],
+            ticket_status_type_id: state.sendMessageData!['ticket_info'][0]
+                ['ticket_status_type_id'],
+            model_user: state.sendMessageData!['ticket_info'][0]['model_user'],
+            user_id: state.sendMessageData!['ticket_info'][0]['user_id'],
+            user_name: state.sendMessageData!['ticket_info'][0]['user_name'],
+            name: state.sendMessageData!['ticket_info'][0]['name'],
+            color_type_id: state.sendMessageData!['ticket_info'][0]
+                ['color_type_id'],
+            date_group: state.sendMessageData!['date_group'],
+            last_tm_resiver: state.sendMessageData!['ticket_info'][0]
+                ['last_tm_resiver']));
       });
     }
+  }
+
+  void getData(dynamic event) async {
+    print(event);
+    if(isLoading == false){
+      profileBloc!.getMessages(widget.ticketId!, widget.page!, widget.lastMessageId!);
+    }
+    //profileBloc!.getMessages(widget.ticketId!, widget.page!, widget.lastMessageId!);
   }
 
   @override
@@ -216,6 +327,9 @@ class _MessagesPage extends State<MessagesPage> {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
+    webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
+    webSocketListener?.webSocketChannel = webSocketChannel;
+    webSocketListener?.function = getData;
     fio = widget.profile!.userName!.split(" ");
 
     profileBloc!

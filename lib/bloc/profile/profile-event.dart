@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../websocket/websocket.dart';
+
 abstract class ProfileEvent extends Equatable {
   const ProfileEvent();
   @override
@@ -18,7 +20,8 @@ class GetLoginData extends ProfileEvent{
 }
 
 class GetWebSocketData extends ProfileEvent{
-  const GetWebSocketData();
+  final WebSocketData webSocketData;
+  const GetWebSocketData(this.webSocketData);
 }
 
 class LogoutEvent extends ProfileEvent{

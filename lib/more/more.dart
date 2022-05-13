@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../elements/header/header-notification.dart';
 import '../elements/header/header.dart';
+import '../profile/full-profile-page.dart';
 import '../testimony/info-pu.dart';
 
 class MoreScreen extends StatefulWidget{
@@ -54,7 +55,11 @@ class _MoreScreen extends State<MoreScreen>{
                         ),
                       )
                     ),
-                    Container(
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => FullProfile()));
+                      },
+                      child: Container(
                       margin: EdgeInsets.only(top: 20),
                       child: Column(
                         children: [
@@ -79,6 +84,7 @@ class _MoreScreen extends State<MoreScreen>{
                           )
                         ],
                       ),
+                    ),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 20),

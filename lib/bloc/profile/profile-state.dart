@@ -4,6 +4,7 @@ import 'package:conres_app/model/ticket.dart';
 import '../../model/claim.dart';
 import '../../model/contract.dart';
 import '../../model/message.dart';
+import '../../websocket/websocket.dart';
 
 class ProfileState {
   final String? cookieStr;
@@ -34,12 +35,14 @@ class ProfileState {
       this.sendMessageData});
 
   static initial() => ProfileState(cookieStr: null, loading: null, error: null);
+  static clear() => ProfileState(loading: false, sendMessageData: null, error: null);
   ProfileState copyWith(
       {String? cookieStr,
       bool? loading,
       List<dynamic>? loginData,
       ResultData? bindLsData,
       Map<String, dynamic>? sendMessageData,
+      dynamic webSocketData, 
       List<Contract>? contracts,
       List<String>? numbers,
       String? error,
@@ -56,7 +59,8 @@ class ProfileState {
         numbers: numbers ?? this.numbers,
         claims: claims ?? this.claims,
         tickets: tickets ?? this.tickets,
-        messages: messages ?? this.messages,
-        sendMessageData: sendMessageData ?? this.sendMessageData);
+        messages: messages,
+        sendMessageData: sendMessageData,
+        webSocketData: webSocketData);
   }
 }

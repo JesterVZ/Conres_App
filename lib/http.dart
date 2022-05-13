@@ -184,7 +184,7 @@ class HttpClient{
         }
       }
     } catch(e){
-      throw Exception("Ошибка получения cookie");
+      return"Ошибка получения cookie";
     }
   }
 
@@ -346,7 +346,6 @@ class HttpClient{
       });
       final result = await _apiClient.post(uri, data: formData);
       if(result.statusCode == 200){
-        //return ResultData.fromMap(result.data);
         return json.decode(result.data);
       }
     }catch(e){

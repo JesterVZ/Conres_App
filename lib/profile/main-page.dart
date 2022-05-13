@@ -4,6 +4,7 @@ import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/chats/chats.dart';
 import 'package:conres_app/profile/profile-test.dart';
 import 'package:conres_app/profile/tab-item.dart';
+import 'package:conres_app/websocket/websocket-listener.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -32,6 +33,7 @@ class MainPage extends StatefulWidget {
 class _MainPage extends State<MainPage> {
   WebSocketChannel? webSocketChannel;
   WebSocketData? webSocketData;
+  WebSocketListener? webSocketListener;
   int? ticketCounter;
   int? claimCounter;
   var _currentTab = TabItem.main;
@@ -141,16 +143,14 @@ class _MainPage extends State<MainPage> {
     );
   }
 
-  void getData() async {
-    webSocketChannel!.stream.listen((event) {
-      print('\x1B[33m$event\x1B[0m');
+  void getData(dynamic event) async {
+    print('\x1B[33m$event\x1B[0m');
       setState(() {
         webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
         ticketCounter =
             webSocketData!.data!.counters!.new_ticket_messages_count;
         claimCounter = webSocketData!.data!.counters!.new_claims_messages_count;
       });
-    });
   }
 
   @override
@@ -158,8 +158,12 @@ class _MainPage extends State<MainPage> {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
+    webSocketData ??= DependencyProvider.of(context)!.webSocketData;
+    webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
+    webSocketListener?.webSocketChannel = webSocketChannel;
+    webSocketListener?.function = getData;
     profileBloc!.getCookies(
         widget.loginData![0], widget.loginData![1], widget.loginData![2]);
-    getData();
+    webSocketListener!.listen();
   }
 }
