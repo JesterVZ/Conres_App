@@ -19,6 +19,7 @@ class ProfileState {
   final dynamic webSocketData;
   final ResultData? bindLsData;
   final Map<String, dynamic>? sendMessageData;
+  final String? page;
 
   ProfileState(
       {this.loginData,
@@ -32,7 +33,8 @@ class ProfileState {
       this.claims,
       this.tickets,
       this.messages,
-      this.sendMessageData});
+      this.sendMessageData,
+      this.page});
 
   static initial() => ProfileState(cookieStr: null, loading: null, error: null);
   static clear() => ProfileState(loading: false, sendMessageData: null, error: null);
@@ -48,7 +50,8 @@ class ProfileState {
       String? error,
       List<Claim>? claims,
       List<Ticket>? tickets,
-      List<TicketMessage>? messages}) {
+      List<TicketMessage>? messages,
+      String? page}) {
     return ProfileState(
         error: error,
         loading: loading ?? this.loading,
@@ -61,6 +64,7 @@ class ProfileState {
         tickets: tickets ?? this.tickets,
         messages: messages,
         sendMessageData: sendMessageData,
-        webSocketData: webSocketData);
+        webSocketData: webSocketData,
+        page: page ?? this.page);
   }
 }

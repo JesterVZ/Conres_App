@@ -199,7 +199,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         yield state.copyWith(
             loading: false,
             error: null,
-            messages: result);
+            messages: result,
+            page: event.page);
       }
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());

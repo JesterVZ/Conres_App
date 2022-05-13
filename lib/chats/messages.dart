@@ -4,6 +4,7 @@ import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/model/message.dart';
 import 'package:conres_app/websocket/message-send.dart';
 import 'package:conres_app/websocket/websocket-listener.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -56,6 +57,14 @@ class _MessagesPage extends State<MessagesPage> {
     profileBloc!
         .sendMessage(widget.ticketId!, controller.text, widget.statusName!);
   }
+  void _loadImage() async{
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    if (result != null) {
+      setState(() {
+        //images.add(result);
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -69,11 +78,11 @@ class _MessagesPage extends State<MessagesPage> {
         scrollController.position.maxScrollExtent) {
       setState(() {
         page++;
-        profileBloc!.getMessages(
-            widget.ticketId!, page.toString(), widget.lastMessageId!);
+        profileBloc!.getMessages(widget.ticketId!, page.toString(), widget.lastMessageId!);
       });
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +115,7 @@ class _MessagesPage extends State<MessagesPage> {
                               child: HeaderNotification(
                                   text: "Обращение № ${widget.ticketId}"))),
                       Expanded(
-                          child: GroupedListView<TicketMessage, DateTime>(
+                          child: Scrollbar(child: GroupedListView<TicketMessage, DateTime>(
                         controller: scrollController,
                         order: GroupedListOrder.DESC,
                         reverse: true,
@@ -136,10 +145,12 @@ class _MessagesPage extends State<MessagesPage> {
                                       color: message.isOwn!
                                           ? Colors.white
                                           : Colors.black)),
+                              //Text("${message.message_id}"), //message id
                               Visibility(
                                   visible: message.data != null ? true : false,
                                   child: GestureDetector(
                                       onTap: () {
+
                                         launchUrl(Uri.parse(loadLink +
                                             message.data!.file_href!));
                                       },
@@ -147,14 +158,14 @@ class _MessagesPage extends State<MessagesPage> {
                                           message.data != null
                                               ? message.data!.document_name!
                                               : "",
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               decoration:
                                                   TextDecoration.underline,
-                                              color: Colors.white))))
+                                              color: message.isOwn! ? Colors.white : Colors.black))))
                             ]),
                           ),
                         ),
-                      )),
+                      ))),
                       Container(
                         width: MediaQuery.of(context).size.width,
                         height: 55,
@@ -163,6 +174,7 @@ class _MessagesPage extends State<MessagesPage> {
                             child: Row(
                               children: [
                                 GestureDetector(
+                                  onTap: () {_loadImage();},
                                     child: SvgPicture.asset('assets/clip.svg')),
                                 const Spacer(),
                                 Container(
@@ -213,21 +225,14 @@ class _MessagesPage extends State<MessagesPage> {
     isLoading = state.loading!;
 
     if (state.messages != null) {
-      if (pagesMessageList.isEmpty) {
+      if (pagesMessageList.isEmpty || (pagesMessageList.last.message_id != state.messages!.last.message_id && (int.parse(state.page!) == page) && page == 1)) {
         pagesMessageList = state.messages!;
         for (int i = 0; i < state.messages!.length; i++) {
           pagesMessageList[i].isOwn =
               state.messages![i].user_id != widget.userId ? false : true;
         }
       }
-      if(pagesMessageList[15].message != state.messages![15].message){
-        pagesMessageList = state.messages!;
-        for (int i = 0; i < state.messages!.length; i++) {
-          pagesMessageList[i].isOwn =
-              state.messages![i].user_id != widget.userId ? false : true;
-        }
-      }
-      if (page > 1) {
+      if ((int.parse(state.page!) == page) && page > 1) { //если страница текущая
         pagesMessageList = state.messages! + pagesMessageList;
         for (int i = 0; i < state.messages!.length; i++) {
           pagesMessageList[i].isOwn =
@@ -316,10 +321,10 @@ class _MessagesPage extends State<MessagesPage> {
 
   void getData(dynamic event) async {
     print(event);
-    if(isLoading == false){
-      profileBloc!.getMessages(widget.ticketId!, widget.page!, widget.lastMessageId!);
+    if (isLoading == false) {
+      profileBloc!
+          .getMessages(widget.ticketId!, widget.page!, widget.lastMessageId!);
     }
-    //profileBloc!.getMessages(widget.ticketId!, widget.page!, widget.lastMessageId!);
   }
 
   @override
