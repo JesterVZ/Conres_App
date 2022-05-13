@@ -10,7 +10,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import '../repositories/profile-repo.dart';
 
 // ignore: must_be_immutable
-class DependencyProvider extends InheritedWidget{
+class DependencyProvider extends InheritedWidget {
   HttpClient? _httpClient;
   AuthBloc? _authBloc;
   ProfileBloc? _profileBloc;
@@ -24,15 +24,18 @@ class DependencyProvider extends InheritedWidget{
       : assert(child != null),
         super(key: key, child: child!);
 
-  WebSocketChannel? get webSocketChannel{
-    _webSocketChannel ??= IOWebSocketChannel.connect("wss://promo.dev.conres.ru:2450/");
+  WebSocketChannel? get webSocketChannel {
+    _webSocketChannel ??=
+        IOWebSocketChannel.connect("wss://promo.dev.conres.ru:2450/");
     return _webSocketChannel;
   }
-  WebSocketData? get webSocketData{
+
+  WebSocketData? get webSocketData {
     _webSocketData ??= WebSocketData();
     return _webSocketData;
   }
-  Future<SharedPreferences> get sharedPreferences async{
+
+  Future<SharedPreferences> get sharedPreferences async {
     _sharedPreferences ??= await SharedPreferences.getInstance();
     return _sharedPreferences!;
   }
@@ -47,7 +50,7 @@ class DependencyProvider extends InheritedWidget{
     return _authRepo!;
   }
 
-  ProfileRepo get profileRepo{
+  ProfileRepo get profileRepo {
     _profileRepo ??= ProfileRepo(httpClient: httpClient);
     return _profileRepo!;
   }
@@ -57,7 +60,7 @@ class DependencyProvider extends InheritedWidget{
     return _authBloc!;
   }
 
-  ProfileBloc get profileBloc{
+  ProfileBloc get profileBloc {
     _profileBloc ??= ProfileBloc(profileRepo);
     return _profileBloc!;
   }

@@ -146,12 +146,10 @@ class _MainPage extends State<MainPage> {
       print('\x1B[33m$event\x1B[0m');
       setState(() {
         webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
-        profileBloc!.getWebSocketData(webSocketData!);
         ticketCounter =
             webSocketData!.data!.counters!.new_ticket_messages_count;
-        claimCounter = webSocketData!.data!.counters!.new_claims_messages_count;     
+        claimCounter = webSocketData!.data!.counters!.new_claims_messages_count;
       });
-
     });
   }
 

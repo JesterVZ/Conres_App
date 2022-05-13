@@ -52,7 +52,8 @@ class _MessagesPage extends State<MessagesPage> {
   ScrollController scrollController = ScrollController();
   int page = 1;
   void _send() {
-    profileBloc!.sendMessage(widget.ticketId!, controller.text, widget.statusName!);
+    profileBloc!
+        .sendMessage(widget.ticketId!, controller.text, widget.statusName!);
   }
 
   @override
@@ -101,7 +102,8 @@ class _MessagesPage extends State<MessagesPage> {
                           child: Padding(
                               padding:
                                   const EdgeInsets.only(left: 20, right: 20),
-                              child: HeaderNotification(text: "Обращение № ${widget.ticketId}"))),
+                              child: HeaderNotification(
+                                  text: "Обращение № ${widget.ticketId}"))),
                       Expanded(
                           child: GroupedListView<TicketMessage, DateTime>(
                         controller: scrollController,
@@ -129,17 +131,25 @@ class _MessagesPage extends State<MessagesPage> {
                             padding: const EdgeInsets.all(10),
                             child: Column(children: [
                               Text("${message.message!}",
-                                style: TextStyle(
-                                    color: message.isOwn!
-                                        ? Colors.white
-                                        : Colors.black)),
+                                  style: TextStyle(
+                                      color: message.isOwn!
+                                          ? Colors.white
+                                          : Colors.black)),
                               Visibility(
-                                visible: message.data != null ? true : false,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    launchUrl(Uri.parse(loadLink + message.data!.file_href!));
-                                  },
-                                  child: Text(message.data != null ? message.data!.document_name! : "", style: const TextStyle(decoration: TextDecoration.underline, color: Colors.white))))
+                                  visible: message.data != null ? true : false,
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        launchUrl(Uri.parse(loadLink +
+                                            message.data!.file_href!));
+                                      },
+                                      child: Text(
+                                          message.data != null
+                                              ? message.data!.document_name!
+                                              : "",
+                                          style: const TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              color: Colors.white))))
                             ]),
                           ),
                         ),
@@ -296,6 +306,12 @@ class _MessagesPage extends State<MessagesPage> {
     }
   }
 
+  void getData() async {
+    webSocketChannel!.stream.listen((event) {
+      print('\x1B[32m$event\x1B[0m');
+    });
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -305,5 +321,6 @@ class _MessagesPage extends State<MessagesPage> {
 
     profileBloc!
         .getMessages(widget.ticketId!, widget.page!, widget.lastMessageId!);
+    getData();
   }
 }
