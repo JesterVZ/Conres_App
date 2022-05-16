@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:path/path.dart' as path;
 
 import 'package:conres_app/model/claim.dart';
 import 'package:conres_app/model/message.dart';
@@ -6,6 +8,8 @@ import 'package:conres_app/model/profile.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'consts.dart';
 import 'model/contract.dart';
@@ -360,6 +364,18 @@ class HttpClient{
     }
   }
 
+  Future<Object?> getCounters() async{
+    String uri = protocol + domain + 'lk/index.php?route=catalog/ticket/api_getCountNewMessage';
+    try{
+      final result = await _apiClient.post(uri);
+      if(result.statusCode == 200){
+        
+      }
+    }catch(e){
+      print(e);
+    }
+  }
+
   Future<Object?> setReadMessage(String ticketId, String messageId) async{
     String uri = protocol + domain + 'lk/index.php?route=catalog/ticket/api_setReadMessage';
     try{
@@ -373,6 +389,29 @@ class HttpClient{
       }
     }catch(e){
       print(e);
+    }
+  }
+  Future<Object?> download(String uri, String fileName) async{
+    try{
+      final dir = await getApplicationDocumentsDirectory();
+      final isPermissionStatusGranted = await _requestPermissions();
+      if (isPermissionStatusGranted) {
+        final response = await _apiClient.download(uri, dir.path, onReceiveProgress: (rec, total){
+          print( (rec / total) * 100);
+        });
+        return response;
+      }
+    }catch(e){
+      print(e);
+    }
+  }
+
+  Future<bool> _requestPermissions() async {
+    var permission = await Permission.storage.request();
+    if(permission.isGranted){
+      return true;
+    } else {
+      return false;
     }
   }
 }
