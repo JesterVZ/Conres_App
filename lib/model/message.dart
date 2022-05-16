@@ -1,4 +1,15 @@
 import 'dart:convert';
+
+class TicketFullInfo{
+  List<TicketMessage>? messages;
+  int? messages_more;
+  String? messages_page;
+  String? last_message_id;
+  String? last_read_msg;
+  String? ticket_is_closed;
+
+  TicketFullInfo({this.messages, this.messages_more, this.messages_page, this.last_message_id, this.last_read_msg, this.ticket_is_closed});
+}
 class TicketMessage{
   String? ticket_message_id;
   String? ticket_id;

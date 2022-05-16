@@ -198,15 +198,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Stream<ProfileState> _handleGetMessages(GetMessages event) async* {
-    yield state.copyWith(loading: true, error: null, messages: null);
+    yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
     try {
       Object result = await repo.getMessageFromTicket(
           event.chat_id, event.page, event.last_message_id);
-      if (result is List<TicketMessage>) {
+      if (result is TicketFullInfo) {
         yield state.copyWith(
             loading: false,
             error: null,
-            messages: result,
+            ticketFullInfo: result,
             page: event.page);
       }
     } catch (e) {
@@ -227,13 +227,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Stream<ProfileState> _handleSendMessage(SendMessageEvent event) async* {
-    yield state.copyWith(loading: true, error: null, messages: null);
+    yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
     try {
       Object result = await repo.sendMessage(
           event.ticket_id, event.message, event.ticket_status_id);
       if (result is Map<String, dynamic>) {
         yield state.copyWith(
-            loading: false, sendMessageData: result, messages: null);
+            loading: false, sendMessageData: result, ticketFullInfo: null);
       }
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
@@ -241,6 +241,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Stream<ProfileState> _handleReadMessage(ReadMessage event) async*{
+    yield state.copyWith(loading: false, error: null, ticketFullInfo: null);
     try{
       Object result = await repo.readMessage(event.ticketId, event.messageId);
     }catch(e){

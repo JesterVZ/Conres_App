@@ -15,7 +15,7 @@ class ProfileState {
   final List<String>? numbers;
   final List<Claim>? claims;
   final List<Ticket>? tickets;
-  final List<TicketMessage>? messages;
+  final TicketFullInfo? ticketFullInfo;
   final dynamic webSocketData;
   final ResultData? bindLsData;
   final Map<String, dynamic>? sendMessageData;
@@ -32,7 +32,7 @@ class ProfileState {
       this.numbers,
       this.claims,
       this.tickets,
-      this.messages,
+      this.ticketFullInfo,
       this.sendMessageData,
       this.page});
 
@@ -50,7 +50,7 @@ class ProfileState {
       String? error,
       List<Claim>? claims,
       List<Ticket>? tickets,
-      List<TicketMessage>? messages,
+      TicketFullInfo? ticketFullInfo,
       String? page}) {
     return ProfileState(
         error: error,
@@ -62,7 +62,7 @@ class ProfileState {
         numbers: numbers ?? this.numbers,
         claims: claims ?? this.claims,
         tickets: tickets ?? this.tickets,
-        messages: messages,
+        ticketFullInfo: ticketFullInfo,
         sendMessageData: sendMessageData,
         webSocketData: webSocketData,
         page: page ?? this.page);

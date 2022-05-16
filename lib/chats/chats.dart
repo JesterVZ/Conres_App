@@ -77,7 +77,6 @@ class _Chats extends State<Chats> {
                 userId: userId!,
                 ticketId: ticket.ticket_id.toString(),
                 page: '1',
-                lastMessageId: '1',
                 profile: widget.profile,
                 statusName: ticket.cur_status!.name)));
   }

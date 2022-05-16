@@ -313,7 +313,14 @@ class HttpClient{
         for(int i = 0; i < result.data['data']['messages'].length; i++){
           messages.add(TicketMessage.fromMap(result.data['data']['messages'][i]));
         }
-        return messages;
+        TicketFullInfo fullInfo = TicketFullInfo(
+          messages: messages, 
+          messages_more: result.data['data']['messages_more'],
+          messages_page: result.data['data']['messages_page'],
+          last_message_id: result.data['data']['last_message_id'],
+          last_read_msg: result.data['data']['last_read_msg'],
+          ticket_is_closed: result.data['data']['ticket_is_closed']);
+        return fullInfo;
       }
     }catch(e){
       print(e);
@@ -362,7 +369,7 @@ class HttpClient{
       });
       final result = await _apiClient.post(uri, data: formData);
       if(result.statusCode == 200){
-        
+
       }
     }catch(e){
       print(e);
