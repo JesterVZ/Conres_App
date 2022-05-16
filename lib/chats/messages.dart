@@ -77,11 +77,11 @@ class _MessagesPage extends State<MessagesPage> {
     }
   }
   void _loadImageFromUri(String uri, String fileName) async{
+    final externalDir = await getExternalStorageDirectory();
+    //profileBloc!.downloadFile(uri, fileName);
     final status = await Permission.storage.request();
 
     if(status.isGranted){
-      
-      final externalDir = await getExternalStorageDirectory();
       final id = await FlutterDownloader.enqueue(
         url: uri,
         savedDir: externalDir!.path,
@@ -93,6 +93,7 @@ class _MessagesPage extends State<MessagesPage> {
     } else {
       print("permission denied");
     }
+    
   }
 
   @override
@@ -354,7 +355,6 @@ class _MessagesPage extends State<MessagesPage> {
   }
 
   void getData(dynamic event) async {
-    print(event);
     if (isLoading == false) {
       profileBloc!
           .getMessages(widget.ticketId!, widget.page!, lastMessageId!);

@@ -51,4 +51,7 @@ class ProfileRepo{
   Future<dynamic> readMessage(String ticketId, String messageId) async{
     var result = await httpClient.setReadMessage(ticketId, messageId);
   }
+  Future<dynamic> downloadFie(String uri, String filename) async{
+    var result = await httpClient.download(uri, filename);
+  }
 }

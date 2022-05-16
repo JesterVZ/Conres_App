@@ -54,6 +54,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if(event is ReadMessage){
       yield* _handleReadMessage(event);
     }
+    if(event is DownloadFile){
+      yield* _handleDownloadFile(event);
+    }
   }
 
   ProfileBloc(this.repo) : super(ProfileState.initial());
@@ -104,6 +107,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   readMessage(String ticketId, String messageId){
     add(ReadMessage(ticketId, messageId));
+  }
+
+  downloadFile(String uri, String filename){
+    add(DownloadFile(uri, filename));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -244,6 +251,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: false, error: null, ticketFullInfo: null);
     try{
       Object result = await repo.readMessage(event.ticketId, event.messageId);
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleDownloadFile(DownloadFile event) async*{
+    yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
+    try{
+      Object result = await repo.downloadFie(event.uri, event.filename);
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }

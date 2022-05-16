@@ -8,7 +8,7 @@ import 'elements/splash/splash-screen.dart';
 import 'loading/loading-page.dart';
 import 'login/login-main.dart';
 
-void main() {
+void main() async {
   initDownloader();
   HttpOverrides.global = MyHttpOverrides();
   runApp(

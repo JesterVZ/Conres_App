@@ -11,6 +11,7 @@ import '../elements/bloc/bloc-screen.dart';
 import '../elements/chat/ticket-row.dart';
 import '../model/profile.dart';
 import '../model/ticket.dart';
+import '../websocket/websocket-listener.dart';
 import 'messages.dart';
 
 class Chats extends StatefulWidget {
@@ -23,8 +24,10 @@ class Chats extends StatefulWidget {
 class _Chats extends State<Chats> {
   ProfileBloc? profileBloc;
   late WebSocketChannel? webSocketChannel;
+  WebSocketListener? webSocketListener;
   List<Widget> tickets = [];
   String? userId;
+  bool? isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +56,7 @@ class _Chats extends State<Chats> {
   }
 
   _listener(BuildContext context, ProfileState state) {
+    isLoading = state.loading;
     if (state.loading == true) {
       return;
     }
@@ -80,11 +84,20 @@ class _Chats extends State<Chats> {
                 profile: widget.profile,
                 statusName: ticket.cur_status!.name)));
   }
+  void updateTickets(){
+    if (isLoading == false) {
+      profileBloc!.getTickets();
+    }
+  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
+    webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
+    webSocketListener?.webSocketChannel = webSocketChannel;
+    webSocketListener?.function = updateTickets;
     profileBloc!.getAllInfo();
     profileBloc!.getTickets();
   }

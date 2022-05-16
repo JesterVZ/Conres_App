@@ -70,3 +70,9 @@ class ReadMessage extends ProfileEvent{
   String messageId;
   ReadMessage(this.ticketId, this.messageId);
 }
+
+class DownloadFile extends ProfileEvent{
+  String uri;
+  String filename;
+  DownloadFile(this.uri, this.filename);
+}
