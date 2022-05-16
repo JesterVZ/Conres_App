@@ -339,5 +339,6 @@ class _MessagesPage extends State<MessagesPage> {
 
     profileBloc!
         .getMessages(widget.ticketId!, widget.page!, widget.lastMessageId!);
+    profileBloc!.readMessage(widget.ticketId!, widget.lastMessageId!);
   }
 }

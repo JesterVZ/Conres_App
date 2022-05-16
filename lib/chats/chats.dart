@@ -60,9 +60,11 @@ class _Chats extends State<Chats> {
       userId = state.bindLsData!.data['user_id'];
     }
     if (state.tickets != null) {
-      tickets.clear();
-      for (int i = 0; i < state.tickets!.length; i++) {
-        tickets.add(TicketRow(ticket: state.tickets![i], openChat: _openChat));
+      //tickets.clear();
+      if(tickets.isEmpty){
+        for (int i = 0; i < state.tickets!.length; i++) {
+          tickets.add(TicketRow(ticket: state.tickets![i], openChat: _openChat, counter: state.tickets![i].count_tm_resiver));
+        }
       }
     }
   }

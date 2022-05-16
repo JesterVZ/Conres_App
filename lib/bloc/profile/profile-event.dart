@@ -64,3 +64,9 @@ class SendMessageEvent extends ProfileEvent{
   final String ticket_status_id;
   const SendMessageEvent(this.ticket_id, this.message, this.ticket_status_id);
 }
+
+class ReadMessage extends ProfileEvent{
+  String ticketId;
+  String messageId;
+  ReadMessage(this.ticketId, this.messageId);
+}

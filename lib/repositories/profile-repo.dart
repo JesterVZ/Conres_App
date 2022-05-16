@@ -48,4 +48,7 @@ class ProfileRepo{
     var result = await httpClient.sendMessage(ticketId, message, ticketStatusId);
     return result;
   }
+  Future<dynamic> readMessage(String ticketId, String messageId) async{
+    var result = await httpClient.setReadMessage(ticketId, messageId);
+  }
 }

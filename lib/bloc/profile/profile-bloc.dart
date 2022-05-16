@@ -51,6 +51,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is SendMessageEvent) {
       yield* _handleSendMessage(event);
     }
+    if(event is ReadMessage){
+      yield* _handleReadMessage(event);
+    }
   }
 
   ProfileBloc(this.repo) : super(ProfileState.initial());
@@ -97,6 +100,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   sendMessage(String ticket_id, String message, String ticket_status_id) {
     add(SendMessageEvent(ticket_id, message, ticket_status_id));
+  }
+
+  readMessage(String ticketId, String messageId){
+    add(ReadMessage(ticketId, messageId));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -229,6 +236,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             loading: false, sendMessageData: result, messages: null);
       }
     } catch (e) {
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleReadMessage(ReadMessage event) async*{
+    try{
+      Object result = await repo.readMessage(event.ticketId, event.messageId);
+    }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }
   }

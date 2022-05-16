@@ -352,4 +352,20 @@ class HttpClient{
       print(e);
     }
   }
+
+  Future<Object?> setReadMessage(String ticketId, String messageId) async{
+    String uri = protocol + domain + 'lk/index.php?route=catalog/ticket/api_setReadMessage';
+    try{
+      var formData = FormData.fromMap({
+        'ticket_id': ticketId,
+        'message_id': messageId,
+      });
+      final result = await _apiClient.post(uri, data: formData);
+      if(result.statusCode == 200){
+        
+      }
+    }catch(e){
+      print(e);
+    }
+  }
 }
