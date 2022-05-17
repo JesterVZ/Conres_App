@@ -47,7 +47,8 @@ class GetClaims extends ProfileEvent{
 }
 
 class GetTickets extends ProfileEvent{
-  const GetTickets();
+  final String page;
+  const GetTickets(this.page);
 }
 
 class GetMessages extends ProfileEvent{

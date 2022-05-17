@@ -16,6 +16,7 @@ class LoadingPage extends StatefulWidget{
 class _LoadingPage extends State<LoadingPage>{
   AuthBloc? authBloc;
   var mainPage = LoadingPage();
+  bool isLogin = false;
 
   @override
   void initState() {
@@ -29,9 +30,11 @@ class _LoadingPage extends State<LoadingPage>{
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
           return Scaffold(
-              body:  Stack(
-                fit: StackFit.expand,
-              )
+              body:  Center(child: Container(
+                width: 50,
+                height: 50,
+                child: Image.asset('assets/loading.gif')
+              ))
           );
         });
   }
@@ -41,7 +44,10 @@ class _LoadingPage extends State<LoadingPage>{
     }
     if(state.loginData != null){
       if(state.profile == null){
-        authBloc!.login(state.loginData![0], state.loginData![1], state.loginData![2]);
+        if(isLogin == false){
+          authBloc!.login(state.loginData![0], state.loginData![1], state.loginData![2]);
+          isLogin = true;
+        }
       } else {
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainPage(profile: state.profile, loginData: state.loginData)), (route) => false);
       }

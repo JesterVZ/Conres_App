@@ -51,6 +51,7 @@ class _TicketRow extends State<TicketRow>{
       child: Container(
         padding: const EdgeInsets.all(15),
         width: MediaQuery.of(context).size.width,
+        height: 100,
         decoration: const BoxDecoration(
           color: Colors.white,
         ),

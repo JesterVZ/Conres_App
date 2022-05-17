@@ -234,10 +234,12 @@ class HttpClient{
       final result = await _apiClient.post(uri);
       List<Meter> meters = [];
       if(result.statusCode == 200){
-        for(int i = 0; i < result.data['data']['meters'].length; i++){
-          Meter thisMeter = Meter.fromMap(result.data['data']['meters'][i]);
-          thisMeter.lastReadings = await GetLastReadings(result.data['data']['lastReadings'], thisMeter);
-          meters.add(thisMeter);
+        if(result.data['data']['meters'].length > 0){
+            for(int i = 0; i < result.data['data']['meters'].length; i++){
+            Meter thisMeter = Meter.fromMap(result.data['data']['meters'][i]);
+            thisMeter.lastReadings = await GetLastReadings(result.data['data']['lastReadings'], thisMeter);
+            meters.add(thisMeter);
+          }
         }
         return meters;
       }
@@ -287,10 +289,13 @@ class HttpClient{
     }
   }
 
-  Future<Object?>? getTickets() async{
+  Future<Object?>? getTickets(String page) async{
     String uri = protocol + domain + 'lk/index.php?route=catalog/ticket/api_getTickets';
     try{
-      final result = await _apiClient.post(uri);
+      var formData = FormData.fromMap({
+        'page': page
+      });
+      final result = await _apiClient.post(uri, data: formData);
       if(result.statusCode == 200){
         List<Ticket> tickets = [];
         for(int i = 0; i < result.data['data']['tickets'].length; i++){
@@ -353,7 +358,7 @@ class HttpClient{
     try{
       var formData = FormData.fromMap({
         'ticket_id': ticketId,
-        'message': message,
+        'message': message, 
         'ticket_status_id': ticketStatusId
       });
       final result = await _apiClient.post(uri, data: formData);

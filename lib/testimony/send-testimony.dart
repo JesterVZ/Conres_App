@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:conres_app/elements/testimony/testimony-not-found.dart';
 import 'package:conres_app/testimony/link-pu.dart';
 import 'package:dotted_decoration/dotted_decoration.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,6 +26,7 @@ class SendTestimony extends StatefulWidget {
 
 class _SendTestimony extends State<SendTestimony> {
   AuthBloc? authBloc;
+  bool getTestimony = false;
   Widget content = Container(
       margin: EdgeInsets.only(top: 21),
       decoration: DottedDecoration(
@@ -56,6 +58,59 @@ class _SendTestimony extends State<SendTestimony> {
                 Expanded(child: Scrollbar(child: SingleChildScrollView(
                     child: content
                 ))),
+                Visibility(
+                  visible: getTestimony,
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 24),
+                              width: MediaQuery.of(context).size.width - 35,
+                              height: 70,
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    //Navigator.push(context, MaterialPageRoute(builder: (context) => SendTestimony(personal: widget.profile!.personal)));
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      primary: colorGray, shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8)
+                                  )),
+
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width: 40,
+                                        height: 40,
+                                        decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: SvgPicture.asset('assets/meters-data.svg', color: colorGray,),
+                                        ),
+                                        //margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                                      ),
+                                      Spacer(),
+                                      const Text(
+                                        "Привязать новый ПУ",
+                                        style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: 'Bubicon-Medium'),
+                                      ),
+                                      Spacer(),
+                                      Container(
+                                        //margin: EdgeInsets.fromLTRB(45, 0, 0, 0),
+                                        width: 32,
+                                        height: 32,
+                                        decoration: BoxDecoration(
+                                            color: meterDataColor,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.fromLTRB(13, 9, 11, 9),
+                                          child: SvgPicture.asset("assets/ls-right-arrow.svg", color: Colors.white,),
+                                        ),
+                                      )
+                                    ],
+                                  ))))
               ],
             ),
           ));
@@ -75,18 +130,22 @@ class _SendTestimony extends State<SendTestimony> {
       return;
     }
     if(state.testimony != null){
-      try{
         List<Widget> meters = [];
-        for(int i = 0; i < state.testimony!.length; i++){
+        if(state.testimony!.isNotEmpty){
+          getTestimony = false;
+          for(int i = 0; i < state.testimony!.length; i++){
           meters.add(Testimony(state.testimony![i]));
         }
         content = Column(
           children: meters,
         );
-
-      } catch(e){
-        print(e.toString());
-      }
+        } else {
+          setState(() {
+            getTestimony = true;
+            content = TestimonyNotfound();
+          });
+          
+        }
     }
   }
   @override

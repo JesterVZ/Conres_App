@@ -25,10 +25,18 @@ class _Chats extends State<Chats> {
   ProfileBloc? profileBloc;
   WebSocketChannel? webSocketChannel;
   WebSocketListener? webSocketListener;
+  ScrollController scrollController = ScrollController();
   //List<Widget> tickets = [];
   List<Ticket> tickets = [];
   String? userId;
-  bool? isLoading = true;
+  int page = 1;
+  bool isLoading = true;
+  @override
+  void initState() {
+    scrollController.addListener(_pagination);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(
@@ -36,26 +44,36 @@ class _Chats extends State<Chats> {
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
           return Scaffold(
-              body: Container(
-            padding: const EdgeInsets.only(left: 18, right: 18),
-            color: pageColor,
-            child: Column(
-              children: [
+              body: Stack(children: [
                 Container(
-                    height: 100, child: HeaderNotification(text: reportsPage)),
-                Expanded(
-                    child: Scrollbar(
-                        child: ListView.builder(itemCount: tickets.length, itemBuilder: (context, int index){
-                          return TicketRow(ticket: tickets[index], openChat: _openChat, counter: tickets[index].count_tm_resiver);
-                        }))),
-              ],
-            ),
-          ));
+                padding: const EdgeInsets.only(left: 18, right: 18),
+                color: pageColor,
+                child: Column(
+                  children: [
+                    Container(
+                        height: 100, child: HeaderNotification(text: reportsPage)),
+                    Expanded(
+                        child: Scrollbar(
+                            child: ListView.builder(controller: scrollController, itemCount: tickets.length, itemBuilder: (context, int index){
+                              return TicketRow(ticket: tickets[index], openChat: _openChat, counter: tickets[index].count_tm_resiver);
+                            }))),
+                  ],
+                ),
+              ),
+              Visibility(
+                      child: Center(
+                          child: Container(
+                        width: 50,
+                        height: 50,
+                        child: Image.asset('assets/loading.gif'),
+                      )),
+                      visible: isLoading)
+              ],));
         });
   }
 
   _listener(BuildContext context, ProfileState state) {
-    isLoading = state.loading;
+    isLoading = state.loading!;
     if (state.loading == true) {
       return;
     }
@@ -64,14 +82,23 @@ class _Chats extends State<Chats> {
     }
     if (state.tickets != null) {
       //tickets.clear();
-      if(tickets.isEmpty){
+      if(tickets.isEmpty || (tickets.first.ticket_id != state.tickets!.first.ticket_id && (int.parse(state.page!) == page) && page == 1)){
         tickets = state.tickets!;
-        /*
-        for (int i = 0; i < state.tickets!.length; i++) {
-          tickets.add(TicketRow(ticket: state.tickets![i], openChat: _openChat, counter: state.tickets![i].count_tm_resiver));
-        }
-        */
       }
+      if ((int.parse(state.page!) == page) && page > 1) {
+        tickets = tickets + state.tickets!;
+      }
+    }
+  }
+
+  void _pagination(){
+    print(scrollController.position.pixels);
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+          setState(() {
+            page++;
+            profileBloc!.getTickets(page.toString());
+          });
     }
   }
 
@@ -85,13 +112,7 @@ class _Chats extends State<Chats> {
                 ticketId: ticket.ticket_id.toString(),
                 page: '1',
                 profile: widget.profile,
-                statusName: ticket.cur_status!.name)));
-  }
-
-  void getData(dynamic event) async{
-    if(isLoading == false){
-      //profileBloc!.getTickets();
-    }
+                statusName: ticket.cur_status != null ? ticket.cur_status!.name : "")));
   }
 
   @override
@@ -99,6 +120,6 @@ class _Chats extends State<Chats> {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     profileBloc!.getAllInfo();
-    profileBloc!.getTickets();
+    profileBloc!.getTickets(page.toString());
   }
 }

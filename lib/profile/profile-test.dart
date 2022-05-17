@@ -270,7 +270,6 @@ class _ProfilePage extends State<ProfilePageTest> {
                                       )
                                     ],
                                   )))))
-
                 ],
               )),
         )

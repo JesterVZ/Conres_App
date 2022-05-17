@@ -56,7 +56,7 @@ class ProfileState {
         error: error,
         loading: loading ?? this.loading,
         cookieStr: cookieStr ?? this.cookieStr,
-        loginData: loginData ?? this.loginData,
+        loginData: loginData,
         bindLsData: bindLsData ?? this.bindLsData,
         contracts: contracts ?? this.contracts,
         numbers: numbers ?? this.numbers,

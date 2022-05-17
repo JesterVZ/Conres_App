@@ -32,8 +32,8 @@ class ProfileRepo{
     var result = await httpClient.getClaims();
     return result;
   }
-  Future<dynamic> getTickets() async{
-    var result = await httpClient.getTickets();
+  Future<dynamic> getTickets(String page) async{
+    var result = await httpClient.getTickets(page);
     return result;
   }
   Future<dynamic> getMessageFromTicket(String chat_id, String page, String last_message_id) async{

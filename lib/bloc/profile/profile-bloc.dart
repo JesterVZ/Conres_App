@@ -90,8 +90,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(const GetClaims());
   }
 
-  getTickets() {
-    add(const GetTickets());
+  getTickets(String page) {
+    add(GetTickets(page));
   }
 
   getMessages(String chat_id, String page, String last_message_id) {
@@ -196,9 +196,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _handleGetTickets(GetTickets event) async* {
     yield state.copyWith(loading: true, error: null);
     try {
-      Object result = await repo.getTickets();
+      Object result = await repo.getTickets(event.page);
       if (result is List<Ticket>) {
-        yield state.copyWith(loading: false, tickets: result);
+        yield state.copyWith(loading: false, tickets: result, page: event.page);
       }
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());

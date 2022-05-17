@@ -67,6 +67,9 @@ class _MainPage extends State<MainPage> {
   }
 
   void logout() {
+    webSocketChannel = null;
+    webSocketData = null;
+    webSocketListener = null;
     profileBloc!.logout();
   }
 
