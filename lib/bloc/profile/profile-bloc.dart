@@ -9,6 +9,7 @@ import 'package:conres_app/websocket/websocket.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/claim.dart';
+import '../../model/counter.dart';
 import '../../model/ticket.dart';
 import '../../repositories/profile-repo.dart';
 import '../../shared-preferences/shared-preferences.dart';
@@ -250,7 +251,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _handleReadMessage(ReadMessage event) async*{
     yield state.copyWith(loading: false, error: null, ticketFullInfo: null);
     try{
-      Object result = await repo.readMessage(event.ticketId, event.messageId);
+      await repo.readMessage(event.ticketId, event.messageId);
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }
@@ -259,9 +260,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _handleDownloadFile(DownloadFile event) async*{
     yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
     try{
-      Object result = await repo.downloadFie(event.uri, event.filename);
+      await repo.downloadFie(event.uri, event.filename);
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
+
 }

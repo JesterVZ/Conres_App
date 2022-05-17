@@ -8,7 +8,7 @@ class Ticket{
   final _CurrentStatus? cur_status;
   final String? date_ticket;
   final String? last_tm_resiver;
-  final String? count_tm_resiver;
+  String? count_tm_resiver;
   final String? date_ticket_added;
   final String? date_ticket_closed;
   final String? date_added;

@@ -13,6 +13,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'consts.dart';
 import 'model/contract.dart';
+import 'model/counter.dart';
 import 'model/meter.dart';
 import 'model/model.dart';
 import 'model/result-data.dart';
@@ -50,7 +51,7 @@ class HttpClient{
         return ResultData.fromMap(result.data);
       }
     }catch(e){
-      throw Exception(e);
+      return e;
     }
   }
 
@@ -87,7 +88,7 @@ class HttpClient{
           return ResultData.fromMap(response.data);
         }
       } catch(e){
-        throw Exception(e);
+        return e;
       }
     }
     if(sender is Ip){
@@ -128,7 +129,7 @@ class HttpClient{
           return ResultData.fromMap(response.data);
         }
       }catch(e){
-        throw Exception(e);
+        return e;
       }
     }
     if(sender is Ul){
@@ -164,7 +165,7 @@ class HttpClient{
           return ResultData.fromMap(response.data);
         }
       }catch(e){
-        throw Exception(e);
+        return e;
       }
     }
   }
@@ -188,7 +189,7 @@ class HttpClient{
         }
       }
     } catch(e){
-      return"Ошибка получения cookie";
+      return e;
     }
   }
 
@@ -282,7 +283,7 @@ class HttpClient{
         return ResultData.fromMap(result.data);
       }
     }catch(e){
-      print(e);
+      return e;
     }
   }
 
@@ -298,7 +299,7 @@ class HttpClient{
         return tickets;
       }
     }catch(e){
-      print(e);
+      return e;
     }
   }
 
@@ -327,7 +328,7 @@ class HttpClient{
         return fullInfo;
       }
     }catch(e){
-      print(e);
+      return e;
     }
   }
 
@@ -343,7 +344,7 @@ class HttpClient{
         return claims;
       }
     }catch(e){
-      print(e);
+      return e;
     }
   }
 
@@ -360,21 +361,10 @@ class HttpClient{
         return json.decode(result.data);
       }
     }catch(e){
-      print(e);
+      return e;
     }
   }
 
-  Future<Object?> getCounters() async{
-    String uri = protocol + domain + 'lk/index.php?route=catalog/ticket/api_getCountNewMessage';
-    try{
-      final result = await _apiClient.post(uri);
-      if(result.statusCode == 200){
-        
-      }
-    }catch(e){
-      print(e);
-    }
-  }
 
   Future<Object?> setReadMessage(String ticketId, String messageId) async{
     String uri = protocol + domain + 'lk/index.php?route=catalog/ticket/api_setReadMessage';
@@ -388,7 +378,7 @@ class HttpClient{
 
       }
     }catch(e){
-      print(e);
+      return e;
     }
   }
   Future<Object?> download(String uri, String fileName) async{
@@ -402,7 +392,7 @@ class HttpClient{
         return response;
       }
     }catch(e){
-      print(e);
+      return e;
     }
   }
 

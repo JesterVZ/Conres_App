@@ -23,12 +23,12 @@ class Chats extends StatefulWidget {
 
 class _Chats extends State<Chats> {
   ProfileBloc? profileBloc;
-  late WebSocketChannel? webSocketChannel;
+  WebSocketChannel? webSocketChannel;
   WebSocketListener? webSocketListener;
-  List<Widget> tickets = [];
+  //List<Widget> tickets = [];
+  List<Ticket> tickets = [];
   String? userId;
-  bool? isLoading;
-
+  bool? isLoading = true;
   @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(
@@ -45,10 +45,9 @@ class _Chats extends State<Chats> {
                     height: 100, child: HeaderNotification(text: reportsPage)),
                 Expanded(
                     child: Scrollbar(
-                        child: SingleChildScrollView(
-                            child: Column(
-                  children: [Column(children: tickets)],
-                )))),
+                        child: ListView.builder(itemCount: tickets.length, itemBuilder: (context, int index){
+                          return TicketRow(ticket: tickets[index], openChat: _openChat, counter: tickets[index].count_tm_resiver);
+                        }))),
               ],
             ),
           ));
@@ -66,14 +65,18 @@ class _Chats extends State<Chats> {
     if (state.tickets != null) {
       //tickets.clear();
       if(tickets.isEmpty){
+        tickets = state.tickets!;
+        /*
         for (int i = 0; i < state.tickets!.length; i++) {
           tickets.add(TicketRow(ticket: state.tickets![i], openChat: _openChat, counter: state.tickets![i].count_tm_resiver));
         }
+        */
       }
     }
   }
 
   void _openChat(Ticket ticket) {
+    ticket.count_tm_resiver = "0";
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -84,9 +87,10 @@ class _Chats extends State<Chats> {
                 profile: widget.profile,
                 statusName: ticket.cur_status!.name)));
   }
-  void updateTickets(){
-    if (isLoading == false) {
-      profileBloc!.getTickets();
+
+  void getData(dynamic event) async{
+    if(isLoading == false){
+      //profileBloc!.getTickets();
     }
   }
 
@@ -94,10 +98,6 @@ class _Chats extends State<Chats> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
-    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
-    webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
-    webSocketListener?.webSocketChannel = webSocketChannel;
-    webSocketListener?.function = updateTickets;
     profileBloc!.getAllInfo();
     profileBloc!.getTickets();
   }

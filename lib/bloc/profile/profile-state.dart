@@ -3,6 +3,7 @@ import 'package:conres_app/model/ticket.dart';
 
 import '../../model/claim.dart';
 import '../../model/contract.dart';
+import '../../model/counter.dart';
 import '../../model/message.dart';
 import '../../websocket/websocket.dart';
 
@@ -37,7 +38,6 @@ class ProfileState {
       this.page});
 
   static initial() => ProfileState(cookieStr: null, loading: null, error: null);
-  static clear() => ProfileState(loading: false, sendMessageData: null, error: null);
   ProfileState copyWith(
       {String? cookieStr,
       bool? loading,
