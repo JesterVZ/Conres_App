@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as path;
 
 import 'package:conres_app/model/claim.dart';
@@ -353,14 +354,26 @@ class HttpClient{
     }
   }
 
-  Future<Object?> sendMessage(String ticketId, String message, String ticketStatusId) async{
+  Future<Object?> sendMessage(String ticketId, String message, String ticketStatusId, List<PlatformFile>? files) async{
     String uri = protocol + domain + 'lk/index.php?route=catalog/ticket/sendMessage';
     try{
-      var formData = FormData.fromMap({
+      var formData;
+      if(files == null){
+        formData = FormData.fromMap({
         'ticket_id': ticketId,
         'message': message, 
         'ticket_status_id': ticketStatusId
       });
+      } else {
+        formData = FormData.fromMap({
+        'contract_files_name[]': files[0].path!.split('/').last, //имя файла
+        'contract_files': await MultipartFile.fromFile(files[0].path!, filename: files[0].path!.split('/').last),
+        'ticket_id': ticketId,
+        'message': message, 
+        'ticket_status_id': ticketStatusId
+      });
+      }
+
       final result = await _apiClient.post(uri, data: formData);
       if(result.statusCode == 200){
         return json.decode(result.data);

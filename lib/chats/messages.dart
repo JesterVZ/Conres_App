@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 
@@ -49,6 +50,7 @@ class _MessagesPage extends State<MessagesPage> {
   List<Widget> messagesList = [];
   List<TicketMessage> pagesMessageList = [];
   List<String> fio = [];
+  List<PlatformFile>? files;
   bool isLoading = true;
   WebSocketChannel? webSocketChannel;
   WebSocketListener? webSocketListener;
@@ -66,13 +68,13 @@ class _MessagesPage extends State<MessagesPage> {
 
   void _send() {
     profileBloc!
-        .sendMessage(widget.ticketId!, controller.text, widget.statusName!);
+        .sendMessage(widget.ticketId!, controller.text, widget.statusName!, files);
   }
   void _loadImage() async{
     FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: false);
     if (result != null) {
       setState(() {
-        //images.add(result);
+        files = result.files;
       });
     }
   }

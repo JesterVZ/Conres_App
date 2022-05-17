@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:conres_app/http.dart';
+import 'package:file_picker/file_picker.dart';
 import '../shared-preferences/shared-preferences.dart';
 
 class ProfileRepo{
@@ -44,8 +47,8 @@ class ProfileRepo{
     var result = await httpClient.getInfo();
     return result;
   }
-  Future<dynamic> sendMessage(String ticketId, String message, String ticketStatusId) async{
-    var result = await httpClient.sendMessage(ticketId, message, ticketStatusId);
+  Future<dynamic> sendMessage(String ticketId, String message, String ticketStatusId, List<PlatformFile>? files) async{
+    var result = await httpClient.sendMessage(ticketId, message, ticketStatusId, files);
     return result;
   }
   Future<dynamic> readMessage(String ticketId, String messageId) async{

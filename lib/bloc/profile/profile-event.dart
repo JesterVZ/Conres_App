@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
+import 'package:file_picker/file_picker.dart';
 
 import '../../websocket/websocket.dart';
 
@@ -63,7 +66,8 @@ class SendMessageEvent extends ProfileEvent{
   final String ticket_id;
   final String message;
   final String ticket_status_id;
-  const SendMessageEvent(this.ticket_id, this.message, this.ticket_status_id);
+  final List<PlatformFile>? files;
+  const SendMessageEvent(this.ticket_id, this.message, this.ticket_status_id, this.files);
 }
 
 class ReadMessage extends ProfileEvent{

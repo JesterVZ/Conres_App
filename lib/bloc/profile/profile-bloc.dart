@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:conres_app/bloc/profile/profile-event.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
@@ -6,6 +8,7 @@ import 'package:conres_app/model/contract.dart';
 import 'package:conres_app/model/message.dart';
 import 'package:conres_app/model/result-data.dart';
 import 'package:conres_app/websocket/websocket.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/claim.dart';
@@ -102,8 +105,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(const GetAllInfo());
   }
 
-  sendMessage(String ticket_id, String message, String ticket_status_id) {
-    add(SendMessageEvent(ticket_id, message, ticket_status_id));
+  sendMessage(String ticket_id, String message, String ticket_status_id, List<PlatformFile>? files) {
+    add(SendMessageEvent(ticket_id, message, ticket_status_id, files));
   }
 
   readMessage(String ticketId, String messageId){
@@ -238,7 +241,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
     try {
       Object result = await repo.sendMessage(
-          event.ticket_id, event.message, event.ticket_status_id);
+          event.ticket_id, event.message, event.ticket_status_id, event.files!);
       if (result is Map<String, dynamic>) {
         yield state.copyWith(
             loading: false, sendMessageData: result, ticketFullInfo: null);
