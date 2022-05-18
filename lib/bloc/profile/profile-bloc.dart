@@ -263,7 +263,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _handleDownloadFile(DownloadFile event) async*{
     yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
     try{
-      await repo.downloadFie(event.uri, event.filename);
+      var result = await repo.downloadFie(event.uri, event.filename);
+      yield state.copyWith(loading: false, error: null, ticketFullInfo: null);
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }

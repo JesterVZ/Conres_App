@@ -10,7 +10,6 @@ import 'package:conres_app/websocket/websocket-listener.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:path_provider/path_provider.dart';
@@ -55,16 +54,11 @@ class _MessagesPage extends State<MessagesPage> {
   WebSocketChannel? webSocketChannel;
   WebSocketListener? webSocketListener;
   String? lastMessageId;
+  String? cookie;
   TextEditingController controller = TextEditingController();
   ScrollController scrollController = ScrollController();
   int page = 1;
   ReceivePort _receivePort = ReceivePort();
-
-  static downloadingCallBack(id, status, progress){
-    SendPort? sendPort = IsolateNameServer.lookupPortByName("downloading");
-
-    sendPort!.send([id, status, progress]);
-  }
 
   void _send() {
     profileBloc!
@@ -78,13 +72,18 @@ class _MessagesPage extends State<MessagesPage> {
       });
     }
   }
+
   void _loadImageFromUri(String uri, String fileName) async{
     final externalDir = await getExternalStorageDirectory();
-    //profileBloc!.downloadFile(uri, fileName);
     final status = await Permission.storage.request();
 
+    profileBloc!.downloadFile(uri, fileName);
+/*
     if(status.isGranted){
       final id = await FlutterDownloader.enqueue(
+        headers: {
+          HttpHeaders.cookieHeader: cookie!
+        },
         url: uri,
         savedDir: externalDir!.path,
         fileName: fileName,
@@ -95,7 +94,7 @@ class _MessagesPage extends State<MessagesPage> {
     } else {
       print("permission denied");
     }
-    
+    */
   }
 
   @override
@@ -107,7 +106,6 @@ class _MessagesPage extends State<MessagesPage> {
     _receivePort.listen((message) {
       print(message[2]);
     });
-    FlutterDownloader.registerCallback(downloadingCallBack);
   }
 
   void pagination() {
@@ -187,7 +185,7 @@ class _MessagesPage extends State<MessagesPage> {
                                       visible: message.data != null ? true : false,
                                       child: GestureDetector(
                                           onTap: () {
-                                            _loadImageFromUri("https://promo.dev.conres.ru/lkrso/load_ticket_addit_file?link=${message.data!.file_href!}", message.data!.document_name!);
+                                            _loadImageFromUri("https://promo.dev.conres.ru/lk/load_ticket_addit_file?link=${message.data!.file_href!}", message.data!.document_name!);
                                           },
                                           child: Text(
                                               message.data != null
@@ -369,12 +367,12 @@ class _MessagesPage extends State<MessagesPage> {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
     webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
+    cookie ??= DependencyProvider.of(context)!.cookieStringForLoader;
     webSocketListener?.webSocketChannel = webSocketChannel;
     webSocketListener?.function = getData;
     fio = widget.profile!.userName!.split(" ");
 
     profileBloc!
         .getMessages(widget.ticketId!, widget.page!, lastMessageId != null ? lastMessageId! : "1");
-    
   }
 }

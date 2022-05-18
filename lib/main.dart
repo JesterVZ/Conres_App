@@ -2,14 +2,12 @@ import 'dart:io';
 
 import 'package:conres_app/DI/dependency-provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'consts.dart';
 import 'elements/splash/splash-screen.dart';
 import 'loading/loading-page.dart';
 import 'login/login-main.dart';
 
-void main() async {
-  initDownloader();
+void main() {
   HttpOverrides.global = MyHttpOverrides();
   runApp(
       DependencyProvider(
@@ -18,12 +16,7 @@ void main() async {
   );
 }
 
-void initDownloader() async{
-    WidgetsFlutterBinding.ensureInitialized();
-    await FlutterDownloader.initialize(
-      debug: true // optional: set false to disable printing logs to console
-    );
-}
+
 
 class MyHttpOverrides extends HttpOverrides {
   @override
