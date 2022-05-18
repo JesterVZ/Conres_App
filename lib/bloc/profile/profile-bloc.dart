@@ -241,7 +241,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
     try {
       Object result = await repo.sendMessage(
-          event.ticket_id, event.message, event.ticket_status_id, event.files!);
+          event.ticket_id, event.message, event.ticket_status_id, event.files);
       if (result is Map<String, dynamic>) {
         yield state.copyWith(
             loading: false, sendMessageData: result, ticketFullInfo: null);
@@ -263,7 +263,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _handleDownloadFile(DownloadFile event) async*{
     yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
     try{
-      await repo.downloadFie(event.uri, event.filename);
+      var result = await repo.downloadFie(event.uri, event.filename);
+      yield state.copyWith(loading: false, error: null, ticketFullInfo: null);
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }

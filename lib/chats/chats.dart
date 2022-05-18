@@ -51,7 +51,7 @@ class _Chats extends State<Chats> {
                 child: Column(
                   children: [
                     Container(
-                        height: 100, child: HeaderNotification(text: reportsPage)),
+                        height: 100, child: HeaderNotification(text: "Обращения")),
                     Expanded(
                         child: Scrollbar(
                             child: ListView.builder(controller: scrollController, itemCount: tickets.length, itemBuilder: (context, int index){
@@ -92,7 +92,6 @@ class _Chats extends State<Chats> {
   }
 
   void _pagination(){
-    print(scrollController.position.pixels);
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
           setState(() {

@@ -64,6 +64,7 @@ class TicketMessage{
 class TicketFile{
   String? document_name;
   String? filename;
+  String? thumb;
   String? file_href;
   String? file_href_mail;
 
@@ -71,7 +72,8 @@ class TicketFile{
     required this.document_name,
     required this.filename,
     required this.file_href,
-    required this.file_href_mail
+    required this.file_href_mail,
+    required this.thumb
   });
 
   factory TicketFile.fromJson(String source) => TicketFile.fromMap(json.decode(source));
@@ -81,6 +83,7 @@ class TicketFile{
       document_name: map['files'][0]['document_name'],
       filename: map['files'][0]['filename'],
       file_href: map['files'][0]['file_href'],
+      thumb: map['files'][0]['thumb'],
       file_href_mail: map['files'][0]['file_href_mail']
     );
   }

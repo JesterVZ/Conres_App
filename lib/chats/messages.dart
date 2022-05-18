@@ -23,6 +23,7 @@ import '../bloc/profile/profile-bloc.dart';
 import '../bloc/profile/profile-state.dart';
 import '../consts.dart';
 import '../elements/bloc/bloc-screen.dart';
+import '../elements/chat/file-for-send.dart';
 import '../elements/chat/mesage-row.dart';
 import '../model/profile.dart';
 import 'package:intl/intl.dart';
@@ -48,6 +49,7 @@ class MessagesPage extends StatefulWidget {
 class _MessagesPage extends State<MessagesPage> {
   ProfileBloc? profileBloc;
   List<Widget> messagesList = [];
+  List<Widget> messageFiles = [];
   List<TicketMessage> pagesMessageList = [];
   List<String> fio = [];
   List<PlatformFile>? files;
@@ -60,42 +62,26 @@ class _MessagesPage extends State<MessagesPage> {
   int page = 1;
   ReceivePort _receivePort = ReceivePort();
 
-  static downloadingCallBack(id, status, progress){
-    SendPort? sendPort = IsolateNameServer.lookupPortByName("downloading");
-
-    sendPort!.send([id, status, progress]);
-  }
-
   void _send() {
     profileBloc!
         .sendMessage(widget.ticketId!, controller.text, widget.statusName!, files);
   }
   void _loadImage() async{
-    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
     if (result != null) {
       setState(() {
         files = result.files;
+        for(int i = 0; i < result.files.length; i++){
+          messageFiles.add(FileElement(filename: result.files[i].name));
+        }
       });
     }
   }
   void _loadImageFromUri(String uri, String fileName) async{
     final externalDir = await getExternalStorageDirectory();
-    //profileBloc!.downloadFile(uri, fileName);
     final status = await Permission.storage.request();
+    profileBloc!.downloadFile(uri, fileName);
 
-    if(status.isGranted){
-      final id = await FlutterDownloader.enqueue(
-        url: uri,
-        savedDir: externalDir!.path,
-        fileName: fileName,
-        showNotification: true,
-        openFileFromNotification: true
-      );
-
-    } else {
-      print("permission denied");
-    }
-    
   }
 
   @override
@@ -103,11 +89,7 @@ class _MessagesPage extends State<MessagesPage> {
     page = int.parse(widget.page!);
     scrollController.addListener(pagination);
     super.initState();
-    IsolateNameServer.registerPortWithName(_receivePort.sendPort, "downloading");
-    _receivePort.listen((message) {
-      print(message[2]);
-    });
-    FlutterDownloader.registerCallback(downloadingCallBack);
+
   }
 
   void pagination() {
@@ -134,14 +116,6 @@ class _MessagesPage extends State<MessagesPage> {
               return Scaffold(
                   body: Stack(
                 children: [
-                  Visibility(
-                      child: Center(
-                          child: Container(
-                        width: 50,
-                        height: 50,
-                        child: Image.asset('assets/loading.gif'),
-                      )),
-                      visible: isLoading),
                   Column(
                     children: [
                       Container(
@@ -187,20 +161,26 @@ class _MessagesPage extends State<MessagesPage> {
                                       visible: message.data != null ? true : false,
                                       child: GestureDetector(
                                           onTap: () {
-                                            _loadImageFromUri("https://promo.dev.conres.ru/lkrso/load_ticket_addit_file?link=${message.data!.file_href!}", message.data!.document_name!);
+                                            _loadImageFromUri("https://promo.dev.conres.ru/lk/load_ticket_addit_file?link=${message.data!.file_href!}", message.data!.document_name!);
                                           },
-                                          child: Text(
+                                          child: Row(children: [Image.network(message.data != null ?(message.data!.thumb != null ? message.data!.thumb! : "") : ""), Text(
                                               message.data != null
                                                   ? message.data!.document_name!
                                                   : "",
                                               style: TextStyle(
                                                   decoration:
                                                       TextDecoration.underline,
-                                                  color: message.isOwn! ? Colors.white : Colors.black))))
+                                                  color: message.isOwn! ? Colors.white : Colors.black))],)))
                                 ]),
                               ),
                             ),
                       ))),
+                      Visibility(child: Container(
+                        padding:
+                                  const EdgeInsets.only(left: 20, right: 20),
+                        height: 70,
+                        child: SingleChildScrollView(child: Row(children: messageFiles), scrollDirection: Axis.horizontal),
+                        ), visible: true),
                       Container(
                         width: MediaQuery.of(context).size.width,
                         height: 55,
@@ -251,6 +231,14 @@ class _MessagesPage extends State<MessagesPage> {
                       )
                     ],
                   ),
+                  Visibility(
+                      child: Center(
+                          child: Container(
+                        width: 50,
+                        height: 50,
+                        child: Image.asset('assets/loading.gif'),
+                      )),
+                      visible: isLoading)
                 ],
               ));
             }));

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as path;
-
+import 'package:open_file/open_file.dart';
 import 'package:conres_app/model/claim.dart';
 import 'package:conres_app/model/message.dart';
 import 'package:conres_app/model/profile.dart';
@@ -373,13 +373,12 @@ class HttpClient{
         'ticket_status_id': ticketStatusId
       });
       }
-
       final result = await _apiClient.post(uri, data: formData);
       if(result.statusCode == 200){
         return json.decode(result.data);
       }
     }catch(e){
-      return e;
+      return e.toString();
     }
   }
 
@@ -400,16 +399,22 @@ class HttpClient{
     }
   }
   Future<Object?> download(String uri, String fileName) async{
-    try{
-      final dir = await getApplicationDocumentsDirectory();
+    try {
+      final dir = await getExternalStorageDirectory();
       final isPermissionStatusGranted = await _requestPermissions();
       if (isPermissionStatusGranted) {
-        final response = await _apiClient.download(uri, dir.path, onReceiveProgress: (rec, total){
-          print( (rec / total) * 100);
-        });
-        return response;
+        bool isExists = await File(dir!.path + '/$fileName').exists();
+        if (isExists) {
+          var result = await OpenFile.open(dir.path + '/$fileName');
+        } else {
+          final response = await _apiClient.download(
+              uri, dir.path + '/$fileName', onReceiveProgress: (rec, total) {
+            print((rec / total) * 100);
+          });
+          await OpenFile.open(dir.path + '/$fileName');
+        }
       }
-    }catch(e){
+    } catch (e) {
       return e;
     }
   }
