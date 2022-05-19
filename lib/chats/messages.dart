@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 
+import 'package:conres_app/elements/chat/preview.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/model/message.dart';
 import 'package:conres_app/websocket/message-send.dart';
@@ -163,14 +164,27 @@ class _MessagesPage extends State<MessagesPage> {
                                           onTap: () {
                                             _loadImageFromUri("https://promo.dev.conres.ru/lk/load_ticket_addit_file?link=${message.data!.file_href!}", message.data!.document_name!);
                                           },
-                                          child: Row(children: [Image.network(message.data != null ?(message.data!.thumb != null ? message.data!.thumb! : "") : ""), Text(
-                                              message.data != null
-                                                  ? message.data!.document_name!
-                                                  : "",
-                                              style: TextStyle(
-                                                  decoration:
-                                                      TextDecoration.underline,
-                                                  color: message.isOwn! ? Colors.white : Colors.black))],)))
+                                          child: 
+                                          SizedBox(
+                                            width: 150,
+                                            height: 50,
+                                            child: Flex(direction: Axis.horizontal,children: [
+                                            Preview(uri: message.data != null ?(message.data!.thumb != null ? message.data!.thumb! : "") : ""),
+                                            Flexible(
+                                                    flex: 1,
+                                                    child: Text(
+                                                            message.data != null
+                                                              ? message.data!.document_name!
+                                                              : "",
+                                                              overflow: TextOverflow.ellipsis,
+                                                            style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration.underline,
+                                                              color: message.isOwn! ? Colors.white : Colors.black)),
+                                                              
+                                                  )
+                                          ])))
+                                  )
                                 ]),
                               ),
                             ),
