@@ -110,6 +110,7 @@ flutter:
     - assets/confidant.svg
     - assets/contacts.svg
     - assets/search.png
+    - assets/scroll-to-bottom.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

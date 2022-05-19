@@ -119,6 +119,7 @@ class _MessagesPage extends State<MessagesPage> {
                 children: [
                   Column(
                     children: [
+                      
                       Container(
                           height: 100,
                           child: Padding(
@@ -126,6 +127,7 @@ class _MessagesPage extends State<MessagesPage> {
                                   const EdgeInsets.only(left: 20, right: 20),
                               child: HeaderNotification(
                                   text: "Обращение № ${widget.ticketId}"))),
+                      
                       Expanded(
                           child: Scrollbar(child: GroupedListView<TicketMessage, DateTime>(
                             controller: scrollController,
@@ -189,12 +191,19 @@ class _MessagesPage extends State<MessagesPage> {
                               ),
                             ),
                       ))),
-                      Visibility(child: Container(
-                        padding:
+                      Stack(
+                        children: [
+                          Visibility(
+                            child: Container(
+                              padding:
                                   const EdgeInsets.only(left: 20, right: 20),
-                        height: 70,
-                        child: SingleChildScrollView(child: Row(children: messageFiles), scrollDirection: Axis.horizontal),
-                        ), visible: true),
+                              height: 70,
+                              child: SingleChildScrollView(child: Row(children: messageFiles), scrollDirection: Axis.horizontal),
+                              ), visible: (files == null || files!.isEmpty) ? false : true), //панель для файлов
+                          
+                        ],
+                      ),
+                      
                       Container(
                         width: MediaQuery.of(context).size.width,
                         height: 55,
