@@ -49,14 +49,12 @@ class MessagesPage extends StatefulWidget {
 
 class _MessagesPage extends State<MessagesPage> {
   ProfileBloc? profileBloc;
-  List<Widget> messagesList = [];
-  List<Widget> messageFiles = [];
-  List<TicketMessage> pagesMessageList = [];
-  List<String> fio = [];
-  List<PlatformFile>? files;
-  bool isLoading = true;
-  WebSocketChannel? webSocketChannel;
-  WebSocketListener? webSocketListener;
+  List<Widget> messageFiles = []; // список файлов к сообщениям
+  List<TicketMessage> pagesMessageList = []; //список сообщений
+  List<PlatformFile>? files; // список файлов
+  bool isLoading = true; // если идет загрузка
+  WebSocketChannel? webSocketChannel; //канал веб-сокета
+  WebSocketListener? webSocketListener; // какая именно функция слушает сокет
   String? lastMessageId;
   TextEditingController controller = TextEditingController();
   ScrollController scrollController = ScrollController();
@@ -272,7 +270,7 @@ class _MessagesPage extends State<MessagesPage> {
 
     if (state.ticketFullInfo != null) {
       lastMessageId = state.ticketFullInfo!.last_message_id!;
-      if (pagesMessageList.isEmpty || (pagesMessageList.last.message_id != state.ticketFullInfo!.messages!.last.message_id && (int.parse(state.page!) == page) && page == 1)) {
+      if (pagesMessageList.isEmpty || (pagesMessageList.last.message_id != state.ticketFullInfo!.messages!.last.message_id && (int.parse(state.page!) == page) && page == 1)) { //список сообщений пуст или last message id не равны и страница текущая
         pagesMessageList = state.ticketFullInfo!.messages!;
         profileBloc!.readMessage(widget.ticketId!, lastMessageId!);
         for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
@@ -382,8 +380,6 @@ class _MessagesPage extends State<MessagesPage> {
     webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
     webSocketListener?.webSocketChannel = webSocketChannel;
     webSocketListener?.function = getData;
-    fio = widget.profile!.userName!.split(" ");
-
     profileBloc!
         .getMessages(widget.ticketId!, widget.page!, lastMessageId != null ? lastMessageId! : "1");
     
