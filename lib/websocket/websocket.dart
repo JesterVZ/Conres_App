@@ -11,7 +11,6 @@ class WebSocketData{
       data: map['data'] != null ? _Data.fromMap(map['data']) : null
     );
   }
-
 }
 
 class _Data{

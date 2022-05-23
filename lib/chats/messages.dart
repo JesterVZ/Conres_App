@@ -50,15 +50,17 @@ class MessagesPage extends StatefulWidget {
 class _MessagesPage extends State<MessagesPage> {
   ProfileBloc? profileBloc;
   List<Widget> messageFiles = []; // список файлов к сообщениям
-  List<TicketMessage> pagesMessageList = []; //список сообщений
+  List<TicketMessage> messageList = []; //список сообщений
   List<PlatformFile>? files; // список файлов
   bool isLoading = true; // если идет загрузка
   WebSocketChannel? webSocketChannel; //канал веб-сокета
   WebSocketListener? webSocketListener; // какая именно функция слушает сокет
+  WebSocketData? webSocketData; //Структура данных сокета
   String? lastMessageId;
   TextEditingController controller = TextEditingController();
   ScrollController scrollController = ScrollController();
   int page = 1;
+  int messageCounter = 0;
   ReceivePort _receivePort = ReceivePort();
 
   void _send() {
@@ -124,71 +126,63 @@ class _MessagesPage extends State<MessagesPage> {
                               padding:
                                   const EdgeInsets.only(left: 20, right: 20),
                               child: HeaderNotification(
-                                  text: "Обращение № ${widget.ticketId}"))),
+                                  text: "Обращение № ${widget.ticketId}", canGoBack: true))),
                       
                       Expanded(
-                          child: Scrollbar(child: GroupedListView<TicketMessage, DateTime>(
-                            controller: scrollController,
-                            order: GroupedListOrder.DESC,
-                            reverse: true,
-                            useStickyGroupSeparators: true,
-                            floatingHeader: true,
-                            elements: pagesMessageList,
-                            groupBy: (message) => DateTime(message.date_added!.year,
-                                message.date_added!.month, message.date_added!.day),
-                            groupHeaderBuilder: (TicketMessage message) => Text(
-                                DateFormat.yMMMd().format(message.date_added!),
-                                style: TextStyle(color: claimLabelColor),
-                                textAlign: TextAlign.center),
-                            itemBuilder: (context, TicketMessage message) => Align(
-                              alignment: message.isOwn!
+                        child: Scrollbar(
+                          child: ListView.builder(itemCount: messageList.length, controller: scrollController, reverse: true, itemBuilder: (BuildContext context, int i) {
+                            return Align(
+                            alignment: messageList[i].isOwn!
                                   ? Alignment.centerRight
                                   : Alignment.centerLeft,
-                              child: Container(
+                            child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     color:
-                                        message.isOwn! ? colorMain : messageColor),
+                                        messageList[i].isOwn! ? colorMain : messageColor),
                                 margin: const EdgeInsets.all(10),
                                 padding: const EdgeInsets.all(10),
                                 child: Column(children: [
-                                  Text("${message.message!}",
+                                  Text("${messageList[i].message!}",
                                       style: TextStyle(
-                                          color: message.isOwn!
+                                          color: messageList[i].isOwn!
                                               ? Colors.white
                                               : Colors.black)),
+                                  //Text(messageList[i].date_added.toString()),
                                   //Text("${message.message_id}"), //message id
                                   Visibility(
-                                      visible: message.data != null ? true : false,
+                                      visible: messageList[i].data != null ? true : false,
                                       child: GestureDetector(
                                           onTap: () {
-                                            _loadImageFromUri("https://promo.dev.conres.ru/lk/load_ticket_addit_file?link=${message.data!.file_href!}", message.data!.document_name!);
+                                            _loadImageFromUri("https://promo.dev.conres.ru/lk/load_ticket_addit_file?link=${messageList[i].data!.file_href!}", messageList[i].data!.document_name!);
                                           },
                                           child: 
                                           SizedBox(
                                             width: 150,
                                             height: 50,
                                             child: Flex(direction: Axis.horizontal,children: [
-                                            Preview(uri: message.data != null ?(message.data!.thumb != null ? message.data!.thumb! : "") : ""),
+                                            Preview(uri: messageList[i].data != null ?(messageList[i].data!.thumb != null ? messageList[i].data!.thumb! : "") : ""),
                                             Flexible(
                                                     flex: 1,
                                                     child: Text(
-                                                            message.data != null
-                                                              ? message.data!.document_name!
+                                                            messageList[i].data != null
+                                                              ? messageList[i].data!.document_name!
                                                               : "",
                                                               overflow: TextOverflow.ellipsis,
                                                             style: TextStyle(
                                                               decoration:
                                                                   TextDecoration.underline,
-                                                              color: message.isOwn! ? Colors.white : Colors.black)),
+                                                              color: messageList[i].isOwn! ? Colors.white : Colors.black)),
                                                               
                                                   )
                                           ])))
                                   )
                                 ]),
                               ),
-                            ),
-                      ))),
+                          );
+                          } ),
+                        ),
+                      ),
                       Stack(
                         children: [
                           Visibility(
@@ -267,24 +261,37 @@ class _MessagesPage extends State<MessagesPage> {
 
   _listener(BuildContext context, ProfileState state) {
     isLoading = state.loading!;
-
     if (state.ticketFullInfo != null) {
       lastMessageId = state.ticketFullInfo!.last_message_id!;
-      if (pagesMessageList.isEmpty || (pagesMessageList.last.message_id != state.ticketFullInfo!.messages!.last.message_id && (int.parse(state.page!) == page) && page == 1)) { //список сообщений пуст или last message id не равны и страница текущая
-        pagesMessageList = state.ticketFullInfo!.messages!;
+    if(page == 1){
+      messageList = state.ticketFullInfo!.messages!;
         profileBloc!.readMessage(widget.ticketId!, lastMessageId!);
         for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
-          pagesMessageList[i].isOwn =
+          messageList[i].isOwn =
               state.ticketFullInfo!.messages![i].user_id != widget.userId ? false : true;
         }
-      }
-      if ((int.parse(state.page!) == page) && page > 1) { //если страница текущая
-        pagesMessageList = state.ticketFullInfo!.messages! + pagesMessageList;
+    }
+/*
+      if (messageList.isEmpty || (messageList.last.message_id != state.ticketFullInfo!.messages!.last.message_id && (int.parse(state.page!) == page) && page == 1)) { //список сообщений пуст или last message id не равны и страница текущая, которая равна 1
+        messageList = state.ticketFullInfo!.messages!;
+        profileBloc!.readMessage(widget.ticketId!, lastMessageId!);
         for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
-          pagesMessageList[i].isOwn =
+          messageList[i].isOwn =
               state.ticketFullInfo!.messages![i].user_id != widget.userId ? false : true;
         }
       }
+*/
+
+      if ((int.parse(state.page!) == page) && page > 1) { //если страница текущая
+        messageList = state.ticketFullInfo!.messages! + messageList;
+        for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
+          messageList[i].isOwn =
+              state.ticketFullInfo!.messages![i].user_id != widget.userId ? false : true;
+        }
+      }
+      messageList.sort((a, b) {
+          return b.date_added!.compareTo(a.date_added!);
+      });
     }
     if (state.sendMessageData != null) {
       MessageSend message = MessageSend(
@@ -340,7 +347,7 @@ class _MessagesPage extends State<MessagesPage> {
       webSocketChannel!.sink.add(data);
       controller.text = "";
       setState(() {
-        pagesMessageList.add(TicketMessage(
+        messageList.add(TicketMessage(
             isOwn: true,
             date_added: DateTime.parse(
                 state.sendMessageData!['ticket_info'][0]['date_added']),
@@ -349,7 +356,6 @@ class _MessagesPage extends State<MessagesPage> {
             ticket_id: state.sendMessageData!['ticket_info'][0]['ticket_id'],
             message_id: null,
             message: state.sendMessageData!['ticket_info'][0]['message'],
-            data: state.sendMessageData!['ticket_info'][0]['data'],
             ticket_status_type_id: state.sendMessageData!['ticket_info'][0]
                 ['ticket_status_type_id'],
             model_user: state.sendMessageData!['ticket_info'][0]['model_user'],
@@ -361,15 +367,25 @@ class _MessagesPage extends State<MessagesPage> {
             date_group: state.sendMessageData!['date_group'],
             last_tm_resiver: state.sendMessageData!['ticket_info'][0]
                 ['last_tm_resiver']));
+      messageList.sort((a, b) {
+        return b.date_added!.compareTo(a.date_added!);
+      });       
       });
     }
   }
 
   void getData(dynamic event) async {
-    if (isLoading == false) {
-      profileBloc!
-          .getMessages(widget.ticketId!, widget.page!, lastMessageId!);
+    /*
+    webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
+    if(messageCounter <= webSocketData!.data!.counters!.new_ticket_messages_count!){
+      messageCounter = webSocketData!.data!.counters!.new_ticket_messages_count!;
+      profileBloc!.getMessages(widget.ticketId!, widget.page!, lastMessageId!);
     }
+    */
+    if (isLoading == false) {
+      profileBloc!.getMessages(widget.ticketId!, widget.page!, lastMessageId!);
+    }
+    
   }
 
   @override
@@ -378,6 +394,7 @@ class _MessagesPage extends State<MessagesPage> {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
     webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
+    webSocketData ??= DependencyProvider.of(context)!.webSocketData;
     webSocketListener?.webSocketChannel = webSocketChannel;
     webSocketListener?.function = getData;
     profileBloc!

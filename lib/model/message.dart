@@ -31,7 +31,7 @@ class TicketMessage{
     required this.ticket_message_id,
     required this.ticket_id,
     required this.message,
-    required this.data,
+    this.data,
     required this.ticket_status_type_id,
     required this.model_user,
     required this.user_id,

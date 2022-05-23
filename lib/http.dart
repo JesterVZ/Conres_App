@@ -366,14 +366,13 @@ class HttpClient{
       });
       } else {
         formData = FormData.fromMap({
-        //'contract_files[name]': files[0].path!.split('/').last, //имя файла
-        'contract_files': await MultipartFile.fromFile(files[0].path!, filename: files[0].path!.split('/').last),
+        'contract_files_name[]': files[0].path!.split('/').last, //имя файла
+        'contract_files[]': await MultipartFile.fromFile(files[0].path!, filename: files[0].path!.split('/').last),
         'ticket_id': ticketId,
         'message': message, 
         'ticket_status_id': ticketStatusId
       });
       }
-      print(formData);
       final result = await _apiClient.post(uri, data: formData);
       if(result.statusCode == 200){
         return json.decode(result.data);
@@ -382,8 +381,6 @@ class HttpClient{
       return e.toString();
     }
   }
-
-
 
 
   Future<Object?> setReadMessage(String ticketId, String messageId) async{
