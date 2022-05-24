@@ -21,6 +21,12 @@ class DependencyProvider extends InheritedWidget {
   WebSocketChannel? _webSocketChannel;
   WebSocketData? _webSocketData;
   WebSocketListener? _webSocketListener;
+  String? _cookieStringForLoader;
+
+  String? get cookieStringForLoader{
+    _cookieStringForLoader ??= httpClient.getCookieStringForLoader();
+    return _cookieStringForLoader;
+  }
 
   DependencyProvider({Key? key, Widget? child})
       : assert(child != null),
