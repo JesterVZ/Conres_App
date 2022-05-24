@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 
+import 'package:conres_app/elements/chat/file-send-dialog.dart';
 import 'package:conres_app/elements/chat/preview.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/model/message.dart';
@@ -68,6 +69,14 @@ class _MessagesPage extends State<MessagesPage> {
     profileBloc!
         .sendMessage(widget.ticketId!, controller.text, widget.statusName!, files);
   }
+  void _createPhoto(){
+    
+  }
+  void _openDialog(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => FileSendDialog(pickFile: _loadImage, createPhoto: _createPhoto));
+  }
   void _loadImage() async{
     FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
     if (result != null) {
@@ -120,8 +129,7 @@ class _MessagesPage extends State<MessagesPage> {
                 children: [
                   Column(
                     children: [
-                      
-                      Container(
+                      Container( 
                           height: 100,
                           child: Padding(
                               padding:
@@ -204,7 +212,10 @@ class _MessagesPage extends State<MessagesPage> {
                             child: Row(
                               children: [
                                 GestureDetector(
-                                  onTap: () {_loadImage();},
+                                  onTap: () {
+                                    //_loadImage();
+                                    _openDialog();
+                                    },
                                     child: SvgPicture.asset('assets/clip.svg')),
                                 const Spacer(),
                                 Container(

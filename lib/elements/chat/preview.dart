@@ -12,7 +12,11 @@ class _Preview extends State<Preview>{
   @override
   Widget build(BuildContext context) {
     if(widget.uri != ""){
-      return Image(image: NetworkImage(widget.uri!));
+      try{
+        return Image(image: NetworkImage(widget.uri!));
+      }catch(e){
+        return Image.asset('assets/loading.gif');
+      }
     } else {
       return Container();
     }
