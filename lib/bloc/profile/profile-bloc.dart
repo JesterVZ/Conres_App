@@ -245,6 +245,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       if (result is Map<String, dynamic>) {
         yield state.copyWith(
             loading: false, sendMessageData: result, ticketFullInfo: null);
+      } else {
+        yield state.copyWith(
+            loading: false, sendMessageData: null, ticketFullInfo: null, error: result.toString());
       }
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());

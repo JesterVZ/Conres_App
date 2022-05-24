@@ -23,6 +23,7 @@ import '../DI/dependency-provider.dart';
 import '../bloc/profile/profile-bloc.dart';
 import '../bloc/profile/profile-state.dart';
 import '../consts.dart';
+import '../elements/alert.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/chat/file-for-send.dart';
 import '../elements/chat/mesage-row.dart';
@@ -49,9 +50,9 @@ class MessagesPage extends StatefulWidget {
 
 class _MessagesPage extends State<MessagesPage> {
   ProfileBloc? profileBloc;
-  List<Widget> messageFiles = []; // список файлов к сообщениям
+  List<Widget> messageFiles = []; // список файлов к сообщениям (отображение на панели)
   List<TicketMessage> messageList = []; //список сообщений
-  List<PlatformFile>? files; // список файлов
+  List<PlatformFile>? files; // список файлов к сообщениям
   bool isLoading = true; // если идет загрузка
   WebSocketChannel? webSocketChannel; //канал веб-сокета
   WebSocketListener? webSocketListener; // какая именно функция слушает сокет
@@ -172,8 +173,7 @@ class _MessagesPage extends State<MessagesPage> {
                                                             style: TextStyle(
                                                               decoration:
                                                                   TextDecoration.underline,
-                                                              color: messageList[i].isOwn! ? Colors.white : Colors.black)),
-                                                              
+                                                              color: messageList[i].isOwn! ? Colors.white : Colors.black)),        
                                                   )
                                           ])))
                                   )
@@ -261,6 +261,13 @@ class _MessagesPage extends State<MessagesPage> {
 
   _listener(BuildContext context, ProfileState state) {
     isLoading = state.loading!;
+    if(state.error != null) {
+      showDialog(
+            context: context,
+            builder: (BuildContext context) => Alert(
+                title: "Ошибка",
+                text: state.error!));
+    }
     if (state.ticketFullInfo != null) {
       lastMessageId = state.ticketFullInfo!.last_message_id!;
     if(page == 1){
@@ -271,16 +278,6 @@ class _MessagesPage extends State<MessagesPage> {
               state.ticketFullInfo!.messages![i].user_id != widget.userId ? false : true;
         }
     }
-/*
-      if (messageList.isEmpty || (messageList.last.message_id != state.ticketFullInfo!.messages!.last.message_id && (int.parse(state.page!) == page) && page == 1)) { //список сообщений пуст или last message id не равны и страница текущая, которая равна 1
-        messageList = state.ticketFullInfo!.messages!;
-        profileBloc!.readMessage(widget.ticketId!, lastMessageId!);
-        for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
-          messageList[i].isOwn =
-              state.ticketFullInfo!.messages![i].user_id != widget.userId ? false : true;
-        }
-      }
-*/
 
       if ((int.parse(state.page!) == page) && page > 1) { //если страница текущая
         messageList = state.ticketFullInfo!.messages! + messageList;
@@ -347,6 +344,11 @@ class _MessagesPage extends State<MessagesPage> {
       webSocketChannel!.sink.add(data);
       controller.text = "";
       setState(() {
+      if(state.sendMessageData!['ticket_info'][0]['files'] != null){
+        messageFiles.clear();
+        files = null;
+        profileBloc!.getMessages(widget.ticketId!, widget.page!, lastMessageId!);
+      }
         messageList.add(TicketMessage(
             isOwn: true,
             date_added: DateTime.parse(
@@ -355,6 +357,7 @@ class _MessagesPage extends State<MessagesPage> {
                 ['ticket_message_id'],
             ticket_id: state.sendMessageData!['ticket_info'][0]['ticket_id'],
             message_id: null,
+            
             message: state.sendMessageData!['ticket_info'][0]['message'],
             ticket_status_type_id: state.sendMessageData!['ticket_info'][0]
                 ['ticket_status_type_id'],
@@ -375,13 +378,6 @@ class _MessagesPage extends State<MessagesPage> {
   }
 
   void getData(dynamic event) async {
-    /*
-    webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
-    if(messageCounter <= webSocketData!.data!.counters!.new_ticket_messages_count!){
-      messageCounter = webSocketData!.data!.counters!.new_ticket_messages_count!;
-      profileBloc!.getMessages(widget.ticketId!, widget.page!, lastMessageId!);
-    }
-    */
     if (isLoading == false) {
       profileBloc!.getMessages(widget.ticketId!, widget.page!, lastMessageId!);
     }
