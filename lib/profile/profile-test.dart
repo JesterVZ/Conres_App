@@ -33,17 +33,21 @@ class ProfilePageTest extends StatefulWidget {
   State<StatefulWidget> createState() => _ProfilePage();
 }
 
+
 class _ProfilePage extends State<ProfilePageTest> {
   AuthBloc? authBloc;
   ProfileBloc? profileBloc;
 
+  Future<void> _refrash() async{
+    print("refrash");
+  }
   @override
   Widget build(BuildContext context) {
     return BlocScreen<AuthBloc, AuthState>(
         bloc: authBloc,
         listener: (context, state) => _listener(context, state),
     builder: (context, state) {
-      return widget.content;
+      return RefreshIndicator(child: widget.content, onRefresh: _refrash);
     });
 
   }

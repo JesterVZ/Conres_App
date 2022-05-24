@@ -1,5 +1,4 @@
 import 'package:conres_app/elements/testimony/testimony-dialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -26,23 +25,23 @@ class _Testimony extends State<Testimony>{
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 7,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           )
         ]
       ),
-        margin: EdgeInsets.only(bottom: 21),
+        margin: const EdgeInsets.only(bottom: 21),
         child: Column(
           children: [
             Container(
                 child: Padding(
-                    padding: EdgeInsets.all(17),
+                    padding: const EdgeInsets.all(17),
                     child: Row(
                       children: [
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(widget.meter.name!, style: TextStyle(fontSize: 18)),
+                            Text(widget.meter.name!, style: const TextStyle(fontSize: 18)),
                             Text(widget.meter.tu_name!,
                                 style: TextStyle(
                                     fontSize: 15, color: profileLabelColor))

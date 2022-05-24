@@ -31,7 +31,7 @@ class TicketMessage{
     required this.ticket_message_id,
     required this.ticket_id,
     required this.message,
-    required this.data,
+    this.data,
     required this.ticket_status_type_id,
     required this.model_user,
     required this.user_id,
@@ -48,7 +48,7 @@ class TicketMessage{
         ticket_message_id: map['ticket_message_id'],
         ticket_id: map['ticket_id'],
         message: map['message'],
-        data: map['data'] != "" ? TicketFile.fromJson(map['data']) : null,
+        data: map['files'] != null ? TicketFile.fromMap(map['files'][0]) : null,
         ticket_status_type_id: map['ticket_status_type_id'],
         model_user: map['model_user'],
         user_id: map['user_id'],
@@ -64,6 +64,8 @@ class TicketMessage{
 class TicketFile{
   String? document_name;
   String? filename;
+  String? thumb;
+  String? mime;
   String? file_href;
   String? file_href_mail;
 
@@ -71,17 +73,21 @@ class TicketFile{
     required this.document_name,
     required this.filename,
     required this.file_href,
-    required this.file_href_mail
+    required this.file_href_mail,
+    required this.thumb,
+    required this.mime
   });
 
   factory TicketFile.fromJson(String source) => TicketFile.fromMap(json.decode(source));
 
   factory TicketFile.fromMap(Map<dynamic, dynamic> map){
     return TicketFile(
-      document_name: map['files'][0]['document_name'],
-      filename: map['files'][0]['filename'],
-      file_href: map['files'][0]['file_href'],
-      file_href_mail: map['files'][0]['file_href_mail']
+      document_name: map['document_name'],
+      filename: map['filename'],
+      file_href: map['file_href'],
+      thumb: map['thumb'],
+      file_href_mail: map['file_href_mail'],
+      mime: map['mime']
     );
   }
 }
