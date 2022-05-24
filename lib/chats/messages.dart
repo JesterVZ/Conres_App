@@ -26,7 +26,7 @@ import '../consts.dart';
 import '../elements/alert.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/chat/file-for-send.dart';
-import '../elements/chat/mesage-row.dart';
+import '../elements/chat/mesage-row.dart'; 
 import '../model/profile.dart';
 import 'package:intl/intl.dart';
 
