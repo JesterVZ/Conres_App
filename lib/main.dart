@@ -7,7 +7,8 @@ import 'elements/splash/splash-screen.dart';
 import 'loading/loading-page.dart';
 import 'login/login-main.dart';
 
-void main() {
+void main() async {
+
   HttpOverrides.global = MyHttpOverrides();
   runApp(
       DependencyProvider(
@@ -15,7 +16,6 @@ void main() {
       )
   );
 }
-
 
 
 class MyHttpOverrides extends HttpOverrides {

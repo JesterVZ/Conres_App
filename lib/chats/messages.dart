@@ -58,7 +58,6 @@ class _MessagesPage extends State<MessagesPage> {
   WebSocketListener? webSocketListener; // какая именно функция слушает сокет
   WebSocketData? webSocketData; //Структура данных сокета
   String? lastMessageId;
-  String? cookie;
   TextEditingController controller = TextEditingController();
   ScrollController scrollController = ScrollController();
   int page = 1;
@@ -88,7 +87,6 @@ class _MessagesPage extends State<MessagesPage> {
       });
     }
   }
-
   void _loadImageFromUri(String uri, String fileName) async{
     final externalDir = await getExternalStorageDirectory();
     final status = await Permission.storage.request();
@@ -101,6 +99,7 @@ class _MessagesPage extends State<MessagesPage> {
     page = int.parse(widget.page!);
     scrollController.addListener(pagination);
     super.initState();
+
   }
 
   void pagination() {
