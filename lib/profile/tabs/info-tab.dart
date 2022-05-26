@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../consts.dart';
 
@@ -115,7 +116,20 @@ class _InfoTab extends State<InfoTab> {
               )
             )),
           ),
-          
+          Container(
+            child: Column(children: [
+              const Text("Быстрая авторизация", style: TextStyle(color: Colors.black, fontSize: 24)),
+              Container(
+                child: Column(children: [
+                  Container(
+                    child: Row(children: [
+                      SvgPicture.asset('')
+                    ]),
+                  )
+                ]),
+              )
+            ]),
+          )
         ],
       ),
     );
