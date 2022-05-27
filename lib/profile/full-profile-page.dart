@@ -2,6 +2,7 @@ import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/consts.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
+import 'package:conres_app/profile/tabs/contacts-tab.dart';
 import 'package:conres_app/profile/tabs/info-tab.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class _FullProfile extends State<FullProfile>
   ];
   List<Widget> panels = [
     InfoTab(),
-    Center(child: Text("2")),
+    ContactsTab(),
     Center(child: Text("4")),
   ];
   AuthBloc? authBloc;
@@ -56,35 +57,32 @@ class _FullProfile extends State<FullProfile>
           return DefaultTabController(
               length: 3,
               child: Scaffold(
-                backgroundColor: defaultBackground,
+                  backgroundColor: defaultBackground,
                   body: Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                            margin: const EdgeInsets.only(bottom: 14),
-                            child:
-                                HeaderNotification(text: "Основная информация"),
-                            ),
-                          Container(
-                            padding: EdgeInsets.all(20),
-                            child: TabBar(
-                                    controller: tabController,
-                                    tabs: tabs,
-                                    unselectedLabelColor: Colors.black,
-                                    labelColor: Colors.white,
-                                    indicator: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: colorMain),
-                                  ),
-                          ),
-                          
-                          Expanded(
-                            child: TabBarView(
-                                controller: tabController,
-                                children: panels),
-                          )
-                        ],
-                      )));
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                        margin: const EdgeInsets.only(bottom: 14),
+                        child: HeaderNotification(text: "Основная информация"),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        child: TabBar(
+                          controller: tabController,
+                          tabs: tabs,
+                          unselectedLabelColor: Colors.black,
+                          labelColor: Colors.white,
+                          indicator: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: colorMain),
+                        ),
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                            controller: tabController, children: panels),
+                      )
+                    ],
+                  )));
         });
   }
 
