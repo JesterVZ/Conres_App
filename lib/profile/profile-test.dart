@@ -46,7 +46,7 @@ class _ProfilePage extends State<ProfilePageTest> {
     return BlocScreen<AuthBloc, AuthState>(
         bloc: authBloc,
         listener: (context, state) => _listener(context, state),
-    builder: (context, state) {
+      builder: (context, state) {
       return RefreshIndicator(child: widget.content, onRefresh: _refrash);
     });
 
