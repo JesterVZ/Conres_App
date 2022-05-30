@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../elements/full-profile/contact-block.dart';
+import '../../elements/full-profile/ExpansionTileElement.dart';
+
 
 class ContactsTab extends StatefulWidget {
   @override
@@ -31,7 +32,8 @@ class _ContactsTab extends State<ContactsTab> {
                     const Text("Телефоны",
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold)),
-                    ContactBlock(),
+                    ExpansionTileElement(),
+                    /*
                     const Text("E-mail",
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold)),
@@ -40,6 +42,7 @@ class _ContactsTab extends State<ContactsTab> {
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold)),
                     ContactBlock(),
+                    */
                   ],
                 ),
               )
