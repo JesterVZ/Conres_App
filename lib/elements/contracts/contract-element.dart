@@ -14,13 +14,23 @@ class ContractElement extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+      child:     
+    Container(
       margin: EdgeInsets.fromLTRB(0, 14, 0, 0),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-          color: profileColor,
-          border: Border.all(color: borderProfileColor),
-          borderRadius: BorderRadius.circular(8)),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 4,
+                  offset: Offset(0, 2),
+                )
+          ],
+          borderRadius: BorderRadius.circular(10)),
       child: Padding(
           padding: EdgeInsets.fromLTRB(19, 14, 19, 14),
           child: Column(
@@ -85,6 +95,7 @@ class ContractElement extends StatelessWidget{
                   )),
             ],
           )),
+    )
     );
   }
 }

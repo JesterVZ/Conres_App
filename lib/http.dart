@@ -235,6 +235,7 @@ class HttpClient{
       final result = await _apiClient.post(uri);
       List<Meter> meters = [];
       if(result.statusCode == 200){
+        /*
         if(result.data['data']['meters'].length > 0){
             for(int i = 0; i < result.data['data']['meters'].length; i++){
             Meter thisMeter = Meter.fromMap(result.data['data']['meters'][i]);
@@ -242,6 +243,7 @@ class HttpClient{
             meters.add(thisMeter);
           }
         }
+*/
         return meters;
       }
     }catch(e){

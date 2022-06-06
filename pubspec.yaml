@@ -39,7 +39,6 @@ dependencies:
   mask_text_input_formatter: ^2.1.0
   shared_preferences: ^2.0.13
   dotted_decoration: ^2.0.0
-  grouped_list: ^4.2.0
   flutter_svg: ^1.0.3
   file_picker: ^4.5.1
   datetime_picker_formfield: ^2.0.0

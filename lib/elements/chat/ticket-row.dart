@@ -42,60 +42,89 @@ class _TicketRow extends State<TicketRow>{
     super.initState();
   }
 
-    @override
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-        widget.openChat!.call(widget.ticket);
-      },
-      child: Container(
-        padding: const EdgeInsets.all(15),
-        width: MediaQuery.of(context).size.width,
-        height: 100,
-        decoration: const BoxDecoration(
+    return Padding(
+      padding: EdgeInsets.fromLTRB(20, 26, 20, 26),
+      child: 
+      Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(11),
           color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 4,
+                  offset: Offset(0, 2),
+                )
+          ]
         ),
-        child: Row(children: [
-              Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(children: [
-                  Text("ОБРАЩЕНИЕ № ${widget.ticket.ticket_id}"),
-                    Status(
-                      name: widget.ticket.cur_status != null ? widget.ticket.cur_status!.name : "",
-                      color: nameColor ?? Colors.white,
-                      backgroundColor: backgroundColor ?? Colors.white,
-                    )
-                    
-                ]),
-                
-                Text("c ${widget.ticket.date_added}", style: TextStyle(
-                    color: colorGrayClaim,
-                    fontSize: 12
-                )),
-                Text("c ${widget.ticket.contact_email}", style: TextStyle(
-                    color: colorGrayClaim,
-                    fontSize: 12
-                ))
-              ],
+        child: Column(
+          children: [
+            Container(
+          padding: EdgeInsets.all(17),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: inputBorder
+              )
+            )
+          ),
+          child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: EdgeInsets.only(bottom: 19),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("ОБРАЩЕНИЕ № ${widget.ticket.ticket_id}", style: TextStyle(fontSize: 15, color: colorGrayClaim)),
+                  Text(widget.ticket.name != null ? widget.ticket.name! : "", style: const TextStyle(fontSize: 17))
+                ],
+              ),
             ),
-            const Spacer(),
-            Visibility(
-              visible: widget.counter != "0" ? true : false,
-              child: Container(
-                width: 20,
-                height: 20,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.red
-                ),
-                child: Center(child: Text(widget.counter!, style: const TextStyle(
-                  color: Colors.white
-                ))),
-              ))
-        ]),
+            Container(
+              margin: EdgeInsets.only(bottom: 19),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Дата", style: TextStyle(fontSize: 15, color: colorGrayClaim)),
+                  Text("c ${widget.ticket.date_added!}", style: const TextStyle(fontSize: 17))
+                ],
+              ),
+            ),
+            Status(
+              name: widget.ticket.cur_status != null ? widget.ticket.cur_status!.name : "",
+              color: nameColor ?? Colors.white,
+              backgroundColor: backgroundColor ?? Colors.white,
+            )
+          ],
+        ),
+        ),
+        Container(
+          padding: EdgeInsets.all(17),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 55,
+            child: ElevatedButton(
+                      onPressed: () {
+                        widget.openChat!.call(widget.ticket);
+                      },
+                      child: const Text("Открыть обращение"),
+                      style: ElevatedButton.styleFrom(
+                          primary: colorMain,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8))))
+          ),
+        )
+          ],
+        ),
       ),
+    
     );
   }
 }
