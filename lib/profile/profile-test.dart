@@ -33,7 +33,6 @@ class ProfilePageTest extends StatefulWidget {
   State<StatefulWidget> createState() => _ProfilePage();
 }
 
-
 class _ProfilePage extends State<ProfilePageTest> {
   AuthBloc? authBloc;
   ProfileBloc? profileBloc;
@@ -55,6 +54,7 @@ class _ProfilePage extends State<ProfilePageTest> {
     if(state.loading == true){
       return;
     }
+    
   }
   @override
   void didChangeDependencies() {
@@ -74,7 +74,9 @@ class _ProfilePage extends State<ProfilePageTest> {
                       HeaderNotification(text: profile),
                       Visibility(
                           visible: widget.profile!.personal != null ? true : false,
-                          child: Container(
+                          child: GestureDetector(
+                            child: 
+                          Container(
                             margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                             decoration: BoxDecoration(
                                 color: colorMain,
@@ -111,6 +113,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                                     )
                                   ],
                                 )),
+                          ),
                           )
                       ),
 
