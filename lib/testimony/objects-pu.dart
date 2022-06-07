@@ -20,7 +20,15 @@ class _ObjectsPU extends State<ObjectsPU>{
       bloc: profileBloc,
       listener: (context, state) => _listener(context, state),
       builder: (context, state) {
-        return Scaffold();
+        return Scaffold(
+          body: Column(
+            children: [
+              Container(
+                
+              )
+            ],
+          ),
+        );
       }
     );
 }

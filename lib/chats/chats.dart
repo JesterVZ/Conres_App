@@ -46,7 +46,6 @@ class _Chats extends State<Chats> {
           return Scaffold(
               body: Stack(children: [
                 Container(
-                padding: const EdgeInsets.only(left: 18, right: 18),
                 color: pageColor,
                 child: Column(
                   children: [
