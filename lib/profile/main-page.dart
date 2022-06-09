@@ -149,10 +149,15 @@ class _MainPage extends State<MainPage> {
   void getData(dynamic event) async {
     print('\x1B[33m$event\x1B[0m');
       setState(() {
+        try{
         webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
         ticketCounter =
             webSocketData!.data!.counters!.new_ticket_messages_count;
         claimCounter = webSocketData!.data!.counters!.new_claims_messages_count;
+        }catch(e){
+          print(e);
+        }
+
       });
   }
 
