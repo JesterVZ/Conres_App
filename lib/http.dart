@@ -421,6 +421,19 @@ class HttpClient{
     }
   }
 
+  Future<Object?> getObjectsPU () async{
+    String uri = protocol + domain + 'lk/index.php?route=catalog/objects/api_list';
+    try{
+      final result = await _apiClient.post(uri);
+      if(result.statusCode == 200){
+        return result.data;
+      }
+    }catch(e){
+      return(e);
+    }
+
+  }
+
   Future<bool> _requestPermissions() async {
     var permission = await Permission.storage.request();
     if(permission.isGranted){

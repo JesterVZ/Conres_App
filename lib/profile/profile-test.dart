@@ -66,7 +66,7 @@ class _ProfilePage extends State<ProfilePageTest> {
         body: Container(
           color: pageColor,
           child: Padding(
-              padding: const EdgeInsets.fromLTRB(17, 59, 17, 0),
+              padding: EdgeInsets.fromLTRB(defaultSidePadding, 59, defaultSidePadding, 0),
               child: Stack(
                 children: [
                   Column(
@@ -82,7 +82,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                                 color: colorMain,
                                 borderRadius: BorderRadius.circular(10)),
                             child: Padding(
-                                padding: EdgeInsets.fromLTRB(19, 14, 19, 14),
+                                padding: EdgeInsets.fromLTRB(defaultSidePadding, 14, defaultSidePadding, 14),
                                 child: Row(
                                   children: [
                                     Column(

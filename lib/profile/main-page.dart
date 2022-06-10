@@ -130,13 +130,24 @@ class _MainPage extends State<MainPage> {
       return;
     }
     if (state.cookieStr != null) {
-      webSocketChannel!.sink.add(state.cookieStr);
+      if(webSocketChannel != null){
+        webSocketChannel!.sink.add(state.cookieStr);
+      }
     }
-    if (state.loginData!.isEmpty) {
+    if(state.loginData != null){
+      if (state.loginData!.isEmpty){
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+          (route) => false);
+      }
+    }
+    /*
+    if (state.loginData!.isEmpty || state.loginData == null) {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const LoginPage()),
           (route) => false);
     }
+    */
   }
 
   Widget _buildOffstageNavigator(TabItem tabItem, Widget navigator) {
@@ -148,17 +159,21 @@ class _MainPage extends State<MainPage> {
 
   void getData(dynamic event) async {
     print('\x1B[33m$event\x1B[0m');
+    if(this.mounted){
       setState(() {
         try{
         webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
-        ticketCounter =
-            webSocketData!.data!.counters!.new_ticket_messages_count;
-        claimCounter = webSocketData!.data!.counters!.new_claims_messages_count;
+        if(webSocketData!.data!.counters != null){
+          ticketCounter=webSocketData!.data!.counters!.new_ticket_messages_count;
+          claimCounter = webSocketData!.data!.counters!.new_claims_messages_count;
+        }
         }catch(e){
           print(e);
         }
 
       });
+    }
+
   }
 
   @override

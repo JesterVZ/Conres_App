@@ -25,41 +25,44 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is GetCookieStrEvent) {
       yield* _handleGetCookies(event);
     }
-    if (event is GetLoginData) {
+    else if (event is GetLoginData) {
       yield* _handleGetData(event);
     }
-    if (event is GetWebSocketData) {
+    else if (event is GetWebSocketData) {
       yield* _handleGetWebSocketData(event);
     }
-    if (event is LogoutEvent) {
+    else if (event is LogoutEvent) {
       yield* _handleLogout(event);
     }
-    if (event is BindNewLS) {
+    else if (event is BindNewLS) {
       yield* _handleBindNewLS(event);
     }
-    if (event is GetContracts) {
+    else if (event is GetContracts) {
       yield* _handleGetContracts(event);
     }
-    if (event is GetClaims) {
+    else if (event is GetClaims) {
       yield* _handleGetClaims(event);
     }
-    if (event is GetTickets) {
+    else if (event is GetTickets) {
       yield* _handleGetTickets(event);
     }
-    if (event is GetMessages) {
+    else if (event is GetMessages) {
       yield* _handleGetMessages(event);
     }
-    if (event is GetAllInfo) {
+    else if (event is GetAllInfo) {
       yield* _handleGetAllInfo(event);
     }
-    if (event is SendMessageEvent) {
+    else if (event is SendMessageEvent) {
       yield* _handleSendMessage(event);
     }
-    if(event is ReadMessage){
+    else if(event is ReadMessage){
       yield* _handleReadMessage(event);
     }
-    if(event is DownloadFile){
+    else if(event is DownloadFile){
       yield* _handleDownloadFile(event);
+    }
+    else if(event is GetObjectsPU){
+
     }
   }
 
@@ -117,6 +120,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(DownloadFile(uri, filename));
   }
 
+  getObjectsPU(){
+    add(const GetObjectsPU());
+  }
+
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
     yield state.copyWith(loading: true, error: null);
     try {
@@ -153,8 +160,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await logoutFunc(preferences);
       List<dynamic> emptyLoginData = [];
-      yield state.copyWith(
-          loginData: emptyLoginData, error: null, loading: false);
+      yield state.copyWith(loading: false, loginData: emptyLoginData, error: null);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
@@ -270,6 +276,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield state.copyWith(loading: false, error: null, ticketFullInfo: null);
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleGetObjectsPU(GetObjectsPU event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+
+    }catch(e){
+      
     }
   }
 

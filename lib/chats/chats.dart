@@ -50,6 +50,7 @@ class _Chats extends State<Chats> {
                 child: Column(
                   children: [
                     Container(
+                      padding: EdgeInsets.only(left: 20, right: 20),
                         height: 100, child: HeaderNotification(text: "Обращения")),
                     Expanded(
                         child: Scrollbar(

@@ -161,6 +161,8 @@ Color dashedColor = const Color(0xFF4E648A);
 Color messageColor = const Color(0xFFECF2FE);
 Color pageColor = const Color(0xFFF4F5FA);
 
+/* Стили */
+
 TextStyle claimTextStyle = TextStyle(color: colorMain, fontSize: 18.0, fontFamily: 'Bubicon-Bold');
 TextStyle labelTextStyle = TextStyle(color: colorGrayText, fontSize: 16.0);
 TextStyle buttonTextStyle = const TextStyle(fontSize: 18.0);
@@ -169,5 +171,8 @@ TextStyle warningTextStyle = TextStyle(fontSize: 16.0, color: whiteGrayColor);
 TextStyle contractLabelTextStyle = const TextStyle(fontSize: 14.0, color: Colors.white);
 TextStyle claimLabelTextStyle = TextStyle(fontSize: 16.0, color: claimLabelColor);
 TextStyle puTextStyle = TextStyle(fontSize: 13.0, color: whiteLabelColor);
+
+double defaultSidePadding = 17;
+
 
 BorderRadius buttonRadius = BorderRadius.circular(10);

@@ -81,3 +81,7 @@ class DownloadFile extends ProfileEvent{
   String filename;
   DownloadFile(this.uri, this.filename);
 }
+
+class GetObjectsPU extends ProfileEvent{
+  const GetObjectsPU();
+}

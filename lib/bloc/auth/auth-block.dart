@@ -17,15 +17,15 @@ class AuthBloc extends Bloc<Event, AuthState> {
     if(event is RegisterEvent){
       yield* _handleRegisterEvent(event);
     }
-    if(event is LoginEvent){
+    else if(event is LoginEvent){
       yield* _handleLoginEvent(event);
     }
 
-    if(event is GetLoginEvent){
+    else if(event is GetLoginEvent){
       yield* _handleGetLogin(event);
     }
 
-    if(event is GetTestimony){
+    else if(event is GetTestimony){
       yield* _handleGetTestimony(event);
     }
 
