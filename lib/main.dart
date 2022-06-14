@@ -46,7 +46,7 @@ class _MyApp extends State<MyApp>{
       },
       theme: ThemeData(
           primarySwatch: Colors.blue,
-          scaffoldBackgroundColor: defaultBackground,
+          scaffoldBackgroundColor: pageColor,
           fontFamily: 'Bubicon-Medium'
       ),
       home: SplashScreen(),

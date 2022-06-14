@@ -22,7 +22,15 @@ class _ClaimElement extends State<ClaimElement>{
       margin: EdgeInsets.only(bottom: 28),
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(11)
+          borderRadius: BorderRadius.circular(11),
+          boxShadow: [
+            BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 4,
+                  offset: Offset(0, 2),
+                )
+          ],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

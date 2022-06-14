@@ -26,7 +26,9 @@ class _Contracts extends State<Contracts>{
         listener: (context, state) => _listener(context, state),
     builder: (context, state) {
       return Scaffold(
-          body: Column(
+          body: Padding(
+            padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
+            child: Column(
             children: [
               Container(
                 height: 100,
@@ -41,7 +43,6 @@ class _Contracts extends State<Contracts>{
                           Column(
                             children: contracts,
                           ),
-
                         ], 
                       )
                     ],
@@ -50,9 +51,7 @@ class _Contracts extends State<Contracts>{
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 55,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 18, right: 18),
-                  child: ElevatedButton(
+                child: ElevatedButton(
                     onPressed: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const NewLS()));
                     },
@@ -63,10 +62,10 @@ class _Contracts extends State<Contracts>{
                     )
                     ),
                   ),
-                ),
               )
             ],
           ),
+          )
       );
     });
 

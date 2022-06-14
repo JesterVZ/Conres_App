@@ -85,3 +85,7 @@ class DownloadFile extends ProfileEvent{
 class GetObjectsPU extends ProfileEvent{
   const GetObjectsPU();
 }
+
+class GetFullProfileInfo extends ProfileEvent{
+  const GetFullProfileInfo();
+}

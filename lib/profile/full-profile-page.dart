@@ -2,6 +2,7 @@ import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/consts.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
+import 'package:conres_app/profile/tabs/confidant-tab.dart';
 import 'package:conres_app/profile/tabs/contacts-tab.dart';
 import 'package:conres_app/profile/tabs/info-tab.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,7 +38,7 @@ class _FullProfile extends State<FullProfile>
   List<Widget> panels = [
     InfoTab(),
     ContactsTab(),
-    Center(child: Text("4")),
+    ConfidantTab(),
   ];
   AuthBloc? authBloc;
   ProfileBloc? profileBloc;

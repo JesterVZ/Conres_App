@@ -64,7 +64,6 @@ class _ProfilePage extends State<ProfilePageTest> {
     if(widget.profile != null){
       widget.content = Scaffold(
         body: Container(
-          color: pageColor,
           child: Padding(
               padding: EdgeInsets.fromLTRB(defaultSidePadding, 59, defaultSidePadding, 0),
               child: Stack(
@@ -132,7 +131,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                           )
                         ]),
                         child: Padding(
-                            padding: EdgeInsets.fromLTRB(19, 14, 19, 14),
+                            padding: EdgeInsets.fromLTRB(defaultSidePadding, 14, defaultSidePadding, 14),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,

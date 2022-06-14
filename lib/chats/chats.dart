@@ -26,7 +26,6 @@ class _Chats extends State<Chats> {
   WebSocketChannel? webSocketChannel;
   WebSocketListener? webSocketListener;
   ScrollController scrollController = ScrollController();
-  //List<Widget> tickets = [];
   List<Ticket> tickets = [];
   String? userId;
   int page = 1;
@@ -46,12 +45,11 @@ class _Chats extends State<Chats> {
           return Scaffold(
               body: Stack(children: [
                 Container(
-                color: pageColor,
                 child: Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.only(left: 20, right: 20),
-                        height: 100, child: HeaderNotification(text: "Обращения")),
+                      padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
+                        height: 100, child: HeaderNotification(text: "Обращения",)),
                     Expanded(
                         child: Scrollbar(
                             child: ListView.builder(controller: scrollController, itemCount: tickets.length, itemBuilder: (context, int index){

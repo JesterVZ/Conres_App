@@ -38,25 +38,24 @@ class _Claims extends State<Claims> {
         builder: (context, state) {
           return Scaffold(
             body: Container(
-              padding: const EdgeInsets.only(left: 18, right: 18),
-              color: pageColor,
+              padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
               child: Column(
                 children: [
                   Container(
                       height: 100,
                       child: HeaderRow(text: reportsPage, fontSize: 24)
                   ),
-                  Expanded(child: ListView(
-                    controller: controller,
-                    children: claims,
-                    
-                  )),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: claims.length,
+                      itemBuilder: (context, index){
+                        return ClaimElement(currentClaim: state.claims![index]);
+                      },
+                    )),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: 55,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 18, right: 18),
-                      child: ElevatedButton(
+                    child: ElevatedButton(
                         onPressed: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context) => NewClaimStep1()));
                         },
@@ -67,7 +66,6 @@ class _Claims extends State<Claims> {
                         )
                         ),
                       ),
-                    ),
                   )
                 ],
               ),
@@ -87,10 +85,8 @@ class _Claims extends State<Claims> {
             claims.add(ClaimElement(currentClaim: state.claims![i]));
           }
         });
-        
     }
-      
-    }
+  }
   }
 
   void pagination(){

@@ -58,4 +58,8 @@ class ProfileRepo{
     var result = await httpClient.download(uri, filename);
     return result;
   }
+  Future<dynamic> getFullProfileInfo() async{
+    var result = await httpClient.getFullProfileInfo();
+    return result;
+  }
 }

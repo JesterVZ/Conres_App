@@ -13,7 +13,6 @@ class _InfoTab extends State<InfoTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: defaultBackground,
         body: Scrollbar(
           child: SingleChildScrollView(
             child: Column(
