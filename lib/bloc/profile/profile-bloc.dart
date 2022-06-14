@@ -61,7 +61,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     else if(event is DownloadFile){
       yield* _handleDownloadFile(event);
     }
-    else if(event is GetObjectsPU){
+    else if(event is GetFullProfileInfo){
 
     }
   }
@@ -122,6 +122,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   getObjectsPU(){
     add(const GetObjectsPU());
+  }
+
+  getFullProfileInfo(){
+    add(const GetFullProfileInfo());
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -279,12 +283,22 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
+  Stream<ProfileState> _handleGetFullProfileInfo(GetFullProfileInfo event) async*{
+    yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
+    try{
+      var result = await repo.getFullProfileInfo();
+      yield state.copyWith(loading: false, error: null, ticketFullInfo: null);
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
   Stream<ProfileState> _handleGetObjectsPU(GetObjectsPU event) async*{
     yield state.copyWith(loading: true, error: null);
     try{
 
     }catch(e){
-      
+      yield state.copyWith(loading: false, error: e.toString());
     }
   }
 

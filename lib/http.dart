@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:conres_app/model/user-information.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:open_file/open_file.dart';
@@ -418,6 +419,16 @@ class HttpClient{
       }
     } catch (e) {
       return e;
+    }
+  }
+
+  Future<Object?> getFullProfileInfo() async{
+    String uri = protocol + domain + 'lk/index.php?route=catalog/user_information/api_get';
+    final result = await _apiClient.post(uri);
+    if(result.statusCode == 200){
+      return UserInformation.fromMap(result.data['data']);
+    } else {
+      throw Exception();
     }
   }
 
