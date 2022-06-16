@@ -62,7 +62,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleDownloadFile(event);
     }
     else if(event is GetFullProfileInfo){
-
+      yield* _handleGetFullProfileInfo(event);
     }
   }
 

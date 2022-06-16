@@ -93,6 +93,7 @@ class _FullProfile extends State<FullProfile>
   void didChangeDependencies() {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    profileBloc!.getFullProfileInfo();
     authBloc ??= DependencyProvider.of(context)!.authBloc;
   }
 }
