@@ -2,6 +2,7 @@ import 'package:accordion/accordion.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/claims/new-claim/new-claim-step-1.dart';
+import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -37,65 +38,68 @@ class _Claims extends State<Claims> {
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
           return Scaffold(
-            body: Container(
-              padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
-              child: Column(
-                children: [
-                  Container(
-                      height: 100,
-                      child: HeaderRow(text: reportsPage, fontSize: 24)
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: claims.length,
-                      itemBuilder: (context, index){
-                        return ClaimElement(currentClaim: state.claims![index]);
-                      },
+              body: Container(
+            child: Column(
+              children: [
+                Container(
+                    padding: EdgeInsets.only(
+                        left: defaultSidePadding, right: defaultSidePadding),
+                    height: 100,
+                    child: HeaderNotification(
+                      text: "Заявления",
                     )),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 55,
-                    child: ElevatedButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => NewClaimStep1()));
-                        },
-                        child: Text("Новое заявление", style: buttonTextStyle),
-                        style: ElevatedButton.styleFrom(
-                            primary: colorMain,shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)
-                        )
-                        ),
-                      ),
-                  )
-                ],
-              ),
-            )
-          );
+                Expanded(
+                    child: ListView.builder(
+                  itemCount: claims.length,
+                  itemBuilder: (context, index) {
+                    return ClaimElement(currentClaim: state.claims![index]);
+                  },
+                )),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NewClaimStep1()));
+                    },
+                    child: Text("Новое заявление", style: buttonTextStyle),
+                    style: ElevatedButton.styleFrom(
+                        primary: colorMain,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8))),
+                  ),
+                )
+              ],
+            ),
+          ));
         });
-
   }
+
   _listener(BuildContext context, ProfileState state) {
-    if(state.loading == true){
+    if (state.loading == true) {
       return;
     }
-    if(state.claims != null){
-      if(claims.isEmpty){
+    if (state.claims != null) {
+      if (claims.isEmpty) {
         setState(() {
-          for(int i = 0; i < state.claims!.length; i++){
+          for (int i = 0; i < state.claims!.length; i++) {
             claims.add(ClaimElement(currentClaim: state.claims![i]));
           }
         });
+      }
     }
   }
-  }
 
-  void pagination(){
-    if(controller.position.pixels == controller.position.maxScrollExtent){
+  void pagination() {
+    if (controller.position.pixels == controller.position.maxScrollExtent) {
       setState(() {
         print("pagination");
       });
     }
-  } 
+  }
 
   @override
   void didChangeDependencies() {
