@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:conres_app/elements/testimony/testimony-not-found.dart';
 import 'package:conres_app/testimony/link-pu.dart';
+import 'package:conres_app/testimony/objects-pu.dart';
 import 'package:dotted_decoration/dotted_decoration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +67,7 @@ class _SendTestimony extends State<SendTestimony> {
                               height: 70,
                               child: ElevatedButton(
                                   onPressed: () {
-                                    //Navigator.push(context, MaterialPageRoute(builder: (context) => SendTestimony(personal: widget.profile!.personal)));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ObjectsPU()));
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: colorGray, shape: RoundedRectangleBorder(

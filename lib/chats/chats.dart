@@ -1,9 +1,7 @@
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../DI/dependency-provider.dart';
 import '../consts.dart';
@@ -86,6 +84,20 @@ class _Chats extends State<Chats> {
       if ((int.parse(state.page!) == page) && page > 1) {
         tickets = tickets + state.tickets!;
       }
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      tickets = [
+        Ticket(
+        ticket_id: "999",
+        ticket_theme_id: "тестовый тикет",
+        name: "тестовый тикет",
+        contact_email: "тестовый тикет",
+        date_ticket: "01.01.2021",
+        date_added: "01.01.2021"
+      )
+      ];
     }
   }
 

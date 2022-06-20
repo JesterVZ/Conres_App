@@ -1,3 +1,4 @@
+import 'package:conres_app/consts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,17 @@ class _ObjectPU extends State<ObjectPU>{
               offset: Offset(0, 3),
             )
           ]
+        ),
+        child: Column(
+          children: [
+            Container(
+              child: Column(
+                children: [
+                  Text("Наименование объекта", style: TextStyle(color: colorGrayClaim, fontSize: 15))
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );
