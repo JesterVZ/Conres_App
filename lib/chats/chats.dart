@@ -53,6 +53,20 @@ class _Chats extends State<Chats> {
                             child: ListView.builder(controller: scrollController, itemCount: tickets.length, itemBuilder: (context, int index){
                               return TicketRow(ticket: tickets[index], openChat: _openChat, counter: tickets[index].count_tm_resiver);
                             }))),
+                    Container(
+                  padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
+                  width: MediaQuery.of(context).size.width,
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: () {
+                    },
+                    child: Text("Новое обращение", style: buttonTextStyle),
+                    style: ElevatedButton.styleFrom(
+                        primary: colorMain,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8))),
+                  ),
+                )
                   ],
                 ),
               ),
@@ -84,20 +98,6 @@ class _Chats extends State<Chats> {
       if ((int.parse(state.page!) == page) && page > 1) {
         tickets = tickets + state.tickets!;
       }
-    } else {
-      setState(() {
-        isLoading = false;
-      });
-      tickets = [
-        Ticket(
-        ticket_id: "999",
-        ticket_theme_id: "тестовый тикет",
-        name: "тестовый тикет",
-        contact_email: "тестовый тикет",
-        date_ticket: "01.01.2021",
-        date_added: "01.01.2021"
-      )
-      ];
     }
   }
 

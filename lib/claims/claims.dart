@@ -56,6 +56,7 @@ class _Claims extends State<Claims> {
                   },
                 )),
                 Container(
+                  padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
                   width: MediaQuery.of(context).size.width,
                   height: 55,
                   child: ElevatedButton(

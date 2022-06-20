@@ -52,6 +52,7 @@ class _Contracts extends State<Contracts> {
                   ],
                 )))),
                 Container(
+                  padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
                   width: MediaQuery.of(context).size.width,
                   height: 55,
                   child: ElevatedButton(

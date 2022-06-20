@@ -163,6 +163,7 @@ class _MessagesPage extends State<MessagesPage> {
                                             height: 50,
                                             child: Flex(direction: Axis.horizontal,children: [
                                             Preview(uri: messageList[i].data != null ?(messageList[i].data!.thumb != null ? messageList[i].data!.thumb! : "") : ""),
+                                            
                                             Flexible(
                                                     flex: 1,
                                                     child: Text(
