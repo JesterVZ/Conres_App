@@ -31,3 +31,7 @@ class GetLoginEvent extends Event{
 class GetTestimony extends Event{
   const GetTestimony();
 }
+
+class GetStores extends Event{
+  const GetStores();
+}

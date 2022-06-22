@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:conres_app/model/result-data.dart';
+import 'package:conres_app/model/store.dart';
 import 'package:conres_app/repositories/auth-repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,6 +29,9 @@ class AuthBloc extends Bloc<Event, AuthState> {
     else if(event is GetTestimony){
       yield* _handleGetTestimony(event);
     }
+    else if(event is GetStores){
+      yield* _handleGetStores(event);
+    }
 
 
   }
@@ -41,8 +45,12 @@ class AuthBloc extends Bloc<Event, AuthState> {
     add(LoginEvent(username, password, type));
   }
 
-   getLogin(){
+  getLogin(){
     add(const GetLoginEvent());
+  }
+  
+  getStores(){
+    add(const GetStores());
   }
 
   getTestimony(){
@@ -109,4 +117,15 @@ class AuthBloc extends Bloc<Event, AuthState> {
     }
   }
 
+  Stream<AuthState> _handleGetStores(GetStores event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      Object? result = await repo.getStores();
+      if(result is List<Store>){
+        yield state.copyWith(stors: result, loading: false, error: null);
+      }
+    }catch(e){
+      yield state.copyWith(error: e.toString(), loading: false);
+    }
+  }
 }

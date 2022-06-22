@@ -117,7 +117,7 @@ String numberLS = "Номер лицевого счёта";
 String sendLinkRequest = "Отправить запрос на привязку";
 String deleteObject = "Удалить объект";
 //login
-String domain = "promo.dev.conres.ru//";
+String domain = "rep.dev.conres.ru/";
 String protocol = "https://";
 int loginType = 2;
 //testimony

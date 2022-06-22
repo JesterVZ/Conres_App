@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:conres_app/DI/dependency-provider.dart';
+import 'package:conres_app/select-store/select-store.dart';
 import 'package:flutter/material.dart';
 import 'consts.dart';
 import 'elements/splash/splash-screen.dart';
@@ -50,6 +51,7 @@ class _MyApp extends State<MyApp>{
           fontFamily: 'Bubicon-Medium'
       ),
       home: SplashScreen(),
+      //home: SelectStore(),
     );
 
   }

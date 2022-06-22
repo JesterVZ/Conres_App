@@ -1,5 +1,6 @@
 import '../../model/meter.dart';
 import '../../model/profile.dart';
+import '../../model/store.dart';
 
 class AuthState{
   final Profile? profile;
@@ -7,8 +8,9 @@ class AuthState{
   final Object? error;
   final List<Meter>? testimony;
   final List<dynamic>? loginData;
+  final List<Store>? stors;
 
-  AuthState({this.loginData, this.loading, this.error, this.profile, this.testimony});
+  AuthState({this.loginData, this.loading, this.error, this.profile, this.testimony, this.stors});
 
   static initial() => AuthState(
     profile: null,
@@ -21,13 +23,15 @@ class AuthState{
     bool? loading,
     Object? error,
     List<dynamic>? loginData,
-    List<Meter>? testimony
+    List<Meter>? testimony,
+    List<Store>? stors
   }){
     return AuthState(
         profile: profile ?? this.profile,
         loading: loading ?? this.loading,
         loginData: loginData ?? this.loginData,
         testimony: testimony ?? this.testimony,
+        stors: stors ?? this.stors,
         error: error
     );
   }

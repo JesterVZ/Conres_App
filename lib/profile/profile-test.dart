@@ -1,4 +1,5 @@
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
+import 'package:conres_app/contracts/contracts.dart';
 import 'package:conres_app/elements/header/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +75,9 @@ class _ProfilePage extends State<ProfilePageTest> {
                       Visibility(
                           visible: widget.profile!.personal != null ? true : false,
                           child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Contracts()));
+                            },
                             child: 
                           Container(
                             margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),

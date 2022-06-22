@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:conres_app/model/store.dart';
 import 'package:conres_app/model/user-information.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as path;
@@ -451,6 +452,18 @@ class HttpClient{
       return true;
     } else {
       return false;
+    }
+  }
+
+  Future<Object?> getStors() async{
+    String uri = "https://dev.conres.ru/backmanager/index.php?route=common/api/api_get_stores";
+    final result = await _apiClient.post(uri);
+    List<Store> stores = [];
+    if(result.statusCode == 200){
+      for(int i = 0; i < result.data['data']['stores'].length; i++){
+        stores.add(Store.fromMap(result.data['data']['stores'][i]));
+      }
+      return stores;
     }
   }
 }
