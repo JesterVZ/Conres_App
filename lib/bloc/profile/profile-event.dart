@@ -89,3 +89,7 @@ class GetObjectsPU extends ProfileEvent{
 class GetFullProfileInfo extends ProfileEvent{
   const GetFullProfileInfo();
 }
+
+class GetTU extends ProfileEvent{
+  const GetTU();
+}

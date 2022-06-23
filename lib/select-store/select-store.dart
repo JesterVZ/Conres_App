@@ -54,7 +54,7 @@ class _SelectStore extends State<SelectStore>{
   void choose(Store store) async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('store', store.name!);
-    domain = "rep.dev.conres.ru";
+    domain = store.url!;
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SplashScreen()), (route) => false);
   }
   @override

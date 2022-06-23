@@ -5,7 +5,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 //load link
-String loadLink = "https://promo.dev.conres.ru/lk/load_ticket_addit_file?link=";
+String loadLink = "${domain}lk/load_ticket_addit_file?link=";
 
 String title = "тестовая компания";
 String lkTitle = "Личный кабинет потребителя";
@@ -117,8 +117,8 @@ String numberLS = "Номер лицевого счёта";
 String sendLinkRequest = "Отправить запрос на привязку";
 String deleteObject = "Удалить объект";
 //login
-String domain = "rep.dev.conres.ru/";
-String protocol = "https://";
+String domain = "https://promo.dev.conres.ru/";
+//String protocol = "https://";
 int loginType = 2;
 //testimony
 String sendTestimony = "Передача показаний";

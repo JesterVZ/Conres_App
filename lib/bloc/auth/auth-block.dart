@@ -25,10 +25,6 @@ class AuthBloc extends Bloc<Event, AuthState> {
     else if(event is GetLoginEvent){
       yield* _handleGetLogin(event);
     }
-
-    else if(event is GetTestimony){
-      yield* _handleGetTestimony(event);
-    }
     else if(event is GetStores){
       yield* _handleGetStores(event);
     }
@@ -53,9 +49,6 @@ class AuthBloc extends Bloc<Event, AuthState> {
     add(const GetStores());
   }
 
-  getTestimony(){
-    add(const GetTestimony());
-  }
 
   Stream<AuthState> _handleRegisterEvent(RegisterEvent event) async*{
     yield state.copyWith(loading: true, error: null);
@@ -105,17 +98,6 @@ class AuthBloc extends Bloc<Event, AuthState> {
     }
   }
 
-  Stream<AuthState> _handleGetTestimony(GetTestimony event) async*{
-    yield state.copyWith(loading: true, error: null);
-    try{
-      Object? result = await repo.getTestimonyFunc();
-      if(result is List<Meter>){
-        yield state.copyWith(testimony: result, loading: false, error: null);
-      }
-    } catch(e){
-      yield state.copyWith(error: e.toString(), loading: false);
-    }
-  }
 
   Stream<AuthState> _handleGetStores(GetStores event) async*{
     yield state.copyWith(loading: true, error: null);

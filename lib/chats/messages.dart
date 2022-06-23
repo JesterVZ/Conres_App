@@ -155,7 +155,7 @@ class _MessagesPage extends State<MessagesPage> {
                                       visible: messageList[i].data != null ? true : false,
                                       child: GestureDetector(
                                           onTap: () {
-                                            _loadImageFromUri("https://promo.dev.conres.ru/lk/load_ticket_addit_file?link=${messageList[i].data!.file_href!}", messageList[i].data!.document_name!);
+                                            _loadImageFromUri("${domain}lk/load_ticket_addit_file?link=${messageList[i].data!.file_href!}", messageList[i].data!.document_name!);
                                           },
                                           child: 
                                           SizedBox(

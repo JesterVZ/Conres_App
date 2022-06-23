@@ -49,11 +49,6 @@ class AuthRepo {
     }
   }
 
-  Future<Object?> getTestimonyFunc() async {
-    var result = await httpClient.getTestimony();
-    return result;
-  }
-
   Future<Object?> getStores() async{
     var result = await httpClient.getStors();
     return result;

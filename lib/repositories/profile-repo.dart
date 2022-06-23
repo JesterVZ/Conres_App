@@ -62,4 +62,12 @@ class ProfileRepo{
     var result = await httpClient.getFullProfileInfo();
     return result;
   }
+  Future<dynamic> getObjectsPU() async{
+     var result = await httpClient.getObjectsPU();
+     return result;
+  }
+  Future<dynamic> getMeters() async{
+    var result = await httpClient.getMeters();
+    return result;
+  }
 }

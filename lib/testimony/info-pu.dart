@@ -56,7 +56,7 @@ class _InfoPU extends State<InfoPU> {
   @override
   void didChangeDependencies() {
     authBloc ??= DependencyProvider.of(context)!.authBloc;
-    authBloc!.getTestimony();
+    //authBloc!.getTestimony();
     super.didChangeDependencies();
   }
 }

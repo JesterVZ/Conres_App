@@ -50,8 +50,8 @@ class _MyApp extends State<MyApp>{
           scaffoldBackgroundColor: pageColor,
           fontFamily: 'Bubicon-Medium'
       ),
-      home: SplashScreen(),
-      //home: SelectStore(),
+      //home: SplashScreen(),
+      home: SelectStore(),
     );
 
   }

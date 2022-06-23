@@ -64,6 +64,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     else if(event is GetFullProfileInfo){
       yield* _handleGetFullProfileInfo(event);
     }
+    else if(event is GetObjectsPU){
+      yield* _handleGetObjectsPU(event);
+    }
+    else if(event is GetTU){
+      yield* _handleGetTU(event);
+    }
   }
 
   ProfileBloc(this.repo) : super(ProfileState.initial());
@@ -126,6 +132,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   getFullProfileInfo(){
     add(const GetFullProfileInfo());
+  }
+
+  getTU(){
+    add(const GetTU());
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -296,7 +306,18 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _handleGetObjectsPU(GetObjectsPU event) async*{
     yield state.copyWith(loading: true, error: null);
     try{
+      var result = await repo.getObjectsPU();
+      yield state.copyWith(loading: false, error: null, objectsPU: result);
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
 
+  Stream<ProfileState> _handleGetTU(GetTU event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      var result = await repo.getMeters();
+      yield state.copyWith(loading: false, error:null, meters: result);
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }
