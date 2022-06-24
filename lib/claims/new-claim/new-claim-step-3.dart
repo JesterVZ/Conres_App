@@ -31,6 +31,9 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
       _selectedIndex = index;
     });
   }
+  void _validate(bool result){
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +76,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                 children: [
                                                   Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
                                                   MaskInput(
-                                                    textController: controllerDlList[2],
+                                                    isValidate: _validate,                                                    textController: controllerDlList[2],
                                                     formatter: MaskTextInputFormatter(mask: "###"),
                                                     hint: "000",
                                                     type: "kvt",
@@ -90,6 +93,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                 children: [
                                                   Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
                                                   MaskInput(
+                                                    isValidate: _validate,
                                                     textController: controllerDlList[2],
                                                     formatter: MaskTextInputFormatter(mask: "###"),
                                                     hint: "000",
@@ -120,6 +124,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                 children: [
                                                   Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
                                                   MaskInput(
+                                                    isValidate: _validate,
                                                     textController: controllerDlList[2],
                                                     formatter: MaskTextInputFormatter(mask: "###"),
                                                     hint: "000",
@@ -137,6 +142,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                 children: [
                                                   Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
                                                   MaskInput(
+                                                    isValidate: _validate,
                                                     textController: controllerDlList[2],
                                                     formatter: MaskTextInputFormatter(mask: "###"),
                                                     hint: "000",
@@ -167,6 +173,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                 children: [
                                                   Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
                                                   MaskInput(
+                                                    isValidate: _validate,
                                                     textController: controllerDlList[2],
                                                     formatter: MaskTextInputFormatter(mask: "###"),
                                                     hint: "000",
@@ -184,6 +191,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                 children: [
                                                   Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
                                                   MaskInput(
+                                                    isValidate: _validate,
                                                     textController: controllerDlList[2],
                                                     formatter: MaskTextInputFormatter(mask: "###"),
                                                     hint: "000",
@@ -243,6 +251,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     children: [
                                                       Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
                                                       MaskInput(
+                                                        isValidate: _validate,
                                                         textController: controllerDlList[2],
                                                         formatter: MaskTextInputFormatter(mask: "###"),
                                                         hint: "000",
@@ -260,6 +269,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     children: [
                                                       Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
                                                       MaskInput(
+                                                        isValidate: _validate,
                                                         textController: controllerDlList[2],
                                                         formatter: MaskTextInputFormatter(mask: "###"),
                                                         hint: "000",
@@ -290,6 +300,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     children: [
                                                       Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
                                                       MaskInput(
+                                                        isValidate: _validate,
                                                         textController: controllerDlList[2],
                                                         formatter: MaskTextInputFormatter(mask: "###"),
                                                         hint: "000",
@@ -307,6 +318,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     children: [
                                                       Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
                                                       MaskInput(
+                                                        isValidate: _validate,
                                                         textController: controllerDlList[2],
                                                         formatter: MaskTextInputFormatter(mask: "###"),
                                                         hint: "000",
@@ -337,6 +349,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     children: [
                                                       Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
                                                       MaskInput(
+                                                        isValidate: _validate,
                                                         textController: controllerDlList[2],
                                                         formatter: MaskTextInputFormatter(mask: "###"),
                                                         hint: "000",
@@ -354,6 +367,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                     children: [
                                                       Text(vt, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
                                                       MaskInput(
+                                                        isValidate: _validate,
                                                         textController: controllerDlList[2],
                                                         formatter: MaskTextInputFormatter(mask: "###"),
                                                         hint: "000",

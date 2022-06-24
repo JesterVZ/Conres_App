@@ -118,6 +118,7 @@ String sendLinkRequest = "Отправить запрос на привязку"
 String deleteObject = "Удалить объект";
 //login
 String domain = "https://promo.dev.conres.ru/";
+String ws = "wss://promo.dev.conres.ru";
 //String protocol = "https://";
 int loginType = 2;
 //testimony

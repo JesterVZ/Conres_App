@@ -32,27 +32,29 @@ class _RegFL extends State<RegFL> {
   final controllerList = List<TextEditingController>.generate(
       9, (index) => TextEditingController());
   bool _agree = false;
+  bool _validateVal = false;
   bool _isEmailValidation = false;
   PanelController panelController = PanelController();
   AuthBloc? authBloc;
 
-  final Widget svg = SvgPicture.asset('assets/background_image.svg',
-      color: colorLogo, semanticsLabel: 'Acme Logo');
-
   void _push(){
     Navigator.push(context, MaterialPageRoute(builder:  (context) => const ChangeType(isReg: false)));
+  }
+  void _validate(bool result){
+    
   }
   @override
   Widget build(BuildContext context) {
     return BlocScreen<AuthBloc, AuthState>(
         bloc: authBloc,
-        listener: (context, state) => _listener(context, state),
+        listener: (context, state) => _listener(context, state), 
         builder: (context, state) {
           return GestureDetector(
             onTap: (){
               FocusScope.of(context).requestFocus(FocusNode());
             },
             child: Scaffold(
+              resizeToAvoidBottomInset: false,
               body: SlidingUpElement(
                 onClose: _push,
                 panelController: panelController,
@@ -134,6 +136,7 @@ class _RegFL extends State<RegFL> {
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
                                             MaskInput(
+                                              isValidate: _validate,
                                               textController: controllerList[3],
                                               formatter: MaskTextInputFormatter(
                                                   mask: "############"),
@@ -152,6 +155,7 @@ class _RegFL extends State<RegFL> {
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
                                             MaskInput(
+                                              isValidate: _validate,
                                               textController: controllerList[4],
                                               formatter: MaskTextInputFormatter(
                                                   mask: "###-###-###-##"),
@@ -170,6 +174,7 @@ class _RegFL extends State<RegFL> {
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
                                             MaskInput(
+                                              isValidate: _validate,
                                               textController: controllerList[5],
                                               formatter: MaskTextInputFormatter(
                                                   mask: "+7 (###) ###-##-##"),
@@ -266,8 +271,8 @@ class _RegFL extends State<RegFL> {
                                       width: MediaQuery.of(context).size.width,
                                       height: 55,
                                       child: ElevatedButton(
-                                          onPressed: _agree ? () => submitData(state) : null,
-                                          child: Text(login, style: buttonTextStyle),
+                                          onPressed: (_agree && _validateVal) ? () => submitData(state) : null,
+                                          child: Text("Зарегистрироваться", style: buttonTextStyle),
                                           style: ElevatedButton.styleFrom(
                                               primary: colorMain)),
                                     ),

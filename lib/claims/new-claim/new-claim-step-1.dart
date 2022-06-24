@@ -16,6 +16,9 @@ class NewClaimStep1 extends StatefulWidget{
 
 class _NewClaimStep1 extends State<NewClaimStep1>{
   final controllerList = List<TextEditingController>.generate(9, (index) => TextEditingController());
+  void _validate(bool result){
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,6 +95,7 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                       Text(seriesPassport),
 
                                       MaskInput(
+                                        isValidate: _validate,
                                         textController: controllerList[2],
                                         formatter: MaskTextInputFormatter(mask: "####"),
                                         hint: "0000",
@@ -110,6 +114,7 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                                     children: [
                                       Text(numberPassport),
                                       MaskInput(
+                                        isValidate: _validate,
                                         textController: controllerList[3],
                                         formatter: MaskTextInputFormatter(mask: "######"),
                                         hint: "000000",

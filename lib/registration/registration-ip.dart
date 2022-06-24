@@ -43,6 +43,9 @@ class _RegIP extends State<RegIP> {
   void _push(){
     Navigator.push(context, MaterialPageRoute(builder:  (context) => const ChangeType(isReg: false)));
   }
+  void _validate(bool result){
+
+  }
   @override
   Widget build(BuildContext context) {
     return BlocScreen<AuthBloc, AuthState>(
@@ -171,6 +174,7 @@ class _RegIP extends State<RegIP> {
                                       style: TextStyle(
                                           color: colorGray, fontSize: 16.0)),
                                   MaskInput(
+                                    isValidate: _validate,
                                     textController: controllerList[3],
                                     formatter: MaskTextInputFormatter(mask: "############"),
                                     hint: "000000000000",
@@ -188,6 +192,7 @@ class _RegIP extends State<RegIP> {
                                       style: TextStyle(
                                           color: colorGray, fontSize: 16.0)),
                                   MaskInput(
+                                    isValidate: _validate,
                                     textController: controllerList[4],
                                     formatter: MaskTextInputFormatter(mask: "###############"),
                                     hint: "000000000000000",
@@ -205,6 +210,7 @@ class _RegIP extends State<RegIP> {
                                       style: TextStyle(
                                           color: colorGray, fontSize: 16.0)),
                                   MaskInput(
+                                    isValidate: _validate,
                                     textController: controllerList[5],
                                     formatter: MaskTextInputFormatter(mask: "+7 (###) ###-##-##"),
                                     hint: "+7 (___) - ___ - __ - __",
@@ -343,6 +349,7 @@ class _RegIP extends State<RegIP> {
                                                       style: TextStyle(
                                                           color: colorGray, fontSize: 16.0)),
                                                   MaskInput(
+                                                    isValidate: _validate,
                                                     textController: controllerDlList[3],
                                                     formatter: MaskTextInputFormatter(mask: "+7 (###) ###-##-##"),
                                                     hint: "+7 (___) - ___ - __ - __",
@@ -454,7 +461,7 @@ class _RegIP extends State<RegIP> {
                             child: ElevatedButton(
                                 onPressed: _agree ? () => submitData(state) : null,
                                 child: Text(
-                                  login,
+                                  "Зарегистрироваться",
                                   style: buttonTextStyle,
                                 ),
                                 style: ElevatedButton.styleFrom(primary: colorMain)),

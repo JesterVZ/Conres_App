@@ -24,10 +24,10 @@ import 'model/result-data.dart';
 import 'model/ticket.dart';
 
 class HttpClient{
-  static final String url = domain + 'lk/index.php?route=common/registration/api';
+  //static final String url = domain + 'lk/index.php?route=common/registration/api';
   static final String loginUri = domain + 'lk/index.php?route=common/login/api';
 
-  final Dio _apiClient = _getDio(baseUrl: url);
+  final Dio _apiClient = _getDio(baseUrl: '');
   final CookieJar _cookieJar = _getCookieJar();
 
   static Dio _getDio({String? baseUrl}) {
@@ -60,6 +60,7 @@ class HttpClient{
   }
 
   Future<dynamic> register(Object sender) async{
+    String url = domain + 'lk/index.php?route=common/registration/api';
     if(sender is Fl){
       try{
         var formData = FormData.fromMap({

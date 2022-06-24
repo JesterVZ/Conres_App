@@ -7,10 +7,12 @@ import '../validation/validation.dart';
 
 class MaskInput extends StatefulWidget{
 
-  MaskInput({Key? key, required this.formatter, required this.hint, required this.textController, required this.type}) : super(key: key);
+  MaskInput({Key? key, required this.formatter, required this.hint, required this.textController, required this.type, required this.isValidate
+  }) : super(key: key);
   final TextEditingController textController;
   final MaskTextInputFormatter formatter;
   final String hint;
+  ValueChanged<bool> isValidate;
   final String type;
 
   @override
@@ -58,6 +60,7 @@ class _MaskInput extends State<MaskInput>{
           onChanged: (value){
             setState(() {
               _isPhoneValidate = isPhoneValidate(value);
+              widget.isValidate.call(_isPhoneValidate);
               print(_isPhoneValidate);
             });
           },
