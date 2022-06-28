@@ -1,6 +1,7 @@
 import 'package:conres_app/elements/header/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../DI/dependency-provider.dart';
 import '../../bloc/profile/profile-bloc.dart';
@@ -8,6 +9,7 @@ import '../../bloc/profile/profile-state.dart';
 import '../../consts.dart';
 import '../../elements/alert.dart';
 import '../../elements/bloc/bloc-screen.dart';
+import '../../elements/masks.dart';
 
 class NewLS extends StatefulWidget{
   const NewLS({Key? key}) : super(key: key);
@@ -20,6 +22,9 @@ class _NewLS extends State<NewLS>{
   ProfileBloc? profileBloc;
   TextEditingController lsController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  void _validate(bool validate){
+
+  }
   @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(
@@ -50,13 +55,13 @@ class _NewLS extends State<NewLS>{
                               children: [
                                 Text(numberLS,
                                     style: labelTextStyle),
-                                TextField(
-                                  controller: lsController,
-                                  decoration: InputDecoration(
-                                      hintText: "000000000",
-                                      border: OutlineInputBorder(
-                                          borderSide:
-                                          BorderSide(color: inputBorder))),
+                                MaskInput(
+                                  formatter: MaskTextInputFormatter(
+                                                  mask: "#########"),
+                                  textController: lsController,
+                                  isValidate: _validate,
+                                  type: "kpp",
+                                  hint: "000000000",
                                 )
                               ],
                             )

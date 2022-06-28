@@ -190,7 +190,7 @@ class HttpClient{
           final cookies = await _cookieJar.loadForRequest(Uri.parse(uri));
           return cookies;
         } else {
-          return "Ошибка получения cookie!";
+          return "Неправильный логин или пароль!";
         }
       }
     } catch(e){
@@ -277,6 +277,7 @@ class HttpClient{
       if(result.statusCode == 200){
         for(int i = 0; i < result.data['data']['accounts'].length; i++){
           Contract thisContract = Contract.fromMap(result.data['data']['accounts'][i]);
+          thisContract.isCurrent = result.data['data']['account_number'] == thisContract.account_number! ? true : false;
           contracts.add(thisContract);
         }
         return contracts;

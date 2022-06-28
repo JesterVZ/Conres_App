@@ -79,6 +79,7 @@ class _RegFL extends State<RegFL> {
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
                                             TextField(
+                                              textCapitalization: TextCapitalization.sentences,
                                               controller: controllerList[0],
                                               decoration: InputDecoration(
                                                   hintText: "Иванов",
@@ -98,6 +99,7 @@ class _RegFL extends State<RegFL> {
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
                                             TextField(
+                                              textCapitalization: TextCapitalization.sentences,
                                               controller: controllerList[1],
                                               decoration: InputDecoration(
                                                   hintText: "Иван",
@@ -117,6 +119,7 @@ class _RegFL extends State<RegFL> {
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
                                             TextField(
+                                              textCapitalization: TextCapitalization.sentences,
                                               controller: controllerList[2],
                                               decoration: InputDecoration(
                                                   hintText: "Иванович",

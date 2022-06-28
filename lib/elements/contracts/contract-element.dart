@@ -1,3 +1,4 @@
+import 'package:conres_app/model/contract.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,12 +6,9 @@ import 'package:flutter_svg/svg.dart';
 import '../../consts.dart';
 
 class ContractElement extends StatelessWidget{
-  final String thisLs;
-  final String thisDateAdded;
-  final String thisAddress;
-  final int status;
+  final Contract contract;
 
-  ContractElement({required this.thisLs, required this.thisDateAdded, required this.thisAddress, required this.status});
+  ContractElement({required this.contract});
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +37,16 @@ class ContractElement extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
+                margin: EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.fromLTRB(11, 6, 11, 6),
+                  decoration: BoxDecoration(
+                    color: contract.approve == "0" ? redColor : contract.approve == "1" ? yellowColor : greenColor,
+                    borderRadius: BorderRadius.circular(8)
+                  ),
+                  child: Text(contract.approve == "0" ? "Не прошёл проверку" : contract.approve == "1" ? "Проходит проверку" : "Активный", style: TextStyle(color: Colors.white, fontSize: 14),),
+                  
+                ),
+              Container(
                   margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
                   child: Row(
                     children: [
@@ -50,17 +58,18 @@ class ContractElement extends StatelessWidget{
                               style: TextStyle(
                                   color: profileLabelColor,
                                   fontSize: 15)),
-                          Text(thisLs,
+                          Text(contract.account_number!,
                               style: const TextStyle(
                                   color: Colors.black, fontSize: 18))
                         ],
                       ),
                       const Spacer(),
-                      Container(
+                      Visibility(child: Container(
                         width: 40,
                         height: 40,
                         child: SvgPicture.asset("assets/fire.svg"),
-                      )
+                      ), visible: contract.isCurrent!,)
+                      
                     ],
                   )
               ),
@@ -74,7 +83,7 @@ class ContractElement extends StatelessWidget{
                           style: TextStyle(
                               color: profileLabelColor,
                               fontSize: 15)),
-                      Text(thisDateAdded.toString(),
+                      Text(contract.date_added!,
                           style: const TextStyle(
                               color: Colors.black, fontSize: 18))
                     ],
@@ -89,7 +98,7 @@ class ContractElement extends StatelessWidget{
                           style: TextStyle(
                               color: profileLabelColor,
                               fontSize: 15)),
-                      Text(thisAddress,
+                      Text(contract.account_address!,
                           style: const TextStyle(
                               color: Colors.black, fontSize: 18))
                     ],

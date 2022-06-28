@@ -82,11 +82,7 @@ class _Contracts extends State<Contracts> {
     if (state.contracts != null) {
       if (contracts.isEmpty) {
         for (int i = 0; i < state.contracts!.length; i++) {
-          contracts.add(ContractElement(
-              thisLs: state.contracts![i].account_number!,
-              thisAddress: state.contracts![i].account_address!,
-              thisDateAdded: state.contracts![i].date_added!,
-              status: int.parse(state.contracts![i].status!)));
+          contracts.add(ContractElement(contract: state.contracts![i]));
         }
       }
     }

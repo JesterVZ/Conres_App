@@ -155,6 +155,7 @@ Color whiteGrayColor = const Color(0xFFa7adb7);
 Color redColor = const Color(0xFFE63757);
 Color claimLabelColor = const Color(0xFFa7acb7);
 Color yellowColor = const Color(0xFFFFAE34);
+Color greenColor = const Color(0xFF28b938);
 Color yellowStatusColor = const Color(0xFFFDE7C6);
 Color whiteBlueColor = const Color(0xFFE4EAFF);
 Color whiteLabelColor = const Color(0xFFA3A5BC);

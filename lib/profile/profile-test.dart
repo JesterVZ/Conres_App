@@ -64,286 +64,261 @@ class _ProfilePage extends State<ProfilePageTest> {
     if (widget.profile != null) {
       widget.content = Scaffold(
           body: Container(
-              child: RefreshIndicator(
-        onRefresh: _refrash,
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      defaultSidePadding, 59, defaultSidePadding, 0),
-                  child: Stack(
-                    children: [
-                      Column(
-                        children: [
-                          HeaderNotification(text: profile),
-                          Visibility(
-                              visible: widget.profile!.personal != null
-                                  ? true
-                                  : false,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Contracts()));
-                                },
-                                child: Container(
-                                  margin:
-                                      const EdgeInsets.fromLTRB(0, 12, 0, 0),
-                                  decoration: BoxDecoration(
-                                      color: colorMain,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Padding(
-                                      padding: EdgeInsets.fromLTRB(
-                                          defaultSidePadding,
-                                          14,
-                                          defaultSidePadding,
-                                          14),
-                                      child: Row(
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const Text("Текущий Лицевой счёт",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15)),
-                                              Text(widget.profile!.personal!,
-                                                  style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18))
-                                            ],
-                                          ),
-                                          const Spacer(),
-                                          Container(
-                                            width: 32,
-                                            height: 32,
-                                            decoration: BoxDecoration(
-                                                color: lsButtonColor,
-                                                shape: BoxShape.circle),
-                                            child: Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  13, 9, 11, 9),
-                                              child: SvgPicture.asset(
-                                                "assets/ls-right-arrow.svg",
-                                                color: colorMain,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      )),
-                                ),
-                              )),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0, 14, 0, 0),
-                            width: MediaQuery.of(context).size.width,
+        child: Padding(
+            padding: EdgeInsets.fromLTRB(
+                defaultSidePadding, 59, defaultSidePadding, 0),
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    HeaderNotification(text: profile),
+                    Visibility(
+                        visible:
+                            widget.profile!.personal != null ? true : false,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Contracts()));
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                             decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: Offset(0, 3),
-                                  )
-                                ]),
+                                color: colorMain,
+                                borderRadius: BorderRadius.circular(10)),
                             child: Padding(
                                 padding: EdgeInsets.fromLTRB(defaultSidePadding,
                                     14, defaultSidePadding, 14),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                child: Row(
                                   children: [
-                                    Row(
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Container(
-                                            margin: const EdgeInsets.fromLTRB(
-                                                0, 0, 0, 16),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(inn,
-                                                    style: TextStyle(
-                                                        color:
-                                                            profileLabelColor,
-                                                        fontSize: 15)),
-                                                Text(widget.profile!.inn!,
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 18,
-                                                    ))
-                                              ],
-                                            )),
-                                        Spacer(),
-                                        Container(
-                                          width: 40,
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: colorGray,
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: SvgPicture.asset(
-                                                "assets/profile-ls.svg"),
-                                          ),
-                                        )
+                                        const Text("Текущий Лицевой счёт",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15)),
+                                        Text(widget.profile!.personal!,
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18))
                                       ],
                                     ),
+                                    const Spacer(),
                                     Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 16),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(gpINN,
-                                                style: TextStyle(
-                                                  color: profileLabelColor,
-                                                  fontSize: 15,
-                                                )),
-                                            Text(
-                                                widget.profile!.personalGP ==
-                                                        null
-                                                    ? needDogovor
-                                                    : widget
-                                                        .profile!.personalGP!,
-                                                style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 18))
-                                          ],
-                                        )),
-                                    Container(
-                                        margin:
-                                            EdgeInsets.fromLTRB(0, 0, 0, 16),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(emailProfile,
-                                                style: TextStyle(
-                                                    color: profileLabelColor,
-                                                    fontSize: 15)),
-                                            Text(widget.profile!.email!,
-                                                style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 18))
-                                          ],
-                                        )),
-                                    Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 16),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(address,
-                                                style: TextStyle(
-                                                    color: profileLabelColor,
-                                                    fontSize: 15)),
-                                            Text(widget.profile!.address!,
-                                                style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 18))
-                                          ],
-                                        ))
+                                      width: 32,
+                                      height: 32,
+                                      decoration: BoxDecoration(
+                                          color: lsButtonColor,
+                                          shape: BoxShape.circle),
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(13, 9, 11, 9),
+                                        child: SvgPicture.asset(
+                                          "assets/ls-right-arrow.svg",
+                                          color: colorMain,
+                                        ),
+                                      ),
+                                    )
                                   ],
                                 )),
                           ),
-                        ],
-                      ),
-                      Visibility(
-                          visible:
-                              widget.profile!.personal != null ? true : false,
-                          child: Positioned(
-                              bottom: 24,
-                              child: Container(
-                                  width: MediaQuery.of(context).size.width - 35,
-                                  height: 70,
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SendTestimony(
-                                                        personal: widget
-                                                            .profile!
-                                                            .personal)));
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          primary: colorGray,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8))),
-                                      child: Row(
+                        )),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(0, 14, 0, 0),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: Offset(0, 3),
+                            )
+                          ]),
+                      child: Padding(
+                          padding: EdgeInsets.fromLTRB(
+                              defaultSidePadding, 14, defaultSidePadding, 14),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                      margin: const EdgeInsets.fromLTRB(
+                                          0, 0, 0, 16),
+                                      child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Container(
-                                            width: 40,
-                                            height: 40,
-                                            decoration: const BoxDecoration(
-                                                color: Colors.white,
-                                                shape: BoxShape.circle),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(10),
-                                              child: SvgPicture.asset(
-                                                'assets/meters-data.svg',
-                                                color: colorGray,
-                                              ),
-                                            ),
-                                            //margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                                          ),
-                                          Spacer(),
-                                          const Text(
-                                            "Передать показания",
-                                            style: TextStyle(
-                                                color: Colors.white,
+                                          Text(inn,
+                                              style: TextStyle(
+                                                  color: profileLabelColor,
+                                                  fontSize: 15)),
+                                          Text(widget.profile!.inn!,
+                                              style: const TextStyle(
+                                                color: Colors.black,
                                                 fontSize: 18,
-                                                fontFamily: 'Bubicon-Medium'),
-                                          ),
-                                          Spacer(),
-                                          Container(
-                                            //margin: EdgeInsets.fromLTRB(45, 0, 0, 0),
-                                            width: 32,
-                                            height: 32,
-                                            decoration: BoxDecoration(
-                                                color: meterDataColor,
-                                                shape: BoxShape.circle),
-                                            child: Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  13, 9, 11, 9),
-                                              child: SvgPicture.asset(
-                                                "assets/ls-right-arrow.svg",
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          )
+                                              ))
                                         ],
-                                      )))))
-                    ],
-                  )),
-            )
-          ],
-        ),
-      )));
+                                      )),
+                                  Spacer(),
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: colorGray,
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: SvgPicture.asset(
+                                          "assets/profile-ls.svg"),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Container(
+                                  margin:
+                                      const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(gpINN,
+                                          style: TextStyle(
+                                            color: profileLabelColor,
+                                            fontSize: 15,
+                                          )),
+                                      Text(
+                                          widget.profile!.personalGP == null
+                                              ? needDogovor
+                                              : widget.profile!.personalGP!,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18))
+                                    ],
+                                  )),
+                              Container(
+                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 16),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(emailProfile,
+                                          style: TextStyle(
+                                              color: profileLabelColor,
+                                              fontSize: 15)),
+                                      Text(widget.profile!.email!,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18))
+                                    ],
+                                  )),
+                              Container(
+                                  margin:
+                                      const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(address,
+                                          style: TextStyle(
+                                              color: profileLabelColor,
+                                              fontSize: 15)),
+                                      Text(widget.profile!.address!,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18))
+                                    ],
+                                  ))
+                            ],
+                          )),
+                    ),
+                  ],
+                ),
+                Visibility(
+                    visible: widget.profile!.personal != null ? true : false,
+                    child: Positioned(
+                        bottom: 24,
+                        child: Container(
+                            width: MediaQuery.of(context).size.width - 35,
+                            height: 70,
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => SendTestimony(
+                                              personal:
+                                                  widget.profile!.personal)));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    primary: colorGray,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8))),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 40,
+                                      height: 40,
+                                      decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: SvgPicture.asset(
+                                          'assets/meters-data.svg',
+                                          color: colorGray,
+                                        ),
+                                      ),
+                                      //margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                                    ),
+                                    Spacer(),
+                                    const Text(
+                                      "Передать показания",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontFamily: 'Bubicon-Medium'),
+                                    ),
+                                    Spacer(),
+                                    Container(
+                                      //margin: EdgeInsets.fromLTRB(45, 0, 0, 0),
+                                      width: 32,
+                                      height: 32,
+                                      decoration: BoxDecoration(
+                                          color: meterDataColor,
+                                          shape: BoxShape.circle),
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(13, 9, 11, 9),
+                                        child: SvgPicture.asset(
+                                          "assets/ls-right-arrow.svg",
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )))))
+              ],
+            )),
+      ));
     }
   }
 }

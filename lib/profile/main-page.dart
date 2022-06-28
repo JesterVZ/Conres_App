@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/chats/chats.dart';
+import 'package:conres_app/loading/loading-page.dart';
 import 'package:conres_app/profile/profile-test.dart';
 import 'package:conres_app/profile/tab-item.dart';
 import 'package:conres_app/websocket/websocket-listener.dart';
@@ -14,6 +15,7 @@ import '../chats/messages.dart';
 import '../claims/claims.dart';
 import '../contracts/contracts.dart';
 import '../elements/bloc/bloc-screen.dart';
+import '../elements/route/def-page-router.dart';
 import '../login/login-main.dart';
 import '../model/profile.dart';
 import '../more/more.dart';
@@ -66,10 +68,8 @@ class _MainPage extends State<MainPage> {
         navigatorKey: _navKeys[TabItem.more], rootPage: MoreScreen(logout)));
   }
 
-  void logout() {
-    webSocketChannel = null;
-    webSocketData = null;
-    webSocketListener = null;
+  void logout() async {
+    //await webSocketChannel!.sink.close();
     profileBloc!.logout();
   }
 
@@ -83,13 +83,25 @@ class _MainPage extends State<MainPage> {
     }
   }
 
+  Future<void> _refrash() async{
+    print("refrash");
+    await webSocketChannel!.sink.close();
+    Navigator.pushAndRemoveUntil(context, DefaultPageRouter(LoadingPage()), (route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(
         bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
-          return WillPopScope(
+          return Container(
+            child: RefreshIndicator(
+              onRefresh: _refrash,
+              child: CustomScrollView(
+                slivers: [
+                  SliverFillRemaining(
+                    child: WillPopScope(
             onWillPop: () async {
               final isFirstRouteInCurrentTab =
                   !await _navKeys[_currentTab]!.currentState!.maybePop();
@@ -105,6 +117,7 @@ class _MainPage extends State<MainPage> {
             },
             child: Scaffold(
               body: IndexedStack(
+                
                 index: _currentTab.index,
                 children: [
                   _buildOffstageNavigator(TabItem.main, navigatorList[0]),
@@ -121,7 +134,14 @@ class _MainPage extends State<MainPage> {
                 claimCounter: claimCounter,
               ),
             ),
+          ),
+                  )
+                ],
+              ),
+            ),
           );
+
+          
         });
   }
 
@@ -185,8 +205,7 @@ class _MainPage extends State<MainPage> {
     webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
     webSocketListener?.webSocketChannel = webSocketChannel;
     webSocketListener?.function = getData;
-    profileBloc!.getCookies(
-        widget.loginData![0], widget.loginData![1], widget.loginData![2]);
-    webSocketListener!.listen();
+    profileBloc!.getCookies(widget.loginData![0], widget.loginData![1], widget.loginData![2]);
+    //webSocketListener!.listen();
   }
 }
