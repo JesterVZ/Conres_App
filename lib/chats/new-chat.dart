@@ -22,8 +22,14 @@ class _NewChat extends State<NewChat> {
             height: 100,
             child: HeaderNotification(
               text: "Новое обращение",
-            ))
-        
+            )),
+        Form(
+          child: Column(
+            children: [
+              
+            ],
+          ),
+        )
       ]))
     ]));
   }

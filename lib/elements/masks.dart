@@ -25,6 +25,7 @@ class _MaskInput extends State<MaskInput>{
   bool _isOfrnipValidate = false;
   bool _isEmailValidate = false;
   bool _isKppValidate = false;
+  bool _islsValidate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -237,8 +238,16 @@ class _MaskInput extends State<MaskInput>{
       case "ls":
         return TextFormField(
           style: TextStyle(
-              color: _isKppValidate ? Colors.green : Colors.red
+              color: _islsValidate ? Colors.green : Colors.red
           ),
+          validator: (value) {
+            if(value == null || value.isEmpty){
+              return "Введите ЛС";
+            } else if(_isKppValidate == false){
+              return "ЛС некорректен";
+            }
+            return null;
+          },
           controller: textEditingController,
           inputFormatters: [textInputFormatter],
           keyboardType: TextInputType.phone,
@@ -255,7 +264,7 @@ class _MaskInput extends State<MaskInput>{
           ),
           onChanged: (value){
             setState(() {
-              _isKppValidate = isLsvalidate(value);
+              _islsValidate = isLsvalidate(value);
             });
           },
         );
