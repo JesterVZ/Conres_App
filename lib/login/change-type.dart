@@ -45,25 +45,6 @@ class _ChangeType extends State<ChangeType> {
                         height: 55.0,
                         child: ElevatedButton(
                             onPressed: () {
-                              widget.isReg ? Navigator.push(context, MaterialPageRoute(builder:  (context) => RegUL())) : Navigator.push(context, MaterialPageRoute(builder:  (context) => LoginEmail(type: 3)));
-                            },
-                            child: Text(
-                              ul,
-                              style: buttonTextStyle,
-                            ),
-                            style: ElevatedButton.styleFrom(
-                                primary: colorMain,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: buttonRadius
-                            )))),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                    child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: 55.0,
-                        child: ElevatedButton(
-                            onPressed: () {
                               widget.isReg ? Navigator.push(context, MaterialPageRoute(builder:  (context) => RegFL())) : Navigator.push(context, MaterialPageRoute(builder:  (context) => LoginEmail(type: 1)));
                             },
                             child: Text(
@@ -71,7 +52,7 @@ class _ChangeType extends State<ChangeType> {
                               style: buttonTextStyle,
                             ),
                             style: ElevatedButton.styleFrom(
-                                primary: colorMain,
+                                backgroundColor: colorMain,
                             shape: RoundedRectangleBorder(
                                 borderRadius: buttonRadius
                             )))),
@@ -90,11 +71,30 @@ class _ChangeType extends State<ChangeType> {
                               style: buttonTextStyle,
                             ),
                             style: ElevatedButton.styleFrom(
-                                primary: colorMain,
+                                backgroundColor: colorMain,
                             shape: RoundedRectangleBorder(
                                 borderRadius: buttonRadius
                             )))),
                   ),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                    child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        height: 55.0,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              widget.isReg ? Navigator.push(context, MaterialPageRoute(builder:  (context) => RegUL())) : Navigator.push(context, MaterialPageRoute(builder:  (context) => LoginEmail(type: 3)));
+                            },
+                            child: Text(
+                              ul,
+                              style: buttonTextStyle,
+                            ),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: colorMain,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: buttonRadius
+                            )))),
+                  )
                 ],
               ),
             )

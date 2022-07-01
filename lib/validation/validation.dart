@@ -22,6 +22,10 @@ bool isKppValidate(String val){
   return RegExp(r'[0-9]{9}$').hasMatch(val);
 }
 
+bool isLsvalidate(String val){
+  return RegExp(r'[0-9]{9}$').hasMatch(val);
+}
+
 bool isPassportSeriesValidate(String val){
   return RegExp(r'[0-9]{4}$').hasMatch(val);
 }

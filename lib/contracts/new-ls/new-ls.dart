@@ -22,9 +22,6 @@ class _NewLS extends State<NewLS>{
   ProfileBloc? profileBloc;
   TextEditingController lsController = TextEditingController();
   TextEditingController addressController = TextEditingController();
-  void _validate(bool validate){
-
-  }
   @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(
@@ -59,7 +56,6 @@ class _NewLS extends State<NewLS>{
                                   formatter: MaskTextInputFormatter(
                                                   mask: "#########"),
                                   textController: lsController,
-                                  isValidate: _validate,
                                   type: "kpp",
                                   hint: "000000000",
                                 )

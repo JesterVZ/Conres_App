@@ -1,5 +1,6 @@
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
+import 'package:conres_app/chats/new-chat.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -59,10 +60,11 @@ class _Chats extends State<Chats> {
                   height: 55,
                   child: ElevatedButton(
                     onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => NewChat()));
                     },
                     child: Text("Новое обращение", style: buttonTextStyle),
                     style: ElevatedButton.styleFrom(
-                        primary: colorMain,
+                        backgroundColor: colorMain,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8))),
                   ),

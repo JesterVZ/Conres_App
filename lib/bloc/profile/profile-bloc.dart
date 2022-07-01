@@ -7,6 +7,7 @@ import 'package:conres_app/claims/claims.dart';
 import 'package:conres_app/model/contract.dart';
 import 'package:conres_app/model/message.dart';
 import 'package:conres_app/model/result-data.dart';
+import 'package:conres_app/model/user-information.dart';
 import 'package:conres_app/websocket/websocket.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -297,7 +298,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
     try{
       var result = await repo.getFullProfileInfo();
-      yield state.copyWith(loading: false, error: null, ticketFullInfo: null);
+      if(result is UserInformation){
+        yield state.copyWith(loading: false, error: null, userInformation: result);
+      }
+      
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }

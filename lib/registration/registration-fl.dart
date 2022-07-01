@@ -13,6 +13,7 @@ import '../consts.dart';
 import '../elements/alert.dart';
 import '../elements/header/header.dart';
 import '../elements/masks.dart';
+import '../elements/registration/password-textfield.dart';
 import '../elements/registration/sliding-up.dart';
 import '../login/change-type.dart';
 import '../model/model.dart';
@@ -32,16 +33,13 @@ class _RegFL extends State<RegFL> {
   final controllerList = List<TextEditingController>.generate(
       9, (index) => TextEditingController());
   bool _agree = false;
-  bool _validateVal = false;
   bool _isEmailValidation = false;
   PanelController panelController = PanelController();
   AuthBloc? authBloc;
+  final _formKey = GlobalKey<FormState>();
 
   void _push(){
     Navigator.push(context, MaterialPageRoute(builder:  (context) => const ChangeType(isReg: false)));
-  }
-  void _validate(bool result){
-    
   }
   @override
   Widget build(BuildContext context) {
@@ -66,7 +64,9 @@ class _RegFL extends State<RegFL> {
                           children: [
                             Padding(
                                 padding: EdgeInsets.fromLTRB(21, 50, 21, 54),
-                                child: Column(
+                                child: Form(
+                                  key: _formKey,
+                                  child: Column(
                                   children: [
                                     HeaderRow(text: regTitle, fontSize: 24),
                                     Container(
@@ -78,7 +78,13 @@ class _RegFL extends State<RegFL> {
                                             Text(family,
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
-                                            TextField(
+                                            TextFormField(
+                                              validator: (value) {
+                                                if(value == null || value.isEmpty){
+                                                  return "Введите имя";
+                                                }
+                                                return null;
+                                              },
                                               textCapitalization: TextCapitalization.sentences,
                                               controller: controllerList[0],
                                               decoration: InputDecoration(
@@ -98,7 +104,13 @@ class _RegFL extends State<RegFL> {
                                             Text(name,
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
-                                            TextField(
+                                            TextFormField(
+                                              validator: (value) {
+                                                if(value == null || value.isEmpty){
+                                                  return "Введите фамилию";
+                                                }
+                                                return null;
+                                              },
                                               textCapitalization: TextCapitalization.sentences,
                                               controller: controllerList[1],
                                               decoration: InputDecoration(
@@ -118,8 +130,13 @@ class _RegFL extends State<RegFL> {
                                             Text(patronymic,
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
-                                            TextField(
-                                              textCapitalization: TextCapitalization.sentences,
+                                            TextFormField(
+                                              validator: (value) {
+                                                if(value == null || value.isEmpty){
+                                                  return "Введите отчество";
+                                                }
+                                                return null;
+                                              },
                                               controller: controllerList[2],
                                               decoration: InputDecoration(
                                                   hintText: "Иванович",
@@ -139,7 +156,6 @@ class _RegFL extends State<RegFL> {
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
                                             MaskInput(
-                                              isValidate: _validate,
                                               textController: controllerList[3],
                                               formatter: MaskTextInputFormatter(
                                                   mask: "############"),
@@ -158,7 +174,6 @@ class _RegFL extends State<RegFL> {
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
                                             MaskInput(
-                                              isValidate: _validate,
                                               textController: controllerList[4],
                                               formatter: MaskTextInputFormatter(
                                                   mask: "###-###-###-##"),
@@ -177,7 +192,6 @@ class _RegFL extends State<RegFL> {
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
                                             MaskInput(
-                                              isValidate: _validate,
                                               textController: controllerList[5],
                                               formatter: MaskTextInputFormatter(
                                                   mask: "+7 (###) ###-##-##"),
@@ -195,10 +209,18 @@ class _RegFL extends State<RegFL> {
                                             Text(email,
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
-                                            TextField(
+                                            TextFormField(
                                               style: TextStyle(
                                                   color: _isEmailValidation ? Colors.green : Colors.red
                                               ),
+                                              validator: (value) {
+                                                if(value == null || value.isEmpty){
+                                                  return "Введите Email";
+                                                } else if(_isEmailValidation == false){
+                                                  return "Email некорректен";
+                                                }
+                                                return null;
+                                              },
                                               controller: controllerList[6],
                                               decoration: InputDecoration(
                                                   hintText: "example@email.ru",
@@ -227,15 +249,9 @@ class _RegFL extends State<RegFL> {
                                             Text(lkPasswordText,
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
-                                            TextField(
+                                            PasswordTextField(
                                               controller: controllerList[7],
-                                              autofocus: false,
-                                              obscureText: true,
-                                              decoration: InputDecoration(
-                                                  hintText: "Ваш пароль",
-                                                  border: OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: inputBorder))),
+                                              hintText: "Введите пароль",
                                             )
                                           ],
                                         )),
@@ -248,15 +264,9 @@ class _RegFL extends State<RegFL> {
                                             Text(repeatPassword,
                                                 style: TextStyle(
                                                     color: colorGray, fontSize: 16.0)),
-                                            TextField(
+                                            PasswordTextField(
                                               controller: controllerList[8],
-                                              autofocus: false,
-                                              obscureText: true,
-                                              decoration: InputDecoration(
-                                                  hintText: "Повторите пароль",
-                                                  border: OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: inputBorder))),
+                                              hintText: "Повторите пароль",
                                             )
                                           ],
                                         )),
@@ -274,10 +284,15 @@ class _RegFL extends State<RegFL> {
                                       width: MediaQuery.of(context).size.width,
                                       height: 55,
                                       child: ElevatedButton(
-                                          onPressed: (_agree && _validateVal) ? () => submitData(state) : null,
+                                          onPressed: (_agree) ? () {
+                                            if(_formKey.currentState!.validate()){
+                                              submitData(state);
+                                            }
+                                            
+                                          } : null,
                                           child: Text("Зарегистрироваться", style: buttonTextStyle),
                                           style: ElevatedButton.styleFrom(
-                                              primary: colorMain)),
+                                              backgroundColor: colorMain)),
                                     ),
                                     Visibility(
                                         visible: widget.isLoading,
@@ -287,6 +302,7 @@ class _RegFL extends State<RegFL> {
                                           child: Image.asset('assets/loading.gif'),
                                         ))
                                   ],
+                                )
                                 ))
                           ],
                         ),

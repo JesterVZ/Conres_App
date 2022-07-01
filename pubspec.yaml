@@ -118,6 +118,7 @@ flutter:
     - assets/vk-svg.svg
     - assets/lock.svg
     - assets/bottom-row.svg
+    - assets/eye.svg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

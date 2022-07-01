@@ -1,3 +1,4 @@
+import 'package:conres_app/model/user-information.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,6 +6,10 @@ import 'package:flutter_svg/svg.dart';
 import '../../consts.dart';
 
 class InfoTab extends StatefulWidget {
+  UserInformation? userInformation;
+  InfoTab({
+    this.userInformation
+  });
   @override
   State<StatefulWidget> createState() => _InfoTab();
 }

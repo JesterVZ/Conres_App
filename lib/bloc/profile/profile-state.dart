@@ -8,6 +8,7 @@ import '../../model/contract.dart';
 import '../../model/counter.dart';
 import '../../model/message.dart';
 import '../../model/meter.dart';
+import '../../model/user-information.dart';
 import '../../websocket/websocket.dart';
 
 class ProfileState {
@@ -26,6 +27,7 @@ class ProfileState {
   final ResultData? bindLsData;
   final Map<String, dynamic>? sendMessageData;
   final String? page;
+  final UserInformation? userInformation;
 
   ProfileState(
       {this.loginData,
@@ -42,7 +44,8 @@ class ProfileState {
       this.sendMessageData,
       this.page,
       this.meters,
-      this.objectsPU});
+      this.objectsPU,
+      this.userInformation});
 
   static initial() => ProfileState(cookieStr: null, loading: null, error: null);
   ProfileState copyWith(
@@ -60,7 +63,8 @@ class ProfileState {
       List<Ticket>? tickets,
       TicketFullInfo? ticketFullInfo,
       List<Meter>? meters,
-      String? page}) {
+      String? page,
+      UserInformation? userInformation}) {
     return ProfileState(
         error: error,
         loading: loading ?? this.loading,
@@ -76,6 +80,7 @@ class ProfileState {
         webSocketData: webSocketData,
         objectsPU: objectsPU,
         meters: meters,
+        userInformation: userInformation,
         page: page ?? this.page);
   }
 }

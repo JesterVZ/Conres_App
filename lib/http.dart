@@ -479,6 +479,15 @@ class HttpClient{
     return null;
   }
 
+  Future<Object?> addTicket() async{
+    String uri = domain + 'lk/index.php?route=catalog/ticket/api_addTicket';
+    try{
+      
+    }catch(e){
+      return e.toString();
+    }
+  }
+
 
   Future<bool> _requestPermissions() async {
     var permission = await Permission.storage.request();

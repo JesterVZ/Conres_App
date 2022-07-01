@@ -5,9 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../elements/full-profile/ExpansionTileElement.dart';
+import '../../model/user-information.dart';
 
 
 class ContactsTab extends StatefulWidget {
+  UserInformation? userInformation;
+  ContactsTab({
+    this.userInformation
+  });
   @override
   State<StatefulWidget> createState() => _ContactsTab();
 }
@@ -30,6 +35,14 @@ class _ContactsTab extends State<ContactsTab> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Телефоны",
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold)),
+                    ExpansionTileElement(),
+                    const Text("E-mail",
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold)),
+                    ExpansionTileElement(),
+                    const Text("Мессенджеры",
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold)),
                     ExpansionTileElement(),
