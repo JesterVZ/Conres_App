@@ -4,6 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../DI/dependency-provider.dart';
+import '../../bloc/profile/profile-bloc.dart';
+import '../../bloc/profile/profile-state.dart';
+import '../../elements/bloc/bloc-screen.dart';
 import '../../elements/full-profile/ExpansionTileElement.dart';
 import '../../model/user-information.dart';
 
@@ -21,8 +25,14 @@ class _ContactsTab extends State<ContactsTab> {
   bool canLogin = false;
   bool claimNotification = false;
   bool ticketNotification = false;
+  ProfileBloc? profileBloc;
+
   @override
   Widget build(BuildContext context) {
+    return BlocScreen<ProfileBloc, ProfileState>(
+        bloc: profileBloc,
+        listener: _listener,
+        builder: (context, state) {
     return Scaffold(
       body: Scrollbar(
         child: SingleChildScrollView(
@@ -64,5 +74,18 @@ class _ContactsTab extends State<ContactsTab> {
         ),
       ),
     );
+        });
+  }
+  _listener(BuildContext context, ProfileState state) {
+    if(state.loading == true){
+      return;
+    }
+    
+  }
+
+  @override
+  void didChangeDependencies() {
+    profileBloc ??= DependencyProvider.of(context)!.profileBloc; 
+    super.didChangeDependencies();
   }
 }

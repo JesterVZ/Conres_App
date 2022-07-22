@@ -70,4 +70,7 @@ class ProfileRepo{
     var result = await httpClient.getMeters();
     return result;
   }
+  Future<dynamic> createNewTicket(String contact_email, String contact_name, String ticket_theme_id, String message) async{
+    var result = await httpClient.addTicket(contact_email, contact_name, ticket_theme_id, message);
+  }
 }

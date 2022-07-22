@@ -21,7 +21,7 @@ class UserInformation{
   String? kpp;
   String? ogrn;
   String? user_lk_group_id;
-  List<LoginService>? login_service;
+  //List<LoginService>? login_service;
 
   UserInformation({
     this.store_id,
@@ -42,7 +42,7 @@ class UserInformation{
     this.company_full,
     this.company_short,
     this.kpp,
-    this.login_service,
+    //this.login_service,
     this.ogrn,
     this.user_lk_group_id
   });
@@ -50,7 +50,7 @@ class UserInformation{
   factory UserInformation.fromMap(Map<dynamic, dynamic> map){
     return UserInformation(
       store_id: map['store_id'],
-      user_lk_id: map['store_id'],
+      user_lk_id: map['user_lk_id'],
       send_link: map['send_link'],
       url_location: map['url_location'],
       action: map['action'],
@@ -67,7 +67,7 @@ class UserInformation{
       company_full: map['company_full'],
       company_short: map['company_short'],
       kpp: map['kpp'],
-      login_service: map['login_service'],
+      //login_service: map['login_service'],
       ogrn: map['ogrn'],
       user_lk_group_id: map['user_lk_group_id']
     );

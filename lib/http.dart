@@ -479,10 +479,15 @@ class HttpClient{
     return null;
   }
 
-  Future<Object?> addTicket() async{
+  Future<Object?> addTicket(String contact_email, String contact_name, String ticket_theme_id, String message) async{
     String uri = domain + 'lk/index.php?route=catalog/ticket/api_addTicket';
     try{
-      
+      var formData = FormData.fromMap({
+        'contact_email': contact_email,
+        'contact_name': contact_name,
+        'ticket_theme_id': ticket_theme_id,
+        'message': message
+      });
     }catch(e){
       return e.toString();
     }

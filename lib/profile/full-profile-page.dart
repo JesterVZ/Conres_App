@@ -43,8 +43,6 @@ class _FullProfile extends State<FullProfile>
     ContactsTab(),
     ConfidantTab(),
   ];
-  AuthBloc? authBloc;
-  ProfileBloc? profileBloc;
 
   @override
   void initState() {
@@ -54,11 +52,7 @@ class _FullProfile extends State<FullProfile>
 
   @override
   Widget build(BuildContext context) {
-    return BlocScreen<ProfileBloc, ProfileState>(
-        bloc: profileBloc,
-        listener: _listener,
-        builder: (context, state) {
-          return DefaultTabController(
+    return DefaultTabController(
               length: 3,
               child: Scaffold(
                   backgroundColor: defaultBackground,
@@ -87,30 +81,5 @@ class _FullProfile extends State<FullProfile>
                       )
                     ],
                   )));
-        });
-  }
-
-  _listener(BuildContext context, ProfileState state) {
-    if(state.loading == true){
-      return;
-    }
-    if(state.userInformation != null){
-      setState(() {
-        userInformation = state.userInformation!;
-          panels = [
-            InfoTab(userInformation: userInformation!),
-            ContactsTab(userInformation: userInformation!),
-            ConfidantTab(userInformation: userInformation!),
-          ];
-      });
-    }
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    profileBloc ??= DependencyProvider.of(context)!.profileBloc;
-    //profileBloc!.getFullProfileInfo();
-    authBloc ??= DependencyProvider.of(context)!.authBloc;
   }
 }

@@ -71,6 +71,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     else if(event is GetTU){
       yield* _handleGetTU(event);
     }
+    else if(event is CreateNewTicket){
+      yield* _handleCreateNewTicket(event);
+    }
   }
 
   ProfileBloc(this.repo) : super(ProfileState.initial());
@@ -137,6 +140,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   getTU(){
     add(const GetTU());
+  }
+
+  createNewTicket(String contact_email, String contact_name, String ticket_theme_id, String message){
+    add(CreateNewTicket(contact_email, contact_name, message, ticket_theme_id));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -322,6 +329,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try{
       var result = await repo.getMeters();
       yield state.copyWith(loading: false, error:null, meters: result);
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleCreateNewTicket(CreateNewTicket event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      var result = await repo.createNewTicket(event.contact_email, event.contact_name, event.ticket_theme_id, event.message);
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }

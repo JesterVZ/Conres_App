@@ -93,3 +93,11 @@ class GetFullProfileInfo extends ProfileEvent{
 class GetTU extends ProfileEvent{
   const GetTU();
 }
+
+class CreateNewTicket extends ProfileEvent{
+  String contact_email;
+  String contact_name;
+  String ticket_theme_id;
+  String message;
+  CreateNewTicket(this.contact_email, this.contact_name, this.message, this.ticket_theme_id);
+}

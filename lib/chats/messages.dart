@@ -149,7 +149,7 @@ class _MessagesPage extends State<MessagesPage> {
                                           color: messageList[i].isOwn!
                                               ? Colors.white
                                               : Colors.black)),
-                                  //Text(messageList[i].date_added.toString()),
+                                  //Text(messageList[i].date_added.toString()), 
                                   //Text("${message.message_id}"), //message id
                                   Visibility(
                                       visible: messageList[i].data != null ? true : false,
@@ -160,8 +160,8 @@ class _MessagesPage extends State<MessagesPage> {
                                           child: 
                                           SizedBox(
                                             width: 150,
-                                            height: 50,
-                                            child: Flex(direction: Axis.horizontal,children: [
+                                            height: 120,
+                                            child: Flex(direction: Axis.vertical,children: [
                                             Preview(uri: messageList[i].data != null ?(messageList[i].data!.thumb != null ? messageList[i].data!.thumb! : "") : ""),
                                             
                                             Flexible(

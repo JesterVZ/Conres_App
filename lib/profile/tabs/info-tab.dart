@@ -3,21 +3,28 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../DI/dependency-provider.dart';
+import '../../bloc/profile/profile-bloc.dart';
+import '../../bloc/profile/profile-state.dart';
 import '../../consts.dart';
+import '../../elements/bloc/bloc-screen.dart';
 
 class InfoTab extends StatefulWidget {
-  UserInformation? userInformation;
-  InfoTab({
-    this.userInformation
-  });
+
   @override
   State<StatefulWidget> createState() => _InfoTab();
 }
 
 class _InfoTab extends State<InfoTab> {
+  ProfileBloc? profileBloc;
+  UserInformation? userInformation;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocScreen<ProfileBloc, ProfileState>(
+      bloc: profileBloc,
+        listener: _listener,
+        builder: (context, state) {
+          return Scaffold(
         body: Scrollbar(
           child: SingleChildScrollView(
             child: Column(
@@ -53,7 +60,7 @@ class _InfoTab extends State<InfoTab> {
                                     Text("ФИО",
                                         style:
                                             TextStyle(color: colorGrayClaim)),
-                                    const Text("Иванов2 Иван Иванович",
+                                    Text(userInformation != null ? userInformation!.firstname! : "",
                                         style: TextStyle(color: Colors.black)),
                                   ],
                                 )),
@@ -66,7 +73,7 @@ class _InfoTab extends State<InfoTab> {
                                     Text("Юридический адрес",
                                         style:
                                             TextStyle(color: colorGrayClaim)),
-                                    const Text("Иванов2 Иван Иванович",
+                                    Text(userInformation != null && userInformation!.legal_address != null ? userInformation!.legal_address! : "",
                                         style: TextStyle(color: Colors.black)),
                                   ],
                                 )),
@@ -79,7 +86,7 @@ class _InfoTab extends State<InfoTab> {
                                     Text("ИНН",
                                         style:
                                             TextStyle(color: colorGrayClaim)),
-                                    const Text("Иванов2 Иван Иванович",
+                                    Text(userInformation != null ? userInformation!.inn! : "",
                                         style: TextStyle(color: Colors.black)),
                                   ],
                                 )),
@@ -92,7 +99,7 @@ class _InfoTab extends State<InfoTab> {
                                     Text("ОГРНИП",
                                         style:
                                             TextStyle(color: colorGrayClaim)),
-                                    const Text("Иванов2 Иван Иванович",
+                                    Text(userInformation != null ? userInformation!.ogrn! : "",
                                         style: TextStyle(color: Colors.black)),
                                   ],
                                 )),
@@ -301,5 +308,24 @@ class _InfoTab extends State<InfoTab> {
             ),
           ),
         ));
+  });
+}
+
+_listener(BuildContext context, ProfileState state) {
+  if(state.loading == true){
+    return;
+  }
+  if(state.userInformation != null){
+    setState(() {
+      userInformation = state.userInformation;
+    });
+  }
+}
+
+@override
+  void didChangeDependencies() {
+    profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    profileBloc!.getFullProfileInfo();
+    super.didChangeDependencies();
   }
 }

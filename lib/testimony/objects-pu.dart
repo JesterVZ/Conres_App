@@ -12,6 +12,7 @@ import '../bloc/auth/auth-state.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/testimony/object-pu-dialog.dart';
 import '../elements/testimony/object-pu.dart';
+import 'link-pu/link-pu-step-1.dart';
 
 class ObjectsPU extends StatefulWidget{
 
@@ -96,7 +97,9 @@ class _ObjectsPU extends State<ObjectsPU>{
                         width: 160,
                         height: 55,
                         child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => LinkPUStep1()));
+                        },
                         child: Row(
                           children: [
                             Container(

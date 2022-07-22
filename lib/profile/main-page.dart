@@ -49,6 +49,8 @@ class _MainPage extends State<MainPage> {
   List<Widget> navigatorList = [];
   ProfileBloc? profileBloc;
 
+  bool isConnected = false;
+
   @override
   void initState() {
     navigatorList.add(TabNavigator(
@@ -151,7 +153,11 @@ class _MainPage extends State<MainPage> {
     }
     if (state.cookieStr != null) {
       if(webSocketChannel != null){
-        webSocketChannel!.sink.add(state.cookieStr);
+        if(isConnected == false){
+          webSocketChannel!.sink.add(state.cookieStr);
+          isConnected = true;
+        }
+        
       }
     }
     if(state.loginData != null){
@@ -206,6 +212,6 @@ class _MainPage extends State<MainPage> {
     webSocketListener?.webSocketChannel = webSocketChannel;
     webSocketListener?.function = getData;
     profileBloc!.getCookies(widget.loginData![0], widget.loginData![1], widget.loginData![2]);
-    //webSocketListener!.listen();
+    webSocketListener!.listen();
   }
 }
