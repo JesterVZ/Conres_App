@@ -45,7 +45,7 @@ class _NewChat extends State<NewChat> {
                   Form(
                     child: Column(
                       children: [
-                        const CustomDropDown(title: "Тема обращения", items: [
+                         CustomDropDown(title: "Тема обращения", items: [
                           "Вопрос о техническом присоединении",
                           "Сообшение об аварии",
                           "Другое"
@@ -62,7 +62,7 @@ class _NewChat extends State<NewChat> {
                                 TextFormField(
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return "Введите фамилию";
+                                      return "Введите ФИО";
                                     }
                                     return null;
                                   },
@@ -137,9 +137,9 @@ class _NewChat extends State<NewChat> {
                           height: 55,
                           child: ElevatedButton(
                             onPressed: (){
-                              profileBloc.createNewTicket(contact_email, contact_name, ticket_theme_id, message);
+                              profileBloc?.createNewTicket(EmailController.text, FioController.text, "ticket_theme_id", TextController.text);
                             },
-                            child: Text("Добавить новое обращение", style: TextStyle(fontSize: 18),),
+                            child: const Text("Добавить новое обращение", style: TextStyle(fontSize: 18),),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: colorMain
                             ),

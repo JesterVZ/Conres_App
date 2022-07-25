@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../consts.dart';
 import '../../model/claim.dart';
+import '../full-profile/ExpansionTileElement.dart';
 
 class ClaimElement extends StatefulWidget {
   final Claim currentClaim;
@@ -16,24 +17,12 @@ class ClaimElement extends StatefulWidget {
 class _ClaimElement extends State<ClaimElement> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding:
-          EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
-      child: Container(
-        padding: EdgeInsets.fromLTRB(18, 19, 18, 19),
-        margin: EdgeInsets.only(bottom: 28),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(11),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 3,
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            )
-          ],
-        ),
+    return ExpansionTileElement(
+      
+        tileText: const Text("Подробнее"),
+        header: Column(
+        children: [
+          Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +82,10 @@ class _ClaimElement extends State<ClaimElement> {
             StatusElement(status: widget.currentClaim.status_name!)
           ],
         ),
-      ),
+      )
+        ],
+      )
+      
     );
   }
 }

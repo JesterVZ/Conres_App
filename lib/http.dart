@@ -488,6 +488,7 @@ class HttpClient{
         'ticket_theme_id': ticket_theme_id,
         'message': message
       });
+      final result = await _apiClient.post(uri, data: formData);
     }catch(e){
       return e.toString();
     }
