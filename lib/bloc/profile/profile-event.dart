@@ -101,3 +101,8 @@ class CreateNewTicket extends ProfileEvent{
   String message;
   CreateNewTicket(this.contact_email, this.contact_name, this.message, this.ticket_theme_id);
 }
+
+class GetClaimMessages extends ProfileEvent{
+  String claim_id;
+  GetClaimMessages(this.claim_id);
+}

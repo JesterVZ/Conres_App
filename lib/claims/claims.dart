@@ -3,6 +3,7 @@ import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/claims/new-claim/new-claim-step-1.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
+import 'package:conres_app/model/claim.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -52,7 +53,7 @@ class _Claims extends State<Claims> {
                     child: ListView.builder(
                   itemCount: claims.length,
                   itemBuilder: (context, index) {
-                    return ClaimElement(currentClaim: state.claims![index]);
+                    return ClaimElement(currentClaim: state.claims![index], downloadFunction: downloadClaim);
                   },
                 )),
                 Container(
@@ -87,7 +88,7 @@ class _Claims extends State<Claims> {
       if (claims.isEmpty) {
         setState(() {
           for (int i = 0; i < state.claims!.length; i++) {
-            claims.add(ClaimElement(currentClaim: state.claims![i]));
+            claims.add(ClaimElement(currentClaim: state.claims![i], downloadFunction: downloadClaim,));
           }
         });
       }
@@ -100,6 +101,17 @@ class _Claims extends State<Claims> {
         print("pagination");
       });
     }
+  }
+
+  void downloadClaim(Claim claim){
+    String url = claimLoadLink + claim.document_href!;
+    String filename = getFileName(claim.document_href!);
+    profileBloc!.downloadFile(url, filename);
+  }
+
+  String getFileName(String value){
+    List<String> result = value.split("/");
+    return result[1];
   }
 
   @override

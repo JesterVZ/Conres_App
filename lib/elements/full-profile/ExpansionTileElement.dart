@@ -48,7 +48,10 @@ class _ExpansionTileElement extends State<ExpansionTileElement> {
             
             title: widget.tileText ?? const Text(""),
             children: [
-              widget.body ?? const Text("")
+              Padding(
+              padding: EdgeInsets.all(20),
+              child: widget.body ?? const Text("")),
+              
             ],
           )
         ],

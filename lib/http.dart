@@ -515,4 +515,11 @@ class HttpClient{
       return stores;
     }
   }
+
+  Future<Object?> getMessagesFromClaim() async{
+    String uri = domain + 'lk/index.php?route=claims/claims/api_getClaimMessages';
+    var formData = FormData.fromMap({
+      
+    });
+  }
 }
