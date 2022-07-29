@@ -73,6 +73,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
     else if(event is CreateNewTicket){
       yield* _handleCreateNewTicket(event);
+    } else if(event is GetClaimMessages){
+      yield* 
     }
   }
 
@@ -112,6 +114,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   getMessages(String chat_id, String page, String last_message_id) {
     add(GetMessages(chat_id, page, last_message_id));
+  }
+
+  getClaimMessages(String claim_id){
+    add(GetClaimMessages(claim_id));
   }
 
   getAllInfo() {
