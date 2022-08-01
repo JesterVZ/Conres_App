@@ -4,6 +4,7 @@ import 'dart:isolate';
 import 'package:conres_app/elements/chat/file-send-dialog.dart';
 import 'package:conres_app/elements/chat/preview.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
+import 'package:conres_app/enums/chat-types.dart';
 import 'package:conres_app/model/message.dart';
 import 'package:conres_app/websocket/message-send.dart';
 import 'package:conres_app/websocket/websocket-listener.dart';
@@ -25,17 +26,17 @@ import '../model/profile.dart';
 
 import '../websocket/websocket.dart';
 
-class MessagesPage extends StatefulWidget {
+class MessagesPage<G, T> extends StatefulWidget {
   String userId;
-  String? ticketId;
+  G? genericId; //id тикета или заявления
+  T? type; //тип чата (из enum)
   String? page;
   String? statusName; //Открыт/Закрыт/В обработке и т.д
-  Profile? profile;
   MessagesPage(
       {required this.userId,
-      required this.ticketId,
+      required this.genericId,
       required this.page,
-      required this.profile,
+      required this.type,
       required this.statusName});
   @override
   State<StatefulWidget> createState() => _MessagesPage();
@@ -59,7 +60,7 @@ class _MessagesPage extends State<MessagesPage> {
 
   void _send() {
     profileBloc!
-        .sendMessage(widget.ticketId!, controller.text, widget.statusName!, files);
+        .sendMessage(widget.genericId!, controller.text, widget.statusName!, files);
   }
   void _createPhoto(){
     
@@ -100,7 +101,7 @@ class _MessagesPage extends State<MessagesPage> {
         scrollController.position.maxScrollExtent) {
       setState(() {
         page++;
-        profileBloc!.getMessages(widget.ticketId!, page.toString(), lastMessageId!);
+        profileBloc!.getMessages(widget.genericId!, page.toString(), lastMessageId!);
       });
     }
   }
@@ -127,7 +128,7 @@ class _MessagesPage extends State<MessagesPage> {
                               padding:
                                   const EdgeInsets.only(left: 20, right: 20),
                               child: HeaderNotification(
-                                  text: "Обращение № ${widget.ticketId}", canGoBack: true))),
+                                  text: "Обращение № ${widget.genericId}", canGoBack: true))),
                       
                       Expanded(
                         child: Scrollbar(
@@ -276,7 +277,7 @@ class _MessagesPage extends State<MessagesPage> {
       lastMessageId = state.ticketFullInfo!.last_message_id!;
     if(page == 1){
       messageList = state.ticketFullInfo!.messages!;
-        profileBloc!.readMessage(widget.ticketId!, lastMessageId!);
+        profileBloc!.readMessage(widget.genericId!, lastMessageId!);
         for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
           messageList[i].isOwn =
               state.ticketFullInfo!.messages![i].user_id != widget.userId ? false : true;
@@ -303,7 +304,7 @@ class _MessagesPage extends State<MessagesPage> {
               user_type: "lk",
               user_id: int.parse(widget.userId),
               files: state.sendMessageData!['ticket_message_files'],
-              ticket_id: int.parse(widget.ticketId!),
+              ticket_id: int.parse(widget.genericId!),
               ticket_info: [
                 TicketInfo(
                     ticket_message_id: state.sendMessageData!['ticket_info'][0]
@@ -351,7 +352,7 @@ class _MessagesPage extends State<MessagesPage> {
       if(state.sendMessageData!['ticket_info'][0]['files'] != null){
         messageFiles.clear();
         files = null;
-        profileBloc!.getMessages(widget.ticketId!, widget.page!, lastMessageId!);
+        profileBloc!.getMessages(widget.genericId!, widget.page!, lastMessageId!);
       }
         messageList.add(TicketMessage(
             isOwn: true,
@@ -383,7 +384,7 @@ class _MessagesPage extends State<MessagesPage> {
 
   void getData(dynamic event) async {
     if (isLoading == false) {
-      profileBloc!.getMessages(widget.ticketId!, widget.page!, lastMessageId!);
+      profileBloc!.getMessages(widget.genericId!, widget.page!, lastMessageId!);
     }
     
   }
@@ -397,8 +398,11 @@ class _MessagesPage extends State<MessagesPage> {
     webSocketData ??= DependencyProvider.of(context)!.webSocketData;
     webSocketListener?.webSocketChannel = webSocketChannel;
     webSocketListener?.function = getData;
-    profileBloc!
-        .getMessages(widget.ticketId!, widget.page!, lastMessageId != null ? lastMessageId! : "1");
-    
+    if(widget.type == ChatTypes.Ticket){
+      profileBloc!
+        .getMessages(widget.genericId!, widget.page!, lastMessageId != null ? lastMessageId! : "1");
+    } else if(widget.type ==ChatTypes.Claim){
+      profileBloc!.getClaimMessages(widget.genericId!);
+    }
   }
 }

@@ -1,18 +1,20 @@
 import 'package:accordion/accordion_section.dart';
-import 'package:conres_app/chats/claim-messages.dart';
 import 'package:conres_app/elements/claims/status-element.dart';
+import 'package:conres_app/enums/chat-types.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../chats/messages.dart';
 import '../../consts.dart';
 import '../../model/claim.dart';
 import '../full-profile/ExpansionTileElement.dart';
 
 class ClaimElement extends StatefulWidget {
   final Claim currentClaim;
+  String? userId;
   ValueChanged<Claim> downloadFunction;
   ClaimElement(
-      {Key? key, required this.currentClaim, required this.downloadFunction})
+      {Key? key, required this.currentClaim, required this.downloadFunction, required this.userId})
       : super(key: key);
   @override
   State<StatefulWidget> createState() => _ClaimElement();
@@ -118,8 +120,10 @@ class _ClaimElement extends State<ClaimElement> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ClaimMessagesPage(
-                                claim_id: widget.currentClaim.claim_id!,
+                            builder: (context) => MessagesPage(
+                                genericId: widget.currentClaim.claim_id!,
+                                type: ChatTypes.Claim,
+                                userId: widget.userId!,
                                 page: '1',
                                 statusName: widget.currentClaim.status ?? "")));
                   },

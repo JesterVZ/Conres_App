@@ -73,4 +73,7 @@ class ProfileRepo{
   Future<dynamic> createNewTicket(String contact_email, String contact_name, String ticket_theme_id, String message) async{
     var result = await httpClient.addTicket(contact_email, contact_name, ticket_theme_id, message);
   }
+  Future<dynamic> getClaimMessages(String claim_id) async{
+    var result = await httpClient.getMessagesFromClaim(claim_id);
+  }
 }

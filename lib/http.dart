@@ -516,10 +516,11 @@ class HttpClient{
     }
   }
 
-  Future<Object?> getMessagesFromClaim() async{
+  Future<Object?> getMessagesFromClaim(String claim_id) async{
     String uri = domain + 'lk/index.php?route=claims/claims/api_getClaimMessages';
     var formData = FormData.fromMap({
-      
+      'claim_id': claim_id
     });
+    final result = await _apiClient.post(uri, data: formData);
   }
 }

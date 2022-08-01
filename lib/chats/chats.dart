@@ -8,6 +8,7 @@ import '../DI/dependency-provider.dart';
 import '../consts.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/chat/ticket-row.dart';
+import '../enums/chat-types.dart';
 import '../model/profile.dart';
 import '../model/ticket.dart';
 import '../websocket/websocket-listener.dart';
@@ -120,9 +121,9 @@ class _Chats extends State<Chats> {
         MaterialPageRoute(
             builder: (context) => MessagesPage(
                 userId: userId!,
-                ticketId: ticket.ticket_id.toString(),
+                genericId: ticket.ticket_id.toString(),
+                type: ChatTypes.Ticket,
                 page: '1',
-                profile: widget.profile,
                 statusName: ticket.cur_status != null ? ticket.cur_status!.name : "")));
   }
 

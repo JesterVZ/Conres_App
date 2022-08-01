@@ -74,7 +74,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     else if(event is CreateNewTicket){
       yield* _handleCreateNewTicket(event);
     } else if(event is GetClaimMessages){
-      yield* 
+      yield* _handleGetClaimMessages(event);
     }
   }
 
@@ -344,6 +344,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null);
     try{
       var result = await repo.createNewTicket(event.contact_email, event.contact_name, event.ticket_theme_id, event.message);
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleGetClaimMessages(GetClaimMessages event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      var result = await repo.getClaimMessages(event.claim_id);
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }

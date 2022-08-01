@@ -23,6 +23,7 @@ class Claims extends StatefulWidget {
 
 class _Claims extends State<Claims> {
   ProfileBloc? profileBloc;
+  String? userId;
   List<ClaimElement> claims = [];
   ScrollController controller = ScrollController();
 
@@ -53,7 +54,7 @@ class _Claims extends State<Claims> {
                     child: ListView.builder(
                   itemCount: claims.length,
                   itemBuilder: (context, index) {
-                    return ClaimElement(currentClaim: state.claims![index], downloadFunction: downloadClaim);
+                    return ClaimElement(currentClaim: state.claims![index], downloadFunction: downloadClaim, userId: userId,);
                   },
                 )),
                 Container(
@@ -84,11 +85,14 @@ class _Claims extends State<Claims> {
     if (state.loading == true) {
       return;
     }
+    if (state.bindLsData != null) {
+      userId = state.bindLsData!.data['user_id'];
+    }
     if (state.claims != null) {
       if (claims.isEmpty) {
         setState(() {
           for (int i = 0; i < state.claims!.length; i++) {
-            claims.add(ClaimElement(currentClaim: state.claims![i], downloadFunction: downloadClaim,));
+            claims.add(ClaimElement(currentClaim: state.claims![i], downloadFunction: downloadClaim, userId: userId,));
           }
         });
       }
