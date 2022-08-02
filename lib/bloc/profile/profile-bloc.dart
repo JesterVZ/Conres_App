@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:conres_app/bloc/profile/profile-event.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/claims/claims.dart';
+import 'package:conres_app/model/claim-message.dart';
 import 'package:conres_app/model/contract.dart';
 import 'package:conres_app/model/message.dart';
 import 'package:conres_app/model/result-data.dart';
@@ -353,6 +354,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null);
     try{
       var result = await repo.getClaimMessages(event.claim_id);
+      if(result is List<ClaimMessage>){
+        yield state.copyWith(loading: false, error: null, claimMessages: result);
+      }
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }

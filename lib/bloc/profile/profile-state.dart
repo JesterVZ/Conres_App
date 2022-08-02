@@ -1,3 +1,4 @@
+import 'package:conres_app/model/claim-message.dart';
 import 'package:conres_app/model/object_pu.dart';
 import 'package:conres_app/model/result-data.dart';
 import 'package:conres_app/model/ticket.dart';
@@ -22,6 +23,7 @@ class ProfileState {
   final List<Ticket>? tickets;
   final List<ObjectPuModel>? objectsPU;
   final List<Meter>? meters;
+  final List<ClaimMessage>? claimMessages;
   final TicketFullInfo? ticketFullInfo;
   final dynamic webSocketData;
   final ResultData? bindLsData;
@@ -44,6 +46,7 @@ class ProfileState {
       this.sendMessageData,
       this.page,
       this.meters,
+      this.claimMessages,
       this.objectsPU,
       this.userInformation});
 
@@ -61,6 +64,7 @@ class ProfileState {
       String? error,
       List<Claim>? claims,
       List<Ticket>? tickets,
+      List<ClaimMessage>? claimMessages,
       TicketFullInfo? ticketFullInfo,
       List<Meter>? meters,
       String? page,
@@ -75,6 +79,7 @@ class ProfileState {
         numbers: numbers ?? this.numbers,
         claims: claims ?? this.claims,
         tickets: tickets ?? this.tickets,
+        claimMessages: claimMessages ?? this.claimMessages,
         ticketFullInfo: ticketFullInfo,
         sendMessageData: sendMessageData,
         webSocketData: webSocketData,

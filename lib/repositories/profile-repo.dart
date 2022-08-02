@@ -75,5 +75,6 @@ class ProfileRepo{
   }
   Future<dynamic> getClaimMessages(String claim_id) async{
     var result = await httpClient.getMessagesFromClaim(claim_id);
+    return result;
   }
 }

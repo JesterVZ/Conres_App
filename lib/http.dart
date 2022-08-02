@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:conres_app/model/claim-message.dart';
 import 'package:conres_app/model/object_pu.dart';
 import 'package:conres_app/model/store.dart';
 import 'package:conres_app/model/user-information.dart';
@@ -522,5 +523,12 @@ class HttpClient{
       'claim_id': claim_id
     });
     final result = await _apiClient.post(uri, data: formData);
+    List<ClaimMessage> messages = [];
+    if(result.statusCode == 200){
+      for(int i = 0; i < result.data['data']['messages'].length; i++){
+        messages.add(ClaimMessage.fromMap(result.data['data']['messages'][i]));
+      }
+      return messages;
+    }
   }
 }
