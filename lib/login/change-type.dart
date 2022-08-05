@@ -31,8 +31,8 @@ class _ChangeType extends State<ChangeType> {
             Positioned(
                 width: 375,
                 left: 26,
-                top: 85,
-                child: HeaderRow(text: lkChooseType, fontSize: 34)),
+                top: 74,
+                child: HeaderRow(text: widget.isReg == true ? "Выберите тип (Регистрация)" : "Выберите тип (Авторизаця)", fontSize: 34)),
             Positioned(
               width: MediaQuery.of(context).size.width,
               bottom: 20,

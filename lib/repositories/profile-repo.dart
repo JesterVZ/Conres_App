@@ -51,6 +51,10 @@ class ProfileRepo{
     var result = await httpClient.sendMessage(ticketId, message, ticketStatusId, files);
     return result;
   }
+  Future<dynamic> sendClaimMessage(String claim_id, String text, List<PlatformFile>? files) async{
+    var result = await httpClient.sendClaimMessage(claim_id, text, files);
+    return result;
+  }
   Future<dynamic> readMessage(String ticketId, String messageId) async{
     await httpClient.setReadMessage(ticketId, messageId);
   }

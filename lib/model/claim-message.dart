@@ -6,7 +6,7 @@ class ClaimMessage{
   String? user_id;
   String? user_name;
   String? text;
-  List<dynamic>? attachments;
+  ClaimFile? data;
   String? claims_status_id;
   bool? isOwn;
 
@@ -14,7 +14,7 @@ class ClaimMessage{
     required this.claim_message_id,
     required this.claim_id,
     required this.date,
-    required this.attachments,
+    required this.data,
     required this.claims_status_id,
     required this.text,
     required this.user_id,
@@ -28,7 +28,7 @@ class ClaimMessage{
       claim_message_id: map['claim_message_id'], 
       claim_id: map['claim_id'], 
       date: map['date'], 
-      attachments: map['attachments'], 
+      data: map['attachments'] != null ? ClaimFile.fromMap(map['attachments'][0]) : null, 
       claims_status_id: map['claims_status_id'], 
       text: map['text'], 
       user_id: map['user_id'], 
@@ -42,12 +42,14 @@ class ClaimFile{
   String? filename;
   String? file_href_mail;
   String? href;
+  String? thumb;
 
   ClaimFile({
     required this.document_name,
     required this.filename,
     required this.file_href_mail,
-    required this.href
+    required this.href,
+    required this.thumb
   });
 
   factory ClaimFile.fromMap(Map<dynamic, dynamic> map){
@@ -55,6 +57,7 @@ class ClaimFile{
       document_name: map['document_name'], 
       filename: map['filename'], 
       file_href_mail: map['file_href_mail'], 
-      href: map['href']);
+      href: map['href'],
+      thumb: null);
   }
 }

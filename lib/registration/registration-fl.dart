@@ -1,7 +1,9 @@
 import 'package:conres_app/elements/bloc/bloc-screen.dart';
+import 'package:conres_app/registration/privacy-policy.dart';
 import 'package:conres_app/registration/seccessful-registration.dart';
 import 'package:conres_app/registration/validate.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -39,7 +41,9 @@ class _RegFL extends State<RegFL> {
   final _formKey = GlobalKey<FormState>();
 
   void _push(){
-    Navigator.push(context, MaterialPageRoute(builder:  (context) => const ChangeType(isReg: false)));
+  Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder:  (context) => const ChangeType(isReg: false)),
+          (route) => false);
   }
   @override
   Widget build(BuildContext context) {
@@ -63,12 +67,12 @@ class _RegFL extends State<RegFL> {
                         Column(
                           children: [
                             Padding(
-                                padding: EdgeInsets.fromLTRB(21, 50, 21, 54),
+                                padding: EdgeInsets.fromLTRB(21, 74, 21, 54),
                                 child: Form(
                                   key: _formKey,
                                   child: Column(
                                   children: [
-                                    HeaderRow(text: regTitle, fontSize: 24),
+                                    HeaderRow(text: "Регистрация физического лица", fontSize: 34),
                                     Container(
                                         margin: const EdgeInsets.fromLTRB(0, 38, 0, 18),
                                         child: Column(
@@ -91,7 +95,9 @@ class _RegFL extends State<RegFL> {
                                                   hintText: "Иванов",
                                                   border: OutlineInputBorder(
                                                       borderSide: BorderSide(
-                                                          color: inputBorder))),
+                                                          color: inputBorder, width: 5.0),
+                                                      borderRadius: BorderRadius.circular(10))),
+                                              
                                             )
                                           ],
                                         )),
@@ -117,7 +123,8 @@ class _RegFL extends State<RegFL> {
                                                   hintText: "Иван",
                                                   border: OutlineInputBorder(
                                                       borderSide: BorderSide(
-                                                          color: inputBorder))),
+                                                          color: inputBorder, width: 5.0),
+                                                      borderRadius: BorderRadius.circular(10))),
                                             )
                                           ],
                                         )),
@@ -142,7 +149,8 @@ class _RegFL extends State<RegFL> {
                                                   hintText: "Иванович",
                                                   border: OutlineInputBorder(
                                                       borderSide: BorderSide(
-                                                          color: inputBorder))),
+                                                          color: inputBorder, width: 5.0),
+                                                      borderRadius: BorderRadius.circular(10))),
                                             )
                                           ],
                                         )),
@@ -226,7 +234,8 @@ class _RegFL extends State<RegFL> {
                                                   hintText: "example@email.ru",
                                                   border: OutlineInputBorder(
                                                       borderSide: BorderSide(
-                                                          color: borderProfileColor)),
+                                                          color: borderProfileColor,),
+                                                      borderRadius: BorderRadius.circular(10)),
                                                   focusedBorder: OutlineInputBorder(
                                                       borderSide: BorderSide(
                                                           color: _isEmailValidation ? Colors.green : Colors.red
@@ -272,9 +281,11 @@ class _RegFL extends State<RegFL> {
                                         )),
                                     Container(
                                         margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                                        child: CheckboxListTile(title: const Text(
-                                            "Я согласен на обработку персональных данных",
-                                            style: TextStyle(fontSize: 15)), value: _agree, onChanged: (value) {
+                                        child: CheckboxListTile(title: RichText(text: TextSpan(children: [TextSpan(
+                                            text: "Я согласен на обработку ",
+                                            style: TextStyle(fontSize: 15, color: Colors.black)), TextSpan(text: "персональных данных", style: TextStyle(fontSize: 15, color: Colors.blue, decoration: TextDecoration.underline), recognizer: TapGestureRecognizer()..onTap = (){
+                                              Navigator.push(context, MaterialPageRoute(builder:  (context) => PrivacyPolicy()));
+                                            })]),), value: _agree, onChanged: (value) {
                                           setState(() {
                                             _agree = !_agree;
                                           });
@@ -314,7 +325,7 @@ class _RegFL extends State<RegFL> {
                 ),
                 panel: Center(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(27, 36, 27, 36),
+                      padding: EdgeInsets.fromLTRB(27, 20, 27, 36),
                       child: Container(
                         margin: EdgeInsets.only(top: 36),
                         child: Column(
@@ -342,7 +353,7 @@ class _RegFL extends State<RegFL> {
                                 },
                                 child: Text("Далее"),
                                 style: ElevatedButton.styleFrom(
-                                  primary: colorMain
+                                  backgroundColor: colorMain
                                 ),
                               ),
                             )
@@ -404,7 +415,7 @@ class _RegFL extends State<RegFL> {
         showDialog(
             context: context,
             builder: (BuildContext context) => Alert(
-                title: (state.error as Map<dynamic, dynamic>).keys.first,
+                title: "Ошибка!",
                 text: validate((state.error as Map<dynamic, dynamic>).values.first)));
       }
     }

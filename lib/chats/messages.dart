@@ -50,20 +50,26 @@ class _MessagesPage extends State<MessagesPage> {
   //List<ClaimMessage> claimMessageList = []; //список сообщений (claims)
   List<PlatformFile>? files; // список файлов к сообщениям
   bool isLoading = true; // если идет загрузка
+  bool isLoadingMessages = true; //если идет загрузка сообщений
+  bool isLoadingPage = true; //если идет подгрузка новой страницы
   WebSocketChannel? webSocketChannel; //канал веб-сокета
   WebSocketListener? webSocketListener; // какая именно функция слушает сокет
   WebSocketData? webSocketData; //Структура данных сокета
-  String? lastMessageId;
+  String? lastMessageId; //id последнего сообщения
   TextEditingController controller = TextEditingController();
   ScrollController scrollController = ScrollController();
-  int page = 1;
+  int page = 1; //номер страницы
   int messageCounter = 0;
   ReceivePort _receivePort = ReceivePort();
   String mainLabel = "";
 
   void _send() {
-    profileBloc!
-        .sendMessage(widget.genericId!, controller.text, widget.statusName!, files);
+    if(widget.type == ChatTypes.Ticket){
+      profileBloc!.sendMessage(widget.genericId!, controller.text, widget.statusName!, files);
+    } else if(widget.type ==ChatTypes.Claim){
+      profileBloc!.sendClaimMessage(widget.genericId!, controller.text, files);
+    }
+    
   }
   void _createPhoto(){
     
@@ -135,7 +141,7 @@ class _MessagesPage extends State<MessagesPage> {
                       
                       Expanded(
                         child: Scrollbar(
-                          child: ListView.builder(itemCount: messageList.length, controller: scrollController, reverse: (messageList is List<TicketMessage>) ? true : false, itemBuilder: (BuildContext context, int i) {
+                          child: ListView.builder(itemCount: messageList.length, controller: scrollController, reverse: true, itemBuilder: (BuildContext context, int i) {
                             return Align(
                             alignment: messageList[i].isOwn!
                                   ? Alignment.centerRight
@@ -155,7 +161,7 @@ class _MessagesPage extends State<MessagesPage> {
                                               : Colors.black)),
                                   //Text(messageList[i].date_added.toString()), 
                                   //Text("${message.message_id}"), //message id
-                                  /*
+                                  
                                   Visibility(
                                       visible: (messageList is List<TicketMessage>) ? (messageList[i].data != null ? true : false) : false,
                                       child: GestureDetector(
@@ -182,7 +188,7 @@ class _MessagesPage extends State<MessagesPage> {
                                                               color: messageList[i].isOwn! ? Colors.white : Colors.black)),        
                                                   )
                                           ])))
-                                  )*/
+                                  )
                                 ]),
                               ),
                           );
@@ -262,7 +268,7 @@ class _MessagesPage extends State<MessagesPage> {
                         height: 50,
                         child: Image.asset('assets/loading.gif'),
                       )),
-                      visible: isLoading)
+                      visible: (isLoading == true && isLoadingMessages == true) ? true : false)
                 ],
               ));
             }));
@@ -278,6 +284,7 @@ class _MessagesPage extends State<MessagesPage> {
                 text: state.error!));
     }
     if (state.ticketFullInfo != null && mainLabel == "Обращение") {
+      isLoadingMessages = false;
       lastMessageId = state.ticketFullInfo!.last_message_id!;
     if(page == 1){
       messageList = state.ticketFullInfo!.messages!;
@@ -300,6 +307,7 @@ class _MessagesPage extends State<MessagesPage> {
       });
     }
     if(state.claimMessages != null && mainLabel == "Заявление"){
+      isLoadingMessages = false;
       messageList = state.claimMessages!;
       for(int i = 0; i < state.claimMessages!.length; i++){
         messageList[i].isOwn = state.claimMessages![i].user_id != widget.userId ? false : true;
@@ -416,9 +424,11 @@ class _MessagesPage extends State<MessagesPage> {
       profileBloc!
         .getMessages(widget.genericId!, widget.page!, lastMessageId != null ? lastMessageId! : "1");
       mainLabel = "Обращение";
+      isLoadingMessages = true;
     } else if(widget.type ==ChatTypes.Claim){
       profileBloc!.getClaimMessages(widget.genericId!);
       mainLabel = "Заявление";
+      isLoadingMessages = true;
     }
   }
 }

@@ -23,6 +23,9 @@ class _PasswordTextField extends State<PasswordTextField> {
             if (value == null || value.isEmpty) {
               return "Введите пароль";
             }
+            if(value.length <=3){
+              return "Пароль слишком короткий";
+            }
             return null;
           },
           autofocus: false,
@@ -30,7 +33,8 @@ class _PasswordTextField extends State<PasswordTextField> {
           decoration: InputDecoration(
               hintText: widget.hintText,
               border: OutlineInputBorder(
-                  borderSide: BorderSide(color: inputBorder))),
+                  borderSide: BorderSide(color: inputBorder),
+                  borderRadius: BorderRadius.circular(10))),
         ),
         Positioned(
           right: 15,

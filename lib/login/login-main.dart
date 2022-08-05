@@ -27,7 +27,7 @@ class _LoginPage extends State<LoginPage> {
           fit: StackFit.expand,
           children: [
             Padding(
-                padding: EdgeInsets.only(left: 27, right: 27, top: 76),
+                padding: EdgeInsets.only(left: 27, right: 27, top: 74),
                 child: Flex(
                   direction: Axis.vertical,
                   children: [

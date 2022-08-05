@@ -57,6 +57,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     else if (event is SendMessageEvent) {
       yield* _handleSendMessage(event);
     }
+    else if(event is SendClaimMessageEvent){
+      yield* _handleSendClaimMessage(event);
+    }
     else if(event is ReadMessage){
       yield* _handleReadMessage(event);
     }
@@ -127,6 +130,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   sendMessage(String ticket_id, String message, String ticket_status_id, List<PlatformFile>? files) {
     add(SendMessageEvent(ticket_id, message, ticket_status_id, files));
+  }
+
+  sendClaimMessage(String claim_id, String text, List<PlatformFile>? files){
+    add(SendClaimMessageEvent(claim_id, text, files));
   }
 
   readMessage(String ticketId, String messageId){
@@ -285,6 +292,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             loading: false, sendMessageData: null, ticketFullInfo: null, error: result.toString());
       }
     } catch (e) {
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleSendClaimMessage(SendClaimMessageEvent event) async*{
+    yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
+    try{
+      Object result = await repo.sendClaimMessage(
+                event.claim_id, event.text, event.files);
+    }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }
   }

@@ -9,7 +9,7 @@ String validate(String error){
     case "error_password":
       return "Пароль некорректен";
     case "error_confirm":
-      return "Ошибка подтверждения";
+      return "Ошибка подтверждения пароля";
     case "error_inn_company":
       return "Данный ИНН компании уже существует";
     case "error_ogrn":

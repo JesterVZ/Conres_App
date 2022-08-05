@@ -355,7 +355,7 @@ class HttpClient{
       if(result.statusCode == 200){
         List<Claim> claims = [];
         for(int i = 0; i < result.data['data']['user_claims'].length; i++){
-          claims.add(Claim.fromMap(result.data['data']['user_claims'][0]));
+          claims.add(Claim.fromMap(result.data['data']['user_claims'][i]));
         }
         return claims;
       }
@@ -529,6 +529,32 @@ class HttpClient{
         messages.add(ClaimMessage.fromMap(result.data['data']['messages'][i]));
       }
       return messages;
+    }
+  }
+
+  Future<Object?> sendClaimMessage(String claim_id, String text, List<PlatformFile>? files) async{
+    String uri = domain + 'lk/index.php?route=claims/claims/api_sendMessage';
+    try{
+      var formData;
+      if(files == null){
+        formData = FormData.fromMap({
+        'claim_id': claim_id,
+        'text': text, 
+      });
+      } else {
+        formData = FormData.fromMap({
+        'contract_files_name[]': files[0].path!.split('/').last, //имя файла
+        'contract_files[]': await MultipartFile.fromFile(files[0].path!, filename: files[0].path!.split('/').last),
+        'claim_id': claim_id,
+        'text': text, 
+      });
+      }
+      final result = await _apiClient.post(uri, data: formData);
+      if(result.statusCode == 200){
+        return json.decode(result.data);
+      }
+    }catch(e){
+      return e.toString();
     }
   }
 }
