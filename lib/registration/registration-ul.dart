@@ -1,8 +1,10 @@
 import 'package:conres_app/elements/registration/sliding-up.dart';
 import 'package:conres_app/model/model.dart';
+import 'package:conres_app/registration/privacy-policy.dart';
 import 'package:conres_app/registration/seccessful-registration.dart';
 import 'package:conres_app/registration/validate.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -15,6 +17,7 @@ import '../elements/alert.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/header/header.dart';
 import '../elements/masks.dart';
+import '../elements/registration/password-textfield.dart';
 import '../login/change-type.dart';
 import '../validation/validation.dart';
 
@@ -34,6 +37,7 @@ class _RegUL extends State<RegUL> {
   late bool _visabillity = false;
   bool _isEmailValidation = false;
   PanelController panelController = PanelController();
+    final _formKey = GlobalKey<FormState>();
 
   AuthBloc? authBloc;
   void _addNewConfidant() {
@@ -55,61 +59,76 @@ class _RegUL extends State<RegUL> {
               onTap: () {
                 FocusScope.of(context).requestFocus(FocusNode());
               },
-              child: SlidingUpElement(
+              child: Scaffold(
+                body: SlidingUpElement(
                 panelController: panelController,
                 body: Scaffold(
                   body: SingleChildScrollView(
                     child: Column(
                       children: [
                         Padding(
-                            padding: const EdgeInsets.fromLTRB(21, 70, 21, 54),
-                            child: Column(
+                            padding: const EdgeInsets.fromLTRB(21, 74, 21, 54),
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
                               children: [
-                                HeaderRow(text: regTitle, fontSize: 24,),
+                                HeaderRow(text: "Регистрация юридического лица", fontSize: 34,),
                                 Container(
-                                    margin:
-                                    const EdgeInsets.fromLTRB(0, 38, 0, 18),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(fullNameUL,
-                                            style: TextStyle(
-                                                color: colorGray,
-                                                fontSize: 16.0)),
-                                        TextField(
-                                          controller: controllerList[0],
-                                          decoration: InputDecoration(
-                                              hintText: "Иванов",
-                                              border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: inputBorder))),
-                                        )
-                                      ],
-                                    )),
+                                        margin: const EdgeInsets.fromLTRB(0, 38, 0, 18),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text("Полное наименование компании",
+                                                style: TextStyle(
+                                                    color: colorGray, fontSize: 16.0)),
+                                            TextFormField(
+                                              validator: (value) {
+                                                if(value == null || value.isEmpty){
+                                                  return "Введите полное наименование";
+                                                }
+                                                return null;
+                                              },
+                                              textCapitalization: TextCapitalization.sentences,
+                                              controller: controllerList[0],
+                                              decoration: InputDecoration(
+                                                  hintText: "Иванов",
+                                                  border: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: inputBorder, width: 5.0),
+                                                      borderRadius: BorderRadius.circular(10))),
+                                              
+                                            )
+                                          ],
+                                        )),
                                 Container(
-                                    margin:
-                                    const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Сокращённое наименование компании",
-                                            style: TextStyle(
-                                                color: colorGray,
-                                                fontSize: 16.0)),
-                                        TextField(
-                                          controller: controllerList[1],
-                                          decoration: InputDecoration(
-                                              hintText: "Иван",
-                                              border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: inputBorder))),
-                                        )
-                                      ],
-                                    )),
+                                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text("Сокращенное наименование компании",
+                                                style: TextStyle(
+                                                    color: colorGray, fontSize: 16.0)),
+                                            TextFormField(
+                                              validator: (value) {
+                                                if(value == null || value.isEmpty){
+                                                  return "Введите сокращенное наименование";
+                                                }
+                                                return null;
+                                              },
+                                              textCapitalization: TextCapitalization.sentences,
+                                              controller: controllerList[1],
+                                              decoration: InputDecoration(
+                                                  hintText: "Иванов",
+                                                  border: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: inputBorder, width: 5.0),
+                                                      borderRadius: BorderRadius.circular(10))),
+                                              
+                                            )
+                                          ],
+                                        )),
                                 Container(
                                     margin:
                                     const EdgeInsets.fromLTRB(0, 0, 0, 18),
@@ -125,9 +144,9 @@ class _RegUL extends State<RegUL> {
                                         MaskInput(
                                           textController: controllerList[2],
                                           formatter: MaskTextInputFormatter(
-                                              mask: "############"),
-                                          hint: "000000000000",
-                                          type: "inn",
+                                              mask: "##########"),
+                                          hint: "0000000000",
+                                          type: "inn(ul)",
                                         )
                                       ],
                                     )),
@@ -139,16 +158,16 @@ class _RegUL extends State<RegUL> {
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                       children: [
-                                        Text(ofrnip,
+                                        Text("ОГРН",
                                             style: TextStyle(
                                                 color: colorGray,
                                                 fontSize: 16.0)),
                                         MaskInput(
                                           textController: controllerList[3],
                                           formatter: MaskTextInputFormatter(
-                                              mask: "###############"),
-                                          hint: "000000000000000",
-                                          type: "ofrnip",
+                                              mask: "#############"),
+                                          hint: "0000000000000",
+                                          type: "ofrnip(ul)",
                                         )
                                       ],
                                     )),
@@ -206,27 +225,36 @@ class _RegUL extends State<RegUL> {
                                             style: TextStyle(
                                                 color: colorGray,
                                                 fontSize: 16.0)),
-                                        TextField(
-                                          style: TextStyle(
-                                              color: _isEmailValidation ? Colors.green : Colors.red
-                                          ),
-                                          controller: controllerList[6],
-                                          decoration: InputDecoration(
-                                              hintText: "example@email.ru",
-                                              border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: borderProfileColor)),
-                                              focusedBorder: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: _isEmailValidation ? Colors.green : Colors.red
-                                                  )
-                                              )),
-                                          onChanged: (value){
-                                            setState(() {
-                                              _isEmailValidation = isEmailValidate(value);
-                                            });
-                                          },
-                                        )
+                                        TextFormField(
+                                              style: TextStyle(
+                                                  color: _isEmailValidation ? Colors.green : Colors.red
+                                              ),
+                                              validator: (value) {
+                                                if(value == null || value.isEmpty){
+                                                  return "Введите Email";
+                                                } else if(_isEmailValidation == false){
+                                                  return "Email некорректен";
+                                                }
+                                                return null;
+                                              },
+                                              controller: controllerList[6],
+                                              decoration: InputDecoration(
+                                                  hintText: "example@email.ru",
+                                                  border: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: borderProfileColor,),
+                                                      borderRadius: BorderRadius.circular(10)),
+                                                  focusedBorder: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: _isEmailValidation ? Colors.green : Colors.red
+                                                      )
+                                                  )),
+                                              onChanged: (value){
+                                                setState(() {
+                                                  _isEmailValidation = isEmailValidate(value);
+                                                });
+                                              },
+                                            )
                                       ],
                                     )),
                                 Container(
@@ -397,27 +425,36 @@ class _RegUL extends State<RegUL> {
                                                             style: TextStyle(
                                                                 color: colorGray,
                                                                 fontSize: 16.0)),
-                                                        TextField(
-                                                          style: TextStyle(
-                                                              color: _isEmailValidation ? Colors.green : Colors.red
-                                                          ),
-                                                          controller: controllerList[6],
-                                                          decoration: InputDecoration(
-                                                              hintText: "example@email.ru",
-                                                              border: OutlineInputBorder(
-                                                                  borderSide: BorderSide(
-                                                                      color: borderProfileColor)),
-                                                              focusedBorder: OutlineInputBorder(
-                                                                  borderSide: BorderSide(
-                                                                      color: _isEmailValidation ? Colors.green : Colors.red
-                                                                  )
-                                                              )),
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              _isEmailValidation = isEmailValidate(value);
-                                                            });
-                                                          },
-                                                        )
+                                                        TextFormField(
+                                              style: TextStyle(
+                                                  color: _isEmailValidation ? Colors.green : Colors.red
+                                              ),
+                                              validator: (value) {
+                                                if(value == null || value.isEmpty){
+                                                  return "Введите Email";
+                                                } else if(_isEmailValidation == false){
+                                                  return "Email некорректен";
+                                                }
+                                                return null;
+                                              },
+                                              controller: controllerDlList[4],
+                                              decoration: InputDecoration(
+                                                  hintText: "example@email.ru",
+                                                  border: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: borderProfileColor,),
+                                                      borderRadius: BorderRadius.circular(10)),
+                                                  focusedBorder: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: _isEmailValidation ? Colors.green : Colors.red
+                                                      )
+                                                  )),
+                                              onChanged: (value){
+                                                setState(() {
+                                                  _isEmailValidation = isEmailValidate(value);
+                                                });
+                                              },
+                                            )
                                                       ],
                                                     )),
                                                 Container(
@@ -434,75 +471,61 @@ class _RegUL extends State<RegUL> {
                                       ],
                                     )),
                                 Container(
-                                    margin:
-                                    const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(lkPasswordText,
-                                            style: TextStyle(
-                                                color: colorGray,
-                                                fontSize: 16.0)),
-                                        TextField(
-                                          controller: controllerList[7],
-                                          autofocus: false,
-                                          obscureText: true,
-                                          decoration: InputDecoration(
-                                              hintText: "Ваш пароль",
-                                              border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: inputBorder))),
-                                        )
-                                      ],
-                                    )),
-                                Container(
-                                    margin:
-                                    const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(repeatPassword,
-                                            style: TextStyle(
-                                                color: colorGray,
-                                                fontSize: 16.0)),
-                                        TextField(
-                                          controller: controllerList[8],
-                                          autofocus: false,
-                                          obscureText: true,
-                                          decoration: InputDecoration(
+                                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(lkPasswordText,
+                                                style: TextStyle(
+                                                    color: colorGray, fontSize: 16.0)),
+                                            PasswordTextField(
+                                              controller: controllerList[7],
+                                              hintText: "Введите пароль",
+                                            )
+                                          ],
+                                        )),
+                                    Container(
+                                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(repeatPassword,
+                                                style: TextStyle(
+                                                    color: colorGray, fontSize: 16.0)),
+                                            PasswordTextField(
+                                              controller: controllerList[8],
                                               hintText: "Повторите пароль",
-                                              border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: inputBorder))),
-                                        )
-                                      ],
-                                    )),
+                                            )
+                                          ],
+                                        )),
+                                    Container(
+                                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                                        child: CheckboxListTile(title: RichText(text: TextSpan(children: [TextSpan(
+                                            text: "Я согласен на обработку ",
+                                            style: TextStyle(fontSize: 15, color: Colors.black)), TextSpan(text: "персональных данных", style: TextStyle(fontSize: 15, color: Colors.blue, decoration: TextDecoration.underline), recognizer: TapGestureRecognizer()..onTap = (){
+                                              Navigator.push(context, MaterialPageRoute(builder:  (context) => PrivacyPolicy()));
+                                            })]),), value: _agree, onChanged: (value) {
+                                          setState(() {
+                                            _agree = !_agree;
+                                          });
+                                        })
+                                    ),
                                 Container(
-                                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                                    child: CheckboxListTile(title: const Text(
-                                        "Я согласен на обработку персональных данных",
-                                        style: TextStyle(fontSize: 15)), value: _agree, onChanged: (value) {
-                                      setState(() {
-                                        _agree = !_agree;
-                                      });
-                                    })
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 55,
-                                  child: ElevatedButton(
-                                      onPressed: _agree ? () => submitData(state) : null,
-                                      child: Text(
-                                        login,
-                                        style: buttonTextStyle,
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                          primary: colorMain)),
-                                ),
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 55,
+                                      child: ElevatedButton(
+                                          onPressed: (_agree) ? () {
+                                            if(_formKey.currentState!.validate()){
+                                              submitData();
+                                            }
+                                            
+                                          } : null,
+                                          child: Text("Зарегистрироваться", style: buttonTextStyle),
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: colorMain)),
+                                    ),
                                 Visibility(
                                     visible: widget.isLoading,
                                     child: Container(
@@ -511,7 +534,9 @@ class _RegUL extends State<RegUL> {
                                       child: Image.asset('assets/loading.gif'),
                                     ))
                               ],
-                            ))
+                            )
+                            )
+                            )
                       ],
                     ),
                   ),
@@ -556,10 +581,12 @@ class _RegUL extends State<RegUL> {
                     )
                 ),
                 onClose: _push,
-              ));
+              ))
+              );
+                      
         });
   }
-  void submitData(AuthState state){
+  void submitData(){
     Dl dl = Dl(
         Family: controllerDlList[0].text,
         Name: controllerDlList[1].text,
@@ -579,24 +606,10 @@ class _RegUL extends State<RegUL> {
       Password: controllerList[7].text,
       RepeatPassword: controllerList[8].text
     );
-    _handleRegistration(state, ulUbj);
+    _handleRegistration(ulUbj);
   }
-  _handleRegistration(AuthState state, Object sender) {
-    if(controllerList[0].text == ""
-        || controllerList[1].text == ""
-        || controllerList[2].text == ""
-        || controllerList[3].text == ""
-        || controllerList[4].text == ""
-        || controllerList[5].text == ""
-        || controllerList[6].text == ""){
-      showDialog(
-          context: context,
-          builder: (BuildContext context) =>
-              Alert(title: "Ошибка", text: "Заполните все поля"));
-      return;
-    } else{
-      authBloc!.register(sender, 3);
-    }
+  _handleRegistration(Object sender) {
+    authBloc!.register(sender, 3);
   }
   _listener(BuildContext context, AuthState state) {
     if (state.loading!) {

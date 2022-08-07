@@ -5,6 +5,7 @@ class Contract {
   String? status;
   String? comments;
   String? approve;
+  bool? isCurrent;
   String? date_added;
   Contract(
       {required this.account_id,
@@ -13,7 +14,8 @@ class Contract {
       required this.status,
       required this.comments,
       required this.approve,
-      required this.date_added});
+      required this.date_added,
+      this.isCurrent});
   factory Contract.fromMap(Map<dynamic, dynamic> map){
     return Contract(
       account_id: map['account_id'],

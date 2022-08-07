@@ -1,6 +1,7 @@
 import 'package:conres_app/elements/header/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../DI/dependency-provider.dart';
 import '../../bloc/profile/profile-bloc.dart';
@@ -8,6 +9,7 @@ import '../../bloc/profile/profile-state.dart';
 import '../../consts.dart';
 import '../../elements/alert.dart';
 import '../../elements/bloc/bloc-screen.dart';
+import '../../elements/masks.dart';
 
 class NewLS extends StatefulWidget{
   const NewLS({Key? key}) : super(key: key);
@@ -20,6 +22,7 @@ class _NewLS extends State<NewLS>{
   ProfileBloc? profileBloc;
   TextEditingController lsController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(
@@ -42,7 +45,11 @@ class _NewLS extends State<NewLS>{
                         HeaderRow(text: newLs, fontSize: 24),
                         Container(margin: const EdgeInsets.fromLTRB(0, 25, 0, 10),
                           child: Text(linkNewLs, style: claimTextStyle),),
-                        Container(
+                          Form(
+                            key: _formKey,
+                            child: Column(
+                            children: [
+                              Container(
                             margin: EdgeInsets.fromLTRB(0, 0, 0, 12),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -50,13 +57,12 @@ class _NewLS extends State<NewLS>{
                               children: [
                                 Text(numberLS,
                                     style: labelTextStyle),
-                                TextField(
-                                  controller: lsController,
-                                  decoration: InputDecoration(
-                                      hintText: "000000000",
-                                      border: OutlineInputBorder(
-                                          borderSide:
-                                          BorderSide(color: inputBorder))),
+                                MaskInput(
+                                  formatter: MaskTextInputFormatter(
+                                                  mask: "#########"),
+                                  textController: lsController,
+                                  type: "ls",
+                                  hint: "000000000",
                                 )
                               ],
                             )
@@ -78,7 +84,9 @@ class _NewLS extends State<NewLS>{
                             )
                           ],
                         ),
-
+                            ],
+                          ))
+              
 
                       ],
                     ),
@@ -90,11 +98,13 @@ class _NewLS extends State<NewLS>{
                           height: 55,
                           child: ElevatedButton(
                             onPressed: (){
-                              profileBloc!.bindNewLS(lsController.text, addressController.text);
+                              if(_formKey.currentState!.validate()){
+                                profileBloc!.bindNewLS(lsController.text, addressController.text);
+                              }
                             },
                             child: Text(sendLinkRequest, style: buttonTextStyle),
                             style: ElevatedButton.styleFrom(
-                                primary: colorMain,
+                                backgroundColor: colorMain,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8)
                                 )

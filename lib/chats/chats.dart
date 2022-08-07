@@ -1,14 +1,14 @@
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
+import 'package:conres_app/chats/new-chat.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../DI/dependency-provider.dart';
 import '../consts.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/chat/ticket-row.dart';
+import '../enums/chat-types.dart';
 import '../model/profile.dart';
 import '../model/ticket.dart';
 import '../websocket/websocket-listener.dart';
@@ -26,7 +26,6 @@ class _Chats extends State<Chats> {
   WebSocketChannel? webSocketChannel;
   WebSocketListener? webSocketListener;
   ScrollController scrollController = ScrollController();
-  //List<Widget> tickets = [];
   List<Ticket> tickets = [];
   String? userId;
   int page = 1;
@@ -46,17 +45,31 @@ class _Chats extends State<Chats> {
           return Scaffold(
               body: Stack(children: [
                 Container(
-                padding: const EdgeInsets.only(left: 18, right: 18),
-                color: pageColor,
                 child: Column(
                   children: [
                     Container(
-                        height: 100, child: HeaderNotification(text: "Обращения")),
+                      padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
+                        height: 100, child: HeaderNotification(text: "Обращения",)),
                     Expanded(
                         child: Scrollbar(
                             child: ListView.builder(controller: scrollController, itemCount: tickets.length, itemBuilder: (context, int index){
                               return TicketRow(ticket: tickets[index], openChat: _openChat, counter: tickets[index].count_tm_resiver);
                             }))),
+                    Container(
+                  padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
+                  width: MediaQuery.of(context).size.width,
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => NewChat()));
+                    },
+                    child: Text("Новое обращение", style: buttonTextStyle),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: colorMain,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8))),
+                  ),
+                )
                   ],
                 ),
               ),
@@ -108,9 +121,9 @@ class _Chats extends State<Chats> {
         MaterialPageRoute(
             builder: (context) => MessagesPage(
                 userId: userId!,
-                ticketId: ticket.ticket_id.toString(),
+                genericId: ticket.ticket_id.toString(),
+                type: ChatTypes.Ticket,
                 page: '1',
-                profile: widget.profile,
                 statusName: ticket.cur_status != null ? ticket.cur_status!.name : "")));
   }
 

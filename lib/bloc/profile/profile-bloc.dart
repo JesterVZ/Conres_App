@@ -4,9 +4,11 @@ import 'package:bloc/bloc.dart';
 import 'package:conres_app/bloc/profile/profile-event.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/claims/claims.dart';
+import 'package:conres_app/model/claim-message.dart';
 import 'package:conres_app/model/contract.dart';
 import 'package:conres_app/model/message.dart';
 import 'package:conres_app/model/result-data.dart';
+import 'package:conres_app/model/user-information.dart';
 import 'package:conres_app/websocket/websocket.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,41 +27,58 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is GetCookieStrEvent) {
       yield* _handleGetCookies(event);
     }
-    if (event is GetLoginData) {
+    else if (event is GetLoginData) {
       yield* _handleGetData(event);
     }
-    if (event is GetWebSocketData) {
+    else if (event is GetWebSocketData) {
       yield* _handleGetWebSocketData(event);
     }
-    if (event is LogoutEvent) {
+    else if (event is LogoutEvent) {
       yield* _handleLogout(event);
     }
-    if (event is BindNewLS) {
+    else if (event is BindNewLS) {
       yield* _handleBindNewLS(event);
     }
-    if (event is GetContracts) {
+    else if (event is GetContracts) {
       yield* _handleGetContracts(event);
     }
-    if (event is GetClaims) {
+    else if (event is GetClaims) {
       yield* _handleGetClaims(event);
     }
-    if (event is GetTickets) {
+    else if (event is GetTickets) {
       yield* _handleGetTickets(event);
     }
-    if (event is GetMessages) {
+    else if (event is GetMessages) {
       yield* _handleGetMessages(event);
     }
-    if (event is GetAllInfo) {
+    else if (event is GetAllInfo) {
       yield* _handleGetAllInfo(event);
     }
-    if (event is SendMessageEvent) {
+    else if (event is SendMessageEvent) {
       yield* _handleSendMessage(event);
     }
-    if(event is ReadMessage){
+    else if(event is SendClaimMessageEvent){
+      yield* _handleSendClaimMessage(event);
+    }
+    else if(event is ReadMessage){
       yield* _handleReadMessage(event);
     }
-    if(event is DownloadFile){
+    else if(event is DownloadFile){
       yield* _handleDownloadFile(event);
+    }
+    else if(event is GetFullProfileInfo){
+      yield* _handleGetFullProfileInfo(event);
+    }
+    else if(event is GetObjectsPU){
+      yield* _handleGetObjectsPU(event);
+    }
+    else if(event is GetTU){
+      yield* _handleGetTU(event);
+    }
+    else if(event is CreateNewTicket){
+      yield* _handleCreateNewTicket(event);
+    } else if(event is GetClaimMessages){
+      yield* _handleGetClaimMessages(event);
     }
   }
 
@@ -101,6 +120,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(GetMessages(chat_id, page, last_message_id));
   }
 
+  getClaimMessages(String claim_id){
+    add(GetClaimMessages(claim_id));
+  }
+
   getAllInfo() {
     add(const GetAllInfo());
   }
@@ -109,12 +132,32 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(SendMessageEvent(ticket_id, message, ticket_status_id, files));
   }
 
+  sendClaimMessage(String claim_id, String text, List<PlatformFile>? files){
+    add(SendClaimMessageEvent(claim_id, text, files));
+  }
+
   readMessage(String ticketId, String messageId){
     add(ReadMessage(ticketId, messageId));
   }
 
   downloadFile(String uri, String filename){
     add(DownloadFile(uri, filename));
+  }
+
+  getObjectsPU(){
+    add(const GetObjectsPU());
+  }
+
+  getFullProfileInfo(){
+    add(const GetFullProfileInfo());
+  }
+
+  getTU(){
+    add(const GetTU());
+  }
+
+  createNewTicket(String contact_email, String contact_name, String ticket_theme_id, String message){
+    add(CreateNewTicket(contact_email, contact_name, message, ticket_theme_id));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -153,8 +196,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await logoutFunc(preferences);
       List<dynamic> emptyLoginData = [];
-      yield state.copyWith(
-          loginData: emptyLoginData, error: null, loading: false);
+      yield state.copyWith(loading: false, loginData: emptyLoginData, error: null);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
@@ -254,6 +296,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
+  Stream<ProfileState> _handleSendClaimMessage(SendClaimMessageEvent event) async*{
+    yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
+    try{
+      Object result = await repo.sendClaimMessage(
+                event.claim_id, event.text, event.files);
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
   Stream<ProfileState> _handleReadMessage(ReadMessage event) async*{
     yield state.copyWith(loading: false, error: null, ticketFullInfo: null);
     try{
@@ -268,6 +320,60 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try{
       var result = await repo.downloadFie(event.uri, event.filename);
       yield state.copyWith(loading: false, error: null, ticketFullInfo: null);
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleGetFullProfileInfo(GetFullProfileInfo event) async*{
+    yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
+    try{
+      var result = await repo.getFullProfileInfo();
+      if(result is UserInformation){
+        yield state.copyWith(loading: false, error: null, userInformation: result);
+      }
+      
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleGetObjectsPU(GetObjectsPU event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      var result = await repo.getObjectsPU();
+      yield state.copyWith(loading: false, error: null, objectsPU: result);
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleGetTU(GetTU event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      var result = await repo.getMeters();
+      yield state.copyWith(loading: false, error:null, meters: result);
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleCreateNewTicket(CreateNewTicket event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      var result = await repo.createNewTicket(event.contact_email, event.contact_name, event.ticket_theme_id, event.message);
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleGetClaimMessages(GetClaimMessages event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      var result = await repo.getClaimMessages(event.claim_id);
+      if(result is List<ClaimMessage>){
+        yield state.copyWith(loading: false, error: null, claimMessages: result);
+      }
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }

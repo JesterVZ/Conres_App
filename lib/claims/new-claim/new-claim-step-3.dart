@@ -73,7 +73,7 @@ class _NewClaimStep3 extends State<NewClaimStep3>{
                                                 children: [
                                                   Text(kVT, style: TextStyle(fontSize: 16.0, color: claimLabelColor)),
                                                   MaskInput(
-                                                    textController: controllerDlList[2],
+                                                     textController: controllerDlList[2],
                                                     formatter: MaskTextInputFormatter(mask: "###"),
                                                     hint: "000",
                                                     type: "kvt",

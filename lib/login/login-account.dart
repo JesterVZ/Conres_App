@@ -48,7 +48,7 @@ class _LoginEmail extends State<LoginEmail> {
                       children: [
                         Container(
                           margin: EdgeInsets.only(bottom: 14),
-                          child: HeaderRow(text: loginAccount, fontSize: 24),
+                          child: HeaderRow(text: loginAccount, fontSize: 34),
                         ),
                         Container(
                             margin: EdgeInsets.only(bottom: 20),

@@ -1,7 +1,10 @@
 import 'dart:core';
 
+import 'package:conres_app/bloc/profile/profile-bloc.dart';
+import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/elements/testimony/testimony-not-found.dart';
 import 'package:conres_app/testimony/link-pu.dart';
+import 'package:conres_app/testimony/objects-pu.dart';
 import 'package:dotted_decoration/dotted_decoration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +28,9 @@ class SendTestimony extends StatefulWidget {
 }
 
 class _SendTestimony extends State<SendTestimony> {
-  AuthBloc? authBloc;
-  bool getTestimony = false;
+  ProfileBloc? profileBloc;
+  bool getPU = false;
+  List<Widget> meters = [];
   Widget content = Container(
       margin: EdgeInsets.only(top: 21),
       decoration: DottedDecoration(
@@ -41,8 +45,8 @@ class _SendTestimony extends State<SendTestimony> {
       ));
   @override
   Widget build(BuildContext context) {
-    return BlocScreen<AuthBloc, AuthState>(
-        bloc: authBloc,
+    return BlocScreen<ProfileBloc, ProfileState>(
+        bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
     builder: (context, state) {
       return Scaffold(
@@ -59,14 +63,27 @@ class _SendTestimony extends State<SendTestimony> {
                     child: content
                 ))),
                 Visibility(
-                  visible: getTestimony,
+                  visible: getPU,
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 24),
+                    width: MediaQuery.of(context).size.width - 35,
+                    height: 55,
+                    child: ElevatedButton(
+                      onPressed: (){},
+                      style: ElevatedButton.styleFrom(primary: colorMain, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                      child: Text("Передать показания", style: TextStyle(fontSize: 18),),
+                    )
+                  ),
+                ),
+                Visibility(
+                  visible: !getPU,
                   child: Container(
                     margin: EdgeInsets.only(bottom: 24),
                               width: MediaQuery.of(context).size.width - 35,
                               height: 70,
                               child: ElevatedButton(
                                   onPressed: () {
-                                    //Navigator.push(context, MaterialPageRoute(builder: (context) => SendTestimony(personal: widget.profile!.personal)));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ObjectsPU()));
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: colorGray, shape: RoundedRectangleBorder(
@@ -117,7 +134,7 @@ class _SendTestimony extends State<SendTestimony> {
     });
 
   }
-  _listener(BuildContext context, AuthState state){
+  _listener(BuildContext context, ProfileState state){
     if(state.loading!){
       content = Center(
         child: Container(
@@ -129,29 +146,20 @@ class _SendTestimony extends State<SendTestimony> {
       );
       return;
     }
-    if(state.testimony != null){
-        List<Widget> meters = [];
-        if(state.testimony!.isNotEmpty){
-          getTestimony = false;
-          for(int i = 0; i < state.testimony!.length; i++){
-          meters.add(Testimony(state.testimony![i]));
-        }
-        content = Column(
-          children: meters,
-        );
-        } else {
-          setState(() {
-            getTestimony = true;
-            content = TestimonyNotfound();
-          });
-          
-        }
+    if(state.meters != null){
+      getPU = true;
+      for(int i = 0; i < state.meters!.length; i++){
+        meters.add(Testimony(state.meters![i]));
+      }
+      content = Column(
+        children: meters,
+      );
     }
   }
   @override
   void didChangeDependencies() {
-    authBloc ??= DependencyProvider.of(context)!.authBloc;
-    authBloc!.getTestimony();
+    profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    //profileBloc!.getTU();
     super.didChangeDependencies();
   }
 }

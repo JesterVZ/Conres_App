@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:conres_app/DI/dependency-provider.dart';
+import 'package:conres_app/select-store/select-store.dart';
 import 'package:flutter/material.dart';
 import 'consts.dart';
 import 'elements/splash/splash-screen.dart';
 import 'loading/loading-page.dart';
 import 'login/login-main.dart';
 
-void main() async {
+void main() {
 
   HttpOverrides.global = MyHttpOverrides();
   runApp(
@@ -46,10 +47,11 @@ class _MyApp extends State<MyApp>{
       },
       theme: ThemeData(
           primarySwatch: Colors.blue,
-          scaffoldBackgroundColor: defaultBackground,
+          scaffoldBackgroundColor: pageColor,
           fontFamily: 'Bubicon-Medium'
       ),
-      home: SplashScreen(),
+      //home: SplashScreen(),
+      home: SelectStore(),
     );
 
   }

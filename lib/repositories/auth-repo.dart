@@ -1,3 +1,4 @@
+import 'package:conres_app/bloc/auth/auth-event.dart';
 import 'package:conres_app/http.dart';
 import 'package:conres_app/model/profile.dart';
 import 'package:conres_app/model/result-data.dart';
@@ -48,8 +49,8 @@ class AuthRepo {
     }
   }
 
-  Future<Object?> getTestimonyFunc() async {
-    var result = await httpClient.getTestimony();
+  Future<Object?> getStores() async{
+    var result = await httpClient.getStors();
     return result;
   }
 

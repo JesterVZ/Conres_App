@@ -1,5 +1,6 @@
 import 'package:conres_app/bloc/auth/auth-block.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
+import 'package:conres_app/consts.dart';
 import 'package:conres_app/http.dart';
 import 'package:conres_app/repositories/auth-repo.dart';
 import 'package:conres_app/websocket/websocket-listener.dart';
@@ -28,7 +29,7 @@ class DependencyProvider extends InheritedWidget {
 
   WebSocketChannel? get webSocketChannel {
     _webSocketChannel ??=
-        IOWebSocketChannel.connect("wss://promo.dev.conres.ru:2450/");
+        IOWebSocketChannel.connect("${ws}:2450/");
     return _webSocketChannel;
   }
 

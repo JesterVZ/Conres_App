@@ -16,6 +16,9 @@ class NewClaimStep1 extends StatefulWidget{
 
 class _NewClaimStep1 extends State<NewClaimStep1>{
   final controllerList = List<TextEditingController>.generate(9, (index) => TextEditingController());
+  void _validate(bool result){
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

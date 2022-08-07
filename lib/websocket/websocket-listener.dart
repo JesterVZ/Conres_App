@@ -10,5 +10,6 @@ class WebSocketListener {
     webSocketChannel!.stream.listen((event) {
       function!(event);
     });
+    
   } 
 }

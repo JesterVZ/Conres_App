@@ -1,3 +1,4 @@
+import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/elements/header/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +11,12 @@ import '../elements/bloc/bloc-screen.dart';
 import '../elements/contracts/contract-element.dart';
 import 'new-ls/new-ls.dart';
 
-class Contracts extends StatefulWidget{
+class Contracts extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _Contracts();
 }
 
-class _Contracts extends State<Contracts>{
+class _Contracts extends State<Contracts> {
   ProfileBloc? profileBloc;
   List<Widget> contracts = [];
 
@@ -24,71 +25,66 @@ class _Contracts extends State<Contracts>{
     return BlocScreen<ProfileBloc, ProfileState>(
         bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
-    builder: (context, state) {
-      return Scaffold(
-          body: Column(
-            children: [
-              Container(
-                height: 100,
-                child: HeaderRow(text: contractsTitle, fontSize: 24)
-              ),
-              Expanded(child: Scrollbar(child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Column(
-                        children: [
-                          //здесь договоры
-                          Column(
-                            children: contracts,
-                          ),
-
-                        ],
-                      )
-                    ],
-                  )
-              ))),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 55,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 18, right: 18),
+        builder: (context, state) {
+          return Scaffold(
+            body: Column(
+              children: [
+                Container(
+                    padding: EdgeInsets.only(
+                        left: defaultSidePadding, right: defaultSidePadding),
+                    height: 100,
+                    child: HeaderNotification(
+                      text: "Договоры",
+                    )),
+                Expanded(
+                    child: Scrollbar(
+                        child: SingleChildScrollView(
+                            child: Column(
+                  children: [
+                    Column(
+                      children: [
+                        //здесь договоры
+                        Column(
+                          children: contracts,
+                        ),
+                      ],
+                    )
+                  ],
+                )))),
+                Container(
+                  padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
+                  width: MediaQuery.of(context).size.width,
+                  height: 55,
                   child: ElevatedButton(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const NewLS()));
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const NewLS()));
                     },
                     child: Text(linkNewLs, style: buttonTextStyle),
                     style: ElevatedButton.styleFrom(
-                        primary: colorMain,shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)
-                    )
-                    ),
+                        primary: colorMain,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8))),
                   ),
-                ),
-              )
-            ],
-          ),
-      );
-    });
-
+                )
+              ],
+            ),
+          );
+        });
   }
 
-  _listener(BuildContext context, ProfileState state){
-    if(state.loading == true){
+  _listener(BuildContext context, ProfileState state) {
+    if (state.loading == true) {
       return;
     }
-    if(state.contracts != null){
-      if(contracts.isEmpty){
-        for(int i = 0; i < 5; i++){
-        contracts.add(
-            ContractElement(
-                thisLs: state.contracts![i].account_number!,
-                thisAddress: state.contracts![i].account_address!,
-                thisDateAdded: state.contracts![i].date_added!,
-                status: int.parse(state.contracts![i].status!))
-        );
+    if (state.contracts != null) {
+      if (contracts.isEmpty) {
+        for (int i = 0; i < state.contracts!.length; i++) {
+          contracts.add(ContractElement(contract: state.contracts![i]));
+        }
       }
-      }
-      
     }
   }
 

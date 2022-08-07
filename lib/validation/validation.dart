@@ -13,12 +13,23 @@ bool isSnilsValidate(String val){
 bool isInnValidate(String val){
   return RegExp(r'[0-9]{12}$').hasMatch(val);
 }
+bool isInnIpValidate(String val){
+  return RegExp(r'[0-9]{10}$').hasMatch(val);
+}
 
 bool isOgrnipValidate(String val){
   return RegExp(r'[0-9]{15}$').hasMatch(val);
 }
 
+bool isOgrnipUlValidate(String val){
+  return RegExp(r'[0-9]{13}$').hasMatch(val);
+}
+
 bool isKppValidate(String val){
+  return RegExp(r'[0-9]{9}$').hasMatch(val);
+}
+
+bool isLsvalidate(String val){
   return RegExp(r'[0-9]{9}$').hasMatch(val);
 }
 

@@ -51,11 +51,34 @@ class ProfileRepo{
     var result = await httpClient.sendMessage(ticketId, message, ticketStatusId, files);
     return result;
   }
+  Future<dynamic> sendClaimMessage(String claim_id, String text, List<PlatformFile>? files) async{
+    var result = await httpClient.sendClaimMessage(claim_id, text, files);
+    return result;
+  }
   Future<dynamic> readMessage(String ticketId, String messageId) async{
     await httpClient.setReadMessage(ticketId, messageId);
   }
   Future<dynamic> downloadFie(String uri, String filename) async{
     var result = await httpClient.download(uri, filename);
+    return result;
+  }
+  Future<dynamic> getFullProfileInfo() async{
+    var result = await httpClient.getFullProfileInfo();
+    return result;
+  }
+  Future<dynamic> getObjectsPU() async{
+     var result = await httpClient.getObjectsPU();
+     return result;
+  }
+  Future<dynamic> getMeters() async{
+    var result = await httpClient.getMeters();
+    return result;
+  }
+  Future<dynamic> createNewTicket(String contact_email, String contact_name, String ticket_theme_id, String message) async{
+    var result = await httpClient.addTicket(contact_email, contact_name, ticket_theme_id, message);
+  }
+  Future<dynamic> getClaimMessages(String claim_id) async{
+    var result = await httpClient.getMessagesFromClaim(claim_id);
     return result;
   }
 }

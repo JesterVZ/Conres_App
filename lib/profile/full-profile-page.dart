@@ -2,6 +2,8 @@ import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/consts.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
+import 'package:conres_app/model/user-information.dart';
+import 'package:conres_app/profile/tabs/confidant-tab.dart';
 import 'package:conres_app/profile/tabs/contacts-tab.dart';
 import 'package:conres_app/profile/tabs/info-tab.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +21,8 @@ class FullProfile extends StatefulWidget {
 
 class _FullProfile extends State<FullProfile>
     with SingleTickerProviderStateMixin {
+      
+  UserInformation? userInformation;
   TabController? tabController;
   List<Tab> tabs = [
     const Tab(
@@ -37,10 +41,8 @@ class _FullProfile extends State<FullProfile>
   List<Widget> panels = [
     InfoTab(),
     ContactsTab(),
-    Center(child: Text("4")),
+    ConfidantTab(),
   ];
-  AuthBloc? authBloc;
-  ProfileBloc? profileBloc;
 
   @override
   void initState() {
@@ -50,11 +52,7 @@ class _FullProfile extends State<FullProfile>
 
   @override
   Widget build(BuildContext context) {
-    return BlocScreen<ProfileBloc, ProfileState>(
-        bloc: profileBloc,
-        listener: _listener,
-        builder: (context, state) {
-          return DefaultTabController(
+    return DefaultTabController(
               length: 3,
               child: Scaffold(
                   backgroundColor: defaultBackground,
@@ -83,15 +81,5 @@ class _FullProfile extends State<FullProfile>
                       )
                     ],
                   )));
-        });
-  }
-
-  _listener(BuildContext context, ProfileState state) {}
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    profileBloc ??= DependencyProvider.of(context)!.profileBloc;
-    authBloc ??= DependencyProvider.of(context)!.authBloc;
   }
 }

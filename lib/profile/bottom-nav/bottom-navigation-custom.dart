@@ -41,7 +41,7 @@ class BottomNavigation extends StatelessWidget {
                   color: _colorMatching(tabItem),
                 ),
                 Visibility(
-                    visible: counter != 0 ? true : false,
+                    visible: (counter != 0 && counter != null) ? true : false,
                     child: Positioned(
                       right: 0,
                       child: Container(

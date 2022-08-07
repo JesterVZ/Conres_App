@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:conres_app/model/result-data.dart';
+import 'package:conres_app/model/store.dart';
 import 'package:conres_app/repositories/auth-repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,16 +18,15 @@ class AuthBloc extends Bloc<Event, AuthState> {
     if(event is RegisterEvent){
       yield* _handleRegisterEvent(event);
     }
-    if(event is LoginEvent){
+    else if(event is LoginEvent){
       yield* _handleLoginEvent(event);
     }
 
-    if(event is GetLoginEvent){
+    else if(event is GetLoginEvent){
       yield* _handleGetLogin(event);
     }
-
-    if(event is GetTestimony){
-      yield* _handleGetTestimony(event);
+    else if(event is GetStores){
+      yield* _handleGetStores(event);
     }
 
 
@@ -41,13 +41,14 @@ class AuthBloc extends Bloc<Event, AuthState> {
     add(LoginEvent(username, password, type));
   }
 
-   getLogin(){
+  getLogin(){
     add(const GetLoginEvent());
   }
-
-  getTestimony(){
-    add(const GetTestimony());
+  
+  getStores(){
+    add(const GetStores());
   }
+
 
   Stream<AuthState> _handleRegisterEvent(RegisterEvent event) async*{
     yield state.copyWith(loading: true, error: null);
@@ -97,16 +98,16 @@ class AuthBloc extends Bloc<Event, AuthState> {
     }
   }
 
-  Stream<AuthState> _handleGetTestimony(GetTestimony event) async*{
+
+  Stream<AuthState> _handleGetStores(GetStores event) async*{
     yield state.copyWith(loading: true, error: null);
     try{
-      Object? result = await repo.getTestimonyFunc();
-      if(result is List<Meter>){
-        yield state.copyWith(testimony: result, loading: false, error: null);
+      Object? result = await repo.getStores();
+      if(result is List<Store>){
+        yield state.copyWith(stors: result, loading: false, error: null);
       }
-    } catch(e){
+    }catch(e){
       yield state.copyWith(error: e.toString(), loading: false);
     }
   }
-
 }

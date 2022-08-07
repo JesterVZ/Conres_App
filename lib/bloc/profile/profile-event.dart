@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -70,6 +71,13 @@ class SendMessageEvent extends ProfileEvent{
   const SendMessageEvent(this.ticket_id, this.message, this.ticket_status_id, this.files);
 }
 
+class SendClaimMessageEvent extends ProfileEvent{
+  final String claim_id;
+  final String text;
+  final List<PlatformFile>? files;
+  const SendClaimMessageEvent(this.claim_id, this.text, this.files);
+}
+
 class ReadMessage extends ProfileEvent{
   String ticketId;
   String messageId;
@@ -80,4 +88,29 @@ class DownloadFile extends ProfileEvent{
   String uri;
   String filename;
   DownloadFile(this.uri, this.filename);
+}
+
+class GetObjectsPU extends ProfileEvent{
+  const GetObjectsPU();
+}
+
+class GetFullProfileInfo extends ProfileEvent{
+  const GetFullProfileInfo();
+}
+
+class GetTU extends ProfileEvent{
+  const GetTU();
+}
+
+class CreateNewTicket extends ProfileEvent{
+  String contact_email;
+  String contact_name;
+  String ticket_theme_id;
+  String message;
+  CreateNewTicket(this.contact_email, this.contact_name, this.message, this.ticket_theme_id);
+}
+
+class GetClaimMessages extends ProfileEvent{
+  String claim_id;
+  GetClaimMessages(this.claim_id);
 }

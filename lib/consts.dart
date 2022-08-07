@@ -5,7 +5,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 //load link
-String loadLink = "https://promo.dev.conres.ru/lk/load_ticket_addit_file?link=";
+String loadLink = "${domain}lk/load_ticket_addit_file?link=";
+String claimLoadLink="${domain}lk/claim_load?t=1&link=";
 
 String title = "тестовая компания";
 String lkTitle = "Личный кабинет потребителя";
@@ -117,8 +118,9 @@ String numberLS = "Номер лицевого счёта";
 String sendLinkRequest = "Отправить запрос на привязку";
 String deleteObject = "Удалить объект";
 //login
-String domain = "promo.dev.conres.ru//";
-String protocol = "https://";
+String domain = "https://promo.dev.conres.ru/";
+String ws = "wss://promo.dev.conres.ru";
+//String protocol = "https://";
 int loginType = 2;
 //testimony
 String sendTestimony = "Передача показаний";
@@ -141,7 +143,7 @@ Color colorMain = const Color(0xFF4574F7);
 Color colorGray = const Color(0xFF4F5A6E);
 Color colorGrayClaim = const Color(0xFF9B9BAE);
 Color colorGrayText = const Color(0xFF4F5A6E);
-Color inputBorder = const Color(0xFFE8EDFF);
+Color inputBorder = const Color(0xFFE6E6EF);
 Color defaultBackground = const Color(0xFFFFFFFF);
 Color colorLogo = const Color(0xFFE7EEFE);
 Color profileColor = const Color(0xFFFDFDFF);
@@ -154,6 +156,7 @@ Color whiteGrayColor = const Color(0xFFa7adb7);
 Color redColor = const Color(0xFFE63757);
 Color claimLabelColor = const Color(0xFFa7acb7);
 Color yellowColor = const Color(0xFFFFAE34);
+Color greenColor = const Color(0xFF28b938);
 Color yellowStatusColor = const Color(0xFFFDE7C6);
 Color whiteBlueColor = const Color(0xFFE4EAFF);
 Color whiteLabelColor = const Color(0xFFA3A5BC);
@@ -161,13 +164,17 @@ Color dashedColor = const Color(0xFF4E648A);
 Color messageColor = const Color(0xFFECF2FE);
 Color pageColor = const Color(0xFFF4F5FA);
 
+/* Стили */
+
 TextStyle claimTextStyle = TextStyle(color: colorMain, fontSize: 18.0, fontFamily: 'Bubicon-Bold');
 TextStyle labelTextStyle = TextStyle(color: colorGrayText, fontSize: 16.0);
 TextStyle buttonTextStyle = const TextStyle(fontSize: 18.0);
-TextStyle profileHeaderTextStyle = const TextStyle(fontSize: 24.0);
+TextStyle profileHeaderTextStyle = const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold);
 TextStyle warningTextStyle = TextStyle(fontSize: 16.0, color: whiteGrayColor);
 TextStyle contractLabelTextStyle = const TextStyle(fontSize: 14.0, color: Colors.white);
 TextStyle claimLabelTextStyle = TextStyle(fontSize: 16.0, color: claimLabelColor);
 TextStyle puTextStyle = TextStyle(fontSize: 13.0, color: whiteLabelColor);
+
+double defaultSidePadding = 17;
 
 BorderRadius buttonRadius = BorderRadius.circular(10);
