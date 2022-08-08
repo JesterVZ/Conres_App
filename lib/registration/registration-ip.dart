@@ -30,10 +30,14 @@ class RegIP extends StatefulWidget {
 }
 
 class _RegIP extends State<RegIP> {
-  final controllerList = List<TextEditingController>.generate( //список контроллеров основных полей
-      9, (index) => TextEditingController());
-  final controllerDlList = List<TextEditingController>.generate( //список контроллеров полей ДЛ
-      5, (index) => TextEditingController());
+  final controllerList = List<TextEditingController>.generate(
+      //список контроллеров основных полей
+      9,
+      (index) => TextEditingController());
+  final controllerDlList = List<TextEditingController>.generate(
+      //список контроллеров полей ДЛ
+      5,
+      (index) => TextEditingController());
   final _formKey = GlobalKey<FormState>();
   late bool _agree = false; //согласен ли
   late bool _visabillity = false; //показать/скрыть ДЛ
@@ -660,9 +664,10 @@ class _RegIP extends State<RegIP> {
                                                             Navigator.push(
                                                                 context,
                                                                 MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            PrivacyPolicy()));
+                                                                    builder: (context) =>
+                                                                        PrivacyPolicy(
+                                                                            func:
+                                                                                checkAgree)));
                                                           })
                                               ]),
                                             ),
@@ -740,6 +745,12 @@ class _RegIP extends State<RegIP> {
                 ),
               ));
         });
+  }
+
+  void checkAgree(bool value) {
+    setState(() {
+      _agree = value;
+    });
   }
 
   void submitData() {

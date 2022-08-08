@@ -16,8 +16,12 @@ class HeaderRow extends StatelessWidget {
       //crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: (){
-            Navigator.pop(context);
+          onTap: () {
+            if (text == "Выберите тип (Авторизаця)") {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            } else {
+              Navigator.pop(context);
+            }
           },
           child: Container(
             width: 30,

@@ -4,15 +4,20 @@ import 'package:flutter/material.dart';
 import '../consts.dart';
 
 class PrivacyPolicy extends StatelessWidget {
+  ValueChanged<bool> func;
+  PrivacyPolicy({required this.func});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-          padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding, bottom: defaultSidePadding),
-          child: Scrollbar(
-            child: SingleChildScrollView(
-      child: Column(children: [
-        const Text('''Политика конфиденциальности (для РСО)
+            padding: EdgeInsets.only(
+                left: defaultSidePadding,
+                right: defaultSidePadding,
+                bottom: defaultSidePadding),
+            child: Scrollbar(
+                child: SingleChildScrollView(
+              child: Column(children: [
+                const Text('''Политика конфиденциальности (для РСО)
 Редакция от 24.03.2022
 
  
@@ -141,30 +146,33 @@ class PrivacyPolicy extends StatelessWidget {
 7. Обратная связь. Вопросы и предложения
 7.1. Все предложения или вопросы по поводу настоящей Политики следует сообщать в ООО "Научно-техническое предприятие "РЭП" по электронной почте lexa_g@mail.ru, по телефону 79027909056 или на сайте https://rep.dev.conres.ru/."),
     '''),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 55,
-          child: ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("Согласен", style: buttonTextStyle),
-              style: ElevatedButton.styleFrom(backgroundColor: colorMain)),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: 10),
-          width: MediaQuery.of(context).size.width,
-          height: 55,
-          child: ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("Не согласен", style: TextStyle(color: Colors.white, fontSize: 18)),
-              style: ElevatedButton.styleFrom(backgroundColor: colorGray)),
-        ),
-      ]),
-    ))
-        )
-        );
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 55,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        func.call(true);
+                        Navigator.pop(context);
+                      },
+                      child: Text("Согласен", style: buttonTextStyle),
+                      style:
+                          ElevatedButton.styleFrom(backgroundColor: colorMain)),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  width: MediaQuery.of(context).size.width,
+                  height: 55,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        func.call(false);
+                        Navigator.pop(context);
+                      },
+                      child: Text("Не согласен",
+                          style: TextStyle(color: Colors.white, fontSize: 18)),
+                      style:
+                          ElevatedButton.styleFrom(backgroundColor: colorGray)),
+                ),
+              ]),
+            ))));
   }
 }
