@@ -1,7 +1,6 @@
 import 'package:conres_app/elements/registration/sliding-up.dart';
 import 'package:conres_app/model/model.dart';
 import 'package:conres_app/registration/privacy-policy.dart';
-import 'package:conres_app/registration/seccessful-registration.dart';
 import 'package:conres_app/registration/validate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -586,6 +585,7 @@ class _RegIP extends State<RegIP> {
                                                             )
                                                           ],
                                                         )),
+                                                    
                                                     Container(
                                                       height: 6,
                                                       decoration: BoxDecoration(
@@ -794,7 +794,7 @@ class _RegIP extends State<RegIP> {
         showDialog(
             context: context,
             builder: (BuildContext context) => Alert(
-                title: (state.error as Map<dynamic, dynamic>).keys.first,
+                title: "Ошибка!",
                 text: (validate(
                     (state.error as Map<dynamic, dynamic>).values.first))));
       }

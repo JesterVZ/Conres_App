@@ -141,7 +141,7 @@ class HttpClient{
     if(sender is Ul){
       try{
         var formData = FormData.fromMap({
-          'user_lk_group_id': '2',
+          'user_lk_group_id': '3',
           'user_lk_type_id': '3',
           'agree': '1',
           'company_full': sender.FullName,
@@ -153,16 +153,22 @@ class HttpClient{
           'contacts[0][value]': sender.Tel,
           'contacts[0][contact_type_id]': '2',
           'contacts[0][flags][1]': '1',
+          'contacts[0][flags][2]': '1',
 
+          'contacts[1][contact_type_id]': '3',
+          'contacts[1][flags][1]': '1',
+          'contacts[1][flags][2]': '1',
+          'contacts[1][value]': sender.Email,
+          
           'proxy[lastname]': sender.dl?.Family,
           'proxy[firstname]': sender.dl?.Name,
           'proxy[patronymic]': sender.dl?.Patronymic,
           'proxy[telephone]': sender.dl?.TelDL,
           'proxy[email]': sender.dl?.EmailDL,
 
-          'contacts[1][value]': sender.Email,
+          
           'password': sender.Password,
-          'confirm': sender.RepeatPassword
+          'confirm': sender.RepeatPassword,
         });
         var cookieJar=CookieJar();
         _apiClient.interceptors.add(CookieManager(cookieJar));

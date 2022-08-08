@@ -1,6 +1,7 @@
 import 'package:conres_app/login/login-main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
@@ -9,12 +10,15 @@ import '../elements/bloc/bloc-screen.dart';
 import '../profile/main-page.dart';
 
 class LoadingPage extends StatefulWidget{
+  String? newLogin;
+  LoadingPage({this.newLogin});
   @override
   State<StatefulWidget> createState() => _LoadingPage();
 }
 
 class _LoadingPage extends State<LoadingPage>{
   AuthBloc? authBloc;
+  WebSocketChannel? webSocketChannel;
   var mainPage = LoadingPage();
   bool isLogin = false;
 
@@ -49,7 +53,11 @@ class _LoadingPage extends State<LoadingPage>{
           isLogin = true;
         }
       } else {
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainPage(profile: state.profile, loginData: state.loginData)), (route) => false);
+        List<dynamic> loginData = state.loginData!;
+        if(widget.newLogin != null){
+          loginData[0] = widget.newLogin;
+        }
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainPage(profile: state.profile, loginData: loginData)), (route) => false);
       }
     } else {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => const LoginPage()), (route) => false);
@@ -59,6 +67,7 @@ class _LoadingPage extends State<LoadingPage>{
   void didChangeDependencies() {
     super.didChangeDependencies();
     authBloc ??= DependencyProvider.of(context)!.authBloc;
+    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
     authBloc!.getLogin();
   }
 }

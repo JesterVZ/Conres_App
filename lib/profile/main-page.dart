@@ -17,6 +17,7 @@ import '../contracts/contracts.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/route/def-page-router.dart';
 import '../login/login-main.dart';
+import '../model/contract.dart';
 import '../model/profile.dart';
 import '../more/more.dart';
 import '../websocket/websocket.dart';
@@ -57,10 +58,10 @@ class _MainPage extends State<MainPage> {
       navigatorKey: _navKeys[TabItem.main],
       profile: widget.profile,
       rootPage:
-          ProfilePageTest(profile: widget.profile, loginData: widget.loginData),
+          ProfilePageTest(profile: widget.profile, loginData: widget.loginData, func: goToContract),
     ));
     navigatorList.add(TabNavigator(
-        navigatorKey: _navKeys[TabItem.contracts], rootPage: Contracts()));
+        navigatorKey: _navKeys[TabItem.contracts], rootPage: Contracts(canLogin: false, func: goToContract)));
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.claims], rootPage: Claims()));
     navigatorList.add(TabNavigator(
@@ -71,8 +72,13 @@ class _MainPage extends State<MainPage> {
   }
 
   void logout() async {
-    //await webSocketChannel!.sink.close();
+    await webSocketChannel!.sink.close();
     profileBloc!.logout();
+  }
+
+  void goToContract(Contract contract) async{
+    await webSocketChannel!.sink.close();
+    Navigator.pushAndRemoveUntil(context, DefaultPageRouter(LoadingPage(newLogin: contract.account_number,)), (route) => false);
   }
 
   void _selectTab(TabItem tabItem) {

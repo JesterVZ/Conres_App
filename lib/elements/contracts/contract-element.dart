@@ -7,15 +7,24 @@ import '../../consts.dart';
 
 class ContractElement extends StatelessWidget{
   final Contract contract;
+  bool canLogin;
+  ValueChanged<Contract> func;
 
-  ContractElement({required this.contract});
+  ContractElement({required this.contract, required this.func, required this.canLogin});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return GestureDetector(
+      onTap: (){
+        if(canLogin == true){
+          func.call(contract);
+        }
+        
+      },
+      child: Padding(
             padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
             child: Container(
-      margin: EdgeInsets.only(top: 28),
+      margin: EdgeInsets.only(top: 14, bottom: 14),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           color: Colors.white,
@@ -108,7 +117,9 @@ class ContractElement extends StatelessWidget{
     
     )
   
-    );
+    )
     
+    );
+
   }
 }

@@ -48,8 +48,12 @@ class _Chats extends State<Chats> {
                 child: Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
-                        height: 100, child: HeaderNotification(text: "Обращения",)),
+                  margin: EdgeInsets.only(top: 52),
+                    padding: EdgeInsets.only(
+                        left: defaultSidePadding, right: defaultSidePadding, bottom: 12),
+                    child: HeaderNotification(
+                      text: "Обращения",
+                    )),
                     Expanded(
                         child: Scrollbar(
                             child: ListView.builder(controller: scrollController, itemCount: tickets.length, itemBuilder: (context, int index){

@@ -45,7 +45,7 @@ class _TicketRow extends State<TicketRow>{
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(20, 26, 20, 26),
+      padding: EdgeInsets.fromLTRB(defaultSidePadding, 14, defaultSidePadding, 14),
       child: 
       Container(
         decoration: BoxDecoration(

@@ -44,9 +44,9 @@ class _Claims extends State<Claims> {
             child: Column(
               children: [
                 Container(
+                  margin: EdgeInsets.only(top: 52),
                     padding: EdgeInsets.only(
-                        left: defaultSidePadding, right: defaultSidePadding),
-                    height: 100,
+                        left: defaultSidePadding, right: defaultSidePadding, bottom: 12),
                     child: HeaderNotification(
                       text: "Заявления",
                     )),

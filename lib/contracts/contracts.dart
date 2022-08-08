@@ -1,5 +1,8 @@
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/elements/header/header.dart';
+import 'package:conres_app/elements/route/def-page-router.dart';
+import 'package:conres_app/loading/loading-page.dart';
+import 'package:conres_app/model/contract.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +15,9 @@ import '../elements/contracts/contract-element.dart';
 import 'new-ls/new-ls.dart';
 
 class Contracts extends StatefulWidget {
+  bool canLogin;
+  ValueChanged<Contract> func;
+  Contracts({required this.canLogin, required this.func});
   @override
   State<StatefulWidget> createState() => _Contracts();
 }
@@ -30,9 +36,9 @@ class _Contracts extends State<Contracts> {
             body: Column(
               children: [
                 Container(
+                  margin: EdgeInsets.only(top: 52),
                     padding: EdgeInsets.only(
-                        left: defaultSidePadding, right: defaultSidePadding),
-                    height: 100,
+                        left: defaultSidePadding, right: defaultSidePadding, bottom: 12),
                     child: HeaderNotification(
                       text: "Договоры",
                     )),
@@ -64,7 +70,7 @@ class _Contracts extends State<Contracts> {
                     },
                     child: Text(linkNewLs, style: buttonTextStyle),
                     style: ElevatedButton.styleFrom(
-                        primary: colorMain,
+                        backgroundColor: colorMain,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8))),
                   ),
@@ -82,7 +88,7 @@ class _Contracts extends State<Contracts> {
     if (state.contracts != null) {
       if (contracts.isEmpty) {
         for (int i = 0; i < state.contracts!.length; i++) {
-          contracts.add(ContractElement(contract: state.contracts![i]));
+          contracts.add(ContractElement(contract: state.contracts![i], func: widget.func, canLogin: widget.canLogin));
         }
       }
     }

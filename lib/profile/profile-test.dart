@@ -1,7 +1,5 @@
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/contracts/contracts.dart';
-import 'package:conres_app/elements/header/header.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -11,14 +9,15 @@ import '../bloc/auth/auth-state.dart';
 import '../consts.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/header/header-notification.dart';
-import '../icons.dart';
+import '../model/contract.dart';
 import '../model/profile.dart';
-import '../testimony/link-pu.dart';
 import '../testimony/send-testimony.dart';
 
 class ProfilePageTest extends StatefulWidget {
-  ProfilePageTest({Key? key, this.profile, this.loginData}) : super(key: key);
+  ProfilePageTest({Key? key, this.profile, this.loginData, required this.func}) : super(key: key);
   Profile? profile;
+  ValueChanged<Contract> func;
+
   final List<dynamic>? loginData;
   Widget content = Scaffold(
       body: Center(
@@ -66,12 +65,16 @@ class _ProfilePage extends State<ProfilePageTest> {
           body: Container(
         child: Padding(
             padding: EdgeInsets.fromLTRB(
-                defaultSidePadding, 59, defaultSidePadding, 0),
+                defaultSidePadding, 0, defaultSidePadding, 0),
             child: Stack(
               children: [
                 Column(
                   children: [
-                    HeaderNotification(text: profile),
+                    Container(
+                      margin: EdgeInsets.only(top: 52),
+                        child: HeaderNotification(
+                          text: "Ваш профиль",
+                        )),
                     Visibility(
                         visible:
                             widget.profile!.personal != null ? true : false,
@@ -80,7 +83,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Contracts()));
+                                    builder: (context) => Contracts(canLogin: true, func: widget.func)));
                           },
                           child: Container(
                             margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
