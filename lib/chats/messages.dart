@@ -256,7 +256,7 @@ class _MessagesPage extends State<MessagesPage> {
         }
       }
       messageList.sort((a, b) {
-          return b.ticket_message_id!.compareTo(a.ticket_message_id!);
+          return b.message_id!.compareTo(a.message_id!);
       });
     }
     if(state.claimMessages != null && mainLabel == "Заявление"){
@@ -347,8 +347,8 @@ class _MessagesPage extends State<MessagesPage> {
             last_tm_resiver: state.sendMessageData!['ticket_info'][0]
                 ['last_tm_resiver']));
       messageList.sort((a, b) {
-        return b.date_added!.compareTo(a.date_added!);
-      });       
+          return b.ticket_message_id!.compareTo(a.ticket_message_id!);
+      });      
       });
     }
   }

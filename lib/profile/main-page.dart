@@ -72,12 +72,10 @@ class _MainPage extends State<MainPage> {
   }
 
   void logout() async {
-    await webSocketChannel!.sink.close();
     profileBloc!.logout();
   }
 
   void goToContract(Contract contract) async{
-    await webSocketChannel!.sink.close();
     Navigator.pushAndRemoveUntil(context, DefaultPageRouter(LoadingPage(newLogin: contract.account_number,)), (route) => false);
   }
 
@@ -93,7 +91,6 @@ class _MainPage extends State<MainPage> {
 
   Future<void> _refrash() async{
     print("refrash");
-    await webSocketChannel!.sink.close();
     Navigator.pushAndRemoveUntil(context, DefaultPageRouter(LoadingPage()), (route) => false);
   }
 
