@@ -32,7 +32,10 @@ class _Claims extends State<Claims> {
     controller.addListener(pagination);
     super.initState();
   }
-
+  Future<void> _refrash() async {
+    claims.clear();
+    profileBloc!.getClaims();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(
@@ -50,13 +53,23 @@ class _Claims extends State<Claims> {
                     child: HeaderNotification(
                       text: "Заявления",
                     )),
-                Expanded(
-                    child: ListView.builder(
-                  itemCount: claims.length,
-                  itemBuilder: (context, index) {
-                    return ClaimElement(currentClaim: state.claims![index], downloadFunction: downloadClaim, userId: userId,);
-                  },
-                )),
+                    Expanded(
+                  child: Scrollbar(
+                      child: RefreshIndicator(
+                          onRefresh: _refrash,
+                          child: SingleChildScrollView(
+                              child: Column(
+                            children: [
+                              Column(
+                                children: [
+                                  //здесь заявления
+                                  Column(
+                                    children: claims,
+                                  ),
+                                ],
+                              )
+                            ],
+                          ))))),
                 Container(
                   padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
                   width: MediaQuery.of(context).size.width,

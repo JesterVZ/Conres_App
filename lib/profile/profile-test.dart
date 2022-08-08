@@ -45,7 +45,18 @@ class _ProfilePage extends State<ProfilePageTest> {
         bloc: authBloc,
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
-          return widget.content;
+          return Container(
+            child: RefreshIndicator(
+              onRefresh: _refrash,
+              child: CustomScrollView(
+                slivers: [
+                  SliverFillRemaining(
+                    child: widget.content
+                  )
+                ],
+              ),
+            ),
+          );
         });
   }
 

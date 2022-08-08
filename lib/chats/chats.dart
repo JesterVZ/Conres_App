@@ -36,6 +36,11 @@ class _Chats extends State<Chats> {
     super.initState();
   }
 
+  Future<void> _refrash() async {
+    tickets.clear();
+    profileBloc!.getTickets(page.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(
@@ -43,49 +48,66 @@ class _Chats extends State<Chats> {
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
           return Scaffold(
-              body: Stack(children: [
-                Container(
+              body: Stack(
+            children: [
+              Container(
                 child: Column(
                   children: [
                     Container(
-                  margin: EdgeInsets.only(top: 52),
-                    padding: EdgeInsets.only(
-                        left: defaultSidePadding, right: defaultSidePadding, bottom: 12),
-                    child: HeaderNotification(
-                      text: "Обращения",
-                    )),
+                        margin: EdgeInsets.only(top: 52),
+                        padding: EdgeInsets.only(
+                            left: defaultSidePadding,
+                            right: defaultSidePadding,
+                            bottom: 12),
+                        child: HeaderNotification(
+                          text: "Обращения",
+                        )),
                     Expanded(
                         child: Scrollbar(
-                            child: ListView.builder(controller: scrollController, itemCount: tickets.length, itemBuilder: (context, int index){
-                              return TicketRow(ticket: tickets[index], openChat: _openChat, counter: tickets[index].count_tm_resiver);
-                            }))),
+                            child: RefreshIndicator(
+                                onRefresh: _refrash,
+                                child: ListView.builder(
+                                        controller: scrollController,
+                                        itemCount: tickets.length,
+                                        itemBuilder: (context, int index) {
+                                          return TicketRow(
+                                              ticket: tickets[index],
+                                              openChat: _openChat,
+                                              counter: tickets[index]
+                                                  .count_tm_resiver);
+                                        })))),
                     Container(
-                  padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
-                  width: MediaQuery.of(context).size.width,
-                  height: 55,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => NewChat()));
-                    },
-                    child: Text("Новое обращение", style: buttonTextStyle),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: colorMain,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8))),
-                  ),
-                )
+                      padding: EdgeInsets.only(
+                          left: defaultSidePadding, right: defaultSidePadding),
+                      width: MediaQuery.of(context).size.width,
+                      height: 55,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NewChat()));
+                        },
+                        child: Text("Новое обращение", style: buttonTextStyle),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: colorMain,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8))),
+                      ),
+                    )
                   ],
                 ),
               ),
               Visibility(
-                      child: Center(
-                          child: Container(
-                        width: 50,
-                        height: 50,
-                        child: Image.asset('assets/loading.gif'),
-                      )),
-                      visible: isLoading)
-              ],));
+                  child: Center(
+                      child: Container(
+                    width: 50,
+                    height: 50,
+                    child: Image.asset('assets/loading.gif'),
+                  )),
+                  visible: isLoading)
+            ],
+          ));
         });
   }
 
@@ -99,7 +121,10 @@ class _Chats extends State<Chats> {
     }
     if (state.tickets != null) {
       //tickets.clear();
-      if(tickets.isEmpty || (tickets.first.ticket_id != state.tickets!.first.ticket_id && (int.parse(state.page!) == page) && page == 1)){
+      if (tickets.isEmpty ||
+          (tickets.first.ticket_id != state.tickets!.first.ticket_id &&
+              (int.parse(state.page!) == page) &&
+              page == 1)) {
         tickets = state.tickets!;
       }
       if ((int.parse(state.page!) == page) && page > 1) {
@@ -108,13 +133,13 @@ class _Chats extends State<Chats> {
     }
   }
 
-  void _pagination(){
+  void _pagination() {
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
-          setState(() {
-            page++;
-            profileBloc!.getTickets(page.toString());
-          });
+      setState(() {
+        page++;
+        profileBloc!.getTickets(page.toString());
+      });
     }
   }
 
@@ -128,7 +153,8 @@ class _Chats extends State<Chats> {
                 genericId: ticket.ticket_id.toString(),
                 type: ChatTypes.Ticket,
                 page: '1',
-                statusName: ticket.cur_status != null ? ticket.cur_status!.name : "")));
+                statusName:
+                    ticket.cur_status != null ? ticket.cur_status!.name : "")));
   }
 
   @override

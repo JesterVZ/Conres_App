@@ -104,12 +104,7 @@ class _MainPage extends State<MainPage> {
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
           return Container(
-            child: RefreshIndicator(
-              onRefresh: _refrash,
-              child: CustomScrollView(
-                slivers: [
-                  SliverFillRemaining(
-                    child: WillPopScope(
+            child: WillPopScope(
             onWillPop: () async {
               final isFirstRouteInCurrentTab =
                   !await _navKeys[_currentTab]!.currentState!.maybePop();
@@ -143,10 +138,6 @@ class _MainPage extends State<MainPage> {
               ),
             ),
           ),
-                  )
-                ],
-              ),
-            ),
           );
 
           

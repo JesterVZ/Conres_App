@@ -26,57 +26,63 @@ class _Contracts extends State<Contracts> {
   ProfileBloc? profileBloc;
   List<Widget> contracts = [];
 
+  Future<void> _refrash() async {
+    contracts.clear();
+    profileBloc!.getContracts();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(
         bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
-          return Scaffold(
-            body: Column(
-              children: [
-                Container(
+          return Column(
+            children: [
+              Container(
                   margin: EdgeInsets.only(top: 52),
-                    padding: EdgeInsets.only(
-                        left: defaultSidePadding, right: defaultSidePadding, bottom: 12),
-                    child: HeaderNotification(
-                      text: "Договоры",
-                    )),
-                Expanded(
-                    child: Scrollbar(
-                        child: SingleChildScrollView(
-                            child: Column(
-                  children: [
-                    Column(
-                      children: [
-                        //здесь договоры
-                        Column(
-                          children: contracts,
-                        ),
-                      ],
-                    )
-                  ],
-                )))),
-                Container(
-                  padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
-                  width: MediaQuery.of(context).size.width,
-                  height: 55,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const NewLS()));
-                    },
-                    child: Text(linkNewLs, style: buttonTextStyle),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: colorMain,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8))),
-                  ),
-                )
-              ],
-            ),
+                  padding: EdgeInsets.only(
+                      left: defaultSidePadding,
+                      right: defaultSidePadding,
+                      bottom: 12),
+                  child: HeaderNotification(
+                    text: "Договоры",
+                  )),
+              Expanded(
+                  child: Scrollbar(
+                      child: RefreshIndicator(
+                          onRefresh: _refrash,
+                          child: SingleChildScrollView(
+                              child: Column(
+                            children: [
+                              Column(
+                                children: [
+                                  //здесь договоры
+                                  Column(
+                                    children: contracts,
+                                  ),
+                                ],
+                              )
+                            ],
+                          ))))),
+              Container(
+                padding: EdgeInsets.only(
+                    left: defaultSidePadding, right: defaultSidePadding),
+                width: MediaQuery.of(context).size.width,
+                height: 55,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const NewLS()));
+                  },
+                  child: Text(linkNewLs, style: buttonTextStyle),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: colorMain,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8))),
+                ),
+              )
+            ],
           );
         });
   }
@@ -88,7 +94,10 @@ class _Contracts extends State<Contracts> {
     if (state.contracts != null) {
       if (contracts.isEmpty) {
         for (int i = 0; i < state.contracts!.length; i++) {
-          contracts.add(ContractElement(contract: state.contracts![i], func: widget.func, canLogin: widget.canLogin));
+          contracts.add(ContractElement(
+              contract: state.contracts![i],
+              func: widget.func,
+              canLogin: widget.canLogin));
         }
       }
     }
