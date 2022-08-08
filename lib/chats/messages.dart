@@ -23,6 +23,7 @@ import '../consts.dart';
 import '../elements/alert.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/chat/file-for-send.dart';
+import '../elements/chat/message-element.dart';
 import '../model/profile.dart';
 
 import '../websocket/websocket.dart';
@@ -139,59 +140,10 @@ class _MessagesPage extends State<MessagesPage> {
                               child: HeaderNotification(
                                   text: "$mainLabel № ${widget.genericId}", canGoBack: true))),
                       
-                      Expanded(
+                      Expanded( //сюда сообщения
                         child: Scrollbar(
                           child: ListView.builder(itemCount: messageList.length, controller: scrollController, reverse: true, itemBuilder: (BuildContext context, int i) {
-                            return Align(
-                            alignment: messageList[i].isOwn!
-                                  ? Alignment.centerRight
-                                  : Alignment.centerLeft,
-                            child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color:
-                                        messageList[i].isOwn! ? colorMain : messageColor),
-                                margin: const EdgeInsets.all(10),
-                                padding: const EdgeInsets.all(10),
-                                child: Column(children: [
-                                  Text("${(messageList is List<TicketMessage>) ? messageList[i].message! : (messageList is List<ClaimMessage>) ? messageList[i].text : ""}",
-                                      style: TextStyle(
-                                          color: messageList[i].isOwn!
-                                              ? Colors.white
-                                              : Colors.black)),
-                                  //Text(messageList[i].date_added.toString()), 
-                                  //Text("${message.message_id}"), //message id
-                                  
-                                  Visibility(
-                                      visible: (messageList is List<TicketMessage>) ? (messageList[i].data != null ? true : false) : false,
-                                      child: GestureDetector(
-                                          onTap: () {
-                                            _loadImageFromUri("${domain}lk/load_ticket_addit_file?link=${messageList[i].data!.file_href!}", messageList[i].data!.document_name!);
-                                          },
-                                          child: 
-                                          SizedBox(
-                                            width: 150,
-                                            height: 120,
-                                            child: Flex(direction: Axis.vertical,children: [
-                                            Preview(uri: messageList[i].data != null ?(messageList[i].data!.thumb != null ? messageList[i].data!.thumb! : "") : ""),
-                                            
-                                            Flexible(
-                                                    flex: 1,
-                                                    child: Text(
-                                                            messageList[i].data != null
-                                                              ? messageList[i].data!.document_name!
-                                                              : "",
-                                                              overflow: TextOverflow.ellipsis,
-                                                            style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration.underline,
-                                                              color: messageList[i].isOwn! ? Colors.white : Colors.black)),        
-                                                  )
-                                          ])))
-                                  )
-                                ]),
-                              ),
-                          );
+                            return MessageElement(message: messageList[i], fun: _loadImageFromUri);
                           } ),
                         ),
                       ),
@@ -222,9 +174,10 @@ class _MessagesPage extends State<MessagesPage> {
                                     },
                                     child: SvgPicture.asset('assets/clip.svg')),
                                 const Spacer(),
-                                Container(
+                                SizedBox(
                                   width: 245,
                                   child: TextField(
+                                    keyboardType: TextInputType.multiline,
                                     controller: controller,
                                     decoration: InputDecoration(
                                         hintText: "Сообщение...",
@@ -303,7 +256,7 @@ class _MessagesPage extends State<MessagesPage> {
         }
       }
       messageList.sort((a, b) {
-          return b.date_added!.compareTo(a.date_added!);
+          return b.ticket_message_id!.compareTo(a.ticket_message_id!);
       });
     }
     if(state.claimMessages != null && mainLabel == "Заявление"){
@@ -420,6 +373,7 @@ class _MessagesPage extends State<MessagesPage> {
     webSocketData ??= DependencyProvider.of(context)!.webSocketData;
     webSocketListener?.webSocketChannel = webSocketChannel;
     webSocketListener?.function = getData;
+
     if(widget.type == ChatTypes.Ticket){
       profileBloc!
         .getMessages(widget.genericId!, widget.page!, lastMessageId != null ? lastMessageId! : "1");
@@ -430,5 +384,6 @@ class _MessagesPage extends State<MessagesPage> {
       mainLabel = "Заявление";
       isLoadingMessages = true;
     }
+    
   }
 }
