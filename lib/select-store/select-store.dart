@@ -52,6 +52,7 @@ class _SelectStore extends State<SelectStore>{
     }
   }
   void choose(Store store) async{
+    store_id = store.store_id;
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('store', store.name!);
     ws = "wss://rep.dev.conres.ru";

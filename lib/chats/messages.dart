@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:isolate';
 
+import 'package:camera/camera.dart';
 import 'package:conres_app/elements/chat/file-send-dialog.dart';
 import 'package:conres_app/elements/chat/preview.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
@@ -27,6 +28,7 @@ import '../elements/chat/message-element.dart';
 import '../model/profile.dart';
 
 import '../websocket/websocket.dart';
+import 'camera-page.dart';
 
 class MessagesPage<G, T> extends StatefulWidget {
   String userId;
@@ -63,6 +65,7 @@ class _MessagesPage extends State<MessagesPage> {
   int messageCounter = 0;
   ReceivePort _receivePort = ReceivePort();
   String mainLabel = "";
+  String? storeId;
 
   void _send() {
     if(widget.type == ChatTypes.Ticket){
@@ -70,10 +73,16 @@ class _MessagesPage extends State<MessagesPage> {
     } else if(widget.type ==ChatTypes.Claim){
       profileBloc!.sendClaimMessage(widget.genericId!, controller.text, files);
     }
-    
   }
-  void _createPhoto(){
-    
+  void _createPhoto() async{
+    await availableCameras().then(
+              (value) => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CameraPage(cameras: value,),
+                ),
+              ),
+            );
   }
   void _openDialog(){
     showDialog(
@@ -237,27 +246,28 @@ class _MessagesPage extends State<MessagesPage> {
                 text: state.error!));
     }
     if (state.ticketFullInfo != null && mainLabel == "Обращение") {
-      isLoadingMessages = false;
-      lastMessageId = state.ticketFullInfo!.last_message_id!;
-    if(page == 1){
-      messageList = state.ticketFullInfo!.messages!;
-        profileBloc!.readMessage(widget.genericId!, lastMessageId!);
-        for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
-          messageList[i].isOwn =
-              state.ticketFullInfo!.messages![i].user_id != widget.userId ? false : true;
+        isLoadingMessages = false;
+        lastMessageId = state.ticketFullInfo!.last_message_id!;
+        if(page == 1){
+          messageList = state.ticketFullInfo!.messages!;
+            //profileBloc!.readMessage(widget.genericId!, lastMessageId!);
+            for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
+              messageList[i].isOwn =
+                  state.ticketFullInfo!.messages![i].user_id != widget.userId ? false : true;
+            }
         }
-    }
 
-      if ((int.parse(state.page!) == page) && page > 1) { //если страница текущая
-        messageList = state.ticketFullInfo!.messages! + (messageList as List<TicketMessage>);
-        for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
-          messageList[i].isOwn =
-              state.ticketFullInfo!.messages![i].user_id != widget.userId ? false : true;
-        }
-      }
-      messageList.sort((a, b) {
-          return b.message_id!.compareTo(a.message_id!);
-      });
+          if ((int.parse(state.page!) == page) && page > 1) { //если страница текущая
+            messageList = state.ticketFullInfo!.messages! + (messageList as List<TicketMessage>);
+            for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
+              messageList[i].isOwn =
+                  state.ticketFullInfo!.messages![i].user_id != widget.userId ? false : true;
+            }
+          }
+          messageList.sort((a, b) {
+              return int.parse(b.ticket_message_id!).compareTo(int.parse(a.ticket_message_id!));
+          });
+          
     }
     if(state.claimMessages != null && mainLabel == "Заявление"){
       isLoadingMessages = false;
@@ -269,7 +279,7 @@ class _MessagesPage extends State<MessagesPage> {
     if (state.sendMessageData != null) {
       MessageSend message = MessageSend(
           cmd: "publish",
-          subject: "store-3",
+          subject: "store-${store_id}",
           event: "ticket_msg",
           data: Data(
               user_type: "lk",
@@ -332,7 +342,8 @@ class _MessagesPage extends State<MessagesPage> {
             ticket_message_id: state.sendMessageData!['ticket_info'][0]
                 ['ticket_message_id'],
             ticket_id: state.sendMessageData!['ticket_info'][0]['ticket_id'],
-            message_id: null,
+            message_id: state.sendMessageData!['ticket_info'][0]
+                ['ticket_message_id'],
             
             message: state.sendMessageData!['ticket_info'][0]['message'],
             ticket_status_type_id: state.sendMessageData!['ticket_info'][0]
@@ -347,13 +358,14 @@ class _MessagesPage extends State<MessagesPage> {
             last_tm_resiver: state.sendMessageData!['ticket_info'][0]
                 ['last_tm_resiver']));
       messageList.sort((a, b) {
-          return b.ticket_message_id!.compareTo(a.ticket_message_id!);
-      });      
+              return int.parse(b.ticket_message_id!).compareTo(int.parse(a.ticket_message_id!));
+          });     
       });
     }
   }
 
   void getData(dynamic event) async {
+    print('\x1B[33m$event\x1B[0m');
       if (isLoading == false) {
         if(widget.type == ChatTypes.Ticket){
           profileBloc!.getMessages(widget.genericId!, widget.page!, lastMessageId!);
