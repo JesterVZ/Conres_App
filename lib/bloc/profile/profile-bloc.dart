@@ -301,6 +301,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try{
       Object result = await repo.sendClaimMessage(
                 event.claim_id, event.text, event.files);
+      if (result is Map<String, dynamic>) {
+        yield state.copyWith(
+            loading: false, sendMessageData: result, ticketFullInfo: null);
+      } else {
+        yield state.copyWith(
+            loading: false, sendMessageData: null, ticketFullInfo: null, error: result.toString());
+      }
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }

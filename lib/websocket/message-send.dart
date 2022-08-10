@@ -4,7 +4,7 @@ class MessageSend {
   String? cmd;
   String? subject;
   String? event;
-  Data? data;
+  MessageSendData? data;
   int? to_id;
 
   MessageSend(
@@ -22,7 +22,7 @@ class MessageSend {
       };
 }
 
-class Data {
+class MessageSendData {
   String? user_type;
   int? user_id;
   List<dynamic>? files;
@@ -31,7 +31,7 @@ class Data {
   UserInfo? user_info;
   String? date_group;
   String? date_group_name;
-  Data(
+  MessageSendData(
       {required this.user_type,
       required this.user_id,
       required this.files,

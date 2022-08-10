@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:conres_app/websocket/message-send.dart';
+
 class ClaimSend {
   String? cmd;
   String? subject;
   String? event;
-  Data? data;
+  ClaimSendData? data;
   int? to_id;
 
   ClaimSend(
@@ -22,7 +24,7 @@ class ClaimSend {
       };
 }
 
-class Data {
+class ClaimSendData {
   String? user_type;
   int? user_id;
   List<dynamic>? files;
@@ -31,7 +33,7 @@ class Data {
   UserInfo? user_info;
   String? date_group;
   String? date_group_name;
-  Data(
+  ClaimSendData(
       {required this.user_type,
       required this.user_id,
       required this.files,
@@ -109,36 +111,4 @@ class ClaimInfo {
       last_claim_lk: map['last_claim_lk'], 
       files: map['files']);
   }
-}
-
-class UserInfo {
-  String? inn;
-  String? firstname;
-  String? lastname;
-  String? patronymic;
-  Contacts? contacts;
-  String? href;
-
-  UserInfo(
-      {required this.inn,
-      required this.firstname,
-      required this.lastname,
-      required this.patronymic,
-      required this.contacts,
-      required this.href});
-  Map<String, dynamic> toJson() => {
-        'inn': inn,
-        'firstname': firstname,
-        'lastname': lastname,
-        'patronymic': patronymic,
-        'contacts': contacts != null ? contacts!.toJson() : null,
-        'href': href
-      };
-}
-
-class Contacts {
-  String? phone;
-  String? email;
-  Contacts({required this.phone, required this.email});
-  Map<String, dynamic> toJson() => {'2': phone, '3': email};
 }

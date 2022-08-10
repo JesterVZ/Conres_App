@@ -557,7 +557,7 @@ class HttpClient{
       }
       final result = await _apiClient.post(uri, data: formData);
       if(result.statusCode == 200){
-        return json.decode(result.data);
+        return result.data;
       }
     }catch(e){
       return e.toString();

@@ -8,6 +8,7 @@ import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/enums/chat-types.dart';
 import 'package:conres_app/model/claim-message.dart';
 import 'package:conres_app/model/message.dart';
+import 'package:conres_app/websocket/claim-send.dart';
 import 'package:conres_app/websocket/message-send.dart';
 import 'package:conres_app/websocket/websocket-listener.dart';
 import 'package:file_picker/file_picker.dart';
@@ -48,7 +49,8 @@ class MessagesPage<G, T> extends StatefulWidget {
 
 class _MessagesPage extends State<MessagesPage> {
   ProfileBloc? profileBloc;
-  List<Widget> messageFiles = []; // список файлов к сообщениям (отображение на панели)
+  List<Widget> messageFiles =
+      []; // список файлов к сообщениям (отображение на панели)
   List<dynamic> messageList = []; //список сообщений (tickets)
   //List<ClaimMessage> claimMessageList = []; //список сообщений (claims)
   dynamic file; // файл, прикрепленный к сообщению
@@ -70,55 +72,60 @@ class _MessagesPage extends State<MessagesPage> {
 
   void _send() {
     isWaitForSend = true;
-    if(widget.type == ChatTypes.Ticket){
-      profileBloc!.sendMessage(widget.genericId!, controller.text, widget.statusName!, file);
-    } else if(widget.type ==ChatTypes.Claim){
+    if (widget.type == ChatTypes.Ticket) {
+      profileBloc!.sendMessage(
+          widget.genericId!, controller.text, widget.statusName!, file);
+    } else if (widget.type == ChatTypes.Claim) {
       profileBloc!.sendClaimMessage(widget.genericId!, controller.text, file);
     }
   }
-  void _createPhoto() async{
+
+  void _createPhoto() async {
     await availableCameras().then(
-              (value) => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CameraPage(cameras: value, getPhoto: _getPhoto),
-                ),
-              ),
-            );
+      (value) => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CameraPage(cameras: value, getPhoto: _getPhoto),
+        ),
+      ),
+    );
   }
-  void _getPhoto(XFile? photo){
+
+  void _getPhoto(XFile? photo) {
     file = photo;
   }
-  void _openDialog(){
+
+  void _openDialog() {
     showDialog(
-      context: context,
-      builder: (BuildContext context) => FileSendDialog(pickFile: _loadImage, createPhoto: _createPhoto));
+        context: context,
+        builder: (BuildContext context) =>
+            FileSendDialog(pickFile: _loadImage, createPhoto: _createPhoto));
   }
-  void _loadImage() async{
-    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: false);
+
+  void _loadImage() async {
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(allowMultiple: false);
     if (result != null) {
       setState(() {
         file = result.files;
         messageFiles.clear();
-        messageFiles.add(
-          FileElement(
-            filename: result.files[0].name, 
+        messageFiles.add(FileElement(
+            filename: result.files[0].name,
             filepath: result.files[0].path,
             extension: result.files[0].extension,
             func: () {
               setState(() {
                 messageFiles.clear();
               });
-            }
-          ));
+            }));
       });
     }
   }
-  void _loadImageFromUri(String uri, String fileName) async{
+
+  void _loadImageFromUri(String uri, String fileName) async {
     final externalDir = await getExternalStorageDirectory();
     final status = await Permission.storage.request();
     profileBloc!.downloadFile(uri, fileName);
-
   }
 
   @override
@@ -126,7 +133,6 @@ class _MessagesPage extends State<MessagesPage> {
     page = int.parse(widget.page!);
     scrollController.addListener(pagination);
     super.initState();
-
   }
 
   void pagination() {
@@ -134,14 +140,14 @@ class _MessagesPage extends State<MessagesPage> {
         scrollController.position.maxScrollExtent) {
       setState(() {
         page++;
-        if(widget.type == ChatTypes.Ticket){
+        if (widget.type == ChatTypes.Ticket) {
           isLoadingMessages = true;
-          profileBloc!.getMessages(widget.genericId!, page.toString(), lastMessageId!);
+          profileBloc!
+              .getMessages(widget.genericId!, page.toString(), lastMessageId!);
         }
       });
     }
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -154,212 +160,291 @@ class _MessagesPage extends State<MessagesPage> {
             listener: (context, state) => _listener(context, state),
             builder: (context, state) {
               return Scaffold(
-                backgroundColor: Colors.white,
+                  backgroundColor: Colors.white,
                   body: Stack(
-                children: [
-                  Column(
                     children: [
-                      Container( 
-                          height: 100,
-                          child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              child: HeaderNotification(
-                                  text: "$mainLabel № ${widget.genericId}", canGoBack: true))),
-                      
-                      Expanded( //сюда сообщения
-                        child: Scrollbar(
-                          child: ListView.builder(itemCount: messageList.length, controller: scrollController, reverse: true, itemBuilder: (BuildContext context, int i) {
-                            return MessageElement(message: messageList[i], fun: _loadImageFromUri);
-                          } ),
-                        ),
-                      ),
-                      Stack(
+                      Column(
                         children: [
-                          Visibility(
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              height: 70,
-                              child: SingleChildScrollView(child: Row(children: messageFiles), scrollDirection: Axis.horizontal),
-                              ), visible: (file == null ? false : true)), //панель для файлов
-                          
+                          Container(
+                              height: 100,
+                              child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20),
+                                  child: HeaderNotification(
+                                      text: "$mainLabel № ${widget.genericId}",
+                                      canGoBack: true))),
+                          Expanded(
+                            //сюда сообщения
+                            child: Scrollbar(
+                              child: ListView.builder(
+                                  itemCount: messageList.length,
+                                  controller: scrollController,
+                                  reverse: true,
+                                  itemBuilder: (BuildContext context, int i) {
+                                    return MessageElement(
+                                        message: messageList[i],
+                                        fun: _loadImageFromUri);
+                                  }),
+                            ),
+                          ),
+                          Stack(
+                            children: [
+                              Visibility(
+                                  child: Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 20, right: 20),
+                                    height: 70,
+                                    child: SingleChildScrollView(
+                                        child: Row(children: messageFiles),
+                                        scrollDirection: Axis.horizontal),
+                                  ),
+                                  visible: (file == null
+                                      ? false
+                                      : true)), //панель для файлов
+                            ],
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 55,
+                            child: Padding(
+                                padding: EdgeInsets.only(left: 18, right: 18),
+                                child: Row(
+                                  children: [
+                                    GestureDetector(
+                                        onTap: () {
+                                          //_loadImage();
+                                          _openDialog();
+                                        },
+                                        child: SvgPicture.asset(
+                                            'assets/clip.svg')),
+                                    const Spacer(),
+                                    SizedBox(
+                                      width: 245,
+                                      child: TextField(
+                                        keyboardType: TextInputType.multiline,
+                                        controller: controller,
+                                        decoration: InputDecoration(
+                                          hintText: "Сообщение...",
+                                          fillColor: messageColor,
+                                          filled: true,
+                                          border: InputBorder.none,
+                                        ),
+                                        minLines: 1,
+                                        maxLines: 5,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (isWaitForSend == false) {
+                                          _send();
+                                        }
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(14),
+                                        width: 45,
+                                        height: 45,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: colorMain,
+                                        ),
+                                        child: Container(
+                                          width: 18,
+                                          height: 14,
+                                          child: isWaitForSend == true
+                                              ? const CircularProgressIndicator(
+                                                  color: Colors.white,
+                                                )
+                                              : SvgPicture.asset(
+                                                  'assets/arrow-type2.svg'),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )),
+                          )
                         ],
                       ),
-                      
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 55,
-                        child: Padding(
-                            padding: EdgeInsets.only(left: 18, right: 18),
-                            child: Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    //_loadImage();
-                                    _openDialog();
-                                    },
-                                    child: SvgPicture.asset('assets/clip.svg')),
-                                const Spacer(),
-                                SizedBox(
-                                  width: 245,
-                                  child: TextField(
-                                    keyboardType: TextInputType.multiline,
-                                    controller: controller,
-                                    decoration: InputDecoration(
-                                        hintText: "Сообщение...",
-                                        fillColor: messageColor,
-                                        filled: true,
-                                        border: InputBorder.none,),
-                                         minLines: 1,
-                                        maxLines: 5,
-                                  ),
-                                ),
-                                const Spacer(),
-                                GestureDetector(
-                                  onTap: () {
-                                    if(isWaitForSend == false){
-                                      _send();
-                                    }
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.all(14),
-                                    width: 45,
-                                    height: 45,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: colorMain,
-                                    ),
-                                    child: Container(
-                                      width: 18,
-                                      height: 14,
-                                      child: isWaitForSend == true ? const CircularProgressIndicator(color: Colors.white,) :  SvgPicture.asset('assets/arrow-type2.svg'),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )),
-                      )
+                      Visibility(
+                          child: Center(
+                              child: Container(
+                            width: 50,
+                            height: 50,
+                            child: const CircularProgressIndicator(),
+                          )),
+                          visible: (isLoadingMessages == true) ? true : false)
                     ],
-                  ),
-                  
-                  Visibility(
-                      child: Center(
-                          child: Container(
-                        width: 50,
-                        height: 50,
-                        child: const CircularProgressIndicator(),
-                      )),
-                      visible: (isLoadingMessages == true) ? true : false)
-                ],
-              ));
+                  ));
             }));
   }
 
   _listener(BuildContext context, ProfileState state) {
     isLoading = state.loading!;
-    if(state.error != null) {
+    if (state.error != null) {
       showDialog(
-            context: context,
-            builder: (BuildContext context) => Alert(
-                title: "Ошибка",
-                text: state.error!));
+          context: context,
+          builder: (BuildContext context) =>
+              Alert(title: "Ошибка", text: state.error!));
     }
     if (state.ticketFullInfo != null && mainLabel == "Обращение") {
-        isLoadingMessages = false;
-        lastMessageId = state.ticketFullInfo!.last_message_id!;
-        if(page == 1){
-          messageList = state.ticketFullInfo!.messages!;
-            //profileBloc!.readMessage(widget.genericId!, lastMessageId!);
-            for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
-              messageList[i].isOwn =
-                  state.ticketFullInfo!.messages![i].user_id != widget.userId ? false : true;
-            }
-        }
-
-          if ((int.parse(state.page!) == page) && page > 1) { //если страница текущая
-            messageList = state.ticketFullInfo!.messages! + (messageList as List<TicketMessage>);
-            for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
-              messageList[i].isOwn =
-                  state.ticketFullInfo!.messages![i].user_id != widget.userId ? false : true;
-            }
-          }
-          messageList.sort((a, b) {
-              return int.parse(b.ticket_message_id!).compareTo(int.parse(a.ticket_message_id!));
-          });
-          
-    }
-    if(state.claimMessages != null && mainLabel == "Заявление"){
       isLoadingMessages = false;
-      messageList = state.claimMessages!;
-      for(int i = 0; i < state.claimMessages!.length; i++){
-        messageList[i].isOwn = state.claimMessages![i].user_id != widget.userId ? false : true;
+      lastMessageId = state.ticketFullInfo!.last_message_id!;
+      if (page == 1) {
+        messageList = state.ticketFullInfo!.messages!;
+        //profileBloc!.readMessage(widget.genericId!, lastMessageId!);
+        for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
+          messageList[i].isOwn =
+              state.ticketFullInfo!.messages![i].user_id != widget.userId
+                  ? false
+                  : true;
+        }
+      }
+
+      if ((int.parse(state.page!) == page) && page > 1) {
+        //если страница текущая
+        messageList = state.ticketFullInfo!.messages! +
+            (messageList as List<TicketMessage>);
+        for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
+          messageList[i].isOwn =
+              state.ticketFullInfo!.messages![i].user_id != widget.userId
+                  ? false
+                  : true;
+        }
       }
       messageList.sort((a, b) {
-              return int.parse(b.claim_message_id!).compareTo(int.parse(a.claim_message_id!));
-          });
+        return int.parse(b.ticket_message_id!)
+            .compareTo(int.parse(a.ticket_message_id!));
+      });
+    }
+    if (state.claimMessages != null && mainLabel == "Заявление") {
+      isLoadingMessages = false;
+      messageList = state.claimMessages!;
+      for (int i = 0; i < state.claimMessages!.length; i++) {
+        messageList[i].isOwn =
+            state.claimMessages![i].user_id != widget.userId ? false : true;
+      }
+      messageList.sort((a, b) {
+        return int.parse(b.claim_message_id!)
+            .compareTo(int.parse(a.claim_message_id!));
+      });
     }
     if (state.sendMessageData != null) {
       isWaitForSend = false;
-      MessageSend message = MessageSend(
+      dynamic message; //Это данные для отправки в сокет
+      if (widget.type == ChatTypes.Ticket) {
+        message = MessageSend(
+            cmd: "publish",
+            subject: "store-${store_id}",
+            event: "ticket_msg",
+            data: MessageSendData(
+                user_type: "lk",
+                user_id: int.parse(widget.userId),
+                files: state.sendMessageData!['ticket_message_files'],
+                ticket_id: int.parse(widget.genericId!),
+                ticket_info: [
+                  TicketInfo(
+                      ticket_message_id: state.sendMessageData!['ticket_info']
+                          [0]['ticket_message_id'],
+                      ticket_id: state.sendMessageData!['ticket_info'][0]
+                          ['ticket_id'],
+                      message: state.sendMessageData!['ticket_info'][0]
+                          ['message'],
+                      data: state.sendMessageData!['ticket_info'][0]['data'],
+                      ticket_status_type_id:
+                          state.sendMessageData!['ticket_info'][0]
+                              ['ticket_status_type_id'],
+                      model_user: state.sendMessageData!['ticket_info'][0]
+                          ['model_user'],
+                      user_id: state.sendMessageData!['ticket_info'][0]
+                          ['user_id'],
+                      user_name: state.sendMessageData!['ticket_info'][0]
+                          ['user_name'],
+                      date_added: state.sendMessageData!['ticket_info'][0]
+                          ['date_added'],
+                      name: state.sendMessageData!['ticket_info'][0]['name'],
+                      color_type_id: state.sendMessageData!['ticket_info'][0]
+                          ['color_type_id'],
+                      last_tm_resiver: state.sendMessageData!['ticket_info'][0]
+                          ['last_tm_resiver'],
+                      files: state.sendMessageData!['ticket_info'][0]['files'])
+                ],
+                user_info: UserInfo(
+                    inn: state.sendMessageData!['user_info']['inn'],
+                    firstname: state.sendMessageData!['user_info']['firstname'],
+                    lastname: state.sendMessageData!['user_info']['lastname'],
+                    patronymic: state.sendMessageData!['user_info']
+                        ['patronymic'],
+                    contacts: Contacts(
+                        phone: state.sendMessageData!['user_info']['contacts']
+                            ['2'],
+                        email: state.sendMessageData!['user_info']['contacts']
+                            ['3']),
+                    href: state.sendMessageData!['user_info']['href']),
+                date_group: state.sendMessageData!['date_group'],
+                date_group_name: state.sendMessageData!['date_group_name']),
+            to_id: int.parse(widget.userId));
+      } else if (widget.type == ChatTypes.Claim) {
+        message = ClaimSend(
           cmd: "publish",
           subject: "store-${store_id}",
           event: "ticket_msg",
-          data: Data(
-              user_type: "lk",
-              user_id: int.parse(widget.userId),
-              files: state.sendMessageData!['ticket_message_files'],
-              ticket_id: int.parse(widget.genericId!),
-              ticket_info: [
-                TicketInfo(
-                    ticket_message_id: state.sendMessageData!['ticket_info'][0]
-                        ['ticket_message_id'],
-                    ticket_id: state.sendMessageData!['ticket_info'][0]
-                        ['ticket_id'],
-                    message: state.sendMessageData!['ticket_info'][0]
-                        ['message'],
-                    data: state.sendMessageData!['ticket_info'][0]['data'],
-                    ticket_status_type_id: state.sendMessageData!['ticket_info']
-                        [0]['ticket_status_type_id'],
-                    model_user: state.sendMessageData!['ticket_info'][0]
-                        ['model_user'],
-                    user_id: state.sendMessageData!['ticket_info'][0]
-                        ['user_id'],
-                    user_name: state.sendMessageData!['ticket_info'][0]
-                        ['user_name'],
-                    date_added: state.sendMessageData!['ticket_info'][0]
-                        ['date_added'],
-                    name: state.sendMessageData!['ticket_info'][0]['name'],
-                    color_type_id: state.sendMessageData!['ticket_info'][0]
-                        ['color_type_id'],
-                    last_tm_resiver: state.sendMessageData!['ticket_info'][0]
-                        ['last_tm_resiver'],
-                    files: state.sendMessageData!['ticket_info'][0]['files'])
-              ],
-              user_info: UserInfo(
-                  inn: state.sendMessageData!['user_info']['inn'],
-                  firstname: state.sendMessageData!['user_info']['firstname'],
-                  lastname: state.sendMessageData!['user_info']['lastname'],
-                  patronymic: state.sendMessageData!['user_info']['patronymic'],
-                  contacts: Contacts(
-                      phone: state.sendMessageData!['user_info']['contacts']
-                          ['2'],
-                      email: state.sendMessageData!['user_info']['contacts']
-                          ['3']),
-                  href: state.sendMessageData!['user_info']['href']),
-              date_group: state.sendMessageData!['date_group'],
-              date_group_name: state.sendMessageData!['date_group_name']),
-          to_id: int.parse(widget.userId));
+          data: ClaimSendData(
+            user_type: "lk",
+            user_id: int.parse(widget.userId),
+            files: state.sendMessageData!['data']['claim_message_files'],
+            claim_id: int.parse(state.sendMessageData!['data']['claim_info'][0]['claim_id']),
+            claim_info: [
+              ClaimInfo(
+                claim_message_id: state.sendMessageData!['data']['claim_info'][0]['claim_message_id'] ,
+                claim_id: state.sendMessageData!['data']['claim_info'][0]['claim_id'], 
+                message: state.sendMessageData!['data']['claim_info'][0]['message'],
+                data: state.sendMessageData!['data']['claim_info'][0]['data'], 
+                claims_status_id: state.sendMessageData!['data']['claim_info'][0]['claims_status_id'], 
+                model_user: state.sendMessageData!['data']['claim_info'][0]['model_user'], 
+                user_id: state.sendMessageData!['data']['claim_info'][0]['user_id'], 
+                user_name: state.sendMessageData!['data']['claim_info'][0]['user_name'], 
+                date_added: state.sendMessageData!['data']['claim_info'][0]['date_added'], 
+                text: state.sendMessageData!['data']['claim_info'][0]['text'], 
+                last_claim_lk: state.sendMessageData!['data']['claim_info'][0]['last_claim_lk'], 
+                files: state.sendMessageData!['data']['claim_info'][0]['files'])
+            ],
+            user_info: UserInfo(
+                    inn: state.sendMessageData!['data']['user_info']['inn'],
+                    firstname: state.sendMessageData!['data']['user_info']['firstname'],
+                    lastname: state.sendMessageData!['data']['user_info']['lastname'],
+                    patronymic: state.sendMessageData!['data']['user_info']['patronymic'],
+                    contacts: Contacts(
+                        phone: state.sendMessageData!['data']['user_info']['contacts']
+                            ['2'],
+                        email: state.sendMessageData!['data']['user_info']['contacts']
+                            ['3']),
+                    href: state.sendMessageData!['data']['user_info']['href']),
+            date_group: state.sendMessageData!['data']['date_group'],
+            date_group_name: state.sendMessageData!['data']['date_group_name']
+          ),
+          to_id: int.parse(widget.userId)
+        );
+      }
+
       String data = jsonEncode(message.toJson());
       webSocketChannel!.sink.add(data);
       controller.text = "";
       setState(() {
-      if(state.sendMessageData!['ticket_info'][0]['files'] != null){
-        messageFiles.clear();
-        file = null;
-        profileBloc!.getMessages(widget.genericId!, widget.page!, lastMessageId!);
-      }
-        messageList.add(TicketMessage(
+        /*
+        if (state.sendMessageData!['data']['claim_info'][0]['files'] != null) {
+          messageFiles.clear();
+          file = null;
+          profileBloc!
+              .getMessages(widget.genericId!, widget.page!, lastMessageId!);
+        }
+        if(state.sendMessageData!['ticket_info'][0]['files'] != null){
+          messageFiles.clear();
+          file = null;
+          profileBloc!
+              .getMessages(widget.genericId!, widget.page!, lastMessageId!);
+        }*/ //под вопросом!!!
+        if (widget.type == ChatTypes.Ticket) {
+          messageList.add(TicketMessage(
             isOwn: true,
             date: DateTime.parse(
                 state.sendMessageData!['ticket_info'][0]['date_added']),
@@ -368,7 +453,6 @@ class _MessagesPage extends State<MessagesPage> {
             ticket_id: state.sendMessageData!['ticket_info'][0]['ticket_id'],
             message_id: state.sendMessageData!['ticket_info'][0]
                 ['ticket_message_id'],
-            
             message: state.sendMessageData!['ticket_info'][0]['message'],
             ticket_status_type_id: state.sendMessageData!['ticket_info'][0]
                 ['ticket_status_type_id'],
@@ -381,22 +465,41 @@ class _MessagesPage extends State<MessagesPage> {
             date_group: state.sendMessageData!['date_group'],
             last_tm_resiver: state.sendMessageData!['ticket_info'][0]
                 ['last_tm_resiver']));
-      messageList.sort((a, b) {
-              return int.parse(b.ticket_message_id!).compareTo(int.parse(a.ticket_message_id!));
-          });     
+          messageList.sort((a, b) {
+          return int.parse(b.ticket_message_id!)
+              .compareTo(int.parse(a.ticket_message_id!));
+        });
+        } else if (widget.type == ChatTypes.Claim) {
+          messageList.add(ClaimMessage(
+            isOwn: true,
+            claim_message_id: state.sendMessageData!['data']['claim_info'][0]['claim_message_id'], 
+            claim_id: state.sendMessageData!['data']['claim_info'][0]['claim_id'], 
+            date: DateTime.parse(state.sendMessageData!['data']['claim_info'][0]['date_added']), 
+            //data: state.sendMessageData!['data']['claim_info'][0]['attachments'],
+            data: null,
+            claims_status_id: state.sendMessageData!['data']['claim_info'][0]['claims_status_id'], 
+            message: state.sendMessageData!['data']['claim_info'][0]['message'], 
+            user_id: state.sendMessageData!['data']['claim_info'][0]['user_id'], 
+            user_name: state.sendMessageData!['data']['claim_info'][0]['user_name'], 
+            user_type: "lk"));
+          messageList.sort((a, b) {
+          return int.parse(b.claim_message_id!)
+              .compareTo(int.parse(a.claim_message_id!));
+        });
+        }
       });
     }
   }
 
   void getData(dynamic event) async {
     print('\x1B[33m$event\x1B[0m');
-      if (isLoading == false) {
-        if(widget.type == ChatTypes.Ticket){
-          profileBloc!.getMessages(widget.genericId!, widget.page!, lastMessageId!);
-        } else if(widget.type ==ChatTypes.Claim){
-          profileBloc!.getClaimMessages(widget.genericId!);
-        }
-      
+    if (isLoading == false) {
+      if (widget.type == ChatTypes.Ticket) {
+        profileBloc!
+            .getMessages(widget.genericId!, widget.page!, lastMessageId!);
+      } else if (widget.type == ChatTypes.Claim) {
+        profileBloc!.getClaimMessages(widget.genericId!);
+      }
     }
   }
 
@@ -411,15 +514,13 @@ class _MessagesPage extends State<MessagesPage> {
     webSocketListener?.function = getData;
     isLoadingMessages = true;
 
-    if(widget.type == ChatTypes.Ticket){
-      profileBloc!
-        .getMessages(widget.genericId!, widget.page!, lastMessageId != null ? lastMessageId! : "1");
+    if (widget.type == ChatTypes.Ticket) {
+      profileBloc!.getMessages(widget.genericId!, widget.page!,
+          lastMessageId != null ? lastMessageId! : "1");
       mainLabel = "Обращение";
-      
-    } else if(widget.type ==ChatTypes.Claim){
+    } else if (widget.type == ChatTypes.Claim) {
       profileBloc!.getClaimMessages(widget.genericId!);
       mainLabel = "Заявление";
     }
-    
   }
 }
