@@ -19,7 +19,7 @@ class TicketMessage{
   String? model_user;
   String? user_id;
   String? user_name;
-  DateTime? date_added;
+  DateTime? date;
   String? name;
   String? color_type_id;
   String? last_tm_resiver;
@@ -36,7 +36,7 @@ class TicketMessage{
     required this.model_user,
     required this.user_id,
     required this.user_name,
-    required this.date_added,
+    required this.date,
     required this.name,
     required this.color_type_id,
     required this.last_tm_resiver,
@@ -53,7 +53,7 @@ class TicketMessage{
         model_user: map['model_user'],
         user_id: map['user_id'],
         user_name: map['user_name'],
-        date_added: DateTime.parse(map['date_added']),
+        date: DateTime.parse(map['date_added']),
         name: map['name'],
         color_type_id: map['color_type_id'],
         last_tm_resiver: map['last_tm_resiver'],

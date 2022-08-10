@@ -128,7 +128,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(const GetAllInfo());
   }
 
-  sendMessage(String ticket_id, String message, String ticket_status_id, List<PlatformFile>? files) {
+  sendMessage(String ticket_id, String message, String ticket_status_id, List<dynamic>? files) {
     add(SendMessageEvent(ticket_id, message, ticket_status_id, files));
   }
 

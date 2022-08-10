@@ -67,7 +67,7 @@ class SendMessageEvent extends ProfileEvent{
   final String ticket_id;
   final String message;
   final String ticket_status_id;
-  final List<PlatformFile>? files;
+  final List<dynamic>? files;
   const SendMessageEvent(this.ticket_id, this.message, this.ticket_status_id, this.files);
 }
 

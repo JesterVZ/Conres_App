@@ -51,10 +51,11 @@ class _MessagesPage extends State<MessagesPage> {
   List<Widget> messageFiles = []; // список файлов к сообщениям (отображение на панели)
   List<dynamic> messageList = []; //список сообщений (tickets)
   //List<ClaimMessage> claimMessageList = []; //список сообщений (claims)
-  List<PlatformFile>? files; // список файлов к сообщениям
+  dynamic file; // файл, прикрепленный к сообщению
   bool isLoading = true; // если идет загрузка
   bool isLoadingMessages = true; //если идет загрузка сообщений
   bool isLoadingPage = true; //если идет подгрузка новой страницы
+  bool isWaitForSend = false; // Ожидаем ли отправку сообщения
   WebSocketChannel? webSocketChannel; //канал веб-сокета
   WebSocketListener? webSocketListener; // какая именно функция слушает сокет
   WebSocketData? webSocketData; //Структура данных сокета
@@ -68,10 +69,11 @@ class _MessagesPage extends State<MessagesPage> {
   String? storeId;
 
   void _send() {
+    isWaitForSend = true;
     if(widget.type == ChatTypes.Ticket){
-      profileBloc!.sendMessage(widget.genericId!, controller.text, widget.statusName!, files);
+      profileBloc!.sendMessage(widget.genericId!, controller.text, widget.statusName!, file);
     } else if(widget.type ==ChatTypes.Claim){
-      profileBloc!.sendClaimMessage(widget.genericId!, controller.text, files);
+      profileBloc!.sendClaimMessage(widget.genericId!, controller.text, file);
     }
   }
   void _createPhoto() async{
@@ -79,10 +81,13 @@ class _MessagesPage extends State<MessagesPage> {
               (value) => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CameraPage(cameras: value,),
+                  builder: (context) => CameraPage(cameras: value, getPhoto: _getPhoto),
                 ),
               ),
             );
+  }
+  void _getPhoto(XFile? photo){
+    file = photo;
   }
   void _openDialog(){
     showDialog(
@@ -90,13 +95,22 @@ class _MessagesPage extends State<MessagesPage> {
       builder: (BuildContext context) => FileSendDialog(pickFile: _loadImage, createPhoto: _createPhoto));
   }
   void _loadImage() async{
-    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: false);
     if (result != null) {
       setState(() {
-        files = result.files;
-        for(int i = 0; i < result.files.length; i++){
-          messageFiles.add(FileElement(filename: result.files[i].name));
-        }
+        file = result.files;
+        messageFiles.clear();
+        messageFiles.add(
+          FileElement(
+            filename: result.files[0].name, 
+            filepath: result.files[0].path,
+            extension: result.files[0].extension,
+            func: () {
+              setState(() {
+                messageFiles.clear();
+              });
+            }
+          ));
       });
     }
   }
@@ -120,7 +134,10 @@ class _MessagesPage extends State<MessagesPage> {
         scrollController.position.maxScrollExtent) {
       setState(() {
         page++;
-        profileBloc!.getMessages(widget.genericId!, page.toString(), lastMessageId!);
+        if(widget.type == ChatTypes.Ticket){
+          isLoadingMessages = true;
+          profileBloc!.getMessages(widget.genericId!, page.toString(), lastMessageId!);
+        }
       });
     }
   }
@@ -137,6 +154,7 @@ class _MessagesPage extends State<MessagesPage> {
             listener: (context, state) => _listener(context, state),
             builder: (context, state) {
               return Scaffold(
+                backgroundColor: Colors.white,
                   body: Stack(
                 children: [
                   Column(
@@ -164,7 +182,7 @@ class _MessagesPage extends State<MessagesPage> {
                                   const EdgeInsets.only(left: 20, right: 20),
                               height: 70,
                               child: SingleChildScrollView(child: Row(children: messageFiles), scrollDirection: Axis.horizontal),
-                              ), visible: (files == null || files!.isEmpty) ? false : true), //панель для файлов
+                              ), visible: (file == null ? false : true)), //панель для файлов
                           
                         ],
                       ),
@@ -192,15 +210,17 @@ class _MessagesPage extends State<MessagesPage> {
                                         hintText: "Сообщение...",
                                         fillColor: messageColor,
                                         filled: true,
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30))),
+                                        border: InputBorder.none,),
+                                         minLines: 1,
+                                        maxLines: 5,
                                   ),
                                 ),
                                 const Spacer(),
                                 GestureDetector(
                                   onTap: () {
-                                    _send();
+                                    if(isWaitForSend == false){
+                                      _send();
+                                    }
                                   },
                                   child: Container(
                                     padding: EdgeInsets.all(14),
@@ -213,8 +233,7 @@ class _MessagesPage extends State<MessagesPage> {
                                     child: Container(
                                       width: 18,
                                       height: 14,
-                                      child: SvgPicture.asset(
-                                          'assets/arrow-type2.svg'),
+                                      child: isWaitForSend == true ? const CircularProgressIndicator(color: Colors.white,) :  SvgPicture.asset('assets/arrow-type2.svg'),
                                     ),
                                   ),
                                 )
@@ -223,14 +242,15 @@ class _MessagesPage extends State<MessagesPage> {
                       )
                     ],
                   ),
+                  
                   Visibility(
                       child: Center(
                           child: Container(
                         width: 50,
                         height: 50,
-                        child: Image.asset('assets/loading.gif'),
+                        child: const CircularProgressIndicator(),
                       )),
-                      visible: (isLoading == true && isLoadingMessages == true) ? true : false)
+                      visible: (isLoadingMessages == true) ? true : false)
                 ],
               ));
             }));
@@ -275,8 +295,12 @@ class _MessagesPage extends State<MessagesPage> {
       for(int i = 0; i < state.claimMessages!.length; i++){
         messageList[i].isOwn = state.claimMessages![i].user_id != widget.userId ? false : true;
       }
+      messageList.sort((a, b) {
+              return int.parse(b.claim_message_id!).compareTo(int.parse(a.claim_message_id!));
+          });
     }
     if (state.sendMessageData != null) {
+      isWaitForSend = false;
       MessageSend message = MessageSend(
           cmd: "publish",
           subject: "store-${store_id}",
@@ -332,12 +356,12 @@ class _MessagesPage extends State<MessagesPage> {
       setState(() {
       if(state.sendMessageData!['ticket_info'][0]['files'] != null){
         messageFiles.clear();
-        files = null;
+        file = null;
         profileBloc!.getMessages(widget.genericId!, widget.page!, lastMessageId!);
       }
         messageList.add(TicketMessage(
             isOwn: true,
-            date_added: DateTime.parse(
+            date: DateTime.parse(
                 state.sendMessageData!['ticket_info'][0]['date_added']),
             ticket_message_id: state.sendMessageData!['ticket_info'][0]
                 ['ticket_message_id'],
@@ -385,16 +409,16 @@ class _MessagesPage extends State<MessagesPage> {
     webSocketData ??= DependencyProvider.of(context)!.webSocketData;
     webSocketListener?.webSocketChannel = webSocketChannel;
     webSocketListener?.function = getData;
+    isLoadingMessages = true;
 
     if(widget.type == ChatTypes.Ticket){
       profileBloc!
         .getMessages(widget.genericId!, widget.page!, lastMessageId != null ? lastMessageId! : "1");
       mainLabel = "Обращение";
-      isLoadingMessages = true;
+      
     } else if(widget.type ==ChatTypes.Claim){
       profileBloc!.getClaimMessages(widget.genericId!);
       mainLabel = "Заявление";
-      isLoadingMessages = true;
     }
     
   }

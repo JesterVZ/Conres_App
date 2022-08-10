@@ -1,37 +1,48 @@
+import 'dart:io';
+
+import 'package:conres_app/consts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class FileElement extends StatelessWidget {
   String? filename;
-  FileElement({this.filename});
+  String? filepath;
+  String? extension;
+  VoidCallback func;
+  FileElement({this.filename, this.filepath, this.extension, required this.func});
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(5),
-      margin: EdgeInsets.only(right: 20),
-      decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 3,
-                  blurRadius: 4,
-                  offset: Offset(0, 2),
-                )
-              ]),
-      child: Row(
+        child: Stack(
       children: [
-        Text(filename ??= "", style: TextStyle(fontSize: 20)),
-        GestureDetector(
-          child: Container(
-            margin: EdgeInsets.only(left: 8),
-            child: SvgPicture.asset('assets/remove-file.svg')
-            )
-        )
+        Row(
+          children: [
+            Container(
+              width: 100,
+              height: 100,
+              child: Image.file(File(filepath!)),
+            ),
+          ],
+        ),
+        Positioned(
+            top: 0,
+            right: 0,
+            child: Container(
+                width: 20,
+                height: 20,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.all(0),
+                        backgroundColor: colorGray,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                    onPressed: () {
+                      func.call();
+                    },
+                    child: SvgPicture.asset('assets/remove-file.svg',
+                        color: Colors.white, width: 10, height: 10))))
       ],
-    ),
-    );
+    ));
   }
 }

@@ -100,16 +100,17 @@ class _Claims extends State<Claims> {
     }
     if (state.bindLsData != null) {
       userId = state.bindLsData!.data['user_id'];
+      if (state.claims != null) {
+        if (claims.isEmpty) {
+          setState(() {
+            for (int i = 0; i < state.claims!.length; i++) {
+              claims.add(ClaimElement(currentClaim: state.claims![i], downloadFunction: downloadClaim, userId: userId,));
+            }
+          });
+        }
     }
-    if (state.claims != null) {
-      if (claims.isEmpty) {
-        setState(() {
-          for (int i = 0; i < state.claims!.length; i++) {
-            claims.add(ClaimElement(currentClaim: state.claims![i], downloadFunction: downloadClaim, userId: userId,));
-          }
-        });
-      }
     }
+    
   }
 
   void pagination() {

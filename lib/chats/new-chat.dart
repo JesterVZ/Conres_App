@@ -45,7 +45,7 @@ class _NewChat extends State<NewChat> {
                   Form(
                     child: Column(
                       children: [
-                         CustomDropDown(title: "Тема обращения", items: [
+                         const CustomDropDown(title: "Тема обращения", items: [
                           "Вопрос о техническом присоединении",
                           "Сообшение об аварии",
                           "Другое"

@@ -1,6 +1,6 @@
 class ClaimMessage{
   String? claim_message_id;
-  String? date;
+  DateTime? date;
   String? claim_id;
   String? user_type;
   String? user_id;
@@ -27,8 +27,8 @@ class ClaimMessage{
     return ClaimMessage(
       claim_message_id: map['claim_message_id'], 
       claim_id: map['claim_id'], 
-      date: map['date'], 
-      data: map['attachments'] != null ? ClaimFile.fromMap(map['attachments'][0]) : null, 
+      date: DateTime.parse(map['date']), 
+      data: map['attachments'] != null ? ((map['attachments'].length != 0) ? ClaimFile.fromMap(map['attachments'][0]) : null) : null, 
       claims_status_id: map['claims_status_id'], 
       message: map['text'], 
       user_id: map['user_id'], 

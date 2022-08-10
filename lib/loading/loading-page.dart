@@ -37,7 +37,7 @@ class _LoadingPage extends State<LoadingPage>{
               body:  Center(child: Container(
                 width: 50,
                 height: 50,
-                child: Image.asset('assets/loading.gif')
+                child: const CircularProgressIndicator()
               ))
           );
         });

@@ -280,7 +280,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                   widget.profile!.personal)));
                                 },
                                 style: ElevatedButton.styleFrom(
-                                    primary: colorGray,
+                                    backgroundColor: colorGray,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(8))),

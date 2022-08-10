@@ -370,7 +370,7 @@ class HttpClient{
     }
   }
 
-  Future<Object?> sendMessage(String ticketId, String message, String ticketStatusId, List<PlatformFile>? files) async{
+  Future<Object?> sendMessage(String ticketId, String message, String ticketStatusId, List<dynamic>? files) async{
     String uri = domain + 'lk/index.php?route=catalog/ticket/sendMessage';
     try{
       var formData;

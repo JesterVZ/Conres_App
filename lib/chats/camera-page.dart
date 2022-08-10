@@ -1,10 +1,12 @@
 import 'package:camera/camera.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CameraPage extends StatefulWidget {
   final List<CameraDescription>? cameras;
-  const CameraPage({this.cameras, Key? key}) : super(key: key);
+  ValueChanged<XFile?> getPhoto;
+  CameraPage({this.cameras, Key? key, required this.getPhoto}) : super(key: key);
 
   @override
   _CameraPageState createState() => _CameraPageState();
@@ -60,6 +62,7 @@ class _CameraPageState extends State<CameraPage> {
             child: ElevatedButton(
               onPressed: () async {
                 pictureFile = await controller.takePicture();
+                widget.getPhoto.call(pictureFile);
                 setState(() {});
               },
               child: const Text('Capture Image'),

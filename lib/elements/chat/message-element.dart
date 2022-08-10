@@ -24,7 +24,7 @@ class MessageElement extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-          Text("${(message is TicketMessage) ? message.message! : ""}",
+          Text(message.message!,
               style: TextStyle(
                   color: message.isOwn! ? Colors.white : Colors.black)),
           Visibility(
@@ -61,7 +61,7 @@ class MessageElement extends StatelessWidget {
                                       : Colors.black)),
                         )
                       ])))),
-          Text("${message.date_added!.hour}:${message.date_added!.minute}", style: TextStyle(color:  message.isOwn! ? Colors.white : Colors.grey))
+          Text("${message.date!.hour}:${message.date!.minute}", style: TextStyle(color:  message.isOwn! ? Colors.white : Colors.grey))
         ]),
       ),
     );

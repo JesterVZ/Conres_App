@@ -103,7 +103,7 @@ class _Chats extends State<Chats> {
                       child: Container(
                     width: 50,
                     height: 50,
-                    child: Image.asset('assets/loading.gif'),
+                    child: const CircularProgressIndicator(),
                   )),
                   visible: isLoading)
             ],

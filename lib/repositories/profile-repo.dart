@@ -47,7 +47,7 @@ class ProfileRepo{
     var result = await httpClient.getInfo();
     return result;
   }
-  Future<dynamic> sendMessage(String ticketId, String message, String ticketStatusId, List<PlatformFile>? files) async{
+  Future<dynamic> sendMessage(String ticketId, String message, String ticketStatusId, List<dynamic>? files) async{
     var result = await httpClient.sendMessage(ticketId, message, ticketStatusId, files);
     return result;
   }
