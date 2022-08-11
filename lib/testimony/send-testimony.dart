@@ -159,7 +159,7 @@ class _SendTestimony extends State<SendTestimony> {
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
-    //profileBloc!.getTU();
+    profileBloc!.getTU();
     super.didChangeDependencies();
   }
 }

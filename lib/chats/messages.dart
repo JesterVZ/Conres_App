@@ -70,6 +70,17 @@ class _MessagesPage extends State<MessagesPage> {
   String mainLabel = "";
   String? storeId;
 
+  void _sendToastMessage(BuildContext context, String message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        action: SnackBarAction(
+            label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
+  }
+
   void _send() {
     isWaitForSend = true;
     if (widget.type == ChatTypes.Ticket) {
@@ -198,9 +209,10 @@ class _MessagesPage extends State<MessagesPage> {
                                         child: Row(children: messageFiles),
                                         scrollDirection: Axis.horizontal),
                                   ),
-                                  visible: (file == null
-                                      ? false
-                                      : true)), //панель для файлов
+                                  visible:
+                                      ((file == null || messageFiles.isEmpty)
+                                          ? false
+                                          : true)), //панель для файлов
                             ],
                           ),
                           Container(
@@ -385,107 +397,139 @@ class _MessagesPage extends State<MessagesPage> {
             to_id: int.parse(widget.userId));
       } else if (widget.type == ChatTypes.Claim) {
         message = ClaimSend(
-          cmd: "publish",
-          subject: "store-${store_id}",
-          event: "ticket_msg",
-          data: ClaimSendData(
-            user_type: "lk",
-            user_id: int.parse(widget.userId),
-            files: state.sendMessageData!['data']['claim_message_files'],
-            claim_id: int.parse(state.sendMessageData!['data']['claim_info'][0]['claim_id']),
-            claim_info: [
-              ClaimInfo(
-                claim_message_id: state.sendMessageData!['data']['claim_info'][0]['claim_message_id'] ,
-                claim_id: state.sendMessageData!['data']['claim_info'][0]['claim_id'], 
-                message: state.sendMessageData!['data']['claim_info'][0]['message'],
-                data: state.sendMessageData!['data']['claim_info'][0]['data'], 
-                claims_status_id: state.sendMessageData!['data']['claim_info'][0]['claims_status_id'], 
-                model_user: state.sendMessageData!['data']['claim_info'][0]['model_user'], 
-                user_id: state.sendMessageData!['data']['claim_info'][0]['user_id'], 
-                user_name: state.sendMessageData!['data']['claim_info'][0]['user_name'], 
-                date_added: state.sendMessageData!['data']['claim_info'][0]['date_added'], 
-                text: state.sendMessageData!['data']['claim_info'][0]['text'], 
-                last_claim_lk: state.sendMessageData!['data']['claim_info'][0]['last_claim_lk'], 
-                files: state.sendMessageData!['data']['claim_info'][0]['files'])
-            ],
-            user_info: UserInfo(
+            cmd: "publish",
+            subject: "store-${store_id}",
+            event: "claim_msg",
+            data: ClaimSendData(
+                user_type: "lk",
+                user_id: int.parse(widget.userId),
+                files: state.sendMessageData!['data']['claim_message_files'],
+                claim_id: int.parse(state.sendMessageData!['data']['claim_info']
+                    [0]['claim_id']),
+                claim_info: [
+                  ClaimInfo(
+                      claim_message_id: state.sendMessageData!['data']
+                          ['claim_info'][0]['claim_message_id'],
+                      claim_id: state.sendMessageData!['data']['claim_info'][0]
+                          ['claim_id'],
+                      message: state.sendMessageData!['data']['claim_info'][0]
+                          ['message'],
+                      data: state.sendMessageData!['data']['claim_info'][0]
+                          ['data'],
+                      date: state.sendMessageData!['data']['claim_info'][0]
+                          ['date'],
+                      attachments: state.sendMessageData!['data']['claim_info'][0]
+                          ['attachments'],
+                      message_id: state.sendMessageData!['data']['claim_info'][0]
+                          ['message_id'],
+                      user_type: state.sendMessageData!['data']['claim_info'][0]
+                          ['user_type'],
+                      claims_status_id: state.sendMessageData!['data']
+                          ['claim_info'][0]['claims_status_id'],
+                      model_user: state.sendMessageData!['data']['claim_info']
+                          [0]['model_user'],
+                      user_id: state.sendMessageData!['data']['claim_info'][0]
+                          ['user_id'],
+                      user_name: state.sendMessageData!['data']['claim_info'][0]
+                          ['user_name'],
+                      date_added: state.sendMessageData!['data']['claim_info']
+                          [0]['date_added'],
+                      text: state.sendMessageData!['data']['claim_info'][0]
+                          ['text'],
+                      last_claim_lk: state.sendMessageData!['data']
+                          ['claim_info'][0]['last_claim_lk'],
+                      files: state.sendMessageData!['data']['claim_info'][0]['files'])
+                ],
+                user_info: UserInfo(
                     inn: state.sendMessageData!['data']['user_info']['inn'],
-                    firstname: state.sendMessageData!['data']['user_info']['firstname'],
-                    lastname: state.sendMessageData!['data']['user_info']['lastname'],
-                    patronymic: state.sendMessageData!['data']['user_info']['patronymic'],
+                    firstname: state.sendMessageData!['data']['user_info']
+                        ['firstname'],
+                    lastname: state.sendMessageData!['data']['user_info']
+                        ['lastname'],
+                    patronymic: state.sendMessageData!['data']['user_info']
+                        ['patronymic'],
                     contacts: Contacts(
-                        phone: state.sendMessageData!['data']['user_info']['contacts']
-                            ['2'],
-                        email: state.sendMessageData!['data']['user_info']['contacts']
-                            ['3']),
+                        phone: state.sendMessageData!['data']['user_info']
+                            ['contacts']['2'],
+                        email: state.sendMessageData!['data']['user_info']
+                            ['contacts']['3']),
                     href: state.sendMessageData!['data']['user_info']['href']),
-            date_group: state.sendMessageData!['data']['date_group'],
-            date_group_name: state.sendMessageData!['data']['date_group_name']
-          ),
-          to_id: int.parse(widget.userId)
-        );
+                date_group: state.sendMessageData!['data']['date_group'],
+                date_group_name: state.sendMessageData!['data']
+                    ['date_group_name']),
+            to_id: int.parse(widget.userId));
       }
 
       String data = jsonEncode(message.toJson());
       webSocketChannel!.sink.add(data);
+      _sendToastMessage(context, "send $data");
       controller.text = "";
       setState(() {
-        /*
-        if (state.sendMessageData!['data']['claim_info'][0]['files'] != null) {
-          messageFiles.clear();
-          file = null;
-          profileBloc!
-              .getMessages(widget.genericId!, widget.page!, lastMessageId!);
-        }
-        if(state.sendMessageData!['ticket_info'][0]['files'] != null){
-          messageFiles.clear();
-          file = null;
-          profileBloc!
-              .getMessages(widget.genericId!, widget.page!, lastMessageId!);
-        }*/ //под вопросом!!!
         if (widget.type == ChatTypes.Ticket) {
+          if (state.sendMessageData!['ticket_info'][0]['files'].isNotEmpty) {
+            //если файлы в сообщении были
+            messageFiles.clear();
+            file = null;
+            profileBloc!.getMessages(widget.genericId!, widget.page!, lastMessageId!); //взять сообщения еще раз
+          }
+
           messageList.add(TicketMessage(
-            isOwn: true,
-            date: DateTime.parse(
-                state.sendMessageData!['ticket_info'][0]['date_added']),
-            ticket_message_id: state.sendMessageData!['ticket_info'][0]
-                ['ticket_message_id'],
-            ticket_id: state.sendMessageData!['ticket_info'][0]['ticket_id'],
-            message_id: state.sendMessageData!['ticket_info'][0]
-                ['ticket_message_id'],
-            message: state.sendMessageData!['ticket_info'][0]['message'],
-            ticket_status_type_id: state.sendMessageData!['ticket_info'][0]
-                ['ticket_status_type_id'],
-            model_user: state.sendMessageData!['ticket_info'][0]['model_user'],
-            user_id: state.sendMessageData!['ticket_info'][0]['user_id'],
-            user_name: state.sendMessageData!['ticket_info'][0]['user_name'],
-            name: state.sendMessageData!['ticket_info'][0]['name'],
-            color_type_id: state.sendMessageData!['ticket_info'][0]
-                ['color_type_id'],
-            date_group: state.sendMessageData!['date_group'],
-            last_tm_resiver: state.sendMessageData!['ticket_info'][0]
-                ['last_tm_resiver']));
+              isOwn: true,
+              date: DateTime.parse(
+                  state.sendMessageData!['ticket_info'][0]['date_added']),
+              ticket_message_id: state.sendMessageData!['ticket_info'][0]
+                  ['ticket_message_id'],
+              ticket_id: state.sendMessageData!['ticket_info'][0]['ticket_id'],
+              message_id: state.sendMessageData!['ticket_info'][0]
+                  ['ticket_message_id'],
+              message: state.sendMessageData!['ticket_info'][0]['message'],
+              ticket_status_type_id: state.sendMessageData!['ticket_info'][0]
+                  ['ticket_status_type_id'],
+              model_user: state.sendMessageData!['ticket_info'][0]
+                  ['model_user'],
+              user_id: state.sendMessageData!['ticket_info'][0]['user_id'],
+              user_name: state.sendMessageData!['ticket_info'][0]['user_name'],
+              name: state.sendMessageData!['ticket_info'][0]['name'],
+              color_type_id: state.sendMessageData!['ticket_info'][0]
+                  ['color_type_id'],
+              date_group: state.sendMessageData!['date_group'],
+              last_tm_resiver: state.sendMessageData!['ticket_info'][0]
+                  ['last_tm_resiver']));
           messageList.sort((a, b) {
-          return int.parse(b.ticket_message_id!)
-              .compareTo(int.parse(a.ticket_message_id!));
-        });
+            return int.parse(b.ticket_message_id!)
+                .compareTo(int.parse(a.ticket_message_id!));
+          });
         } else if (widget.type == ChatTypes.Claim) {
-          messageList.add(ClaimMessage(
-            isOwn: true,
-            claim_message_id: state.sendMessageData!['data']['claim_info'][0]['claim_message_id'], 
-            claim_id: state.sendMessageData!['data']['claim_info'][0]['claim_id'], 
-            date: DateTime.parse(state.sendMessageData!['data']['claim_info'][0]['date_added']), 
-            //data: state.sendMessageData!['data']['claim_info'][0]['attachments'],
-            data: null,
-            claims_status_id: state.sendMessageData!['data']['claim_info'][0]['claims_status_id'], 
-            message: state.sendMessageData!['data']['claim_info'][0]['message'], 
-            user_id: state.sendMessageData!['data']['claim_info'][0]['user_id'], 
-            user_name: state.sendMessageData!['data']['claim_info'][0]['user_name'], 
-            user_type: "lk"));
+          if (state.sendMessageData!['data']['claim_info'][0]['files'].isNotEmpty) {
+            messageFiles.clear();
+            file = null;
+            profileBloc!.getClaimMessages(widget.genericId!);
+            //profileBloc!.getMessages(widget.genericId!, widget.page!, lastMessageId!);
+          } //под вопросом!!!
+
+            messageList.add(ClaimMessage(
+              isOwn: true,
+              claim_message_id: state.sendMessageData!['data']['claim_info'][0]
+                  ['claim_message_id'],
+              claim_id: state.sendMessageData!['data']['claim_info'][0]
+                  ['claim_id'],
+              date: DateTime.parse(state.sendMessageData!['data']['claim_info']
+                  [0]['date_added']),
+              data: state.sendMessageData!['data']['claim_info'][0]['attachments'],
+              //data: null,
+              claims_status_id: state.sendMessageData!['data']['claim_info'][0]
+                  ['claims_status_id'],
+              message: state.sendMessageData!['data']['claim_info'][0]
+                  ['message'],
+              user_id: state.sendMessageData!['data']['claim_info'][0]
+                  ['user_id'],
+              user_name: state.sendMessageData!['data']['claim_info'][0]
+                  ['user_name'],
+              user_type: "lk"));
           messageList.sort((a, b) {
-          return int.parse(b.claim_message_id!)
-              .compareTo(int.parse(a.claim_message_id!));
-        });
+            return int.parse(b.claim_message_id!)
+                .compareTo(int.parse(a.claim_message_id!));
+          });
         }
       });
     }
@@ -493,6 +537,7 @@ class _MessagesPage extends State<MessagesPage> {
 
   void getData(dynamic event) async {
     print('\x1B[33m$event\x1B[0m');
+    // _sendToastMessage(context, "got $event");
     if (isLoading == false) {
       if (widget.type == ChatTypes.Ticket) {
         profileBloc!

@@ -63,6 +63,10 @@ class ClaimInfo {
   String? model_user;
   String? user_id;
   String? user_name;
+  String? date;
+  String? user_type;
+  String? attachments;
+  String? message_id;
   String? date_added;
   String? text;
   String? last_claim_lk;
@@ -73,6 +77,10 @@ class ClaimInfo {
       required this.claim_id,
       required this.message,
       required this.data,
+      required this.date,
+      required this.user_type,
+      required this.attachments,
+      required this.message_id,
       required this.claims_status_id,
       required this.model_user,
       required this.user_id,
@@ -87,6 +95,10 @@ class ClaimInfo {
         'claim_id': claim_id,
         'message': message,
         'data': data,
+        'date': date,
+        'user_type': user_type,
+        'attachments': attachments,
+        'message_id': message_id,
         'claims_status_id': claims_status_id,
         'model_user': model_user,
         'user_id': user_id,
@@ -102,6 +114,10 @@ class ClaimInfo {
       claim_id: map['claim_id'], 
       message: map['message'], 
       data: map['data'], 
+      date: map['date'],
+      user_type: map['user_type'],
+      attachments: map['attachments'],
+      message_id: map['message_id'],
       claims_status_id: map['claims_status_id'], 
       model_user: map['model_user'], 
       user_id: map['user_id'], 

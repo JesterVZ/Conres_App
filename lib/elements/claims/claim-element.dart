@@ -25,7 +25,9 @@ class _ClaimElement extends State<ClaimElement> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
-      child: ExpansionTileElement(
+      child: Container(
+        margin: EdgeInsets.only(top: 14, bottom: 14),
+        child: ExpansionTileElement(
         tileText: const Text("Подробнее"),
         header: Column(
           children: [
@@ -137,7 +139,9 @@ class _ClaimElement extends State<ClaimElement> {
                           borderRadius: BorderRadius.circular(10))),
                 )),
           ],
-        )));
+        ))
+      )
+      );
     
   }
 }

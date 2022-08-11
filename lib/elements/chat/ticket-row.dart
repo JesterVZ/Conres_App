@@ -45,9 +45,10 @@ class _TicketRow extends State<TicketRow>{
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(defaultSidePadding, 14, defaultSidePadding, 14),
+      padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
       child: 
       Container(
+        margin: EdgeInsets.only(top: 14, bottom: 14),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(11),
           color: Colors.white,
@@ -61,6 +62,8 @@ class _TicketRow extends State<TicketRow>{
           ]
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
           padding: EdgeInsets.all(17),

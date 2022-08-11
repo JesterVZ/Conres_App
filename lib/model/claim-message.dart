@@ -58,6 +58,6 @@ class ClaimFile{
       filename: map['filename'], 
       file_href_mail: map['file_href_mail'], 
       href: map['href'],
-      thumb: null);
+      thumb: map['thumb']);
   }
 }
