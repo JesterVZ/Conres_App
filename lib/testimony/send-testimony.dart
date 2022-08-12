@@ -51,14 +51,16 @@ class _SendTestimony extends State<SendTestimony> {
     builder: (context, state) {
       return Scaffold(
           body: Container(
-            padding: const EdgeInsets.only(left: 18, right: 18),
             color: pageColor,
             child: Column(
               children: [
                 Container(
-                    height: 100,
-                    child: HeaderNotification(text: "Передача показаний")
-                ),
+                  margin: EdgeInsets.only(top: 52),
+                    padding: EdgeInsets.only(
+                        left: defaultSidePadding, right: defaultSidePadding, bottom: 12),
+                    child: HeaderNotification(
+                      text: "Передача показаний",
+                    )),
                 Expanded(child: Scrollbar(child: SingleChildScrollView(
                     child: content
                 ))),
