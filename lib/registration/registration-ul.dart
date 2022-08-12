@@ -1,4 +1,5 @@
 import 'package:conres_app/elements/registration/sliding-up.dart';
+import 'package:conres_app/elements/route/def-page-router.dart';
 import 'package:conres_app/model/model.dart';
 import 'package:conres_app/registration/privacy-policy.dart';
 import 'package:conres_app/registration/validate.dart';
@@ -46,8 +47,8 @@ class _RegUL extends State<RegUL> {
   void _push() {
     Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => const ChangeType(isReg: false)));
+        DefaultPageRouter(
+             const ChangeType(isReg: false)));
   }
 
   @override

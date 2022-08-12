@@ -35,6 +35,7 @@ class MessagesPage<G, T> extends StatefulWidget {
   String userId;
   G? genericId; //id тикета или заявления
   T? type; //тип чата (из enum)
+  Function? mainListener;
   String? page;
   String? statusName; //Открыт/Закрыт/В обработке и т.д
   MessagesPage(
@@ -42,7 +43,8 @@ class MessagesPage<G, T> extends StatefulWidget {
       required this.genericId,
       required this.page,
       required this.type,
-      required this.statusName});
+      required this.statusName,
+      required this.mainListener});
   @override
   State<StatefulWidget> createState() => _MessagesPage();
 }
@@ -340,7 +342,7 @@ class _MessagesPage extends State<MessagesPage> {
             .compareTo(int.parse(a.claim_message_id!));
       });
     }
-    if (state.sendMessageData != null) {
+    if (state.sendMessageData != null) { //если пришел ответ api по отправке сообщения
       isWaitForSend = false;
       dynamic message; //Это данные для отправки в сокет
       if (widget.type == ChatTypes.Ticket) {
@@ -475,6 +477,7 @@ class _MessagesPage extends State<MessagesPage> {
 
           messageList.add(TicketMessage(
               isOwn: true,
+              
               date: DateTime.parse(
                   state.sendMessageData!['ticket_info'][0]['date_added']),
               ticket_message_id: state.sendMessageData!['ticket_info'][0]
@@ -515,8 +518,8 @@ class _MessagesPage extends State<MessagesPage> {
                   ['claim_id'],
               date: DateTime.parse(state.sendMessageData!['data']['claim_info']
                   [0]['date_added']),
-              data: state.sendMessageData!['data']['claim_info'][0]['attachments'],
-              //data: null,
+              //data: state.sendMessageData!['data']['claim_info'][0]['attachments'],
+              data: null,
               claims_status_id: state.sendMessageData!['data']['claim_info'][0]
                   ['claims_status_id'],
               message: state.sendMessageData!['data']['claim_info'][0]
@@ -536,7 +539,7 @@ class _MessagesPage extends State<MessagesPage> {
   }
 
   void getData(dynamic event) async {
-    print('\x1B[33m$event\x1B[0m');
+    print('\x1B[32m$event\x1B[0m');
     // _sendToastMessage(context, "got $event");
     if (isLoading == false) {
       if (widget.type == ChatTypes.Ticket) {
@@ -546,6 +549,13 @@ class _MessagesPage extends State<MessagesPage> {
         profileBloc!.getClaimMessages(widget.genericId!);
       }
     }
+  }
+
+  @override
+  void dispose() {
+    print("Dispose");
+    webSocketListener!.function = widget.mainListener;
+    super.dispose();
   }
 
   @override

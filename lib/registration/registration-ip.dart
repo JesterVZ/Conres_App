@@ -17,6 +17,7 @@ import '../elements/bloc/bloc-screen.dart';
 import '../elements/header/header.dart';
 import '../elements/masks.dart';
 import '../elements/registration/password-textfield.dart';
+import '../elements/route/def-page-router.dart';
 import '../login/change-type.dart';
 import '../validation/validation.dart';
 
@@ -52,8 +53,8 @@ class _RegIP extends State<RegIP> {
   void _push() {
     Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => const ChangeType(isReg: false)));
+        DefaultPageRouter(
+             const ChangeType(isReg: false)));
   }
 
   @override

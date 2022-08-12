@@ -15,8 +15,8 @@ import '../elements/claims/claim-element.dart';
 import '../elements/header/header.dart';
 
 class Claims extends StatefulWidget {
-  const Claims({Key? key}) : super(key: key);
-
+  Claims({Key? key, required this.mainListener}) : super(key: key);
+  Function? mainListener; //ссылка на основной listener для сокета
   @override
   State<StatefulWidget> createState() => _Claims();
 }
@@ -104,7 +104,7 @@ class _Claims extends State<Claims> {
         if (claims.isEmpty) {
           setState(() {
             for (int i = 0; i < state.claims!.length; i++) {
-              claims.add(ClaimElement(currentClaim: state.claims![i], downloadFunction: downloadClaim, userId: userId,));
+              claims.add(ClaimElement(mainListener: widget.mainListener, currentClaim: state.claims![i], downloadFunction: downloadClaim, userId: userId,));
             }
           });
         }

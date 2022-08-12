@@ -13,8 +13,9 @@ class ClaimElement extends StatefulWidget {
   final Claim currentClaim;
   String? userId;
   ValueChanged<Claim> downloadFunction;
+  Function? mainListener;
   ClaimElement(
-      {Key? key, required this.currentClaim, required this.downloadFunction, required this.userId})
+      {Key? key, required this.currentClaim, required this.downloadFunction, required this.userId, required this.mainListener})
       : super(key: key);
   @override
   State<StatefulWidget> createState() => _ClaimElement();
@@ -125,6 +126,7 @@ class _ClaimElement extends State<ClaimElement> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => MessagesPage(
+                                mainListener: widget.mainListener,
                                 genericId: widget.currentClaim.claim_id!,
                                 type: ChatTypes.Claim,
                                 userId: widget.userId!,

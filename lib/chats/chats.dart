@@ -16,7 +16,8 @@ import 'messages.dart';
 
 class Chats extends StatefulWidget {
   Profile profile;
-  Chats({Key? key, required this.profile}) : super(key: key);
+  Function? mainListener; //ссылка на основной listener для сокета
+  Chats({Key? key, required this.profile, required this.mainListener}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _Chats();
 }
@@ -147,6 +148,7 @@ class _Chats extends State<Chats> {
         context,
         MaterialPageRoute(
             builder: (context) => MessagesPage(
+              mainListener: widget.mainListener,
                 userId: userId!,
                 genericId: ticket.ticket_id.toString(),
                 type: ChatTypes.Ticket,

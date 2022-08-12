@@ -63,15 +63,17 @@ class _MainPage extends State<MainPage> {
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.contracts], rootPage: Contracts(canLogin: false, func: goToContract)));
     navigatorList.add(TabNavigator(
-        navigatorKey: _navKeys[TabItem.claims], rootPage: Claims()));
+        navigatorKey: _navKeys[TabItem.claims], rootPage: Claims(mainListener: getData,)));
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.chats],
-        rootPage: Chats(profile: widget.profile!)));
+        rootPage: Chats(profile: widget.profile!, mainListener: getData,)));
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.more], rootPage: MoreScreen(logout)));
   }
 
   void logout() async {
+    webSocketListener = null;
+    webSocketChannel = null;
     profileBloc!.logout();
   }
 

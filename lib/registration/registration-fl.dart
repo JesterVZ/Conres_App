@@ -16,6 +16,7 @@ import '../elements/header/header.dart';
 import '../elements/masks.dart';
 import '../elements/registration/password-textfield.dart';
 import '../elements/registration/sliding-up.dart';
+import '../elements/route/def-page-router.dart';
 import '../login/change-type.dart';
 import '../model/model.dart';
 import '../validation/validation.dart';
@@ -40,8 +41,8 @@ class _RegFL extends State<RegFL> {
   void _push() {
     Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => const ChangeType(isReg: false)));
+        DefaultPageRouter(
+             const ChangeType(isReg: false)));
   }
 
   @override

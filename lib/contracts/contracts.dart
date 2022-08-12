@@ -75,7 +75,7 @@ class _Contracts extends State<Contracts> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => const NewLS()));
                   },
-                  child: Text(linkNewLs, style: buttonTextStyle),
+                  child: Text(linkNewLs, style: buttonTextStyle, textAlign: TextAlign.center,),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: colorMain,
                       shape: RoundedRectangleBorder(
