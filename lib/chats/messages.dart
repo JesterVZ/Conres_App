@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:isolate';
 
 import 'package:camera/camera.dart';
@@ -14,6 +15,8 @@ import 'package:conres_app/websocket/websocket-listener.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as Path;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -29,7 +32,6 @@ import '../elements/chat/message-element.dart';
 import '../model/profile.dart';
 
 import '../websocket/websocket.dart';
-import 'camera-page.dart';
 
 class MessagesPage<G, T> extends StatefulWidget {
   String userId;
@@ -51,6 +53,8 @@ class MessagesPage<G, T> extends StatefulWidget {
 
 class _MessagesPage extends State<MessagesPage> {
   ProfileBloc? profileBloc;
+  final ImagePicker _picker = ImagePicker();
+  XFile? pickedImage;
   List<Widget> messageFiles =
       []; // список файлов к сообщениям (отображение на панели)
   List<dynamic> messageList = []; //список сообщений (tickets)
@@ -95,18 +99,29 @@ class _MessagesPage extends State<MessagesPage> {
 
   void _createPhoto() async {
     await availableCameras().then(
-      (value) => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CameraPage(cameras: value, getPhoto: _getPhoto),
-        ),
-      ),
+      (value) => OpenPicker(ImageSource.camera)
     );
   }
 
-  void _getPhoto(XFile? photo) {
-    file = photo;
-  }
+  OpenPicker(ImageSource source) async
+  {
+    pickedImage = (await _picker.pickImage(source: source)) as XFile;
+    setState(() {
+      File picked = (File(pickedImage!.path));
+      file = picked;
+      messageFiles.clear();
+        messageFiles.add(FileElement(
+            filename: Path.basename(file.path),
+            filepath: file.path,
+            extension: Path.extension(file.path),
+            func: () {
+              setState(() {
+                messageFiles.clear();
+              });
+            }));
+    });
+    
+ }
 
   void _openDialog() {
     showDialog(
@@ -120,12 +135,12 @@ class _MessagesPage extends State<MessagesPage> {
         await FilePicker.platform.pickFiles(allowMultiple: false);
     if (result != null) {
       setState(() {
-        file = result.files;
+        file = File(result.files[0].path!);
         messageFiles.clear();
         messageFiles.add(FileElement(
-            filename: result.files[0].name,
-            filepath: result.files[0].path,
-            extension: result.files[0].extension,
+            filename: Path.basename(file.path),
+            filepath: file.path,
+            extension: Path.extension(file.path),
             func: () {
               setState(() {
                 messageFiles.clear();
@@ -464,7 +479,7 @@ class _MessagesPage extends State<MessagesPage> {
 
       String data = jsonEncode(message.toJson());
       webSocketChannel!.sink.add(data);
-      _sendToastMessage(context, "send $data");
+      //_sendToastMessage(context, "send $data");
       controller.text = "";
       setState(() {
         if (widget.type == ChatTypes.Ticket) {

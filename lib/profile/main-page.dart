@@ -68,7 +68,7 @@ class _MainPage extends State<MainPage> {
         navigatorKey: _navKeys[TabItem.chats],
         rootPage: Chats(profile: widget.profile!, mainListener: getData,)));
     navigatorList.add(TabNavigator(
-        navigatorKey: _navKeys[TabItem.more], rootPage: MoreScreen(logout)));
+        navigatorKey: _navKeys[TabItem.more], rootPage: MoreScreen(logout: logout)));
   }
 
   void logout() async {
@@ -91,10 +91,6 @@ class _MainPage extends State<MainPage> {
     }
   }
 
-  Future<void> _refrash() async{
-    print("refrash");
-    Navigator.pushAndRemoveUntil(context, DefaultPageRouter(LoadingPage()), (route) => false);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -185,10 +181,15 @@ class _MainPage extends State<MainPage> {
       setState(() {
         try{
         webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
-        if(webSocketData!.data!.counters != null){
-          ticketCounter=webSocketData!.data!.counters!.new_ticket_messages_count;
-          claimCounter = webSocketData!.data!.counters!.new_claims_messages_count;
+        if(webSocketData!.data!['counters'] != null){
+          ticketCounter=webSocketData!.data!['counters']['new_ticket_messages_count'];
+          claimCounter = webSocketData!.data!['counters']['new_claims_messages_count'];
         }
+
+        if(webSocketData!.event == "claim_status"){
+          
+        }
+
         }catch(e){
           print(e);
         }

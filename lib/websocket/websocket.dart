@@ -1,19 +1,20 @@
 class WebSocketData{
   String? cmd;
   String? event;
-  _Data? data;
+  dynamic? data;
   WebSocketData({this.cmd, this.event, this.data});
 
   factory WebSocketData.fromMap(Map<String, dynamic> map){
     return WebSocketData(
       cmd: map['cmd'],
       event: map['event'],
-      data: map['data'] != null ? _Data.fromMap(map['data']) : null
+      //data: map['data'] != null ? _Data.fromMap(map['data']) : null
+      data: map['data']
     );
   }
 }
 
-class _Data{
+class WebSocketServerData{
   int? status;
   bool? block_user;
   bool? block_balance;
@@ -21,10 +22,10 @@ class _Data{
   _Counters? counters;
   List<dynamic>? alerts;
 
-  _Data({this.status, this.block_user, this.block_balance, this.block_diskspace,
+  WebSocketServerData({this.status, this.block_user, this.block_balance, this.block_diskspace,
       this.counters, this.alerts});
-  factory _Data.fromMap(Map<String, dynamic> map){
-    return _Data(
+  factory WebSocketServerData.fromMap(Map<String, dynamic> map){
+    return WebSocketServerData(
       status: map['status'],
       block_balance: map['block_balance'],
       block_diskspace: map['block_diskspace'],

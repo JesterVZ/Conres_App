@@ -370,11 +370,11 @@ class HttpClient{
     }
   }
 
-  Future<Object?> sendMessage(String ticketId, String message, String ticketStatusId, List<dynamic>? files) async{
+  Future<Object?> sendMessage(String ticketId, String message, String ticketStatusId, dynamic file) async{
     String uri = domain + 'lk/index.php?route=catalog/ticket/sendMessage';
     try{
       var formData;
-      if(files == null){
+      if(file == null){
         formData = FormData.fromMap({
         'ticket_id': ticketId,
         'message': message, 
@@ -382,8 +382,8 @@ class HttpClient{
       });
       } else {
         formData = FormData.fromMap({
-        'contract_files_name[]': files[0].path!.split('/').last, //имя файла
-        'contract_files[]': await MultipartFile.fromFile(files[0].path!, filename: files[0].path!.split('/').last),
+        'contract_files_name[]': file.path!.split('/').last, //имя файла
+        'contract_files[]': await MultipartFile.fromFile(file.path!, filename: file.path!.split('/').last),
         'ticket_id': ticketId,
         'message': message, 
         'ticket_status_id': ticketStatusId
@@ -538,19 +538,19 @@ class HttpClient{
     }
   }
 
-  Future<Object?> sendClaimMessage(String claim_id, String text, List<PlatformFile>? files) async{
+  Future<Object?> sendClaimMessage(String claim_id, String text, dynamic file) async{
     String uri = domain + 'lk/index.php?route=claims/claims/api_sendMessage';
     try{
       var formData;
-      if(files == null){
+      if(file == null){
         formData = FormData.fromMap({
         'claim_id': claim_id,
         'text': text, 
       });
       } else {
         formData = FormData.fromMap({
-        'contract_files_name[]': files[0].path!.split('/').last, //имя файла
-        'contract_files[]': await MultipartFile.fromFile(files[0].path!, filename: files[0].path!.split('/').last),
+        'contract_files_name[]': file.path!.split('/').last, //имя файла
+        'contract_files[]': await MultipartFile.fromFile(file.path!, filename: file.path!.split('/').last),
         'claim_id': claim_id,
         'text': text, 
       });

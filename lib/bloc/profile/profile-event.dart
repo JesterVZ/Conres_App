@@ -67,15 +67,15 @@ class SendMessageEvent extends ProfileEvent{
   final String ticket_id;
   final String message;
   final String ticket_status_id;
-  final List<dynamic>? files;
-  const SendMessageEvent(this.ticket_id, this.message, this.ticket_status_id, this.files);
+  final dynamic file;
+  const SendMessageEvent(this.ticket_id, this.message, this.ticket_status_id, this.file);
 }
 
 class SendClaimMessageEvent extends ProfileEvent{
   final String claim_id;
   final String text;
-  final List<PlatformFile>? files;
-  const SendClaimMessageEvent(this.claim_id, this.text, this.files);
+  final dynamic file;
+  const SendClaimMessageEvent(this.claim_id, this.text, this.file);
 }
 
 class ReadMessage extends ProfileEvent{

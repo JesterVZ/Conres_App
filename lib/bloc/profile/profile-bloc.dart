@@ -128,12 +128,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(const GetAllInfo());
   }
 
-  sendMessage(String ticket_id, String message, String ticket_status_id, List<dynamic>? files) {
-    add(SendMessageEvent(ticket_id, message, ticket_status_id, files));
+  sendMessage(String ticket_id, String message, String ticket_status_id, dynamic file) {
+    add(SendMessageEvent(ticket_id, message, ticket_status_id, file));
   }
 
-  sendClaimMessage(String claim_id, String text, List<PlatformFile>? files){
-    add(SendClaimMessageEvent(claim_id, text, files));
+  sendClaimMessage(String claim_id, String text, dynamic file){
+    add(SendClaimMessageEvent(claim_id, text, file));
   }
 
   readMessage(String ticketId, String messageId){
@@ -283,7 +283,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
     try {
       Object result = await repo.sendMessage(
-          event.ticket_id, event.message, event.ticket_status_id, event.files);
+          event.ticket_id, event.message, event.ticket_status_id, event.file);
       if (result is Map<String, dynamic>) {
         yield state.copyWith(
             loading: false, sendMessageData: result, ticketFullInfo: null);
@@ -300,7 +300,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
     try{
       Object result = await repo.sendClaimMessage(
-                event.claim_id, event.text, event.files);
+                event.claim_id, event.text, event.file);
       if (result is Map<String, dynamic>) {
         yield state.copyWith(
             loading: false, sendMessageData: result, ticketFullInfo: null);
