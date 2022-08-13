@@ -42,6 +42,7 @@ class _LoginEmail extends State<LoginEmail> {
             },
             child: Scaffold(
                 resizeToAvoidBottomInset: false,
+                backgroundColor: Colors.white,
                 body: Padding(
                     padding: EdgeInsets.fromLTRB(21, 70, 21, 0),
                     child: Column(

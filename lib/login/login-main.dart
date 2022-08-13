@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -22,6 +21,7 @@ class _LoginPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: Stack(
           fit: StackFit.expand,
@@ -35,8 +35,7 @@ class _LoginPage extends State<LoginPage> {
                         flex: 1,
                         child: Text(lkTitle,
                             style: const TextStyle(
-                                fontFamily: 'Bubicon-Bold',
-                                fontSize: 36.0)))
+                                fontFamily: 'Bubicon-Bold', fontSize: 36.0)))
                   ],
                 )),
             Positioned(
@@ -55,7 +54,7 @@ class _LoginPage extends State<LoginPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                      const ChangeType(isReg: true)));
+                                          const ChangeType(isReg: true)));
                             },
                             child: Text(
                               reg,
@@ -63,9 +62,8 @@ class _LoginPage extends State<LoginPage> {
                             ),
                             style: ElevatedButton.styleFrom(
                                 primary: colorMain,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: buttonRadius
-                            )))),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: buttonRadius)))),
                   ),
                   SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,
@@ -78,16 +76,14 @@ class _LoginPage extends State<LoginPage> {
                                     builder: (context) =>
                                         const ChangeType(isReg: false)));
                           },
-
                           child: Text(
                             login,
                             style: buttonTextStyle,
                           ),
                           style: ElevatedButton.styleFrom(
                               primary: colorGray,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: buttonRadius
-                          )))),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: buttonRadius)))),
                   //ElevatedButton(onPressed: (){}, child: Text(login)),
                 ],
               ),
