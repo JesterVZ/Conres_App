@@ -15,9 +15,8 @@ import '../websocket/websocket-listener.dart';
 import 'messages.dart';
 
 class Chats extends StatefulWidget {
-  Profile profile;
   Function? mainListener; //ссылка на основной listener для сокета
-  Chats({Key? key, required this.profile, required this.mainListener}) : super(key: key);
+  Chats({Key? key, required this.mainListener}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _Chats();
 }

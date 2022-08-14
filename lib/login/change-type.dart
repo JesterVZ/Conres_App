@@ -30,8 +30,8 @@ class _ChangeType extends State<ChangeType> {
           fit: StackFit.expand,
           children: [
             Positioned(
-                width: 375,
-                left: 26,
+                width: MediaQuery.of(context).size.width,
+                left: defaultSidePadding,
                 top: 74,
                 child: HeaderRow(
                     text: widget.isReg == true
@@ -129,5 +129,6 @@ class _ChangeType extends State<ChangeType> {
             )
           ],
         ));
+  
   }
 }

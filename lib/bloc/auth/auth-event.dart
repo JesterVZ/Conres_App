@@ -23,6 +23,12 @@ class LoginEvent extends Event{
   const LoginEvent(this.username, this.password, this.type);
 }
 
+class CookieLogin extends Event{
+  final List cookies;
+
+  const CookieLogin(this.cookies);
+}
+
 
 class GetLoginEvent extends Event{
   const GetLoginEvent();

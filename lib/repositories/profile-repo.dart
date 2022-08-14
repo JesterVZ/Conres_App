@@ -9,8 +9,8 @@ class ProfileRepo{
 
   ProfileRepo({required this.httpClient});
 
-  Future<String>getCookie(String username, String password, int type) async{
-    String result = await httpClient.getCookieStringForWebSocket(username, password, type);
+  Future<String>getCookie(List cookies) async{
+    String result = await httpClient.getCookieStringForWebSocket(cookies);
     return result;
   }
   Future<dynamic> loginData() async {

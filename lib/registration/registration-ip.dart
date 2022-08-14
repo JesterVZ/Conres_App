@@ -69,6 +69,7 @@ class _RegIP extends State<RegIP> {
               },
               child: Scaffold(
                 resizeToAvoidBottomInset: false,
+                backgroundColor: Colors.white,
                 body: SlidingUpElement(
                   onClose: _push,
                   panelController: panelController,
@@ -77,7 +78,7 @@ class _RegIP extends State<RegIP> {
                       child: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.fromLTRB(21, 70, 21, 54),
+                            padding: EdgeInsets.fromLTRB(defaultSidePadding, 70, defaultSidePadding, 54),
                             child: Form(
                                 key: _formKey,
                                 child: Column(

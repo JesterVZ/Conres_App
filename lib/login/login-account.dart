@@ -14,7 +14,6 @@ import '../profile/main-page.dart';
 
 class LoginEmail extends StatefulWidget {
   LoginEmail({Key? key, required this.type}) : super(key: key);
-  bool isLoading = false;
   final int type;
 
   @override
@@ -26,9 +25,7 @@ class _LoginEmail extends State<LoginEmail> {
   TextEditingController passwordController = TextEditingController();
   AuthBloc? authBloc;
   ProfileBloc? profileBloc;
-
-  final Widget svg = SvgPicture.asset('assets/background_image.svg',
-      color: colorLogo, semanticsLabel: 'Acme Logo');
+  bool? isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +41,7 @@ class _LoginEmail extends State<LoginEmail> {
                 resizeToAvoidBottomInset: false,
                 backgroundColor: Colors.white,
                 body: Padding(
-                    padding: EdgeInsets.fromLTRB(21, 70, 21, 0),
+                    padding: EdgeInsets.fromLTRB(defaultSidePadding, 70, defaultSidePadding, 0),
                     child: Column(
                       children: [
                         Container(
@@ -106,7 +103,7 @@ class _LoginEmail extends State<LoginEmail> {
                                   height: 55.0,
                                   child: ElevatedButton(
                                       onPressed: () {
-                                        _handleLogin(state, lkController.text,
+                                        _handleLogin(lkController.text,
                                             passwordController.text);
                                       },
                                       child: Text(
@@ -114,7 +111,7 @@ class _LoginEmail extends State<LoginEmail> {
                                         style: buttonTextStyle,
                                       ),
                                       style: ElevatedButton.styleFrom(
-                                          primary: colorMain,
+                                          backgroundColor: colorMain,
                                           shape: RoundedRectangleBorder(
                                               borderRadius: buttonRadius)))),
                             ),
@@ -123,11 +120,11 @@ class _LoginEmail extends State<LoginEmail> {
                           ],
                         ),
                         Visibility(
-                            visible: widget.isLoading,
+                            visible: isLoading! ,
                             child: Container(
                               width: 50,
                               height: 50,
-                              child: Image.asset('assets/loading.gif'),
+                              child: const CircularProgressIndicator()
                             ))
                       ],
                     ))),
@@ -135,28 +132,23 @@ class _LoginEmail extends State<LoginEmail> {
         });
   }
 
-  _handleLogin(AuthState state, String username, String password) async {
+  _handleLogin(String username, String password) async {
     authBloc!.login(username, password, widget.type);
   }
 
   _listener(BuildContext context, AuthState state) {
-    if (state.loading!) {
-      widget.isLoading = true;
-      return;
-    } else {
-      widget.isLoading = false;
-    }
-    if (state.error == null) {
-      print(state.loginData);
-      Navigator.of(context).pushAndRemoveUntil(
-          DefaultPageRouter(
-              MainPage(profile: state.profile, loginData: state.loginData)),
-          (route) => false);
-    } else {
+    isLoading = state.loading!;
+    if (state.error != null) {
       showDialog(
           context: context,
           builder: (BuildContext context) =>
               Alert(title: "Ошибка", text: state.error.toString()));
+    } 
+    if(state.cookies != null){
+      Navigator.of(context).pushAndRemoveUntil(
+          DefaultPageRouter(
+              MainPage(loginData: state.loginData, cookies: state.cookies!)),
+          (route) => false);
     }
   }
 

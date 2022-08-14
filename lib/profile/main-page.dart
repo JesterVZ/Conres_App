@@ -25,9 +25,9 @@ import 'bottom-nav/bottom-navigation-custom.dart';
 import 'navigators/tab-nav.dart';
 
 class MainPage extends StatefulWidget {
-  final Profile? profile;
   final List<dynamic>? loginData;
-  MainPage({this.profile, this.loginData});
+  final List cookies;
+  MainPage({required this.cookies, this.loginData});
 
   @override
   State<StatefulWidget> createState() => _MainPage();
@@ -56,9 +56,8 @@ class _MainPage extends State<MainPage> {
   void initState() {
     navigatorList.add(TabNavigator(
       navigatorKey: _navKeys[TabItem.main],
-      profile: widget.profile,
       rootPage:
-          ProfilePageTest(profile: widget.profile, loginData: widget.loginData, func: goToContract),
+          ProfilePageTest(loginData: widget.loginData, func: goToContract, cookies: widget.cookies,),
     ));
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.contracts], rootPage: Contracts(canLogin: false, func: goToContract)));
@@ -66,7 +65,7 @@ class _MainPage extends State<MainPage> {
         navigatorKey: _navKeys[TabItem.claims], rootPage: Claims(mainListener: getData,)));
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.chats],
-        rootPage: Chats(profile: widget.profile!, mainListener: getData,)));
+        rootPage: Chats(mainListener: getData,)));
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.more], rootPage: MoreScreen(logout: logout)));
   }
@@ -208,7 +207,7 @@ class _MainPage extends State<MainPage> {
     webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
     webSocketListener?.webSocketChannel = webSocketChannel;
     webSocketListener?.function = getData;
-    profileBloc!.getCookies(widget.loginData![0], widget.loginData![1], widget.loginData![2]);
+    profileBloc!.getCookies(widget.cookies);
     webSocketListener!.listen();
   }
 }

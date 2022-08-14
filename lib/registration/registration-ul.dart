@@ -63,6 +63,7 @@ class _RegUL extends State<RegUL> {
               },
               child: Scaffold(
                 resizeToAvoidBottomInset: false,
+                backgroundColor: Colors.white,
                   body: SlidingUpElement(
                 panelController: panelController,
                 body: Scaffold(
@@ -70,7 +71,7 @@ class _RegUL extends State<RegUL> {
                     child: Column(
                       children: [
                         Padding(
-                            padding: const EdgeInsets.fromLTRB(21, 74, 21, 54),
+                            padding: EdgeInsets.fromLTRB(defaultSidePadding, 74, defaultSidePadding, 54),
                             child: Form(
                                 key: _formKey,
                                 child: Column(

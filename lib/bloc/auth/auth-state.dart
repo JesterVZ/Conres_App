@@ -6,11 +6,12 @@ class AuthState{
   final Profile? profile;
   final bool? loading;
   final Object? error;
+  final List? cookies;
   final List<Meter>? testimony;
   final List<dynamic>? loginData;
   final List<Store>? stors;
 
-  AuthState({this.loginData, this.loading, this.error, this.profile, this.testimony, this.stors});
+  AuthState({this.loginData, this.loading, this.error, this.profile, this.testimony, this.stors, this.cookies});
 
   static initial() => AuthState(
     profile: null,
@@ -22,6 +23,7 @@ class AuthState{
     Profile? profile,
     bool? loading,
     Object? error,
+    List? cookies,
     List<dynamic>? loginData,
     List<Meter>? testimony,
     List<Store>? stors
@@ -31,6 +33,7 @@ class AuthState{
         loading: loading ?? this.loading,
         loginData: loginData ?? this.loginData,
         testimony: testimony ?? this.testimony,
+        cookies: cookies,
         stors: stors ?? this.stors,
         error: error
     );

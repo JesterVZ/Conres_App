@@ -84,8 +84,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   ProfileBloc(this.repo) : super(ProfileState.initial());
 
-  getCookies(String username, String password, int type) {
-    add(GetCookieStrEvent(username, password, type));
+  getCookies(List cookies) {
+    add(GetCookieStrEvent(cookies));
   }
 
   getLoginData() {
@@ -160,11 +160,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(CreateNewTicket(contact_email, contact_name, message, ticket_theme_id));
   }
 
-  Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
+  Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* { //получение строки из cookie (нужно для отправки в сокет)
     yield state.copyWith(loading: true, error: null);
     try {
       String result =
-          await repo.getCookie(event.username, event.password, event.type);
+          await repo.getCookie(event.cookies);
       yield state.copyWith(loading: false, error: result, cookieStr: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());

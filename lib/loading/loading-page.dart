@@ -47,18 +47,14 @@ class _LoadingPage extends State<LoadingPage>{
       return;
     }
     if(state.loginData != null){
-      if(state.profile == null){
-        if(isLogin == false){
+      if(isLogin == false){
           authBloc!.login(state.loginData![0], state.loginData![1], state.loginData![2]);
           isLogin = true;
+          
         }
-      } else {
-        List<dynamic> loginData = state.loginData!;
-        if(widget.newLogin != null){
-          loginData[0] = widget.newLogin;
+        if(state.cookies != null){
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainPage(loginData: state.loginData, cookies: state.cookies!,)), (route) => false);
         }
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainPage(profile: state.profile, loginData: loginData)), (route) => false);
-      }
     } else {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => const LoginPage()), (route) => false);
     }

@@ -57,6 +57,7 @@ class _RegFL extends State<RegFL> {
               },
               child: Scaffold(
                 resizeToAvoidBottomInset: false,
+                backgroundColor: Colors.white,
                 body: SlidingUpElement(
                   onClose: _push,
                   panelController: panelController,
@@ -67,7 +68,7 @@ class _RegFL extends State<RegFL> {
                           Column(
                             children: [
                               Padding(
-                                  padding: EdgeInsets.fromLTRB(21, 74, 21, 54),
+                                  padding: EdgeInsets.fromLTRB(defaultSidePadding, 74, defaultSidePadding, 54),
                                   child: Form(
                                       key: _formKey,
                                       child: Column(

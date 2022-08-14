@@ -205,8 +205,7 @@ class HttpClient{
     }
   }
 
-  Future<String> getCookieStringForWebSocket(String username, String password, int type) async{
-    List<dynamic> cookies = await getCookies(username, password, type);
+  Future<String> getCookieStringForWebSocket(List cookies) async{
 
     String pf = cookies[2].value;
     String pa = cookies[3].value;

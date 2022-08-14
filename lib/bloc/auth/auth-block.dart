@@ -28,6 +28,9 @@ class AuthBloc extends Bloc<Event, AuthState> {
     else if(event is GetStores){
       yield* _handleGetStores(event);
     }
+    else if(event is CookieLogin){
+      yield* _handleCookiesLogin(event);
+    }
 
 
   }
@@ -49,6 +52,10 @@ class AuthBloc extends Bloc<Event, AuthState> {
     add(const GetStores());
   }
 
+  loginWithCookies(List cookies){
+    add(CookieLogin(cookies));
+  }
+
 
   Stream<AuthState> _handleRegisterEvent(RegisterEvent event) async*{
     yield state.copyWith(loading: true, error: null);
@@ -68,16 +75,11 @@ class AuthBloc extends Bloc<Event, AuthState> {
     yield state.copyWith(loading: true, error: null);
     try{
       Object result = await repo.getCookies(event.username, event.password, event.type);
-      if(result is List){
-        Object? loginResult = await repo.login(result);
-        if(loginResult is Profile){
-          SharedPreferences preferences = await SharedPreferences.getInstance();
-          setLogin(preferences, event.username, event.password, event.type);
-          List<dynamic> loginData = [event.username, event.password, event.type];
-          yield state.copyWith(profile: loginResult, loginData: loginData, error: null, loading: false);
-        } else {
-          yield state.copyWith(error: loginResult.toString(), loading: false);
-        }
+      if(result is List){ //если результат - лист из cookie
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        setLogin(preferences, event.username, event.password, event.type);
+        List<dynamic> loginData = [event.username, event.password, event.type];
+        yield state.copyWith(loading: false, error: null, cookies: result, loginData: loginData);
       } else {
         yield state.copyWith(error: result.toString(), loading: false);
       }
@@ -106,6 +108,21 @@ class AuthBloc extends Bloc<Event, AuthState> {
       if(result is List<Store>){
         yield state.copyWith(stors: result, loading: false, error: null);
       }
+    }catch(e){
+      yield state.copyWith(error: e.toString(), loading: false);
+    }
+  }
+
+  Stream<AuthState> _handleCookiesLogin(CookieLogin event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      Object? loginResult = await repo.login(event.cookies);
+      if(loginResult is Profile){
+          yield state.copyWith(profile: loginResult, error: null, loading: false);
+      }else {
+        yield state.copyWith(error: loginResult.toString(), loading: false);
+      }
+
     }catch(e){
       yield state.copyWith(error: e.toString(), loading: false);
     }
