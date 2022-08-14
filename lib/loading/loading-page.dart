@@ -48,9 +48,13 @@ class _LoadingPage extends State<LoadingPage>{
     }
     if(state.loginData != null){
       if(isLogin == false){
-          authBloc!.login(state.loginData![0], state.loginData![1], state.loginData![2]);
-          isLogin = true;
-          
+          if(widget.newLogin != null) {
+            authBloc!.login(widget.newLogin!, state.loginData![1], state.loginData![2]);
+            isLogin = true;
+          } else {
+            authBloc!.login(state.loginData![0], state.loginData![1], state.loginData![2]);
+            isLogin = true;
+          }  
         }
         if(state.cookies != null){
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainPage(loginData: state.loginData, cookies: state.cookies!,)), (route) => false);
