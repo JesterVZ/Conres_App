@@ -119,7 +119,7 @@ class _Chats extends State<Chats> {
     if (state.loading == true) {
       return;
     }
-    if (state.bindLsData != null) {
+    if (state.fullInfo != null) {
       userId = state.fullInfo!['user_id'];
     }
     if (state.tickets != null) {
