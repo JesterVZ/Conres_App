@@ -2,10 +2,10 @@ class Ticket{
   final String? ticket_id;
   final String? user_lk_id;
   final String? ticket_theme_id;
-  final String? name;
+  String? name;
   final String? is_closed;
   final String? contact_email;
-  final _CurrentStatus? cur_status;
+  _CurrentStatus? cur_status;
   final String? date_ticket;
   final String? last_tm_resiver;
   String? count_tm_resiver;
@@ -59,7 +59,7 @@ class _CurrentStatus{
   final String? date_added;
   final String? status;
   final String? hidden_type;
-  final String? name;
+  String? name;
 
   _CurrentStatus({
     this.ticket_status_type_id,

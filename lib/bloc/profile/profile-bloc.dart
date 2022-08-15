@@ -206,7 +206,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null);
     try {
       Object result = await repo.bindLs(event.number, event.address);
-      if (result is ResultData) {
+      if (result is String) {
         yield state.copyWith(loading: false, error: null, bindLsData: result);
       }
     } catch (e) {
@@ -267,12 +267,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
-  Stream<ProfileState> _handleGetAllInfo(GetAllInfo event) async* {
+  Stream<ProfileState> _handleGetAllInfo(GetAllInfo event) async* { // создать переменную под result
     yield state.copyWith(loading: true, error: null);
     try {
       Object result = await repo.getAllInfo();
-      if (result is ResultData) {
-        yield state.copyWith(loading: false, bindLsData: result);
+      if(result is Map<String, dynamic>){
+        yield state.copyWith(loading: false, fullInfo: result);
       }
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());

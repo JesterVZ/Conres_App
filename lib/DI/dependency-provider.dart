@@ -9,6 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import '../Services/update-claim-service.dart';
+import '../Services/update-ticket-service.dart';
 import '../repositories/profile-repo.dart';
 
 // ignore: must_be_immutable
@@ -22,6 +24,8 @@ class DependencyProvider extends InheritedWidget {
   WebSocketChannel? _webSocketChannel;
   WebSocketData? _webSocketData;
   WebSocketListener? _webSocketListener;
+  UpdateClaimService? _updateClaimService;
+  UpdateTicketService? _updateTicketService;
 
   DependencyProvider({Key? key, Widget? child})
       : assert(child != null),
@@ -36,6 +40,16 @@ class DependencyProvider extends InheritedWidget {
   WebSocketListener? get webSocketListener{
     _webSocketListener ??=WebSocketListener();
     return _webSocketListener;
+  }
+
+  UpdateClaimService? get updateClaimService{
+    _updateClaimService ??= UpdateClaimService();
+    return _updateClaimService;
+  }
+
+  UpdateTicketService? get updateTicketService{
+    _updateTicketService ??= UpdateTicketService();
+    return _updateTicketService;
   }
 
   WebSocketData? get webSocketData {

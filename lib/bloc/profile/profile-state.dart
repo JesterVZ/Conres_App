@@ -16,6 +16,7 @@ class ProfileState {
   final String? cookieStr;
   final bool? loading;
   final String? error;
+  final Map<String, dynamic>? fullInfo;
   final List<dynamic>? loginData;
   final List<Contract>? contracts;
   final List<String>? numbers;
@@ -26,7 +27,7 @@ class ProfileState {
   final List<ClaimMessage>? claimMessages;
   final TicketFullInfo? ticketFullInfo;
   final dynamic webSocketData;
-  final ResultData? bindLsData;
+  final String? bindLsData;
   final Map<String, dynamic>? sendMessageData;
   final String? page;
   final UserInformation? userInformation;
@@ -38,6 +39,7 @@ class ProfileState {
       this.error,
       this.webSocketData,
       this.bindLsData,
+      this.fullInfo,
       this.contracts,
       this.numbers,
       this.claims,
@@ -55,13 +57,14 @@ class ProfileState {
       {String? cookieStr,
       bool? loading,
       List<dynamic>? loginData,
-      ResultData? bindLsData,
+      String? bindLsData,
       Map<String, dynamic>? sendMessageData,
       dynamic webSocketData, 
       List<Contract>? contracts,
       List<String>? numbers,
       List<ObjectPuModel>? objectsPU,
       String? error,
+      Map<String, dynamic>? fullInfo,
       List<Claim>? claims,
       List<Ticket>? tickets,
       List<ClaimMessage>? claimMessages,
@@ -74,7 +77,7 @@ class ProfileState {
         loading: loading ?? this.loading,
         cookieStr: cookieStr ?? this.cookieStr,
         loginData: loginData,
-        bindLsData: bindLsData ?? this.bindLsData,
+        bindLsData: bindLsData,
         contracts: contracts ?? this.contracts,
         numbers: numbers ?? this.numbers,
         claims: claims ?? this.claims,
@@ -83,6 +86,7 @@ class ProfileState {
         ticketFullInfo: ticketFullInfo,
         sendMessageData: sendMessageData,
         webSocketData: webSocketData,
+        fullInfo: fullInfo ?? this.fullInfo,
         objectsPU: objectsPU,
         meters: meters,
         userInformation: userInformation,

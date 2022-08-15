@@ -90,7 +90,9 @@ class _ClaimElement extends State<ClaimElement> {
                       ],
                     ),
                   ),
-                  StatusElement(status: widget.currentClaim.status_name!)
+                  StatusElement(status: widget.currentClaim.status!),
+                  
+                  
                 ],
               ),
             )
@@ -100,6 +102,22 @@ class _ClaimElement extends State<ClaimElement> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            Container(
+                    margin: EdgeInsets.only(bottom: 22),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            child: Text("Статус оплаты",
+                                style: TextStyle(
+                                    fontSize: 15, color: colorGrayClaim))),
+                        PayStatusElement(status: widget.currentClaim.status_pay!),
+                      ],
+                    ),
+                  ),
+            
             Text("Документы",
                 style: TextStyle(color: colorGrayClaim, fontSize: 15)),
             Container(

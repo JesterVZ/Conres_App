@@ -22,22 +22,6 @@ class _TicketRow extends State<TicketRow> {
   Color? backgroundColor;
   @override
   void initState() {
-    if (widget.ticket.cur_status != null) {
-      switch (widget.ticket.cur_status!.name) {
-        case "Открыт":
-          nameColor = Colors.white;
-          backgroundColor = greenColor;
-          break;
-        case "Закрыт":
-          nameColor = Colors.white;
-          backgroundColor = redColor;
-          break;
-        case "В обработке":
-          nameColor = Colors.white;
-          backgroundColor = yellowColor;
-          break;
-      }
-    }
 
     super.initState();
   }
@@ -108,8 +92,6 @@ class _TicketRow extends State<TicketRow> {
                     name: widget.ticket.cur_status != null
                         ? widget.ticket.cur_status!.name
                         : "",
-                    color: nameColor ?? Colors.white,
-                    backgroundColor: backgroundColor ?? Colors.white,
                   )
                 ],
               ),

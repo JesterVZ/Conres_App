@@ -38,7 +38,7 @@ bool isLsvalidate(String val) {
 }
 
 bool isPassportSeriesValidate(String val) {
-  return RegExp(r'[0-9]{4}$').hasMatch(val);
+  return RegExp(r'[0-9]{9}$').hasMatch(val);
 }
 
 bool isPassportNumberValidate(String val) {

@@ -34,6 +34,7 @@ class _NewLS extends State<NewLS>{
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Scaffold(
+            backgroundColor: Colors.white,
             body: Padding(padding: EdgeInsets.fromLTRB(19, 59, 19, 23),
                 child:
                 Stack(
@@ -125,8 +126,7 @@ class _NewLS extends State<NewLS>{
     if(state.bindLsData != null){
       showDialog(
           context: context,
-          builder: (BuildContext context) => Alert(title: "Успешно!", text: state.bindLsData!.code_msg!.msg!));
-
+          builder: (BuildContext context) => Alert(title: "Успешно!", text: state.bindLsData!));
     }
     if(state.error != null){
       showDialog(

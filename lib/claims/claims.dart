@@ -1,4 +1,5 @@
 import 'package:accordion/accordion.dart';
+import 'package:conres_app/Services/update-claim-service.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/claims/new-claim/new-claim-step-1.dart';
@@ -25,7 +26,9 @@ class _Claims extends State<Claims> {
   ProfileBloc? profileBloc;
   String? userId;
   List<ClaimElement> claims = [];
+  Map<String, dynamic> claimsMap = {};
   ScrollController controller = ScrollController();
+  UpdateClaimService? updateClaimService;
 
   @override
   void initState() {
@@ -57,19 +60,15 @@ class _Claims extends State<Claims> {
                   child: Scrollbar(
                       child: RefreshIndicator(
                           onRefresh: _refrash,
-                          child: SingleChildScrollView(
-                              child: Column(
-                            children: [
-                              Column(
-                                children: [
-                                  //здесь заявления
-                                  Column(
-                                    children: claims,
-                                  ),
-                                ],
-                              )
-                            ],
-                          ))))),
+                          child: ListView.builder(
+                            itemCount: claimsMap.length,
+                            itemBuilder: (context, int index) {
+                              return ClaimElement(
+                                currentClaim: claimsMap.values.elementAt(index), 
+                                downloadFunction: downloadClaim, 
+                                userId: userId, 
+                                mainListener: widget.mainListener);
+                            })))),
                 Container(
                   padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
                   width: MediaQuery.of(context).size.width,
@@ -98,14 +97,12 @@ class _Claims extends State<Claims> {
     if (state.loading == true) {
       return;
     }
-    if (state.bindLsData != null) {
-      userId = state.bindLsData!.data['user_id'];
+    if (state.fullInfo != null) {
+      userId = state.fullInfo!['user_id'];
       if (state.claims != null) {
         if (claims.isEmpty) {
           setState(() {
-            for (int i = 0; i < state.claims!.length; i++) {
-              claims.add(ClaimElement(mainListener: widget.mainListener, currentClaim: state.claims![i], downloadFunction: downloadClaim, userId: userId,));
-            }
+            claimsMap = { for (var e in state.claims!) e.claim_id! : e };
           });
         }
     }
@@ -132,10 +129,33 @@ class _Claims extends State<Claims> {
     return result[1];
   }
 
+  void updateStatus(String claim_id, String status, String status_pay){
+    Claim newClaim = claimsMap[claim_id];
+    newClaim.status = status;
+    switch(status_pay){
+      case "1":
+        newClaim.status_pay = "Не оплачено";
+        break;
+      case "2":
+        newClaim.status_pay = "Оплачено частично";
+        break;
+      case "3":
+        newClaim.status_pay = "Оплачено";
+        break;
+    }
+    setState(() {
+      claimsMap.update(claim_id, (value) => newClaim);
+    });
+    
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    updateClaimService ??= DependencyProvider.of(context)!.updateClaimService;
+    updateClaimService!.update = updateStatus;
     profileBloc!.getClaims();
+    
   }
 }

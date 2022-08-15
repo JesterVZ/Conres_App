@@ -1,8 +1,10 @@
+import 'package:conres_app/Services/update-ticket-service.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/chats/new-chat.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../DI/dependency-provider.dart';
 import '../consts.dart';
@@ -26,7 +28,10 @@ class _Chats extends State<Chats> {
   WebSocketChannel? webSocketChannel;
   WebSocketListener? webSocketListener;
   ScrollController scrollController = ScrollController();
+  UpdateTicketService? updateTicketService;
   List<Ticket> tickets = [];
+  Map<String, dynamic> ticketsMap = {};
+
   String? userId;
   int page = 1;
   bool isLoading = true;
@@ -66,12 +71,12 @@ class _Chats extends State<Chats> {
                                 onRefresh: _refrash,
                                 child: ListView.builder(
                                         controller: scrollController,
-                                        itemCount: tickets.length,
+                                        itemCount: ticketsMap.length,
                                         itemBuilder: (context, int index) {
                                           return TicketRow(
-                                              ticket: tickets[index],
+                                              ticket: ticketsMap.values.elementAt(index),
                                               openChat: _openChat,
-                                              counter: tickets[index]
+                                              counter: ticketsMap.values.elementAt(index)
                                                   .count_tm_resiver);
                                         })))),
                     Container(
@@ -115,18 +120,22 @@ class _Chats extends State<Chats> {
       return;
     }
     if (state.bindLsData != null) {
-      userId = state.bindLsData!.data['user_id'];
+      userId = state.fullInfo!['user_id'];
     }
     if (state.tickets != null) {
-      //tickets.clear();
+      ticketsMap = { for (var e in state.tickets!) e.ticket_id! : e };
+      
       if (tickets.isEmpty ||
           (tickets.first.ticket_id != state.tickets!.first.ticket_id &&
               (int.parse(state.page!) == page) &&
               page == 1)) {
         tickets = state.tickets!;
+        ticketsMap = { for (var e in state.tickets!) e.ticket_id! : e };
       }
+      
       if ((int.parse(state.page!) == page) && page > 1) {
         tickets = tickets + state.tickets!;
+        ticketsMap = { for (var e in state.tickets!) e.ticket_id! : e };
       }
     }
   }
@@ -139,6 +148,14 @@ class _Chats extends State<Chats> {
         profileBloc!.getTickets(page.toString());
       });
     }
+  }
+
+  void updateStatus(String ticket_id, String status){
+    Ticket newTicket = ticketsMap[ticket_id];
+    newTicket.cur_status!.name = status;
+    setState(() {
+      ticketsMap.update(ticket_id, (value) => newTicket);
+    });
   }
 
   void _openChat(Ticket ticket) {
@@ -160,6 +177,8 @@ class _Chats extends State<Chats> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    updateTicketService ??= DependencyProvider.of(context)!.updateTicketService;
+    updateTicketService!.update = updateStatus;
     profileBloc!.getAllInfo();
     profileBloc!.getTickets(page.toString());
   }

@@ -1,17 +1,32 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import '../../consts.dart';
 
 class Status extends StatelessWidget{
-  Color color;
-  Color backgroundColor;
   String? name;
+  Color? textColor;
+  Color? backgroundColor;
 
   Status({
-    required this.color,
     required this.name,
-    required this.backgroundColor
   });
   @override
   Widget build(BuildContext context) {
+    switch (name) {
+        case "Открыт":
+          textColor = Colors.white;
+          backgroundColor = greenColor;
+          break;
+        case "Закрыт":
+          textColor = Colors.white;
+          backgroundColor = redColor;
+          break;
+        case "В обработке":
+          textColor = Colors.white;
+          backgroundColor = yellowColor;
+          break;
+      }
     return Container(
       padding: EdgeInsets.all(7),
       decoration: BoxDecoration(
@@ -20,7 +35,7 @@ class Status extends StatelessWidget{
         color: backgroundColor
       ),
       child: Text(name!, style: TextStyle(
-        color: color
+        color: textColor
       )),
     );
   }

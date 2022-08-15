@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:conres_app/Services/update-claim-service.dart';
+import 'package:conres_app/Services/update-ticket-service.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/chats/chats.dart';
 import 'package:conres_app/loading/loading-page.dart';
@@ -37,6 +39,8 @@ class _MainPage extends State<MainPage> {
   WebSocketChannel? webSocketChannel;
   WebSocketData? webSocketData;
   WebSocketListener? webSocketListener;
+  UpdateClaimService? updateClaimService;
+  UpdateTicketService? updateTicketService;
   int? ticketCounter;
   int? claimCounter;
   var _currentTab = TabItem.main;
@@ -184,9 +188,12 @@ class _MainPage extends State<MainPage> {
           ticketCounter=webSocketData!.data!['counters']['new_ticket_messages_count'];
           claimCounter = webSocketData!.data!['counters']['new_claims_messages_count'];
         }
-
         if(webSocketData!.event == "claim_status"){
-          
+          updateClaimService!.update!.call(webSocketData!.data['claim_id'], webSocketData!.data['status'], webSocketData!.data['status_pay']);
+        }
+
+        if(webSocketData!.event == "ticket_msg"){
+          updateTicketService!.update!.call(webSocketData!.data['ticket_info'][0]['ticket_id'], webSocketData!.data['ticket_info'][0]['name']);
         }
 
         }catch(e){
@@ -205,6 +212,8 @@ class _MainPage extends State<MainPage> {
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
     webSocketData ??= DependencyProvider.of(context)!.webSocketData;
     webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
+    updateClaimService ??= DependencyProvider.of(context)!.updateClaimService;
+    updateTicketService ??= DependencyProvider.of(context)!.updateTicketService;
     webSocketListener?.webSocketChannel = webSocketChannel;
     webSocketListener?.function = getData;
     profileBloc!.getCookies(widget.cookies);

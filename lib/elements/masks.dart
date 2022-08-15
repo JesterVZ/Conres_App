@@ -279,7 +279,7 @@ class _MaskInput extends State<MaskInput> {
           validator: (value) {
             if (value == null || value.isEmpty) {
               return "Введите ЛС";
-            } else if (_isKppValidate == false) {
+            } else if (_islsValidate == false) {
               return "ЛС некорректен";
             }
             return null;
@@ -295,7 +295,7 @@ class _MaskInput extends State<MaskInput> {
                   borderRadius: BorderRadius.circular(10)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: _isKppValidate ? Colors.green : Colors.red))),
+                      color: _islsValidate ? Colors.green : Colors.red))),
           onChanged: (value) {
             setState(() {
               _islsValidate = isLsvalidate(value);
