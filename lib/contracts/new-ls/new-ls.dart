@@ -103,7 +103,7 @@ class _NewLS extends State<NewLS>{
                                 profileBloc!.bindNewLS(lsController.text, addressController.text);
                               }
                             },
-                            child: Text(sendLinkRequest, style: buttonTextStyle),
+                            child: Text(sendLinkRequest, style: buttonTextStyle, textAlign: TextAlign.center),
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: colorMain,
                                 shape: RoundedRectangleBorder(

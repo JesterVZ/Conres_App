@@ -19,8 +19,8 @@ class BasicDateField extends StatelessWidget {
         decoration: InputDecoration(
             hintText: "01.01.2020",
             border: OutlineInputBorder(
-                borderSide:
-                BorderSide(color: inputBorder))),
+                  borderSide: BorderSide(color: inputBorder, width: 5.0),
+                  borderRadius: BorderRadius.circular(10))),
         onShowPicker: (context, currentValue) {
           return showDatePicker(
               context: context,

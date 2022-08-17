@@ -17,7 +17,13 @@ class MessageElement extends StatelessWidget {
       alignment: message.isOwn! ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: message.isOwn! ? const BorderRadius.only(
+              topRight: Radius.circular(8),
+              bottomLeft: Radius.circular(8),
+              topLeft: Radius.circular(8)) : const BorderRadius.only(
+              topRight: Radius.circular(8),
+              bottomRight: Radius.circular(8),
+              topLeft: Radius.circular(8)),
             color: message.isOwn! ? colorMain : messageColor),
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.all(10),

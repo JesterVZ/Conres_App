@@ -31,6 +31,7 @@ import '../elements/chat/file-for-send.dart';
 import '../elements/chat/message-element.dart';
 import '../model/profile.dart';
 
+import '../websocket/message-read.dart';
 import '../websocket/websocket.dart';
 
 class MessagesPage<G, T> extends StatefulWidget {
@@ -318,9 +319,10 @@ class _MessagesPage extends State<MessagesPage> {
     if (state.ticketFullInfo != null && mainLabel == "Обращение") {
       isLoadingMessages = false;
       lastMessageId = state.ticketFullInfo!.last_message_id!;
+      
       if (page == 1) {
         messageList = state.ticketFullInfo!.messages!;
-        //profileBloc!.readMessage(widget.genericId!, lastMessageId!);
+        readMessage(widget.genericId!, lastMessageId!);
         for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
           messageList[i].isOwn =
               state.ticketFullInfo!.messages![i].user_id != widget.userId
@@ -553,6 +555,24 @@ class _MessagesPage extends State<MessagesPage> {
     }
   }
 
+  void readMessage(String genericId, String messageId){
+    MessageRead messageRead = MessageRead(
+      cmd: 'publish',
+      event: 'ticket_msg_read',
+      subject: 'store-${store_id}',
+      to_id: int.parse(widget.userId),
+      data: MessageReadData(
+        message_id: messageId,
+        ticket_id: int.parse(genericId),
+        user_id: int.parse(widget.userId),
+        user_type: "lk"
+      )
+    );
+    String data = jsonEncode(messageRead.toJson());
+    webSocketChannel!.sink.add(data);
+    profileBloc!.readMessage(genericId, messageId);
+  }
+
   void getData(dynamic event) async {
     print('\x1B[32m$event\x1B[0m');
     // _sendToastMessage(context, "got $event");
@@ -592,5 +612,6 @@ class _MessagesPage extends State<MessagesPage> {
       profileBloc!.getClaimMessages(widget.genericId!);
       mainLabel = "Заявление";
     }
+    
   }
 }

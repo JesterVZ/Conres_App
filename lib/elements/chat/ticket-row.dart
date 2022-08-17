@@ -22,7 +22,6 @@ class _TicketRow extends State<TicketRow> {
   Color? backgroundColor;
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -63,9 +62,22 @@ class _TicketRow extends State<TicketRow> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("ОБРАЩЕНИЕ № ${widget.ticket.ticket_id}",
-                            style:
-                                TextStyle(fontSize: 15, color: colorGrayClaim)),
+                        Row(children: [
+                          Text("ОБРАЩЕНИЕ № ${widget.ticket.ticket_id}",
+                              style: TextStyle(
+                                  fontSize: 15, color: colorGrayClaim)),
+                          Visibility(
+                            visible: widget.ticket.count_tm_resiver! != "0" ? true : false,
+                            child: Container(
+                            margin: EdgeInsets.only(left: 10),
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                                color: redColor, shape: BoxShape.circle),
+                            child: Center(
+                                child: Text(widget.ticket.count_tm_resiver!, style: TextStyle(color: Colors.white),)),
+                          ))
+                          
+                        ]),
                         Text(
                             widget.ticket.name != null
                                 ? widget.ticket.name!

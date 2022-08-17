@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:intl/intl.dart';
+import '../../UI/default-input.dart';
 import '../../consts.dart';
 import '../../elements/datetime/datetime-dialog-picker.dart';
 import '../../elements/masks.dart';
@@ -26,7 +27,7 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
         child: Column(
           children: [
             Padding(
-                padding: const EdgeInsets.fromLTRB(17, 59, 17, 0),
+                padding: EdgeInsets.fromLTRB(defaultSidePadding, 59, defaultSidePadding, 0),
                 child: Column(
                   children: [
                     HeaderRow(text: claimStep1, fontSize: 24),
@@ -39,108 +40,33 @@ class _NewClaimStep1 extends State<NewClaimStep1>{
                             children: [
                               Container(margin: const EdgeInsets.fromLTRB(0, 25, 0, 10),
                               child: Text(claimInfo, style: claimTextStyle)),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(fio,
-                                      style: labelTextStyle),
-                                  TextField(
-                                    controller: controllerList[0],
-                                    decoration: InputDecoration(
-                                      hintText: "Иванов Иван Иванович",
-                                        border: OutlineInputBorder(
-                                            borderSide:
-                                            BorderSide(color: inputBorder))),
-                                  )
-                                ],
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 12),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(factAddress,
-                                          style: TextStyle(
-                                              color: colorGray, fontSize: 16.0)),
-                                      TextField(
-                                        controller: controllerList[1],
-                                        decoration: InputDecoration(
-                                          hintText: "Город, Улица, Дом, Квартира",
-                                            border: OutlineInputBorder(
-                                                borderSide:
-                                                BorderSide(color: inputBorder))),
-                                      )
-                                    ],
-                                  )),
+                              DefaultInput(controller: controllerList[0], keyboardType: TextInputType.text, labelText: "ФИО", hintText: "Иванов Иван Иванович", validatorText: "Введите ФИО"),
+                              DefaultInput(controller: controllerList[1], keyboardType: TextInputType.text, labelText: "Фактический адрес", hintText: "Город, Улица, Дом, Квартира", validatorText: "Введите адрес"),
                             ],
                           )
-                        )
-                        ,
+                        ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(margin: const EdgeInsets.fromLTRB(0, 25, 0, 10),
-                              child: Text(passportData, style: claimTextStyle),),
+                              child: Text("Паспортные данные", style: claimTextStyle),),
                             Row(
                               children: [
                                 SizedBox(
                                   width: 158,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(seriesPassport),
-
-                                      MaskInput(
-                                        textController: controllerList[2],
-                                        formatter: MaskTextInputFormatter(mask: "####"),
-                                        hint: "0000",
-                                        type: "series",
-                                      ),
-
-                                    ],
-                                  ),
+                                  child: DefaultInput(controller: controllerList[2], keyboardType: TextInputType.number, labelText: "Серия", hintText: "0000", validatorText: "Введите ФИО"),
                                 ),
                                 const Spacer(),
                                 SizedBox(
                                   width: 158,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(numberPassport),
-                                      MaskInput(
-                                        textController: controllerList[3],
-                                        formatter: MaskTextInputFormatter(mask: "######"),
-                                        hint: "000000",
-                                        type: "number",
-                                      )
-                                    ],
-                                  ),
+                                  child: DefaultInput(controller: controllerList[3], keyboardType: TextInputType.number, labelText: "Номер", hintText: "000000", validatorText: "Введите номер"),
                                 )
                               ],
                             ),
                             Container(
                                 margin: const EdgeInsets.fromLTRB(0, 12, 0, 18),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(place,
-                                        style: labelTextStyle),
-                                    TextField(
-                                      controller: controllerList[4],
-                                      decoration: InputDecoration(
-                                        hintText: "Место выдачи",
-                                          border: OutlineInputBorder(
-                                              borderSide:
-                                              BorderSide(color: inputBorder))),
-                                    )
-                                  ],
-                                )),
+                                child: DefaultInput(controller: controllerList[4], keyboardType: TextInputType.number, labelText: "Кем выдан", hintText: "Место выдачи", validatorText: "Введите место выдачи"),),
                             Container(
                                 margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
                                 child: Column(

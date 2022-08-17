@@ -1,10 +1,8 @@
 import 'package:conres_app/elements/bloc/bloc-screen.dart';
 import 'package:conres_app/registration/privacy-policy.dart';
 import 'package:conres_app/registration/validate.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../DI/dependency-provider.dart';

@@ -122,7 +122,7 @@ class _Chats extends State<Chats> {
     if (state.fullInfo != null) {
       userId = state.fullInfo!['user_id'];
     }
-    if (state.tickets != null) {
+    if (state.tickets != null && state.tickets!.isNotEmpty) {
       ticketsMap = { for (var e in state.tickets!) e.ticket_id! : e };
       
       if (tickets.isEmpty ||
