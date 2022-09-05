@@ -22,7 +22,7 @@ class _DefaultInput extends State<DefaultInput> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(family, style: TextStyle(color: colorGray, fontSize: 16.0)),
+        Text(widget.labelText!, style: TextStyle(color: colorGray, fontSize: 16.0)),
         TextFormField(
           validator: (value) {
             if (value == null || value.isEmpty) {

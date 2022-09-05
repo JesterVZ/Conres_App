@@ -164,7 +164,7 @@ class _NewClaimStep1 extends State<NewClaimStep1> {
                                                 style: buttonTextStyle,
                                               ),
                                               style: ElevatedButton.styleFrom(
-                                                  primary: colorMain))),
+                                                  backgroundColor: colorMain))),
                                     ],
                                   ),
                                 ],

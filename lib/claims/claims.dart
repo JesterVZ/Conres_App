@@ -2,6 +2,7 @@ import 'package:accordion/accordion.dart';
 import 'package:conres_app/Services/update-claim-service.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
+import 'package:conres_app/claims/new-claim/new-claim-documant.dart';
 import 'package:conres_app/claims/new-claim/new-claim-step-1.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/model/claim.dart';
@@ -78,7 +79,7 @@ class _Claims extends State<Claims> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NewClaimStep1()));
+                              builder: (context) => NewClaimDicument()));
                     },
                     child: Text("Новое заявление", style: buttonTextStyle),
                     style: ElevatedButton.styleFrom(
