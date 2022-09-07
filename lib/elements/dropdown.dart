@@ -25,6 +25,7 @@ class _CustomDropDown extends State<CustomDropDown> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
             border: Border.all(
               color: borderProfileColor,
@@ -38,7 +39,7 @@ class _CustomDropDown extends State<CustomDropDown> {
             onChanged: (value) {
               setState(() {
                 valueChoose = value.toString();
-                widget.selectedItem!.text = valueChoose;
+                //widget.selectedItem!.text = valueChoose;
               });
             },
             items: widget.items.map((valueItem) {

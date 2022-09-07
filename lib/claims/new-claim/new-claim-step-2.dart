@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
+import '../../UI/default-input.dart';
+import '../../UI/main-form.dart';
 import '../../consts.dart';
+import '../../elements/claims/claim-step2-object.dart';
 import '../../elements/dropdown.dart';
 import '../../elements/masks.dart';
 import 'new-claim-step-3.dart';
@@ -24,34 +27,28 @@ class NewClaimStep2 extends StatefulWidget {
 class _NewClaimStep2 extends State<NewClaimStep2> {
   final controllerList = List<TextEditingController>.generate(
       3, (index) => TextEditingController());
-  final controllerDlList = List<TextEditingController>.generate(
-      3, (index) => TextEditingController());
-  late bool _visabillity = false;
+  
+      final _formKey = GlobalKey<FormState>();
+    List<Widget> objects = [];
 
   void _addNewObject() {
     setState(() {
-      _visabillity = !_visabillity;
+      objects.add(ClaimStep2Object(nameController: controllerList[0], addressController: controllerList[1], kadastrController: controllerList[2]));
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
-        child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: Colors.white,
-            body: SingleChildScrollView(
+        child: MainForm(
+            header: HeaderRow(text: claimStep2, fontSize: 24),
+            body: Form(
+              key: _formKey,
               child: Column(
-                children: [
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(17, 59, 17, 0),
-                      child: Column(
-                        children: [
-                          HeaderRow(text: claimStep2, fontSize: 24),
-                          Column(
                             children: [
                               Container(
                                   child: Column(
@@ -61,7 +58,7 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
                                   Container(
                                     margin: EdgeInsets.fromLTRB(0, 25, 0, 10),
                                     child:
-                                        Text(claimAdd, style: claimTextStyle),
+                                        Text("Заявление на присоединение энергопринимающих устройств", style: claimTextStyle),
                                   ),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -72,7 +69,6 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
                                       Container(
                                           width:
                                               MediaQuery.of(context).size.width,
-                                          height: 55,
                                           child: const CustomDropDown(
                                             title: "Выберите причину",
                                             items: [
@@ -90,85 +86,35 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
                                             style: warningTextStyle,
                                             textAlign: TextAlign.center,
                                           )),
+                                      DefaultInput(
+                                        controller: controllerList[0],
+                                        keyboardType: TextInputType.text,
+                                        labelText: "Наименование объекта",
+                                        hintText: "Наименование объекта",
+                                        validatorText: "Введите наименование объекта"),
+                                      DefaultInput(
+                                        controller: controllerList[0],
+                                        keyboardType: TextInputType.text,
+                                        labelText: "Адрес объекта",
+                                        hintText: "Адрес объекта",
+                                        validatorText: "Введите адрес объекта"),
+                                      DefaultInput(
+                                        controller: controllerList[0],
+                                        keyboardType: TextInputType.text,
+                                        labelText: "Кадастровый номер (необязательно)",
+                                        hintText: "00:00:0000000:000",
+                                        validatorText: "Введите кадастровый номер"),
+                                      
+                                      Column(
+                                        children: objects,
+                                      ),
                                       Container(
                                           margin:
-                                              EdgeInsets.fromLTRB(0, 0, 0, 12),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(objectName,
-                                                  style: labelTextStyle),
-                                              TextField(
-                                                controller: controllerList[0],
-                                                decoration: InputDecoration(
-                                                    hintText:
-                                                        "Наименование объекта",
-                                                    border: OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color:
-                                                                inputBorder))),
-                                              )
-                                            ],
-                                          )),
-                                      Container(
-                                          margin:
-                                              EdgeInsets.fromLTRB(0, 0, 0, 12),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(objectAddress,
-                                                  style: TextStyle(
-                                                      color: colorGray,
-                                                      fontSize: 16.0)),
-                                              TextField(
-                                                controller: controllerList[1],
-                                                decoration: InputDecoration(
-                                                    hintText: "Адрес объекта",
-                                                    border: OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color:
-                                                                inputBorder))),
-                                              )
-                                            ],
-                                          )),
-                                      Container(
-                                          margin:
-                                              EdgeInsets.fromLTRB(0, 0, 0, 24),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(cadastrNumber,
-                                                  style: TextStyle(
-                                                      color: colorGray,
-                                                      fontSize: 16.0)),
-                                              MaskInput(
-                                                textController:
-                                                    controllerList[2],
-                                                formatter:
-                                                    MaskTextInputFormatter(
-                                                        mask:
-                                                            "##:##:#######:###"),
-                                                hint: "00:00:0000000:000",
-                                                type: "kadastr",
-                                              )
-                                            ],
-                                          )),
-                                      Container(
-                                          margin:
-                                              EdgeInsets.fromLTRB(0, 0, 0, 24),
+                                              EdgeInsets.fromLTRB(0, 24, 0, 24),
                                           height: 55,
                                           child: ElevatedButton(
                                               style: ElevatedButton.styleFrom(
-                                                  primary: Colors.white),
+                                                  backgroundColor: Colors.white),
                                               onPressed: () {
                                                 setState(() {
                                                   _addNewObject();
@@ -192,128 +138,10 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
                                                           fontSize: 18))
                                                 ],
                                               ))),
-                                      Visibility(
-                                          visible: _visabillity,
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      0, 0, 0, 12),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(objectName,
-                                                          style:
-                                                              labelTextStyle),
-                                                      TextField(
-                                                        controller:
-                                                            controllerDlList[0],
-                                                        decoration: InputDecoration(
-                                                            hintText:
-                                                                "Наименование объекта",
-                                                            border: OutlineInputBorder(
-                                                                borderSide:
-                                                                    BorderSide(
-                                                                        color:
-                                                                            inputBorder))),
-                                                      )
-                                                    ],
-                                                  )),
-                                              Container(
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      0, 0, 0, 12),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(objectAddress,
-                                                          style: TextStyle(
-                                                              color: colorGray,
-                                                              fontSize: 16.0)),
-                                                      TextField(
-                                                        controller:
-                                                            controllerDlList[1],
-                                                        decoration: InputDecoration(
-                                                            hintText:
-                                                                "Адрес объекта",
-                                                            border: OutlineInputBorder(
-                                                                borderSide:
-                                                                    BorderSide(
-                                                                        color:
-                                                                            inputBorder))),
-                                                      )
-                                                    ],
-                                                  )),
-                                              Container(
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      0, 0, 0, 24),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(cadastrNumber,
-                                                          style: TextStyle(
-                                                              color: colorGray,
-                                                              fontSize: 16.0)),
-                                                      MaskInput(
-                                                        textController:
-                                                            controllerDlList[2],
-                                                        formatter:
-                                                            MaskTextInputFormatter(
-                                                                mask:
-                                                                    "##:##:#######:###"),
-                                                        hint:
-                                                            "00:00:0000000:000",
-                                                        type: "kadastr",
-                                                      )
-                                                    ],
-                                                  )),
-                                              Container(
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      0, 0, 0, 24),
-                                                  height: 55,
-                                                  child: ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                              primary:
-                                                                  redColor),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          _visabillity = false;
-                                                        });
-                                                      },
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Text(deleteObject,
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 18))
-                                                        ],
-                                                      ))),
-                                            ],
-                                          )),
                                       SizedBox(
                                           width: MediaQuery.of(context)
                                                   .size
-                                                  .width *
-                                              0.9,
+                                                  .width,
                                           height: 55.0,
                                           child: ElevatedButton(
                                               onPressed: () {
@@ -335,10 +163,6 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
                               ))
                             ],
                           ),
-                        ],
-                      ))
-                ],
-              ),
-            )));
+              )));
   }
 }
