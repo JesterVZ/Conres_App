@@ -52,7 +52,7 @@ class _ClaimStep2Object extends State<ClaimStep2Object> {
               hintText: "00:00:0000000:000",
               validatorText: "Введите кадастровый номер"),
           Container(
-            margin: EdgeInsets.only(top: 23, bottom: 23),
+            margin: EdgeInsets.only(top: 23),
             width: MediaQuery.of(context).size.width,
             height: 55,
             child: ElevatedButton(

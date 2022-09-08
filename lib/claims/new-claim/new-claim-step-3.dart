@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import '../../UI/default-input.dart';
 import '../../consts.dart';
 import '../../elements/masks.dart';
 import 'new-claim-step-2.dart';
@@ -35,11 +36,39 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
               child: Column(
                 children: [
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 25, 0, 10),
+                    margin: EdgeInsets.fromLTRB(0, 25, 0, 24),
                     child: Text(
                         "Максимальная мощность энергопринимающих устройств (присоединяемых и ранее присоединенных) составляет",
                         style: claimTextStyle),
                   ),
+                  Container(
+                    child: Text("Максимальная мощность (всего) на напряжении:", style: TextStyle(color: colorGray, fontSize: 16)),
+                  ),
+                  Container(
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 158,
+                          child: DefaultInput(
+                              controller: controllerList[2],
+                              keyboardType: TextInputType.number,
+                              labelText: "Серия",
+                              hintText: "0000",
+                              validatorText: "Введите серию"),
+                        ),
+                        const Spacer(),
+                        SizedBox(
+                          width: 158,
+                          child: DefaultInput(
+                              controller: controllerList[3],
+                              keyboardType: TextInputType.number,
+                              labelText: "Номер",
+                              hintText: "000000",
+                              validatorText: "Введите номер"),
+                        )
+                      ],
+                    ),
+                  )
                 ],
               ),
             )));
