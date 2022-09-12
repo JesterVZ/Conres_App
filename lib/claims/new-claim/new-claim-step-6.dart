@@ -5,342 +5,114 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+import '../../UI/default-input.dart';
+import '../../UI/main-form.dart';
 import '../../consts.dart';
-class NewClaimStep6 extends StatefulWidget{
+import '../../elements/registration/sliding-up.dart';
+
+class NewClaimStep6 extends StatefulWidget {
   const NewClaimStep6({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _NewClaimStep6();
 }
 
-class _NewClaimStep6 extends State<NewClaimStep6>{
+class _NewClaimStep6 extends State<NewClaimStep6> {
   List<FilePickerResult> images = [];
   List<Widget> documents = [];
-  Map<String?, FilePickerResult?> imagesMap = {
-    "1": null,
-    "2": null,
-    "3": null
-  };
-
+  TextEditingController controller = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  Map<String?, FilePickerResult?> imagesMap = {"1": null, "2": null, "3": null};
+  PanelController panelController = PanelController();
+  
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-                padding: const EdgeInsets.fromLTRB(17, 59, 17, 0),
+    return GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Scaffold(
+          body: SlidingUpPanel(
+            maxHeight: 250,
+            minHeight: 0,
+            controller: panelController,
+            collapsed: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50))
+              ),
+            ),
+            body: MainForm(
+            header: HeaderRow(text: claimStep6, fontSize: 24),
+            body: Form(
+                key: _formKey,
                 child: Column(
                   children: [
-                    HeaderRow(text: claimStep6, fontSize: 24),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Приложите документы", style: TextStyle(
-                          color: colorMain,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold
-                        )),
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 13),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Паспорт страницы 1-2", style: TextStyle(
-                                  fontSize: 16,
-                                  color: colorGrayText,)),
-                              GestureDetector(
-                                onTap: (){
-                                  _loadImage(1);
-                                },
-                                child: Flexible(
-                                  flex: 1,
-                                  child: Container(
-                                    padding: EdgeInsets.only(left: 18, right: 18),
-                                    height: 70,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: imagesMap["1"] != null ? Colors.white : contractBtnColor,
-                                        border: imagesMap["1"] != null ? Border.all(color: borderProfileColor) : null
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.only(right: 10),
-                                          width: 40,
-                                          height: 40,
-                                          decoration: const BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.white
-                                          ),
-                                          child:
-                                          Padding(padding: EdgeInsets.all(10),
-                                              child: SvgPicture.asset("assets/file-icon.svg", color: colorMain)),
-                                        ),
-                                        Text(imagesMap["1"] != null ? imagesMap["1"]!.names[0].toString() : "Выбрать файл", overflow: TextOverflow.ellipsis, style: TextStyle(
-                                            color: colorMain
-                                        )),
-                                        const Spacer(),
-                                        Visibility(
-                                            visible: imagesMap["1"] != null ? true : false,
-                                            child: GestureDetector(
-                                              onTap: (){
-                                                _removeImage(1);
-                                              },
-                                              child: Container(
-                                                width: 20,
-                                                height: 20,
-                                                child: SvgPicture.asset('assets/remove-file.svg'),
-                                              ),
-                                            ))
-
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              )
-
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 13),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Паспорт страницы 3-4", style: TextStyle(
-                                  fontSize: 16,
-                                  color: colorGrayText)),
-                              GestureDetector(
-                                  onTap: (){
-                                    _loadImage(2);
-                                  },
-                                child: Container(
-                                  padding: EdgeInsets.only(left: 18, right: 18),
-                                  height: 70,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      color: imagesMap["2"] != null ? Colors.white : contractBtnColor,
-                                      border: imagesMap["2"] != null ? Border.all(color: borderProfileColor) : null
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        width: 40,
-                                        height: 40,
-                                        decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white
-                                        ),
-                                        child:
-                                        Padding(padding: EdgeInsets.all(10),
-                                            child: SvgPicture.asset("assets/file-icon.svg", color: colorMain)),
-                                      ),
-                                      Flex(
-                                        direction: Axis.vertical,
-                                        children: [
-                                          Text(imagesMap["2"] != null ? imagesMap["2"]!.names[0].toString() : "Выбрать файл", style: TextStyle(
-                                              color: colorMain
-                                          )),
-                                        ],
-                                      ),
-
-                                      const Spacer(),
-                                      Visibility(
-                                          visible: imagesMap["2"] != null ? true : false,
-                                          child: GestureDetector(
-                                            onTap: (){
-                                              _removeImage(2);
-                                            },
-                                            child: Container(
-                                              width: 20,
-                                              height: 20,
-                                              child: SvgPicture.asset('assets/remove-file.svg'),
-                                            ),
-                                          ))
-                                    ],
-                                  ),
-                                )
-                              )
-
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 13),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Документ, подтверждающий право собственности", style: TextStyle(
-                                  fontSize: 16,
-                                  color: colorGrayText)),
-                              GestureDetector(
-                                onTap: (){
-                                  _loadImage(3);
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.only(left: 18, right: 18),
-                                  height: 70,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      color: imagesMap["3"] != null ? Colors.white : contractBtnColor,
-                                      border: imagesMap["3"] != null ? Border.all(color: borderProfileColor) : null
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        width: 40,
-                                        height: 40,
-                                        decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white
-                                        ),
-                                        child:
-                                        Padding(padding: EdgeInsets.all(10),
-                                            child: SvgPicture.asset("assets/file-icon.svg", color: colorMain)),
-                                      ),
-                                      Text(imagesMap["3"] != null ? imagesMap["3"]!.names[0].toString() : "Выбрать файл", style: TextStyle(
-                                          color: colorMain
-                                      )),
-                                      const Spacer(),
-                                      Visibility(
-                                          visible: imagesMap["3"] != null ? true : false,
-                                          child: GestureDetector(
-                                            onTap: (){
-                                              _removeImage(3);
-                                            },
-                                            child: Container(
-                                              width: 20,
-                                              height: 20,
-                                              child: SvgPicture.asset('assets/remove-file.svg'),
-                                            ),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                              )
-
-                            ],
-                          ),
-                        ),
-                        Column(
-                          children: documents,
-                        ),
-                        Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 23),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(0, 25, 0, 24),
+                      child: Text(
+                          "Укажите гарантирующего поставщика и тип договора",
+                          style: claimTextStyle),
+                    ),
+                    Container(
+                      child: DefaultInput(
+                          controller: controller,
+                          keyboardType: TextInputType.number,
+                          labelText: "Наименование Гарантирующего Поставщика",
+                          hintText: "ООО Светлячок",
+                          validatorText: "Введите поставщика"),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 12),
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Тип договора:"),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
                             height: 55,
                             child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(primary: Colors.white),
-                                onPressed: (){
-                                  setState(() {
-                                    _addNewObject();
-                                  });
-
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                        margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                                        child: SvgPicture.asset('assets/plus.svg')
-                                    ),
-                                    Text("Добавить документ", style: TextStyle(color: colorMain, fontSize: 18))
-                                  ],
-                                ))
-                        )
-                      ],
-                    ),
+                            onPressed: (){
+                              panelController.open();
+                            }, 
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: messageColor,
+                            ),
+                            child: Text("Выберите договор", style: TextStyle(color: colorMain, fontSize: 18),))
+                          )
+                          
+                        ],
+                      ),
+                    )
                   ],
-                ))
-          ],
-        ),
-      )
-    );
-  }
-  void _loadImage(int index) async{
-    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: false);
-    if (result != null) {
-      setState(() {
-        //images.add(result);
-        imagesMap.update(index.toString(), (value) => result);
-      });
-    }
-  }
-  void _removeImage(int index) {
-    setState(() {
-      imagesMap[index.toString()] = null;
-    });
-  }
-  void _addNewObject(){
-    Widget object = Container(
-      margin: const EdgeInsets.only(bottom: 13),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 26, bottom: 11),
-            height: 6,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: colorMain
-            ),
-          ),
-          Text("Дополнительный документ", style: TextStyle(
-              fontSize: 16,
-              color: colorGrayText)),
-          GestureDetector(
-            onTap: (){
-              _loadImage(3);
-            },
-            child: Container(
-              padding: EdgeInsets.only(left: 18, right: 18),
-              height: 70,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: imagesMap["3"] != null ? Colors.white : contractBtnColor,
-                  border: imagesMap["3"] != null ? Border.all(color: borderProfileColor) : null
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(right: 10),
-                    width: 40,
+                ))),
+            panel: Column(
+              children: [
+                Container(
+                  height: 78,
+                  alignment: Alignment.center,
+                  child: Text("Выберите договор", style: TextStyle(fontSize: 20)),
+                ),
+                
+                const Divider(),
+                GestureDetector(
+                  child: Container(
                     height: 40,
-                    decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white
-                    ),
-                    child:
-                    Padding(padding: EdgeInsets.all(10),
-                        child: SvgPicture.asset("assets/file-icon.svg", color: colorMain)),
+                    child: Text("Договор электроснабжения"),
                   ),
-                  Text(imagesMap["3"] != null ? imagesMap["3"]!.names[0].toString() : "Выбрать файл", style: TextStyle(
-                      color: colorMain
-                  )),
-                  const Spacer(),
-                  Visibility(
-                      visible: imagesMap["3"] != null ? true : false,
-                      child: GestureDetector(
-                        onTap: (){
-                          _removeImage(3);
-                        },
-                        child: Container(
-                          width: 20,
-                          height: 20,
-                          child: SvgPicture.asset('assets/remove-file.svg'),
-                        ),
-                      ))
-                ],
-              ),
+                ),
+                GestureDetector(
+                  child: Container(
+                    height: 40,
+                    child: Text("Договор купли-продажи"),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
-    documents.add(object);
+          )
+        )
+        );
   }
-
 }

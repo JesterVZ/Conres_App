@@ -7,14 +7,15 @@ import 'package:flutter/material.dart';
 import '../../UI/default-input.dart';
 
 class ClaimStep2Object extends StatefulWidget {
-  TextEditingController nameController;
-  TextEditingController addressController;
-  TextEditingController kadastrController;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController kadastrController = TextEditingController();
+  ValueChanged<int> deleteFunc;
+  int id;
 
   ClaimStep2Object(
-      {required this.addressController,
-      required this.kadastrController,
-      required this.nameController});
+      {required this.id,
+      required this.deleteFunc});
   @override
   State<StatefulWidget> createState() => _ClaimStep2Object();
 }
@@ -56,7 +57,9 @@ class _ClaimStep2Object extends State<ClaimStep2Object> {
             width: MediaQuery.of(context).size.width,
             height: 55,
             child: ElevatedButton(
-              onPressed: (){},
+              onPressed: (){
+                widget.deleteFunc.call(widget.id);
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: redColor,
               ),

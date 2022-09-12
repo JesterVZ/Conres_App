@@ -8,6 +8,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../../UI/default-input.dart';
 import '../../consts.dart';
+import '../../elements/claims/claim-step2-object.dart';
+import '../../elements/claims/claim-step3-object.dart';
 import '../../elements/masks.dart';
 import 'new-claim-step-2.dart';
 import 'new-claim-step-4.dart';
@@ -21,8 +23,22 @@ class NewClaimStep3 extends StatefulWidget {
 
 class _NewClaimStep3 extends State<NewClaimStep3> {
   final controllerList = List<TextEditingController>.generate(
-      3, (index) => TextEditingController());
+      6, (index) => TextEditingController());
   final _formKey = GlobalKey<FormState>();
+  List<ClaimStep3Object> objects = [];
+
+  void _addNewObject() {
+    setState(() {
+      objects.add(ClaimStep3Object(id: objects.length, deleteFunc: _delete));
+    });
+  }
+
+  void _delete(int id) {
+    setState(() {
+      objects.removeWhere((element) => element.id == id);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -42,7 +58,37 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                         style: claimTextStyle),
                   ),
                   Container(
-                    child: Text("Максимальная мощность (всего) на напряжении:", style: TextStyle(color: colorGray, fontSize: 16)),
+                    child: Text("Максимальная мощность (всего) на напряжении:",
+                        style: TextStyle(color: colorGray, fontSize: 16)),
+                  ),
+                  Container(
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 158,
+                          child: DefaultInput(
+                              controller: controllerList[0],
+                              keyboardType: TextInputType.number,
+                              labelText: "кВт",
+                              hintText: "000",
+                              validatorText: "Введите серию"),
+                        ),
+                        const Spacer(),
+                        SizedBox(
+                          width: 158,
+                          child: DefaultInput(
+                              controller: controllerList[1],
+                              keyboardType: TextInputType.number,
+                              labelText: "Вт",
+                              hintText: "000",
+                              validatorText: "Введите номер"),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    child: Text("Вновь присоединяемая мощность на напряжении:",
+                        style: TextStyle(color: colorGray, fontSize: 16)),
                   ),
                   Container(
                     child: Row(
@@ -52,8 +98,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                           child: DefaultInput(
                               controller: controllerList[2],
                               keyboardType: TextInputType.number,
-                              labelText: "Серия",
-                              hintText: "0000",
+                              labelText: "кВт",
+                              hintText: "000",
                               validatorText: "Введите серию"),
                         ),
                         const Spacer(),
@@ -62,13 +108,83 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                           child: DefaultInput(
                               controller: controllerList[3],
                               keyboardType: TextInputType.number,
-                              labelText: "Номер",
-                              hintText: "000000",
+                              labelText: "Вт",
+                              hintText: "000",
                               validatorText: "Введите номер"),
                         )
                       ],
                     ),
-                  )
+                  ),
+                  Container(
+                    child: Text("Ранее присоединяемая мощность на напряжении:",
+                        style: TextStyle(color: colorGray, fontSize: 16)),
+                  ),
+                  Container(
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 158,
+                          child: DefaultInput(
+                              controller: controllerList[4],
+                              keyboardType: TextInputType.number,
+                              labelText: "кВт",
+                              hintText: "000",
+                              validatorText: "Введите серию"),
+                        ),
+                        const Spacer(),
+                        SizedBox(
+                          width: 158,
+                          child: DefaultInput(
+                              controller: controllerList[5],
+                              keyboardType: TextInputType.number,
+                              labelText: "Вт",
+                              hintText: "000",
+                              validatorText: "Введите номер"),
+                        )
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: objects,
+                  ),
+                  Container(
+                      margin: EdgeInsets.fromLTRB(0, 24, 0, 24),
+                      height: 55,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white),
+                          onPressed: () {
+                            _addNewObject();
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                  margin:
+                                      const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                  child: SvgPicture.asset('assets/plus.svg')),
+                              Text(addObject,
+                                  style:
+                                      TextStyle(color: colorMain, fontSize: 18))
+                            ],
+                          ))),
+                  SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 55.0,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NewClaimStep4()));
+                          },
+                          child: Text(
+                            next,
+                            style: buttonTextStyle,
+                          ),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: colorMain))),
                 ],
               ),
             )));
