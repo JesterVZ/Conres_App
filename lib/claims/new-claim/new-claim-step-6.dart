@@ -10,6 +10,7 @@ import '../../UI/default-input.dart';
 import '../../UI/main-form.dart';
 import '../../consts.dart';
 import '../../elements/registration/sliding-up.dart';
+import 'new-claim-step-7.dart';
 
 class NewClaimStep6 extends StatefulWidget {
   const NewClaimStep6({Key? key}) : super(key: key);
@@ -95,7 +96,12 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
               ),
               const Divider(),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => NewClaimStep7()));
+                },
                 child: Container(
                   height: 40,
                   child: Text("Договор электроснабжения"),

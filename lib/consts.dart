@@ -74,6 +74,7 @@ String claimStep3 = "Оформление нового заявления - Ша
 String claimStep4 = "Оформление нового заявления - Шаг 4";
 String claimStep5 = "Оформление нового заявления - Шаг 5";
 String claimStep6 = "Оформление нового заявления - Шаг 6";
+String claimStep7 = "Оформление нового заявления - Шаг 7";
 String claimInfo = "Информация о заявителе";
 String passportData = "Паспортные данные";
 String seriesPassport = "Серия";

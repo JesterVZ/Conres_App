@@ -12,7 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
-import '../elements/bloc/bloc-screen.dart';
+import '../elements/bloc/bloc-screen.dart'; 
 
 class FullProfile extends StatefulWidget {
   @override
