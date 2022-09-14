@@ -25,7 +25,7 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
   final _formKey = GlobalKey<FormState>();
   Map<String?, FilePickerResult?> imagesMap = {"1": null, "2": null, "3": null};
   PanelController panelController = PanelController();
-  
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -33,86 +33,82 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Scaffold(
-          body: SlidingUpPanel(
-            maxHeight: 250,
-            minHeight: 0,
-            controller: panelController,
-            collapsed: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50))
-              ),
-            ),
-            body: MainForm(
-            header: HeaderRow(text: claimStep6, fontSize: 24),
-            body: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.fromLTRB(0, 25, 0, 24),
-                      child: Text(
-                          "Укажите гарантирующего поставщика и тип договора",
-                          style: claimTextStyle),
-                    ),
-                    Container(
-                      child: DefaultInput(
-                          controller: controller,
-                          keyboardType: TextInputType.number,
-                          labelText: "Наименование Гарантирующего Поставщика",
-                          hintText: "ООО Светлячок",
-                          validatorText: "Введите поставщика"),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 12),
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Тип договора:"),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 55,
-                            child: ElevatedButton(
-                            onPressed: (){
-                              panelController.open();
-                            }, 
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: messageColor,
-                            ),
-                            child: Text("Выберите договор", style: TextStyle(color: colorMain, fontSize: 18),))
-                          )
-                          
-                        ],
+            body: SlidingUpPanel(
+          maxHeight: 250,
+          minHeight: 0,
+          controller: panelController,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+          body: MainForm(
+              header: HeaderRow(text: claimStep6, fontSize: 24),
+              body: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.fromLTRB(0, 25, 0, 24),
+                        child: Text(
+                            "Укажите гарантирующего поставщика и тип договора",
+                            style: claimTextStyle),
                       ),
-                    )
-                  ],
-                ))),
-            panel: Column(
-              children: [
-                Container(
-                  height: 78,
-                  alignment: Alignment.center,
-                  child: Text("Выберите договор", style: TextStyle(fontSize: 20)),
+                      Container(
+                        child: DefaultInput(
+                            controller: controller,
+                            keyboardType: TextInputType.number,
+                            labelText: "Наименование Гарантирующего Поставщика",
+                            hintText: "ООО Светлячок",
+                            validatorText: "Введите поставщика"),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 12),
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Тип договора:"),
+                            Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: 55,
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      panelController.open();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: messageColor,
+                                    ),
+                                    child: Text(
+                                      "Выберите договор",
+                                      style: TextStyle(
+                                          color: colorMain, fontSize: 18),
+                                    )))
+                          ],
+                        ),
+                      )
+                    ],
+                  ))),
+          panel: Column(
+            children: [
+              Container(
+                height: 78,
+                alignment: Alignment.center,
+                child: Text("Выберите договор", style: TextStyle(fontSize: 20)),
+              ),
+              const Divider(),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  height: 40,
+                  child: Text("Договор электроснабжения"),
                 ),
-                
-                const Divider(),
-                GestureDetector(
-                  child: Container(
-                    height: 40,
-                    child: Text("Договор электроснабжения"),
-                  ),
+              ),
+              GestureDetector(
+                child: Container(
+                  height: 40,
+                  child: Text("Договор купли-продажи"),
                 ),
-                GestureDetector(
-                  child: Container(
-                    height: 40,
-                    child: Text("Договор купли-продажи"),
-                  ),
-                ),
-              ],
-            ),
-          )
-        )
-        );
+              ),
+            ],
+          ),
+        )));
   }
 }
