@@ -43,6 +43,7 @@ class _MoreScreen extends State<MoreScreen> {
                               DefaultButton(text: "Профиль", onPressed: (){}, margin: EdgeInsets.only(bottom: 12)),
                               DefaultButton(text: "Заявление на тех. присоединение", onPressed: (){}, margin: EdgeInsets.only(bottom: 12)),
                               DefaultButton(text: "Информация", onPressed: (){}, margin: EdgeInsets.only(bottom: 12)),
+                              DefaultButton(text: "Показания умных ПУ", onPressed: (){}, margin: EdgeInsets.only(bottom: 12)),
                               DefaultButton(text: "Выход", onPressed: (){
                                 widget.logout.call();
                               },)

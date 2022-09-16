@@ -11,6 +11,7 @@ import 'package:conres_app/model/result-data.dart';
 import 'package:conres_app/model/user-information.dart';
 import 'package:conres_app/websocket/websocket.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:photo_gallery/photo_gallery.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/claim.dart';
@@ -79,6 +80,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleCreateNewTicket(event);
     } else if(event is GetClaimMessages){
       yield* _handleGetClaimMessages(event);
+    } else if(event is GetAllPhotos){
+      yield* _handleGetAllPhotos(event);
     }
   }
 
@@ -158,6 +161,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   createNewTicket(String contact_email, String contact_name, String ticket_theme_id, String message){
     add(CreateNewTicket(contact_email, contact_name, message, ticket_theme_id));
+  }
+
+  getAllPhotos(List<Album> albums){
+    add(GetAllPhotos(albums));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* { //получение строки из cookie (нужно для отправки в сокет)
@@ -380,6 +387,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       var result = await repo.getClaimMessages(event.claim_id);
       if(result is List<ClaimMessage>){
         yield state.copyWith(loading: false, error: null, claimMessages: result);
+      }
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleGetAllPhotos(GetAllPhotos event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      List<Medium> imagePage = [];
+      for(int i = 0; i< event.albums.length; i++){
+        MediaPage thisAlbumImages = await event.albums[i].listMedia();
+        imagePage += thisAlbumImages.items;
       }
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());

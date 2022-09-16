@@ -3,8 +3,8 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:camera/camera.dart';
+import 'package:conres_app/UI/sliding-up-panel-page.dart';
 import 'package:conres_app/elements/chat/file-send-dialog.dart';
-import 'package:conres_app/elements/chat/preview.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/enums/chat-types.dart';
 import 'package:conres_app/model/claim-message.dart';
@@ -19,6 +19,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:photo_gallery/photo_gallery.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../DI/dependency-provider.dart';
@@ -29,7 +31,6 @@ import '../elements/alert.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/chat/file-for-send.dart';
 import '../elements/chat/message-element.dart';
-import '../model/profile.dart';
 
 import '../websocket/message-read.dart';
 import '../websocket/websocket.dart';
@@ -53,9 +54,10 @@ class MessagesPage<G, T> extends StatefulWidget {
 }
 
 class _MessagesPage extends State<MessagesPage> {
+  PanelController panelController = PanelController(); //контроллер выпадающей панели выбора файла или фото
   ProfileBloc? profileBloc;
   final ImagePicker _picker = ImagePicker();
-  XFile? pickedImage;
+  XFile? pickedImage;//полученная в результате съемки картинка
   List<Widget> messageFiles =
       []; // список файлов к сообщениям (отображение на панели)
   List<dynamic> messageList = []; //список сообщений (tickets)
@@ -130,6 +132,11 @@ class _MessagesPage extends State<MessagesPage> {
         builder: (BuildContext context) =>
             FileSendDialog(pickFile: _loadImage, createPhoto: _createPhoto));
   }
+  void _openPicker() async{
+    panelController.open();
+    final List<Album> imageAlbums = await PhotoGallery.listAlbums(mediumType: MediumType.image); // взять список альбомов 
+    final MediaPage imagePage = await imageAlbums[0].listMedia();
+  }
 
   void _loadImage() async {
     FilePickerResult? result =
@@ -188,7 +195,15 @@ class _MessagesPage extends State<MessagesPage> {
             bloc: profileBloc,
             listener: (context, state) => _listener(context, state),
             builder: (context, state) {
-              return Scaffold(
+              return SlidingUpPanelPage(
+                panelController: panelController,
+                panel: Column(
+                  children: [
+
+                  ],
+                ),
+
+                body: Scaffold(
                   backgroundColor: Colors.white,
                   body: Stack(
                     children: [
@@ -235,15 +250,17 @@ class _MessagesPage extends State<MessagesPage> {
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            height: 55,
+                            height: 130,
+                            alignment: Alignment.topCenter,
                             child: Padding(
-                                padding: EdgeInsets.only(left: 18, right: 18),
+                                padding: EdgeInsets.only(left: 18, right: 18, top: 13),
                                 child: Row(
                                   children: [
                                     GestureDetector(
                                         onTap: () {
                                           //_loadImage();
-                                          _openDialog();
+                                          //_openDialog();
+                                          _openPicker();
                                         },
                                         child: SvgPicture.asset(
                                             'assets/clip.svg')),
@@ -304,7 +321,8 @@ class _MessagesPage extends State<MessagesPage> {
                           )),
                           visible: (isLoadingMessages == true) ? true : false)
                     ],
-                  ));
+                  ))
+              );
             }));
   }
 

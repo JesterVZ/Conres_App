@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:photo_gallery/photo_gallery.dart';
 
 import '../../websocket/websocket.dart';
 
@@ -111,4 +112,9 @@ class CreateNewTicket extends ProfileEvent{
 class GetClaimMessages extends ProfileEvent{
   String claim_id;
   GetClaimMessages(this.claim_id);
+}
+
+class GetAllPhotos extends ProfileEvent{
+  List<Album> albums;
+  GetAllPhotos(this.albums);
 }
