@@ -27,60 +27,43 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
     if (event is GetCookieStrEvent) {
       yield* _handleGetCookies(event);
-    }
-    else if (event is GetLoginData) {
+    } else if (event is GetLoginData) {
       yield* _handleGetData(event);
-    }
-    else if (event is GetWebSocketData) {
+    } else if (event is GetWebSocketData) {
       yield* _handleGetWebSocketData(event);
-    }
-    else if (event is LogoutEvent) {
+    } else if (event is LogoutEvent) {
       yield* _handleLogout(event);
-    }
-    else if (event is BindNewLS) {
+    } else if (event is BindNewLS) {
       yield* _handleBindNewLS(event);
-    }
-    else if (event is GetContracts) {
+    } else if (event is GetContracts) {
       yield* _handleGetContracts(event);
-    }
-    else if (event is GetClaims) {
+    } else if (event is GetClaims) {
       yield* _handleGetClaims(event);
-    }
-    else if (event is GetTickets) {
+    } else if (event is GetTickets) {
       yield* _handleGetTickets(event);
-    }
-    else if (event is GetMessages) {
+    } else if (event is GetMessages) {
       yield* _handleGetMessages(event);
-    }
-    else if (event is GetAllInfo) {
+    } else if (event is GetAllInfo) {
       yield* _handleGetAllInfo(event);
-    }
-    else if (event is SendMessageEvent) {
+    } else if (event is SendMessageEvent) {
       yield* _handleSendMessage(event);
-    }
-    else if(event is SendClaimMessageEvent){
+    } else if (event is SendClaimMessageEvent) {
       yield* _handleSendClaimMessage(event);
-    }
-    else if(event is ReadMessage){
+    } else if (event is ReadMessage) {
       yield* _handleReadMessage(event);
-    }
-    else if(event is DownloadFile){
+    } else if (event is DownloadFile) {
       yield* _handleDownloadFile(event);
-    }
-    else if(event is GetFullProfileInfo){
+    } else if (event is GetFullProfileInfo) {
       yield* _handleGetFullProfileInfo(event);
-    }
-    else if(event is GetObjectsPU){
+    } else if (event is GetObjectsPU) {
       yield* _handleGetObjectsPU(event);
-    }
-    else if(event is GetTU){
+    } else if (event is GetTU) {
       yield* _handleGetTU(event);
-    }
-    else if(event is CreateNewTicket){
+    } else if (event is CreateNewTicket) {
       yield* _handleCreateNewTicket(event);
-    } else if(event is GetClaimMessages){
+    } else if (event is GetClaimMessages) {
       yield* _handleGetClaimMessages(event);
-    } else if(event is GetAllPhotos){
+    } else if (event is GetAllPhotos) {
       yield* _handleGetAllPhotos(event);
     }
   }
@@ -123,7 +106,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(GetMessages(chat_id, page, last_message_id));
   }
 
-  getClaimMessages(String claim_id){
+  getClaimMessages(String claim_id) {
     add(GetClaimMessages(claim_id));
   }
 
@@ -131,47 +114,49 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(const GetAllInfo());
   }
 
-  sendMessage(String ticket_id, String message, String ticket_status_id, dynamic file) {
+  sendMessage(
+      String ticket_id, String message, String ticket_status_id, dynamic file) {
     add(SendMessageEvent(ticket_id, message, ticket_status_id, file));
   }
 
-  sendClaimMessage(String claim_id, String text, dynamic file){
+  sendClaimMessage(String claim_id, String text, dynamic file) {
     add(SendClaimMessageEvent(claim_id, text, file));
   }
 
-  readMessage(String ticketId, String messageId){
+  readMessage(String ticketId, String messageId) {
     add(ReadMessage(ticketId, messageId));
   }
 
-  downloadFile(String uri, String filename){
+  downloadFile(String uri, String filename) {
     add(DownloadFile(uri, filename));
   }
 
-  getObjectsPU(){
+  getObjectsPU() {
     add(const GetObjectsPU());
   }
 
-  getFullProfileInfo(){
+  getFullProfileInfo() {
     add(const GetFullProfileInfo());
   }
 
-  getTU(){
+  getTU() {
     add(const GetTU());
   }
 
-  createNewTicket(String contact_email, String contact_name, String ticket_theme_id, String message){
+  createNewTicket(String contact_email, String contact_name,
+      String ticket_theme_id, String message) {
     add(CreateNewTicket(contact_email, contact_name, message, ticket_theme_id));
   }
 
-  getAllPhotos(List<Album> albums){
+  getAllPhotos(List<Album> albums) {
     add(GetAllPhotos(albums));
   }
 
-  Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* { //получение строки из cookie (нужно для отправки в сокет)
+  Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
+    //получение строки из cookie (нужно для отправки в сокет)
     yield state.copyWith(loading: true, error: null);
     try {
-      String result =
-          await repo.getCookie(event.cookies);
+      String result = await repo.getCookie(event.cookies);
       yield state.copyWith(loading: false, error: result, cookieStr: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
@@ -203,7 +188,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await logoutFunc(preferences);
       List<dynamic> emptyLoginData = [];
-      yield state.copyWith(loading: false, loginData: emptyLoginData, error: null);
+      yield state.copyWith(
+          loading: false, loginData: emptyLoginData, error: null);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
@@ -274,11 +260,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
-  Stream<ProfileState> _handleGetAllInfo(GetAllInfo event) async* { // создать переменную под result
+  Stream<ProfileState> _handleGetAllInfo(GetAllInfo event) async* {
+    // создать переменную под result
     yield state.copyWith(loading: true, error: null);
     try {
       Object result = await repo.getAllInfo();
-      if(result is Map<String, dynamic>){
+      if (result is Map<String, dynamic>) {
         yield state.copyWith(loading: false, fullInfo: result);
       }
     } catch (e) {
@@ -296,114 +283,124 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             loading: false, sendMessageData: result, ticketFullInfo: null);
       } else {
         yield state.copyWith(
-            loading: false, sendMessageData: null, ticketFullInfo: null, error: result.toString());
+            loading: false,
+            sendMessageData: null,
+            ticketFullInfo: null,
+            error: result.toString());
       }
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleSendClaimMessage(SendClaimMessageEvent event) async*{
+  Stream<ProfileState> _handleSendClaimMessage(
+      SendClaimMessageEvent event) async* {
     yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
-    try{
-      Object result = await repo.sendClaimMessage(
-                event.claim_id, event.text, event.file);
+    try {
+      Object result =
+          await repo.sendClaimMessage(event.claim_id, event.text, event.file);
       if (result is Map<String, dynamic>) {
         yield state.copyWith(
             loading: false, sendMessageData: result, ticketFullInfo: null);
       } else {
         yield state.copyWith(
-            loading: false, sendMessageData: null, ticketFullInfo: null, error: result.toString());
+            loading: false,
+            sendMessageData: null,
+            ticketFullInfo: null,
+            error: result.toString());
       }
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleReadMessage(ReadMessage event) async*{
+  Stream<ProfileState> _handleReadMessage(ReadMessage event) async* {
     yield state.copyWith(loading: false, error: null, ticketFullInfo: null);
-    try{
+    try {
       await repo.readMessage(event.ticketId, event.messageId);
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleDownloadFile(DownloadFile event) async*{
+  Stream<ProfileState> _handleDownloadFile(DownloadFile event) async* {
     yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
-    try{
+    try {
       var result = await repo.downloadFie(event.uri, event.filename);
       yield state.copyWith(loading: false, error: null, ticketFullInfo: null);
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleGetFullProfileInfo(GetFullProfileInfo event) async*{
+  Stream<ProfileState> _handleGetFullProfileInfo(
+      GetFullProfileInfo event) async* {
     yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
-    try{
+    try {
       var result = await repo.getFullProfileInfo();
-      if(result is UserInformation){
-        yield state.copyWith(loading: false, error: null, userInformation: result);
+      if (result is UserInformation) {
+        yield state.copyWith(
+            loading: false, error: null, userInformation: result);
       }
-      
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleGetObjectsPU(GetObjectsPU event) async*{
+  Stream<ProfileState> _handleGetObjectsPU(GetObjectsPU event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
+    try {
       var result = await repo.getObjectsPU();
       yield state.copyWith(loading: false, error: null, objectsPU: result);
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleGetTU(GetTU event) async*{
+  Stream<ProfileState> _handleGetTU(GetTU event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
+    try {
       var result = await repo.getMeters();
-      yield state.copyWith(loading: false, error:null, meters: result);
-    }catch(e){
+      yield state.copyWith(loading: false, error: null, meters: result);
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleCreateNewTicket(CreateNewTicket event) async*{
+  Stream<ProfileState> _handleCreateNewTicket(CreateNewTicket event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
-      var result = await repo.createNewTicket(event.contact_email, event.contact_name, event.ticket_theme_id, event.message);
-    }catch(e){
+    try {
+      var result = await repo.createNewTicket(event.contact_email,
+          event.contact_name, event.ticket_theme_id, event.message);
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleGetClaimMessages(GetClaimMessages event) async*{
+  Stream<ProfileState> _handleGetClaimMessages(GetClaimMessages event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
+    try {
       var result = await repo.getClaimMessages(event.claim_id);
-      if(result is List<ClaimMessage>){
-        yield state.copyWith(loading: false, error: null, claimMessages: result);
+      if (result is List<ClaimMessage>) {
+        yield state.copyWith(
+            loading: false, error: null, claimMessages: result);
       }
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleGetAllPhotos(GetAllPhotos event) async*{
+  Stream<ProfileState> _handleGetAllPhotos(GetAllPhotos event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
+    try {
       List<Medium> imagePage = [];
-      for(int i = 0; i< event.albums.length; i++){
+      for (int i = 0; i < event.albums.length; i++) {
         MediaPage thisAlbumImages = await event.albums[i].listMedia();
         imagePage += thisAlbumImages.items;
       }
-    }catch(e){
+      yield state.copyWith(loading: false, error: null, images: imagePage);
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
-
 }

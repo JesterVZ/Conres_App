@@ -4,6 +4,7 @@ import 'dart:isolate';
 
 import 'package:camera/camera.dart';
 import 'package:conres_app/UI/sliding-up-panel-page.dart';
+import 'package:conres_app/chats/file-page.dart';
 import 'package:conres_app/elements/chat/file-send-dialog.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/enums/chat-types.dart';
@@ -54,10 +55,11 @@ class MessagesPage<G, T> extends StatefulWidget {
 }
 
 class _MessagesPage extends State<MessagesPage> {
-  PanelController panelController = PanelController(); //контроллер выпадающей панели выбора файла или фото
+  PanelController panelController =
+      PanelController(); //контроллер выпадающей панели выбора файла или фото
   ProfileBloc? profileBloc;
   final ImagePicker _picker = ImagePicker();
-  XFile? pickedImage;//полученная в результате съемки картинка
+  XFile? pickedImage; //полученная в результате съемки картинка
   List<Widget> messageFiles =
       []; // список файлов к сообщениям (отображение на панели)
   List<dynamic> messageList = []; //список сообщений (tickets)
@@ -100,6 +102,7 @@ class _MessagesPage extends State<MessagesPage> {
     }
   }
 
+/*
   void _createPhoto() async {
     await availableCameras().then(
       (value) => OpenPicker(ImageSource.camera)
@@ -132,9 +135,11 @@ class _MessagesPage extends State<MessagesPage> {
         builder: (BuildContext context) =>
             FileSendDialog(pickFile: _loadImage, createPhoto: _createPhoto));
   }
-  void _openPicker() async{
+  */
+  void _openPicker() async {
     panelController.open();
-    final List<Album> imageAlbums = await PhotoGallery.listAlbums(mediumType: MediumType.image); // взять список альбомов 
+    final List<Album> imageAlbums = await PhotoGallery.listAlbums(
+        mediumType: MediumType.image); // взять список альбомов
     final MediaPage imagePage = await imageAlbums[0].listMedia();
   }
 
@@ -196,133 +201,132 @@ class _MessagesPage extends State<MessagesPage> {
             listener: (context, state) => _listener(context, state),
             builder: (context, state) {
               return SlidingUpPanelPage(
-                panelController: panelController,
-                panel: Column(
-                  children: [
-
-                  ],
-                ),
-
-                body: Scaffold(
-                  backgroundColor: Colors.white,
-                  body: Stack(
-                    children: [
-                      Column(
+                  panelController: panelController,
+                  panel: FilePage(),
+                  body: Scaffold(
+                      backgroundColor: Colors.white,
+                      body: Stack(
                         children: [
-                          Container(
-                              height: 100,
-                              child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20, right: 20),
-                                  child: HeaderNotification(
-                                      text: "$mainLabel № ${widget.genericId}",
-                                      canGoBack: true))),
-                          Expanded(
-                            //сюда сообщения
-                            child: Scrollbar(
-                              child: ListView.builder(
-                                  itemCount: messageList.length,
-                                  controller: scrollController,
-                                  reverse: true,
-                                  itemBuilder: (BuildContext context, int i) {
-                                    return MessageElement(
-                                        message: messageList[i],
-                                        fun: _loadImageFromUri);
-                                  }),
-                            ),
-                          ),
-                          Stack(
+                          Column(
                             children: [
-                              Visibility(
-                                  child: Container(
-                                    padding: const EdgeInsets.only(
-                                        left: 20, right: 20),
-                                    height: 70,
-                                    child: SingleChildScrollView(
-                                        child: Row(children: messageFiles),
-                                        scrollDirection: Axis.horizontal),
-                                  ),
-                                  visible:
-                                      ((file == null || messageFiles.isEmpty)
+                              Container(
+                                  height: 100,
+                                  child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 20, right: 20),
+                                      child: HeaderNotification(
+                                          text:
+                                              "$mainLabel № ${widget.genericId}",
+                                          canGoBack: true))),
+                              Expanded(
+                                //сюда сообщения
+                                child: Scrollbar(
+                                  child: ListView.builder(
+                                      itemCount: messageList.length,
+                                      controller: scrollController,
+                                      reverse: true,
+                                      itemBuilder:
+                                          (BuildContext context, int i) {
+                                        return MessageElement(
+                                            message: messageList[i],
+                                            fun: _loadImageFromUri);
+                                      }),
+                                ),
+                              ),
+                              Stack(
+                                children: [
+                                  Visibility(
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 20, right: 20),
+                                        height: 70,
+                                        child: SingleChildScrollView(
+                                            child: Row(children: messageFiles),
+                                            scrollDirection: Axis.horizontal),
+                                      ),
+                                      visible: ((file == null ||
+                                              messageFiles.isEmpty)
                                           ? false
                                           : true)), //панель для файлов
+                                ],
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: 130,
+                                alignment: Alignment.topCenter,
+                                child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 18, right: 18, top: 13),
+                                    child: Row(
+                                      children: [
+                                        GestureDetector(
+                                            onTap: () {
+                                              //_loadImage();
+                                              //_openDialog();
+                                              _openPicker();
+                                            },
+                                            child: SvgPicture.asset(
+                                                'assets/clip.svg')),
+                                        const Spacer(),
+                                        SizedBox(
+                                          width: 245,
+                                          child: TextField(
+                                            keyboardType:
+                                                TextInputType.multiline,
+                                            controller: controller,
+                                            decoration: InputDecoration(
+                                              hintText: "Сообщение...",
+                                              fillColor: messageColor,
+                                              filled: true,
+                                              border: InputBorder.none,
+                                            ),
+                                            minLines: 1,
+                                            maxLines: 5,
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        GestureDetector(
+                                          onTap: () {
+                                            if (isWaitForSend == false) {
+                                              _send();
+                                            }
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.all(14),
+                                            width: 45,
+                                            height: 45,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: colorMain,
+                                            ),
+                                            child: Container(
+                                              width: 18,
+                                              height: 14,
+                                              child: isWaitForSend == true
+                                                  ? const CircularProgressIndicator(
+                                                      color: Colors.white,
+                                                    )
+                                                  : SvgPicture.asset(
+                                                      'assets/arrow-type2.svg'),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )),
+                              )
                             ],
                           ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 130,
-                            alignment: Alignment.topCenter,
-                            child: Padding(
-                                padding: EdgeInsets.only(left: 18, right: 18, top: 13),
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                        onTap: () {
-                                          //_loadImage();
-                                          //_openDialog();
-                                          _openPicker();
-                                        },
-                                        child: SvgPicture.asset(
-                                            'assets/clip.svg')),
-                                    const Spacer(),
-                                    SizedBox(
-                                      width: 245,
-                                      child: TextField(
-                                        keyboardType: TextInputType.multiline,
-                                        controller: controller,
-                                        decoration: InputDecoration(
-                                          hintText: "Сообщение...",
-                                          fillColor: messageColor,
-                                          filled: true,
-                                          border: InputBorder.none,
-                                        ),
-                                        minLines: 1,
-                                        maxLines: 5,
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                    GestureDetector(
-                                      onTap: () {
-                                        if (isWaitForSend == false) {
-                                          _send();
-                                        }
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.all(14),
-                                        width: 45,
-                                        height: 45,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: colorMain,
-                                        ),
-                                        child: Container(
-                                          width: 18,
-                                          height: 14,
-                                          child: isWaitForSend == true
-                                              ? const CircularProgressIndicator(
-                                                  color: Colors.white,
-                                                )
-                                              : SvgPicture.asset(
-                                                  'assets/arrow-type2.svg'),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                )),
-                          )
+                          Visibility(
+                              child: Center(
+                                  child: Container(
+                                width: 50,
+                                height: 50,
+                                child: const CircularProgressIndicator(),
+                              )),
+                              visible:
+                                  (isLoadingMessages == true) ? true : false)
                         ],
-                      ),
-                      Visibility(
-                          child: Center(
-                              child: Container(
-                            width: 50,
-                            height: 50,
-                            child: const CircularProgressIndicator(),
-                          )),
-                          visible: (isLoadingMessages == true) ? true : false)
-                    ],
-                  ))
-              );
+                      )));
             }));
   }
 
@@ -337,7 +341,7 @@ class _MessagesPage extends State<MessagesPage> {
     if (state.ticketFullInfo != null && mainLabel == "Обращение") {
       isLoadingMessages = false;
       lastMessageId = state.ticketFullInfo!.last_message_id!;
-      
+
       if (page == 1) {
         messageList = state.ticketFullInfo!.messages!;
         readMessage(widget.genericId!, lastMessageId!);
@@ -377,7 +381,8 @@ class _MessagesPage extends State<MessagesPage> {
             .compareTo(int.parse(a.claim_message_id!));
       });
     }
-    if (state.sendMessageData != null) { //если пришел ответ api по отправке сообщения
+    if (state.sendMessageData != null) {
+      //если пришел ответ api по отправке сообщения
       isWaitForSend = false;
       dynamic message; //Это данные для отправки в сокет
       if (widget.type == ChatTypes.Ticket) {
@@ -455,10 +460,10 @@ class _MessagesPage extends State<MessagesPage> {
                           ['data'],
                       date: state.sendMessageData!['data']['claim_info'][0]
                           ['date'],
-                      attachments: state.sendMessageData!['data']['claim_info'][0]
-                          ['attachments'],
-                      message_id: state.sendMessageData!['data']['claim_info'][0]
-                          ['message_id'],
+                      attachments: state.sendMessageData!['data']['claim_info']
+                          [0]['attachments'],
+                      message_id: state.sendMessageData!['data']['claim_info']
+                          [0]['message_id'],
                       user_type: state.sendMessageData!['data']['claim_info'][0]
                           ['user_type'],
                       claims_status_id: state.sendMessageData!['data']
@@ -469,12 +474,9 @@ class _MessagesPage extends State<MessagesPage> {
                           ['user_id'],
                       user_name: state.sendMessageData!['data']['claim_info'][0]
                           ['user_name'],
-                      date_added: state.sendMessageData!['data']['claim_info']
-                          [0]['date_added'],
-                      text: state.sendMessageData!['data']['claim_info'][0]
-                          ['text'],
-                      last_claim_lk: state.sendMessageData!['data']
-                          ['claim_info'][0]['last_claim_lk'],
+                      date_added: state.sendMessageData!['data']['claim_info'][0]['date_added'],
+                      text: state.sendMessageData!['data']['claim_info'][0]['text'],
+                      last_claim_lk: state.sendMessageData!['data']['claim_info'][0]['last_claim_lk'],
                       files: state.sendMessageData!['data']['claim_info'][0]['files'])
                 ],
                 user_info: UserInfo(
@@ -507,12 +509,12 @@ class _MessagesPage extends State<MessagesPage> {
             //если файлы в сообщении были
             messageFiles.clear();
             file = null;
-            profileBloc!.getMessages(widget.genericId!, widget.page!, lastMessageId!); //взять сообщения еще раз
+            profileBloc!.getMessages(widget.genericId!, widget.page!,
+                lastMessageId!); //взять сообщения еще раз
           }
 
           messageList.add(TicketMessage(
               isOwn: true,
-              
               date: DateTime.parse(
                   state.sendMessageData!['ticket_info'][0]['date_added']),
               ticket_message_id: state.sendMessageData!['ticket_info'][0]
@@ -538,14 +540,15 @@ class _MessagesPage extends State<MessagesPage> {
                 .compareTo(int.parse(a.ticket_message_id!));
           });
         } else if (widget.type == ChatTypes.Claim) {
-          if (state.sendMessageData!['data']['claim_info'][0]['files'].isNotEmpty) {
+          if (state
+              .sendMessageData!['data']['claim_info'][0]['files'].isNotEmpty) {
             messageFiles.clear();
             file = null;
             profileBloc!.getClaimMessages(widget.genericId!);
             //profileBloc!.getMessages(widget.genericId!, widget.page!, lastMessageId!);
           } //под вопросом!!!
 
-            messageList.add(ClaimMessage(
+          messageList.add(ClaimMessage(
               isOwn: true,
               claim_message_id: state.sendMessageData!['data']['claim_info'][0]
                   ['claim_message_id'],
@@ -573,19 +576,17 @@ class _MessagesPage extends State<MessagesPage> {
     }
   }
 
-  void readMessage(String genericId, String messageId){
+  void readMessage(String genericId, String messageId) {
     MessageRead messageRead = MessageRead(
-      cmd: 'publish',
-      event: 'ticket_msg_read',
-      subject: 'store-${store_id}',
-      to_id: int.parse(widget.userId),
-      data: MessageReadData(
-        message_id: messageId,
-        ticket_id: int.parse(genericId),
-        user_id: int.parse(widget.userId),
-        user_type: "lk"
-      )
-    );
+        cmd: 'publish',
+        event: 'ticket_msg_read',
+        subject: 'store-${store_id}',
+        to_id: int.parse(widget.userId),
+        data: MessageReadData(
+            message_id: messageId,
+            ticket_id: int.parse(genericId),
+            user_id: int.parse(widget.userId),
+            user_type: "lk"));
     String data = jsonEncode(messageRead.toJson());
     webSocketChannel!.sink.add(data);
     profileBloc!.readMessage(genericId, messageId);
@@ -630,6 +631,5 @@ class _MessagesPage extends State<MessagesPage> {
       profileBloc!.getClaimMessages(widget.genericId!);
       mainLabel = "Заявление";
     }
-    
   }
 }

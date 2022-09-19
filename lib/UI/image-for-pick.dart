@@ -2,36 +2,36 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-class ImageForPick extends StatefulWidget{
+class ImageForPick extends StatefulWidget {
   String? filename;
   String? filepath;
   String? extension;
   int? counter;
-  VoidCallback func;
-  ImageForPick({this.filename, this.filepath, this.extension, required this.func, this.counter});
+  VoidCallback? func;
+  ImageForPick(
+      {this.filename, this.filepath, this.extension, this.func, this.counter});
 
   @override
   State<StatefulWidget> createState() => _ImageForPick();
 }
 
-class _ImageForPick extends State<ImageForPick>{
+class _ImageForPick extends State<ImageForPick> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Stack(
+    return Stack(
       children: [
-        Row(
-          children: [
-            Container(
-              width: 100,
-              height: 100,
-              child: Image.file(File(widget.filepath!)),
-            ),
-          ],
+        Container(
+          margin: EdgeInsets.all(5),
+          width: 100,
+          height: 100,
+          child: Image.file(
+            File(widget.filepath!),
+            fit: BoxFit.cover,
+          ),
         ),
         Positioned(
-            top: 0,
-            right: 0,
+            top: 10,
+            right: 10,
             child: Container(
                 width: 20,
                 height: 20,
@@ -39,15 +39,17 @@ class _ImageForPick extends State<ImageForPick>{
                     style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.all(0),
                         backgroundColor: Colors.transparent,
-                        
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                             side: BorderSide(color: Colors.white, width: 2))),
                     onPressed: () {
-                      widget.func.call();
+                      //widget.func.call();
                     },
-                    child: widget.counter! > 0 ? Text(widget.counter.toString(), style: TextStyle(color: Colors.white)) : Container())))
+                    child: (widget.counter != null && widget.counter! > 0)
+                        ? Text(widget.counter.toString(),
+                            style: TextStyle(color: Colors.white))
+                        : Container())))
       ],
-    ));
+    );
   }
 }

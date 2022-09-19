@@ -2,6 +2,7 @@ import 'package:conres_app/model/claim-message.dart';
 import 'package:conres_app/model/object_pu.dart';
 import 'package:conres_app/model/result-data.dart';
 import 'package:conres_app/model/ticket.dart';
+import 'package:photo_gallery/photo_gallery.dart';
 
 import '../../elements/testimony/object-pu.dart';
 import '../../model/claim.dart';
@@ -17,6 +18,7 @@ class ProfileState {
   final bool? loading;
   final String? error;
   final Map<String, dynamic>? fullInfo;
+
   final List<dynamic>? loginData;
   final List<Contract>? contracts;
   final List<String>? numbers;
@@ -25,6 +27,8 @@ class ProfileState {
   final List<ObjectPuModel>? objectsPU;
   final List<Meter>? meters;
   final List<ClaimMessage>? claimMessages;
+  final List<Medium>? images;
+
   final TicketFullInfo? ticketFullInfo;
   final dynamic webSocketData;
   final String? bindLsData;
@@ -43,6 +47,7 @@ class ProfileState {
       this.contracts,
       this.numbers,
       this.claims,
+      this.images,
       this.tickets,
       this.ticketFullInfo,
       this.sendMessageData,
@@ -59,7 +64,7 @@ class ProfileState {
       List<dynamic>? loginData,
       String? bindLsData,
       Map<String, dynamic>? sendMessageData,
-      dynamic webSocketData, 
+      dynamic webSocketData,
       List<Contract>? contracts,
       List<String>? numbers,
       List<ObjectPuModel>? objectsPU,
@@ -68,6 +73,7 @@ class ProfileState {
       List<Claim>? claims,
       List<Ticket>? tickets,
       List<ClaimMessage>? claimMessages,
+      List<Medium>? images,
       TicketFullInfo? ticketFullInfo,
       List<Meter>? meters,
       String? page,
@@ -83,6 +89,7 @@ class ProfileState {
         claims: claims ?? this.claims,
         tickets: tickets ?? this.tickets,
         claimMessages: claimMessages ?? this.claimMessages,
+        images: images,
         ticketFullInfo: ticketFullInfo,
         sendMessageData: sendMessageData,
         webSocketData: webSocketData,
