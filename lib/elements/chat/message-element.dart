@@ -14,10 +14,8 @@ class MessageElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onLongPress: (){
-        openBottomShitFunc.call();
-      },
+    return Align(
+      alignment: message.isOwn! ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         decoration: BoxDecoration(
             borderRadius: message.isOwn! ? const BorderRadius.only(
@@ -72,8 +70,9 @@ class MessageElement extends StatelessWidget {
                       ])))),
           Text("${message.date!.hour}:${message.date!.minute}", style: TextStyle(color:  message.isOwn! ? Colors.white : Colors.grey))
         ]),
-      ),
-    );
+      )
+      );
+    
     
   }
 }

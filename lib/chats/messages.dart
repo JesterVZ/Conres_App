@@ -254,7 +254,7 @@ class _MessagesPage extends State<MessagesPage> {
                               ),
                               Container(
                                 width: MediaQuery.of(context).size.width,
-                                height: 55,
+                                height: 60,
                                 alignment: Alignment.topCenter,
                                 child: Padding(
                                     padding: EdgeInsets.only(
