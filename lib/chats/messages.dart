@@ -102,45 +102,15 @@ class _MessagesPage extends State<MessagesPage> {
     }
   }
 
-/*
-  void _createPhoto() async {
-    await availableCameras().then(
-      (value) => OpenPicker(ImageSource.camera)
-    );
-  }
-
-  OpenPicker(ImageSource source) async
-  {
-    pickedImage = (await _picker.pickImage(source: source)) as XFile;
-    setState(() {
-      File picked = (File(pickedImage!.path));
-      file = picked;
-      messageFiles.clear();
-        messageFiles.add(FileElement(
-            filename: Path.basename(file.path),
-            filepath: file.path,
-            extension: Path.extension(file.path),
-            func: () {
-              setState(() {
-                messageFiles.clear();
-              });
-            }));
-    });
-    
- }
-
-  void _openDialog() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) =>
-            FileSendDialog(pickFile: _loadImage, createPhoto: _createPhoto));
-  }
-  */
   void _openPicker() async {
-    panelController.open();
-    final List<Album> imageAlbums = await PhotoGallery.listAlbums(
-        mediumType: MediumType.image); // взять список альбомов
-    final MediaPage imagePage = await imageAlbums[0].listMedia();
+    showModalBottomSheet(context: context, builder: (context){
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10)
+        ),
+        child: FilePage(),
+      );
+    });
   }
 
   void _loadImage() async {
@@ -190,6 +160,40 @@ class _MessagesPage extends State<MessagesPage> {
     }
   }
 
+  void editMessage(){
+
+  }
+
+  void deleteMessage(){
+
+  }
+
+  void copyMessage(String message){
+
+  }
+
+  void openBottomShit(){
+    showModalBottomSheet(context: context, builder: (context){
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10)
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                SvgPicture.asset('assets/copy.svg'),
+                Text("Скопировать")
+              ],
+            )
+          ],
+        )
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -200,10 +204,7 @@ class _MessagesPage extends State<MessagesPage> {
             bloc: profileBloc,
             listener: (context, state) => _listener(context, state),
             builder: (context, state) {
-              return SlidingUpPanelPage(
-                  panelController: panelController,
-                  panel: FilePage(),
-                  body: Scaffold(
+              return Scaffold(
                       backgroundColor: Colors.white,
                       body: Stack(
                         children: [
@@ -228,6 +229,7 @@ class _MessagesPage extends State<MessagesPage> {
                                       itemBuilder:
                                           (BuildContext context, int i) {
                                         return MessageElement(
+                                            openBottomShitFunc: openBottomShit,
                                             message: messageList[i],
                                             fun: _loadImageFromUri);
                                       }),
@@ -252,7 +254,7 @@ class _MessagesPage extends State<MessagesPage> {
                               ),
                               Container(
                                 width: MediaQuery.of(context).size.width,
-                                height: 130,
+                                height: 55,
                                 alignment: Alignment.topCenter,
                                 child: Padding(
                                     padding: EdgeInsets.only(
@@ -321,12 +323,13 @@ class _MessagesPage extends State<MessagesPage> {
                                   child: Container(
                                 width: 50,
                                 height: 50,
-                                child: const CircularProgressIndicator(),
+                                child: CircularProgressIndicator(color: colorMain),
                               )),
                               visible:
                                   (isLoadingMessages == true) ? true : false)
                         ],
-                      )));
+                      ));
+            
             }));
   }
 

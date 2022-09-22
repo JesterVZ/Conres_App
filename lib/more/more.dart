@@ -38,9 +38,12 @@ class _MoreScreen extends State<MoreScreen> {
                           child: Column(
                             children: [
                               DefaultButton(text: "Информация о ПУ", onPressed: (){
+                                
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => ObjectsPU()));
                               }, margin: EdgeInsets.only(bottom: 12),),
-                              DefaultButton(text: "Профиль", onPressed: (){}, margin: EdgeInsets.only(bottom: 12)),
+                              DefaultButton(text: "Профиль", onPressed: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => FullProfile()));
+                              }, margin: EdgeInsets.only(bottom: 12)),
                               DefaultButton(text: "Заявление на тех. присоединение", onPressed: (){}, margin: EdgeInsets.only(bottom: 12)),
                               DefaultButton(text: "Информация", onPressed: (){}, margin: EdgeInsets.only(bottom: 12)),
                               DefaultButton(text: "Показания умных ПУ", onPressed: (){}, margin: EdgeInsets.only(bottom: 12)),

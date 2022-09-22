@@ -81,4 +81,8 @@ class ProfileRepo{
     var result = await httpClient.getMessagesFromClaim(claim_id);
     return result;
   }
+  Future<dynamic> editMessage(String ticketId, String message, String ticketStatusId, dynamic file) async{
+    var result = await httpClient.editMessage(ticketId, message, ticketStatusId, file);
+    return result;
+  }
 }

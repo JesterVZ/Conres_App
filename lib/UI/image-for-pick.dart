@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:conres_app/consts.dart';
 import 'package:flutter/material.dart';
 
 class ImageForPick extends StatefulWidget {
@@ -16,9 +17,11 @@ class ImageForPick extends StatefulWidget {
 }
 
 class _ImageForPick extends State<ImageForPick> {
+  bool isSelected = false;
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Container(
+      child: Stack(
       children: [
         Container(
           margin: EdgeInsets.all(5),
@@ -38,11 +41,14 @@ class _ImageForPick extends State<ImageForPick> {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.all(0),
-                        backgroundColor: Colors.transparent,
+                        backgroundColor: isSelected == true ? colorMain :  Colors.transparent,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                             side: BorderSide(color: Colors.white, width: 2))),
                     onPressed: () {
+                      setState(() {
+                        isSelected = !isSelected;
+                      });
                       //widget.func.call();
                     },
                     child: (widget.counter != null && widget.counter! > 0)
@@ -50,6 +56,8 @@ class _ImageForPick extends State<ImageForPick> {
                             style: TextStyle(color: Colors.white))
                         : Container())))
       ],
+    )
     );
+    
   }
 }

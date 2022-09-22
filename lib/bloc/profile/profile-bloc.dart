@@ -47,7 +47,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleGetAllInfo(event);
     } else if (event is SendMessageEvent) {
       yield* _handleSendMessage(event);
-    } else if (event is SendClaimMessageEvent) {
+    } else if(event is EditMessageEvent){
+      yield* _handleEditMessage(event);
+    }else if (event is SendClaimMessageEvent) {
       yield* _handleSendClaimMessage(event);
     } else if (event is ReadMessage) {
       yield* _handleReadMessage(event);
@@ -150,6 +152,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   getAllPhotos(List<Album> albums) {
     add(GetAllPhotos(albums));
+  }
+
+  editMessage(String ticket_id, String message, String ticket_status_id, dynamic file){
+    add(EditMessageEvent(ticket_id, message, ticket_status_id, file));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -277,6 +283,26 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
     try {
       Object result = await repo.sendMessage(
+          event.ticket_id, event.message, event.ticket_status_id, event.file);
+      if (result is Map<String, dynamic>) {
+        yield state.copyWith(
+            loading: false, sendMessageData: result, ticketFullInfo: null);
+      } else {
+        yield state.copyWith(
+            loading: false,
+            sendMessageData: null,
+            ticketFullInfo: null,
+            error: result.toString());
+      }
+    } catch (e) {
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleEditMessage(EditMessageEvent event) async* {
+    yield state.copyWith(loading: true, error: null, ticketFullInfo: null);
+    try {
+      Object result = await repo.editMessage(
           event.ticket_id, event.message, event.ticket_status_id, event.file);
       if (result is Map<String, dynamic>) {
         yield state.copyWith(

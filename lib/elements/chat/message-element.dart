@@ -8,13 +8,16 @@ import '../../model/message.dart';
 class MessageElement extends StatelessWidget {
   dynamic message;
   void Function(String, String) fun;
-  MessageElement({Key? key, required this.message, required this.fun})
+  VoidCallback openBottomShitFunc;
+  MessageElement({Key? key, required this.message, required this.fun, required this.openBottomShitFunc})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: message.isOwn! ? Alignment.centerRight : Alignment.centerLeft,
+    return GestureDetector(
+      onLongPress: (){
+        openBottomShitFunc.call();
+      },
       child: Container(
         decoration: BoxDecoration(
             borderRadius: message.isOwn! ? const BorderRadius.only(
@@ -71,5 +74,6 @@ class MessageElement extends StatelessWidget {
         ]),
       ),
     );
+    
   }
 }

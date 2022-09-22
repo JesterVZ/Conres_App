@@ -396,6 +396,34 @@ class HttpClient{
     }
   }
 
+  Future<Object?> editMessage(String ticketId, String message, String ticketStatusId, dynamic file) async{
+    String uri = domain + 'lk/index.php?route=catalog/ticket/editMessage';
+    try{
+      var formData;
+      if(file == null){
+        formData = FormData.fromMap({
+        'ticket_id': ticketId,
+        'message': message, 
+        'ticket_status_id': ticketStatusId
+      });
+      } else {
+        formData = FormData.fromMap({
+        'contract_files_name[]': file.path!.split('/').last, //имя файла
+        'contract_files[]': await MultipartFile.fromFile(file.path!, filename: file.path!.split('/').last),
+        'ticket_id': ticketId,
+        'message': message, 
+        'ticket_status_id': ticketStatusId
+      });
+      }
+      final result = await _apiClient.post(uri, data: formData);
+      if(result.statusCode == 200){
+        return json.decode(result.data);
+      }
+    }catch(e){
+      return e.toString();
+    }
+  }
+
 
   Future<Object?> setReadMessage(String ticketId, String messageId) async{
     String uri = domain + 'lk/index.php?route=catalog/ticket/api_setReadMessage';

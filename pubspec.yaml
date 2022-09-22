@@ -126,6 +126,11 @@ flutter:
     - assets/lock.svg
     - assets/bottom-row.svg
     - assets/eye.svg
+    - assets/files.svg
+    - assets/gallery.svg
+    - assets/copy.svg
+    - assets/delete.svg
+    - assets/edit.svg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -70,6 +70,16 @@ class SendMessageEvent extends ProfileEvent{
   const SendMessageEvent(this.ticket_id, this.message, this.ticket_status_id, this.file);
 }
 
+class EditMessageEvent extends ProfileEvent{
+  //ticket_status_id: Открыт/Закрыт/В обработке
+  final String ticket_id;
+  final String message;
+  final String ticket_status_id;
+  final dynamic file;
+  const EditMessageEvent(this.ticket_id, this.message, this.ticket_status_id, this.file);
+}
+
+
 class SendClaimMessageEvent extends ProfileEvent{
   final String claim_id;
   final String text;

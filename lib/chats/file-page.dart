@@ -5,10 +5,12 @@ import 'package:conres_app/UI/image-for-pick.dart';
 import 'package:conres_app/elements/bloc/bloc-screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:photo_gallery/photo_gallery.dart';
 
 import '../bloc/profile/profile-bloc.dart';
 import '../bloc/profile/profile-state.dart';
+import '../consts.dart';
 
 class FilePage extends StatefulWidget {
   @override
@@ -18,6 +20,7 @@ class FilePage extends StatefulWidget {
 class _FilePage extends State<FilePage> {
   ProfileBloc? profileBloc;
   List<ImageForPick> pickImages = [];
+  bool isLoadingFiles = true;
   List<File> files = [];
 
   @override
@@ -26,24 +29,88 @@ class _FilePage extends State<FilePage> {
       bloc: profileBloc,
       listener: (context, state) => _listener(context, state),
       builder: (context, state) {
-        return Container(
-          padding: EdgeInsets.all(31),
-          child: Column(
-            children: [
-              Expanded(
-                  child: Scrollbar(
-                child: SingleChildScrollView(
-                    child:
-                        Wrap(direction: Axis.horizontal, children: pickImages)),
-              )),
-              Container(
-                height: 55,
-                child: Row(
-                  children: [],
-                ),
-              )
-            ],
-          ),
+        return Stack(
+          children: [
+            Container(
+              padding: EdgeInsets.all(31),
+              child: Column(
+                children: [
+                  Expanded(
+                      child: Scrollbar(
+                    child: SingleChildScrollView(
+                        child: Wrap(
+                            direction: Axis.horizontal, children: pickImages)),
+                  )),
+                  Container(
+                    height: 55,
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 160,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(backgroundColor: colorMain, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                            
+                            onPressed: (){},
+                            child: Row(
+                              children: [
+                                const Text("Галерея"),
+                                const Spacer(),
+                                Container(
+                                  width: 32,
+                                  height: 32,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white.withOpacity(0.1)
+                                  ),
+                                  child: SvgPicture.asset("assets/gallery.svg"),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        Container(
+                          width: 160,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(backgroundColor: colorGray, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                            
+                            onPressed: (){},
+                            child: Row(
+                              children: [
+                                const Text("Файлы"),
+                                const Spacer(),
+                                Container(
+                                  width: 32,
+                                  height: 32,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white.withOpacity(0.1)
+                                  ),
+                                  child: SvgPicture.asset("assets/gallery.svg"),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Visibility(
+                child: Center(
+                    child: Container(
+                  width: 50,
+                  height: 50,
+                  child: CircularProgressIndicator(color: colorMain),
+                )),
+                visible: (isLoadingFiles == true) ? true : false)
+          ],
         );
       },
     );
@@ -65,6 +132,7 @@ class _FilePage extends State<FilePage> {
     if (state.images != null &&
         state.images!.isNotEmpty &&
         pickImages.isEmpty) {
+      isLoadingFiles = false;
       _getFilesFromMedium(state.images!);
     }
   }
