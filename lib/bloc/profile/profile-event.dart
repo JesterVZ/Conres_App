@@ -125,6 +125,6 @@ class GetClaimMessages extends ProfileEvent{
 }
 
 class GetAllPhotos extends ProfileEvent{
-  List<Album> albums;
-  GetAllPhotos(this.albums);
+  Album album;
+  GetAllPhotos(this.album);
 }

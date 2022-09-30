@@ -4,13 +4,11 @@ import 'package:conres_app/consts.dart';
 import 'package:flutter/material.dart';
 
 class ImageForPick extends StatefulWidget {
-  String? filename;
-  String? filepath;
-  String? extension;
+  File file;
   int? counter;
-  VoidCallback? func;
+  ValueChanged<File>? func;
   ImageForPick(
-      {this.filename, this.filepath, this.extension, this.func, this.counter});
+      {required this.file, this.func, this.counter});
 
   @override
   State<StatefulWidget> createState() => _ImageForPick();
@@ -28,7 +26,7 @@ class _ImageForPick extends State<ImageForPick> {
           width: 100,
           height: 100,
           child: Image.file(
-            File(widget.filepath!),
+            File(widget.file.path),
             fit: BoxFit.cover,
           ),
         ),
@@ -48,8 +46,9 @@ class _ImageForPick extends State<ImageForPick> {
                     onPressed: () {
                       setState(() {
                         isSelected = !isSelected;
+                        widget.func!.call(widget.file);
                       });
-                      //widget.func.call();
+                      
                     },
                     child: (widget.counter != null && widget.counter! > 0)
                         ? Text(widget.counter.toString(),

@@ -150,8 +150,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(CreateNewTicket(contact_email, contact_name, message, ticket_theme_id));
   }
 
-  getAllPhotos(List<Album> albums) {
-    add(GetAllPhotos(albums));
+  getAllPhotos(Album album) {
+    add(GetAllPhotos(album));
   }
 
   editMessage(String ticket_id, String message, String ticket_status_id, dynamic file){
@@ -420,10 +420,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null);
     try {
       List<Medium> imagePage = [];
-      for (int i = 0; i < event.albums.length; i++) {
-        MediaPage thisAlbumImages = await event.albums[i].listMedia();
+      MediaPage thisAlbumImages = await event.album.listMedia();
         imagePage += thisAlbumImages.items;
-      }
       yield state.copyWith(loading: false, error: null, images: imagePage);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());

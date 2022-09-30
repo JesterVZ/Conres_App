@@ -22,6 +22,7 @@ class _FilePage extends State<FilePage> {
   List<ImageForPick> pickImages = [];
   bool isLoadingFiles = true;
   List<File> files = [];
+  List<File> selectedFiles = [];
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,6 @@ class _FilePage extends State<FilePage> {
                           height: 50,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(backgroundColor: colorMain, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                            
                             onPressed: (){},
                             child: Row(
                               children: [
@@ -76,7 +76,6 @@ class _FilePage extends State<FilePage> {
                           height: 50,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(backgroundColor: colorGray, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                            
                             onPressed: (){},
                             child: Row(
                               children: [
@@ -120,9 +119,18 @@ class _FilePage extends State<FilePage> {
     for (int i = 0; i < images.length; i++) {
       files.add(await images[i].getFile());
       setState(() {
-        pickImages.add(ImageForPick(filepath: files[i].path));
+        pickImages.add(ImageForPick(file: files[i], func: _addFile));
       });
     }
+  }
+
+  void _addFile(File file){
+    if(selectedFiles.contains(file)){
+      selectedFiles.remove(file);
+    } else {
+      selectedFiles.add(file);
+    }
+    
   }
 
   _listener(BuildContext context, ProfileState state) {
@@ -143,6 +151,6 @@ class _FilePage extends State<FilePage> {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     List<Album> imageAlbums = await PhotoGallery.listAlbums(
         mediumType: MediumType.image); //получить список альбомов
-    profileBloc!.getAllPhotos(imageAlbums);
+    profileBloc!.getAllPhotos(imageAlbums[0]);
   }
 }
