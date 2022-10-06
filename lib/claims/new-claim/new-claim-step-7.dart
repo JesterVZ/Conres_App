@@ -1,11 +1,9 @@
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../UI/main-form.dart';
 import '../../consts.dart';
-import '../../elements/chat/file-for-send.dart';
 import '../../elements/claims/claim-step7-object.dart';
 import '../../elements/claims/file-element.dart';
 import '../../elements/header/header.dart';

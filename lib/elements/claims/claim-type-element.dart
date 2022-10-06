@@ -6,13 +6,15 @@ import 'package:flutter_svg/svg.dart';
 
 class ClaimTypeELement extends StatelessWidget{
   String text;
+  Widget page;
   ClaimTypeELement({
-    required this.text
+    required this.text,
+    required this.page
   });
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: ((context) => NewClaimStep1()))),
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: ((context) => page))),
       child: Container(
       margin: EdgeInsets.only(bottom: 19),
       padding: EdgeInsets.all(18),

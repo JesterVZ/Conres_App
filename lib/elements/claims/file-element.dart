@@ -16,15 +16,17 @@ class DocElement extends StatefulWidget {
 
 class _DocElement extends State<DocElement> {
   FilePickerResult? file;
-  void addFile() async{
-    
+  void pick() async{
+    file = await FilePicker.platform.pickFiles(allowMultiple: false);
+    widget.result.call(widget.id, file!);
   }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async{
-        file = await FilePicker.platform.pickFiles(allowMultiple: false);
-        widget.result.call(widget.id, file!);
+      onTap: () {
+        setState(() {
+          pick();
+        });
       },
       child: Container(
           padding: const EdgeInsets.only(left: 18, right: 18),
