@@ -6,7 +6,7 @@ class ClaimMessage{
   String? user_id;
   String? user_name;
   String? message;
-  ClaimFile? data;
+  List<ClaimFile>? data;
   String? claims_status_id;
   bool? isOwn;
 
@@ -24,11 +24,17 @@ class ClaimMessage{
   });
 
   factory ClaimMessage.fromMap(Map<dynamic, dynamic> map){
+    List<ClaimFile> files = [];
+    for(int i = 0; i < map['attachments'].length; i++){
+      files.add(
+        ClaimFile.fromMap(map['attachments'][i])
+        );
+    }
     return ClaimMessage(
       claim_message_id: map['claim_message_id'], 
       claim_id: map['claim_id'], 
       date: DateTime.parse(map['date']), 
-      data: map['attachments'] != null ? ((map['attachments'].length != 0) ? ClaimFile.fromMap(map['attachments'][0]) : null) : null, 
+      data: files,
       claims_status_id: map['claims_status_id'], 
       message: map['text'], 
       user_id: map['user_id'], 

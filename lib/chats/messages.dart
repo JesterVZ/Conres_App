@@ -159,19 +159,6 @@ class _MessagesPage extends State<MessagesPage> {
       });
     }
   }
-
-  void editMessage(){
-
-  }
-
-  void deleteMessage(){
-
-  }
-
-  void copyMessage(String message){
-
-  }
-
   void openBottomShit(){
     showModalBottomSheet(context: context, builder: (context){
       return Container(
