@@ -67,6 +67,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleGetClaimMessages(event);
     } else if (event is GetAllPhotos) {
       yield* _handleGetAllPhotos(event);
+    } else if(event is SendBaseClaim){
+      yield*_handleSendBaseClaim(event);
     }
   }
 
@@ -156,6 +158,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   editMessage(String ticket_id, String message, String ticket_status_id, dynamic file){
     add(EditMessageEvent(ticket_id, message, ticket_status_id, file));
+  }
+
+  sendBaseClaim(String claim_type_id, String claim_template, String claim_type, String claim_name, String field_header_whom_1, String field_phone, String field_email, String field_content_date, String field_header_who, String field_header_egrul, String field_header_address_1, String field_header_address_2, String field_header_egrul_date, String field_content_main, String claim_operator_email){
+    add(SendBaseClaim(claim_type_id, claim_template, claim_name, claim_type, claim_operator_email, field_content_date, field_content_main, field_email, field_header_address_1, field_header_address_2, field_header_egrul, field_header_egrul_date, field_header_who, field_header_whom_1, field_phone));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -425,6 +431,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield state.copyWith(loading: false, error: null, images: imagePage);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleSendBaseClaim(SendBaseClaim event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      
+    }catch (e) {
+
     }
   }
 }
