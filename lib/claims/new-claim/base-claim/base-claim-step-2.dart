@@ -52,26 +52,13 @@ class _BaseClaimStep2 extends State<BaseClaimStep2> {
                         )
                       ],
                     ),
-                    SizedBox(
+                    Container(
+                      margin: EdgeInsets.only(top: 12),
                         width: MediaQuery.of(context).size.width,
                         height: 55.0,
                         child: ElevatedButton(
                           
                             onPressed: () {
-                              Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => BaseClaimStep2(
-                                            )));
-
-
-                              if (_formKey.currentState!.validate()) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => BaseClaimStep2(
-                                            )));
-                              }
                             },
                             child: Text(
                               "Отправить",

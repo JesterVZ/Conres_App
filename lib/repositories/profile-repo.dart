@@ -85,4 +85,8 @@ class ProfileRepo{
     var result = await httpClient.editMessage(ticketId, message, ticketStatusId, file);
     return result;
   }
+  Future<dynamic> sendBaseClaim(String claim_type_id, String claim_template, String claim_type, String claim_name, String field_header_whom_1, String field_phone, String field_email, String field_content_date, String field_header_who, String field_header_egrul, String field_header_address_1, String field_header_address_2, String field_header_egrul_date, String field_content_main, String claim_operator_email) async{
+    var result = await httpClient.sendBaseClaim(claim_type_id, claim_template, claim_type, claim_name, field_header_whom_1, field_phone, field_email, field_content_date, field_header_who, field_header_egrul, field_header_address_1, field_header_address_2, field_header_egrul_date, field_content_main, claim_operator_email);
+    return result;
+  }
 }
