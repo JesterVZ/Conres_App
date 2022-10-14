@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:photo_gallery/photo_gallery.dart';
 
+import '../../Services/base-claim-send-service.dart';
 import '../../websocket/websocket.dart';
 
 abstract class ProfileEvent extends Equatable {
@@ -130,20 +131,6 @@ class GetAllPhotos extends ProfileEvent{
 }
 
 class SendBaseClaim extends ProfileEvent{
-  String claim_type_id;
-  String claim_template;
-  String claim_type;
-  String claim_name;
-  String field_header_whom_1;
-  String field_phone;
-  String field_email;
-  String field_content_date;
-  String field_header_who;
-  String field_header_egrul;
-  String field_header_address_1;
-  String field_header_address_2;
-  String field_header_egrul_date;
-  String field_content_main;
-  String claim_operator_email;
-  SendBaseClaim(this.claim_type_id, this.claim_template, this.claim_name, this.claim_type, this.claim_operator_email, this.field_content_date, this.field_content_main, this.field_email, this.field_header_address_1, this.field_header_address_2, this.field_header_egrul, this.field_header_egrul_date, this.field_header_who, this.field_header_whom_1, this.field_phone);
+  BaseClaimSendService baseClaimSendService;
+  SendBaseClaim(this.baseClaimSendService);
 }

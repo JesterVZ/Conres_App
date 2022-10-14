@@ -1,11 +1,10 @@
 import 'package:conres_app/claims/new-claim/base-claim/base-claim-step-2.dart';
 import 'package:conres_app/elements/header/header.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:intl/intl.dart';
 
+import '../../../DI/dependency-provider.dart';
+import '../../../Services/base-claim-send-service.dart';
 import '../../../UI/default-input.dart';
 import '../../../UI/main-form.dart';
 import '../../../consts.dart';
@@ -17,6 +16,8 @@ class BaseClaimStep1 extends StatefulWidget {
 }
 
 class _BaseClaimStep1 extends State<BaseClaimStep1> {
+  BaseClaimSendService? baseClaimSendService;
+
   final controllerList = List<TextEditingController>.generate(
       9, (index) => TextEditingController());
   final _formKey = GlobalKey<FormState>();
@@ -53,19 +54,19 @@ class _BaseClaimStep1 extends State<BaseClaimStep1> {
                         hintText: "Город, Улица, Дом, Квартира",
                         validatorText: "Введите адрес"),
                     DefaultInput(
-                        controller: controllerList[1],
+                        controller: controllerList[2],
                         keyboardType: TextInputType.text,
                         labelText: "Юридические адрес",
                         hintText: "Город, Улица, Дом, Квартира",
                         validatorText: "Введите адрес"),
                     DefaultInput(
-                        controller: controllerList[1],
+                        controller: controllerList[3],
                         keyboardType: TextInputType.text,
                         labelText: "ОГРН",
                         hintText: "0000000000000",
                         validatorText: "Введите огрн"),
                     DefaultInput(
-                        controller: controllerList[1],
+                        controller: controllerList[4],
                         keyboardType: TextInputType.text,
                         labelText: "Телефон",
                         hintText: "+7 (999)-000-00-00",
@@ -88,16 +89,14 @@ class _BaseClaimStep1 extends State<BaseClaimStep1> {
                         width: MediaQuery.of(context).size.width,
                         height: 55.0,
                         child: ElevatedButton(
-                          
                             onPressed: () {
-                              Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => BaseClaimStep2(
-                                            )));
-
-
                               if (_formKey.currentState!.validate()) {
+                                baseClaimSendService!.field_header_who = controllerList[0].text;
+                                baseClaimSendService!.field_header_egrul= controllerList[3].text;
+                                baseClaimSendService!.field_header_address_1= controllerList[1].text;
+                                baseClaimSendService!.field_header_address_2= controllerList[2].text;
+                                baseClaimSendService!.field_header_egrul_date = controllerList[5].text;
+                                baseClaimSendService!.field_phone = controllerList[4].text;
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -117,5 +116,10 @@ class _BaseClaimStep1 extends State<BaseClaimStep1> {
             )
             )
             ));
+  }
+  @override
+  void didChangeDependencies() {
+    baseClaimSendService ??= DependencyProvider.of(context)!.baseClaimSendService;
+    super.didChangeDependencies();
   }
 }

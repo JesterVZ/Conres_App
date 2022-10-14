@@ -14,6 +14,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:photo_gallery/photo_gallery.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../Services/base-claim-send-service.dart';
 import '../../model/claim.dart';
 import '../../model/counter.dart';
 import '../../model/ticket.dart';
@@ -160,8 +161,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(EditMessageEvent(ticket_id, message, ticket_status_id, file));
   }
 
-  sendBaseClaim(String claim_type_id, String claim_template, String claim_type, String claim_name, String field_header_whom_1, String field_phone, String field_email, String field_content_date, String field_header_who, String field_header_egrul, String field_header_address_1, String field_header_address_2, String field_header_egrul_date, String field_content_main, String claim_operator_email){
-    add(SendBaseClaim(claim_type_id, claim_template, claim_name, claim_type, claim_operator_email, field_content_date, field_content_main, field_email, field_header_address_1, field_header_address_2, field_header_egrul, field_header_egrul_date, field_header_who, field_header_whom_1, field_phone));
+  sendBaseClaim(BaseClaimSendService baseClaimSendService){
+    add(SendBaseClaim(baseClaimSendService));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -437,9 +438,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _handleSendBaseClaim(SendBaseClaim event) async*{
     yield state.copyWith(loading: true, error: null);
     try{
-      
+      var result = await repo.sendBaseClaim(event.baseClaimSendService);
     }catch (e) {
-
+      yield state.copyWith(loading: false, error: e.toString());
     }
   }
 }

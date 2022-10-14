@@ -1,3 +1,4 @@
+import 'package:conres_app/Services/base-claim-send-service.dart';
 import 'package:conres_app/bloc/auth/auth-block.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/consts.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import '../Services/base-claim-send-service.dart';
 import '../Services/update-claim-service.dart';
 import '../Services/update-ticket-service.dart';
 import '../repositories/profile-repo.dart';
@@ -26,6 +28,7 @@ class DependencyProvider extends InheritedWidget {
   WebSocketListener? _webSocketListener;
   UpdateClaimService? _updateClaimService;
   UpdateTicketService? _updateTicketService;
+  BaseClaimSendService? _baseClaimSendService;
 
   DependencyProvider({Key? key, Widget? child})
       : assert(child != null),
@@ -50,6 +53,11 @@ class DependencyProvider extends InheritedWidget {
   UpdateTicketService? get updateTicketService{
     _updateTicketService ??= UpdateTicketService();
     return _updateTicketService;
+  }
+
+  BaseClaimSendService? get baseClaimSendService{
+    _baseClaimSendService ??= BaseClaimSendService();
+    return _baseClaimSendService;
   }
 
   WebSocketData? get webSocketData {

@@ -16,6 +16,7 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'Services/base-claim-send-service.dart';
 import 'consts.dart';
 import 'model/contract.dart';
 import 'model/counter.dart';
@@ -590,23 +591,23 @@ class HttpClient{
     }
   }
 
-  Future<Object?> sendBaseClaim(String claim_type_id, String claim_template, String claim_type, String claim_name, String field_header_whom_1, String field_phone, String field_email, String field_content_date, String field_header_who, String field_header_egrul, String field_header_address_1, String field_header_address_2, String field_header_egrul_date, String field_content_main, String claim_operator_email) async{
+  Future<Object?> sendBaseClaim(BaseClaimSendService baseClaimSendService) async{
     String uri = domain + 'lk/index.php?route=claims/new_claim/api_sendClaim';
     try{
       var formdata = FormData.fromMap({
-        'claim_type_id': claim_type_id,
-        'claim_name': claim_name,
-        'field_header_whom_1': field_header_whom_1,
-        'field_phone': field_phone,
-        'field_email': field_email,
-        'field_content_date': field_content_date,
-        'claim_type': claim_type,
-        'claim_template': claim_template,
-        'field_header_who': field_header_who,
-        'field_header_egrul': field_header_egrul,
-        'field_header_address_1': field_header_address_1,
-        'field_header_address_2': field_header_address_2,
-        'field_header_egrul_date': field_header_egrul_date,
+        'claim_type_id': baseClaimSendService.claim_type_id,
+        'claim_name': baseClaimSendService.claim_name,
+        'field_header_whom_1': baseClaimSendService.field_header_whom_1,
+        'field_phone': baseClaimSendService.field_phone,
+        'field_email': baseClaimSendService.field_email,
+        'field_content_date': baseClaimSendService.field_content_date,
+        'claim_type': baseClaimSendService.claim_type,
+        'claim_template': baseClaimSendService.claim_template,
+        'field_header_who': baseClaimSendService.field_header_who,
+        'field_header_egrul': baseClaimSendService.field_header_egrul,
+        'field_header_address_1': baseClaimSendService.field_header_address_1,
+        'field_header_address_2': baseClaimSendService.field_header_address_2,
+        'field_header_egrul_date': baseClaimSendService.field_header_egrul_date,
 
       });
       final result = await _apiClient.post(uri, data: formdata);
