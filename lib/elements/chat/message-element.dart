@@ -1,4 +1,5 @@
 import 'package:conres_app/elements/chat/preview.dart';
+import 'package:conres_app/model/claim-message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,12 +20,23 @@ class MessageElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> previews = [];
-    for (int i = 0; i < message.data.length; i++) {
+
+    if (message.data is TicketFile) {
       previews.add(Preview(
           uri: message.data != null
-              ? (message.data[i]!.thumb != null ? message.data[i]!.thumb! : "")
+              ? (message.data!.thumb != null ? message.data!.thumb! : "")
               : ""));
+    } else if (message.data != null && message.data is List<ClaimFile>?) {
+      for (int i = 0; i < message.data.length; i++) {
+        previews.add(Preview(
+            uri: message.data != null
+                ? (message.data[i]!.thumb != null
+                    ? message.data[i]!.thumb!
+                    : "")
+                : ""));
+      }
     }
+
     return Align(
         alignment:
             message.isOwn! ? Alignment.centerRight : Alignment.centerLeft,

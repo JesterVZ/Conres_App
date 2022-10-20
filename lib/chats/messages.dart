@@ -2,10 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:camera/camera.dart';
-import 'package:conres_app/UI/sliding-up-panel-page.dart';
 import 'package:conres_app/chats/file-page.dart';
-import 'package:conres_app/elements/chat/file-send-dialog.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/enums/chat-types.dart';
 import 'package:conres_app/model/claim-message.dart';
@@ -20,7 +17,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:photo_gallery/photo_gallery.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -103,14 +99,32 @@ class _MessagesPage extends State<MessagesPage> {
   }
 
   void _openPicker() async {
-    showModalBottomSheet(context: context, builder: (context){
-      return Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10)
-        ),
-        child: FilePage(),
-      );
-    });
+    //открыть парень файлов (как в ТГ)
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+            child: FilePage(func: addFilefromFilePage),
+          );
+        });
+  }
+
+  void addFilefromFilePage(List<File> files) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
+          for (int i = 0; i < files.length; i++) {
+            messageFiles.clear();
+            messageFiles.add(FileElement(
+                filename: Path.basename(files[i].path),
+                filepath: files[i].path,
+                extension: Path.extension(files[i].path),
+                func: () {
+                  setState(() {
+                    messageFiles.clear();
+                  });
+                }));
+          }
+        }));
   }
 
   void _loadImage() async {
@@ -159,26 +173,27 @@ class _MessagesPage extends State<MessagesPage> {
       });
     }
   }
-  void openBottomShit(){
-    showModalBottomSheet(context: context, builder: (context){
-      return Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10)
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                SvgPicture.asset('assets/copy.svg'),
-                Text("Скопировать")
-              ],
-            )
-          ],
-        )
-      );
-    });
+
+  void openBottomShit() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(10)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset('assets/copy.svg'),
+                      Text("Скопировать")
+                    ],
+                  )
+                ],
+              ));
+        });
   }
 
   @override
@@ -192,131 +207,126 @@ class _MessagesPage extends State<MessagesPage> {
             listener: (context, state) => _listener(context, state),
             builder: (context, state) {
               return Scaffold(
-                      backgroundColor: Colors.white,
-                      body: Stack(
+                  backgroundColor: Colors.white,
+                  body: Stack(
+                    children: [
+                      Column(
                         children: [
-                          Column(
+                          Container(
+                              height: 100,
+                              child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20),
+                                  child: HeaderNotification(
+                                      text: "$mainLabel № ${widget.genericId}",
+                                      canGoBack: true))),
+                          Expanded(
+                            //сюда сообщения
+                            child: Scrollbar(
+                              child: ListView.builder(
+                                  itemCount: messageList.length,
+                                  controller: scrollController,
+                                  reverse: true,
+                                  itemBuilder: (BuildContext context, int i) {
+                                    return MessageElement(
+                                        openBottomShitFunc: openBottomShit,
+                                        message: messageList[i],
+                                        fun: _loadImageFromUri);
+                                  }),
+                            ),
+                          ),
+                          Stack(
                             children: [
-                              Container(
-                                  height: 100,
-                                  child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20, right: 20),
-                                      child: HeaderNotification(
-                                          text:
-                                              "$mainLabel № ${widget.genericId}",
-                                          canGoBack: true))),
-                              Expanded(
-                                //сюда сообщения
-                                child: Scrollbar(
-                                  child: ListView.builder(
-                                      itemCount: messageList.length,
-                                      controller: scrollController,
-                                      reverse: true,
-                                      itemBuilder:
-                                          (BuildContext context, int i) {
-                                        return MessageElement(
-                                            openBottomShitFunc: openBottomShit,
-                                            message: messageList[i],
-                                            fun: _loadImageFromUri);
-                                      }),
-                                ),
-                              ),
-                              Stack(
-                                children: [
-                                  Visibility(
-                                      child: Container(
-                                        padding: const EdgeInsets.only(
-                                            left: 20, right: 20),
-                                        height: 70,
-                                        child: SingleChildScrollView(
-                                            child: Row(children: messageFiles),
-                                            scrollDirection: Axis.horizontal),
-                                      ),
-                                      visible: ((file == null ||
-                                              messageFiles.isEmpty)
+                              Visibility(
+                                  child: Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 20, right: 20),
+                                    height: 70,
+                                    child: SingleChildScrollView(
+                                        child: Row(children: messageFiles),
+                                        scrollDirection: Axis.horizontal),
+                                  ),
+                                  visible:
+                                      ((file == null || messageFiles.isEmpty)
                                           ? false
                                           : true)), //панель для файлов
-                                ],
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 60,
-                                alignment: Alignment.topCenter,
-                                child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 18, right: 18, top: 13),
-                                    child: Row(
-                                      children: [
-                                        GestureDetector(
-                                            onTap: () {
-                                              //_loadImage();
-                                              //_openDialog();
-                                              _openPicker();
-                                            },
-                                            child: SvgPicture.asset(
-                                                'assets/clip.svg')),
-                                        const Spacer(),
-                                        SizedBox(
-                                          width: 245,
-                                          child: TextField(
-                                            keyboardType:
-                                                TextInputType.multiline,
-                                            controller: controller,
-                                            decoration: InputDecoration(
-                                              hintText: "Сообщение...",
-                                              fillColor: messageColor,
-                                              filled: true,
-                                              border: InputBorder.none,
-                                            ),
-                                            minLines: 1,
-                                            maxLines: 5,
-                                          ),
-                                        ),
-                                        const Spacer(),
-                                        GestureDetector(
-                                          onTap: () {
-                                            if (isWaitForSend == false) {
-                                              _send();
-                                            }
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.all(14),
-                                            width: 45,
-                                            height: 45,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: colorMain,
-                                            ),
-                                            child: Container(
-                                              width: 18,
-                                              height: 14,
-                                              child: isWaitForSend == true
-                                                  ? const CircularProgressIndicator(
-                                                      color: Colors.white,
-                                                    )
-                                                  : SvgPicture.asset(
-                                                      'assets/arrow-type2.svg'),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    )),
-                              )
                             ],
                           ),
-                          Visibility(
-                              child: Center(
-                                  child: Container(
-                                width: 50,
-                                height: 50,
-                                child: CircularProgressIndicator(color: colorMain),
-                              )),
-                              visible:
-                                  (isLoadingMessages == true) ? true : false)
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 60,
+                            alignment: Alignment.topCenter,
+                            child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: 18, right: 18, top: 13),
+                                child: Row(
+                                  children: [
+                                    GestureDetector(
+                                        onTap: () {
+                                          //_loadImage();
+                                          //_openDialog();
+                                          _openPicker();
+                                        },
+                                        child: SvgPicture.asset(
+                                            'assets/clip.svg')),
+                                    const Spacer(),
+                                    SizedBox(
+                                      width: 245,
+                                      child: TextField(
+                                        keyboardType: TextInputType.multiline,
+                                        controller: controller,
+                                        decoration: InputDecoration(
+                                          hintText: "Сообщение...",
+                                          fillColor: messageColor,
+                                          filled: true,
+                                          border: InputBorder.none,
+                                        ),
+                                        minLines: 1,
+                                        maxLines: 5,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (isWaitForSend == false) {
+                                          _send();
+                                        }
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(14),
+                                        width: 45,
+                                        height: 45,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: colorMain,
+                                        ),
+                                        child: Container(
+                                          width: 18,
+                                          height: 14,
+                                          child: isWaitForSend == true
+                                              ? const CircularProgressIndicator(
+                                                  color: Colors.white,
+                                                )
+                                              : SvgPicture.asset(
+                                                  'assets/arrow-type2.svg'),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )),
+                          )
                         ],
-                      ));
-            
+                      ),
+                      Visibility(
+                          child: Center(
+                              child: Container(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator(color: colorMain),
+                          )),
+                          visible: (isLoadingMessages == true) ? true : false)
+                    ],
+                  ));
             }));
   }
 

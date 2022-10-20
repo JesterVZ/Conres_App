@@ -13,6 +13,8 @@ import '../bloc/profile/profile-state.dart';
 import '../consts.dart';
 
 class FilePage extends StatefulWidget {
+  ValueChanged<List<File>>? func;
+  FilePage({required this.func});
   @override
   State<StatefulWidget> createState() => _FilePage();
 }
@@ -21,8 +23,16 @@ class _FilePage extends State<FilePage> {
   ProfileBloc? profileBloc;
   List<ImageForPick> pickImages = [];
   bool isLoadingFiles = true;
-  List<File> files = [];
-  List<File> selectedFiles = [];
+  List<File> files = []; //все файлы из альбома
+  List<File> selectedFiles = []; //выбранные файлы
+
+  @override
+  void dispose() {
+    //закрываем панель
+    widget.func!.call(selectedFiles);
+    print("dispose");
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +60,11 @@ class _FilePage extends State<FilePage> {
                           width: 160,
                           height: 50,
                           child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(backgroundColor: colorMain, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                            onPressed: (){},
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: colorMain,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                            onPressed: () {},
                             child: Row(
                               children: [
                                 const Text("Галерея"),
@@ -61,9 +74,8 @@ class _FilePage extends State<FilePage> {
                                   height: 32,
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white.withOpacity(0.1)
-                                  ),
+                                      shape: BoxShape.circle,
+                                      color: Colors.white.withOpacity(0.1)),
                                   child: SvgPicture.asset("assets/gallery.svg"),
                                 )
                               ],
@@ -75,8 +87,11 @@ class _FilePage extends State<FilePage> {
                           width: 160,
                           height: 50,
                           child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(backgroundColor: colorGray, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                            onPressed: (){},
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: colorGray,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                            onPressed: () {},
                             child: Row(
                               children: [
                                 const Text("Файлы"),
@@ -86,9 +101,8 @@ class _FilePage extends State<FilePage> {
                                   height: 32,
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white.withOpacity(0.1)
-                                  ),
+                                      shape: BoxShape.circle,
+                                      color: Colors.white.withOpacity(0.1)),
                                   child: SvgPicture.asset("assets/gallery.svg"),
                                 )
                               ],
@@ -124,13 +138,12 @@ class _FilePage extends State<FilePage> {
     }
   }
 
-  void _addFile(File file){
-    if(selectedFiles.contains(file)){
+  void _addFile(File file) {
+    if (selectedFiles.contains(file)) {
       selectedFiles.remove(file);
     } else {
       selectedFiles.add(file);
     }
-    
   }
 
   _listener(BuildContext context, ProfileState state) {
