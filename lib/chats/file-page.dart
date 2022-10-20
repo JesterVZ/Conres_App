@@ -14,7 +14,8 @@ import '../consts.dart';
 
 class FilePage extends StatefulWidget {
   ValueChanged<List<File>>? func;
-  FilePage({required this.func});
+  VoidCallback GetFileFromPhone;
+  FilePage({required this.func, required this.GetFileFromPhone});
   @override
   State<StatefulWidget> createState() => _FilePage();
 }
@@ -64,7 +65,9 @@ class _FilePage extends State<FilePage> {
                                 backgroundColor: colorMain,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10))),
-                            onPressed: () {},
+                            onPressed: () {
+                              widget.GetFileFromPhone.call();
+                            },
                             child: Row(
                               children: [
                                 const Text("Галерея"),
@@ -91,7 +94,9 @@ class _FilePage extends State<FilePage> {
                                 backgroundColor: colorGray,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10))),
-                            onPressed: () {},
+                            onPressed: () {
+                              widget.GetFileFromPhone.call();
+                            },
                             child: Row(
                               children: [
                                 const Text("Файлы"),

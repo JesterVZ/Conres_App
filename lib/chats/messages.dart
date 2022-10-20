@@ -105,7 +105,7 @@ class _MessagesPage extends State<MessagesPage> {
         builder: (context) {
           return Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-            child: FilePage(func: addFilefromFilePage),
+            child: FilePage(func: addFilefromFilePage, GetFileFromPhone: _loadImage),
           );
         });
   }
