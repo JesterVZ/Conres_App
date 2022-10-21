@@ -1,3 +1,4 @@
+import 'package:conres_app/model/TU.dart';
 import 'package:conres_app/model/claim-message.dart';
 import 'package:conres_app/model/object_pu.dart';
 import 'package:conres_app/model/result-data.dart';
@@ -25,6 +26,7 @@ class ProfileState {
   final List<Claim>? claims;
   final List<Ticket>? tickets;
   final List<ObjectPuModel>? objectsPU;
+  final List<TuModel>? TuPoints;
   final List<Meter>? meters;
   final List<ClaimMessage>? claimMessages;
   final List<Medium>? images;
@@ -35,6 +37,10 @@ class ProfileState {
   final Map<String, dynamic>? sendMessageData;
   final String? page;
   final UserInformation? userInformation;
+
+  final bool? isClaimSent;
+
+  final String? privatePolicyString; 
 
   ProfileState(
       {this.loginData,
@@ -55,6 +61,9 @@ class ProfileState {
       this.meters,
       this.claimMessages,
       this.objectsPU,
+      this.TuPoints,
+      this.privatePolicyString,
+      this.isClaimSent,
       this.userInformation});
 
   static initial() => ProfileState(cookieStr: null, loading: null, error: null);
@@ -70,6 +79,8 @@ class ProfileState {
       List<ObjectPuModel>? objectsPU,
       String? error,
       Map<String, dynamic>? fullInfo,
+      final List<TuModel>? TuPoints,
+      String? privatePolicyString,
       List<Claim>? claims,
       List<Ticket>? tickets,
       List<ClaimMessage>? claimMessages,
@@ -77,6 +88,7 @@ class ProfileState {
       TicketFullInfo? ticketFullInfo,
       List<Meter>? meters,
       String? page,
+      bool? isClaimSent,
       UserInformation? userInformation}) {
     return ProfileState(
         error: error,
@@ -90,6 +102,8 @@ class ProfileState {
         tickets: tickets ?? this.tickets,
         claimMessages: claimMessages ?? this.claimMessages,
         images: images,
+        privatePolicyString: privatePolicyString,
+        TuPoints: TuPoints,
         ticketFullInfo: ticketFullInfo,
         sendMessageData: sendMessageData,
         webSocketData: webSocketData,
@@ -97,6 +111,7 @@ class ProfileState {
         objectsPU: objectsPU,
         meters: meters,
         userInformation: userInformation,
+        isClaimSent: isClaimSent,
         page: page ?? this.page);
   }
 }

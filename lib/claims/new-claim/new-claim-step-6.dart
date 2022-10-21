@@ -97,6 +97,7 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
               const Divider(),
               GestureDetector(
                 onTap: () {
+                  
                   Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -108,6 +109,13 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
                 ),
               ),
               GestureDetector(
+                onTap: () {
+                  
+                  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => NewClaimStep7()));
+                },
                 child: Container(
                   height: 40,
                   child: Text("Договор купли-продажи"),

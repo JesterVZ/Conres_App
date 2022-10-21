@@ -1,10 +1,13 @@
+import 'package:conres_app/profile/main-page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../DI/dependency-provider.dart';
+import '../UI/main-form.dart';
 import '../bloc/profile/profile-bloc.dart';
 import '../bloc/profile/profile-state.dart';
 import '../consts.dart';
+import '../elements/TU/TU-element.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/header/header-notification.dart';
 
@@ -15,31 +18,39 @@ class PageTU extends StatefulWidget {
 
 class _PageTU extends State<PageTU> {
   ProfileBloc? profileBloc;
-  List<Widget> objects = [];
+  List<Widget> objects = []; // ТУ
   @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(
         bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
-          return Scaffold(
-              body: Column(children: [
-            Container(
-                padding: EdgeInsets.only(
-                    left: defaultSidePadding, right: defaultSidePadding),
-                height: 100,
-                child: HeaderNotification(
-                  text: "Ваши точки учёта",
-                ))
-          ]));
+          return MainForm(
+           header: HeaderNotification(text: "Точки учета"),
+           body: Column(
+            children: objects,
+           ),
+          );
         });
   }
 
-  _listener(BuildContext context, ProfileState state) {}
+  _listener(BuildContext context, ProfileState state) {
+    if(state.loading == true){
+      return;
+    }
+    if(objects.isEmpty){
+      if(state.TuPoints != null && state.TuPoints!.isNotEmpty){
+        for(int i = 0; i < state.TuPoints!.length; i++){
+          objects.add(TuElement(currentTu: state.TuPoints![i],));
+        }
+      }
+    }
+    
+  }
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
-    profileBloc!.getObjectsPU();
+    profileBloc!.getTuPoints();
     super.didChangeDependencies();
   }
 }

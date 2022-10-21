@@ -4,10 +4,11 @@ import '../consts.dart';
 
 class DefaultButton extends StatefulWidget {
   String text;
+  bool? isGetPadding;
   Function onPressed;
   EdgeInsetsGeometry? margin;
 
-  DefaultButton({required this.text, required this.onPressed, this.margin});
+  DefaultButton({required this.text, required this.onPressed, this.margin, required this.isGetPadding});
   @override
   State<StatefulWidget> createState() => _DefaultButton();
 }
@@ -16,8 +17,7 @@ class _DefaultButton extends State<DefaultButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-          EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
+      padding: widget.isGetPadding == true ?  EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding) : const EdgeInsets.only(left: 0, right: 0),
       width: MediaQuery.of(context).size.width,
       margin: widget.margin,
       constraints: BoxConstraints(

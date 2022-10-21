@@ -134,3 +134,11 @@ class SendBaseClaim extends ProfileEvent{
   BaseClaimSendService baseClaimSendService;
   SendBaseClaim(this.baseClaimSendService);
 }
+
+class GetTuPoints extends ProfileEvent{ 
+  const GetTuPoints();
+}
+
+class GetPrivatePolicy extends ProfileEvent{
+  const GetPrivatePolicy();
+}

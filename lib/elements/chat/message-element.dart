@@ -77,11 +77,14 @@ class MessageElement extends StatelessWidget {
                                     direction: Axis.horizontal,
                                     children: previews)),
                           )),
-                          Flexible(
+                          /*
+                          Visibility(
+                            visible: ((message.data != null &&  message.data.length == 1) ? true : false),
+                            child: Flexible(
                             flex: 1,
                             child: Text(
-                                message.data != null
-                                    ? message.data!.document_name!
+                                (message.data != null &&  message.data.length == 1)
+                                    ? message.data[0]!.document_name!
                                     : "",
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -90,6 +93,8 @@ class MessageElement extends StatelessWidget {
                                         ? Colors.white
                                         : Colors.black)),
                           )
+                            )*/
+                          
                         ])))),
             Text("${message.date!.hour}:${message.date!.minute}",
                 style: TextStyle(

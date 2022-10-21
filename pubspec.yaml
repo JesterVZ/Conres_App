@@ -40,7 +40,7 @@ dependencies:
   mask_text_input_formatter: ^2.1.0
   shared_preferences: ^2.0.13
   dotted_decoration: ^2.0.0
-  flutter_svg: ^1.0.3
+  flutter_svg: ^1.1.5
   file_picker: ^4.5.1
   datetime_picker_formfield: ^2.0.0
   sliding_up_panel: ^2.0.0+1
@@ -59,6 +59,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   image_picker: ^0.8.5+3
+  flutter_html: ^3.0.0-alpha.3
   
 dependency_overrides:
   image_picker_android: 0.8.4+13

@@ -31,7 +31,6 @@ class _FilePage extends State<FilePage> {
   void dispose() {
     //закрываем панель
     widget.func!.call(selectedFiles);
-    print("dispose");
     super.dispose();
   }
 

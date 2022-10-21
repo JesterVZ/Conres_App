@@ -1,3 +1,4 @@
+import 'package:conres_app/UI/default-button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -61,16 +62,14 @@ class _ObjectPuDialog extends State<ObjectPuDialog> {
                     ],
                   )),
               Container(
-                margin: EdgeInsets.only(top: 17),
                 width: MediaQuery.of(context).size.width,
                 height: 55,
-                child: ElevatedButton(
-                    onPressed: () {
+                child: DefaultButton(
+                  isGetPadding: false,
+                  onPressed: () {
                       widget.function!.call();
                       Navigator.pop(context);
-                    },
-                    child: Text("Принять", style: buttonTextStyle),
-                    style: ElevatedButton.styleFrom(primary: colorMain)),
+                    }, text: "Принять",)
               )
             ]),
           ),

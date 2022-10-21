@@ -70,6 +70,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleGetAllPhotos(event);
     } else if(event is SendBaseClaim){
       yield*_handleSendBaseClaim(event);
+    } else if(event is GetTuPoints){
+      yield* _handleGetTuPoints(event);
+    } else if(event is GetPrivatePolicy){
+      yield* _handleGetPrivatePolicy(event);
     }
   }
 
@@ -148,6 +152,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(const GetTU());
   }
 
+  getTuPoints(){
+    add(const GetTuPoints());
+  }
+
   createNewTicket(String contact_email, String contact_name,
       String ticket_theme_id, String message) {
     add(CreateNewTicket(contact_email, contact_name, message, ticket_theme_id));
@@ -163,6 +171,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   sendBaseClaim(BaseClaimSendService baseClaimSendService){
     add(SendBaseClaim(baseClaimSendService));
+  }
+
+  getPrivatePolicy(){
+    add(GetPrivatePolicy());
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -390,7 +402,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
-  Stream<ProfileState> _handleGetTU(GetTU event) async* {
+  Stream<ProfileState> _handleGetTuPoints(GetTuPoints event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try {
+      var result = await repo.getTU();
+      yield state.copyWith(loading: false, error: null, TuPoints: result);
+    } catch (e) {
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleGetTU(GetTU event) async* { // получить счетчики
     yield state.copyWith(loading: true, error: null);
     try {
       var result = await repo.getMeters();
@@ -439,6 +461,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null);
     try{
       var result = await repo.sendBaseClaim(event.baseClaimSendService);
+      yield state.copyWith(loading: false, error: null);
+    }catch (e) {
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleGetPrivatePolicy(GetPrivatePolicy event) async*{
+    yield state.copyWith(loading: true, error: null);
+    try{
+      var result = await repo.getPrivatePolicy();
+      yield state.copyWith(loading: false, error: null, privatePolicyString: result);
     }catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }

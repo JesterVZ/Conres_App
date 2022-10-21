@@ -1,3 +1,4 @@
+import 'package:conres_app/claims/new-claim/new-claim-documant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -37,17 +38,20 @@ class _MoreScreen extends State<MoreScreen> {
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
-                              DefaultButton(text: "Информация о ПУ", onPressed: (){
+                              DefaultButton(isGetPadding: true, text: "Информация о ПУ", onPressed: (){
                                 
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => ObjectsPU()));
                               }, margin: EdgeInsets.only(bottom: 12),),
+                              /*
                               DefaultButton(text: "Профиль", onPressed: (){
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => FullProfile()));
+                              }, margin: EdgeInsets.only(bottom: 12)),*/
+                              DefaultButton(isGetPadding: true, text: "Заявление на тех. присоединение", onPressed: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => NewClaimDicument()));
                               }, margin: EdgeInsets.only(bottom: 12)),
-                              DefaultButton(text: "Заявление на тех. присоединение", onPressed: (){}, margin: EdgeInsets.only(bottom: 12)),
-                              DefaultButton(text: "Информация", onPressed: (){}, margin: EdgeInsets.only(bottom: 12)),
-                              DefaultButton(text: "Показания умных ПУ", onPressed: (){}, margin: EdgeInsets.only(bottom: 12)),
-                              DefaultButton(text: "Выход", onPressed: (){
+                              DefaultButton(isGetPadding: true, text: "Информация", onPressed: (){}, margin: EdgeInsets.only(bottom: 12)),
+                              //DefaultButton(text: "Показания умных ПУ", onPressed: (){}, margin: EdgeInsets.only(bottom: 12)),
+                              DefaultButton(isGetPadding: true, text: "Выход", onPressed: (){
                                 widget.logout.call();
                               },)
                             ],

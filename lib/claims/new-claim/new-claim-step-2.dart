@@ -141,11 +141,6 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
                               height: 55.0,
                               child: ElevatedButton(
                                   onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                NewClaimStep3()));
                                     if (_formKey.currentState!.validate()) {
                                       Navigator.push(
                                           context,

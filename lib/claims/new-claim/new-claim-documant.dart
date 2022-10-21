@@ -27,6 +27,8 @@ class _NewClaimDicument extends State<NewClaimDicument> {
               ClaimTypeELement(text: "Заявление на технологическое присоединение к электрическим сетям.", page: NewClaimStep1()),
               ClaimTypeELement(text: "Заявление о необходимости снятия показаний существующего прибора учета.", page: BaseClaimStep1()),
               ClaimTypeELement(text: "Заявление на осуществление допуска в эксплуатацию прибора учета.", page: BaseClaimStep1()),
+              ClaimTypeELement(text: "Заявление на оборудование точки поставки приборами учета.", page: BaseClaimStep1()),
+              ClaimTypeELement(text: "Заявление на установку, замену и (или) эксплуатацию приборов учета.", page: BaseClaimStep1()),
             ]))
           ]),
         ));

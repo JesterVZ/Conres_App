@@ -90,4 +90,12 @@ class ProfileRepo{
     var result = await httpClient.sendBaseClaim(baseClaimSendService);
     return result;
   }
+  Future<dynamic> getTU() async{
+    var result = await httpClient.getTU();
+    return result;
+  }
+  Future<dynamic> getPrivatePolicy() async{
+    var result = await httpClient.getPrivatePolicy();
+    return result;
+  }
 }

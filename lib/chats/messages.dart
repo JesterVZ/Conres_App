@@ -111,20 +111,8 @@ class _MessagesPage extends State<MessagesPage> {
   }
 
   void addFilefromFilePage(List<File> files) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
-          for (int i = 0; i < files.length; i++) {
-            messageFiles.clear();
-            messageFiles.add(FileElement(
-                filename: Path.basename(files[i].path),
-                filepath: files[i].path,
-                extension: Path.extension(files[i].path),
-                func: () {
-                  setState(() {
-                    messageFiles.clear();
-                  });
-                }));
-          }
-        }));
+
+    
   }
 
   void _loadImage() async {

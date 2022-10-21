@@ -18,6 +18,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'Services/base-claim-send-service.dart';
 import 'consts.dart';
+import 'model/TU.dart';
 import 'model/contract.dart';
 import 'model/counter.dart';
 import 'model/meter.dart';
@@ -472,12 +473,47 @@ class HttpClient{
     }
   }
 
+  Future<Object?> getTU() async{
+    String uri = domain + 'lk/index.php?route=catalog/objects/api_list';
+    try{
+      final result = await _apiClient.post(uri);
+      if(result.statusCode == 200){
+
+        List<TuModel> objects = [];
+
+        if(result.data['data']['list_tu'].length > 0){
+          for(int i = 0; i < result.data['data']['list_tu'].length; i++){
+            objects.add(TuModel.fromMap(result.data['data']['list_tu'][i]));
+          }
+          return objects;
+        }
+      }
+    }catch(e){
+      return(e);
+    }
+  }
+
+  Future<Object?> getPrivatePolicy() async{
+    String uri = domain + 'lk/index.php?route=common/registration/api_getPdn';
+
+    try{
+      final result = await _apiClient.post(uri);
+      if(result.statusCode == 200){
+        return result.data['data']['information_pdn_info']['description'];
+      }
+    }catch(e){
+      return(e);
+    }
+  }
+
   Future<Object?> getObjectsPU () async{
     String uri = domain + 'lk/index.php?route=catalog/objects/api_list';
     try{
       final result = await _apiClient.post(uri);
       if(result.statusCode == 200){
+
         List<ObjectPuModel> objects = [];
+
         if(result.data['data']['objects'].length > 0){
           for(int i = 0; i < result.data['data']['objects'].length; i++){
             objects.add(ObjectPuModel.fromMap(result.data['data']['objects'][i]));
@@ -612,7 +648,9 @@ class HttpClient{
       });
       final result = await _apiClient.post(uri, data: formdata);
       if(result.statusCode == 200){
-        return result.data;
+        return true;
+      } else {
+        return false;
       }
     }catch(e){
 

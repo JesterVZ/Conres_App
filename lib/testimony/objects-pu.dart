@@ -83,7 +83,7 @@ class _ObjectsPU extends State<ObjectsPU>{
                               ),
                               child: SvgPicture.asset("assets/plus.svg"),
                             ),
-                            Text("Новый объект", style: TextStyle(fontSize: 14)),
+                            Text("Новый объект", style: TextStyle(fontSize: 11)),
                           ],
                         ),
                         style: ElevatedButton.styleFrom(
@@ -112,7 +112,8 @@ class _ObjectsPU extends State<ObjectsPU>{
                               ),
                               child: SvgPicture.asset("assets/plus.svg"),
                             ),
-                            Text("Новый ПУ", style: TextStyle(fontSize: 14)),
+                            
+                            Text("Новый ПУ", style: TextStyle(fontSize: 11)),
                           ],
                         ),
                         style: ElevatedButton.styleFrom(

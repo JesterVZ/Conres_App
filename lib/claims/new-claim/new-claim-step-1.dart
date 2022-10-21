@@ -114,12 +114,6 @@ class _NewClaimStep1 extends State<NewClaimStep1> {
                         child: ElevatedButton(
                           
                             onPressed: () {
-                              Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => NewClaimStep2(
-                                            controllerList: controllerList)));
-
 
                               if (_formKey.currentState!.validate()) {
                                 Navigator.push(

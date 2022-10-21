@@ -24,9 +24,12 @@ class ClaimMessage {
 
   factory ClaimMessage.fromMap(Map<dynamic, dynamic> map) {
     List<ClaimFile> files = [];
-    for (int i = 0; i < map['attachments'].length; i++) {
+    if(map['attachments'] != null){
+      for (int i = 0; i < map['attachments'].length; i++) {
       files.add(ClaimFile.fromMap(map['attachments'][i]));
     }
+    }
+    
     return ClaimMessage(
         claim_message_id: map['claim_message_id'],
         claim_id: map['claim_id'],

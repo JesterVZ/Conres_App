@@ -7,6 +7,7 @@ import '../../../UI/main-form.dart';
 import '../../../bloc/profile/profile-bloc.dart';
 import '../../../bloc/profile/profile-state.dart';
 import '../../../consts.dart';
+import '../../../elements/alert.dart';
 import '../../../elements/bloc/bloc-screen.dart';
 import '../../../elements/header/header.dart';
 
@@ -18,6 +19,7 @@ class BaseClaimStep2 extends StatefulWidget {
 class _BaseClaimStep2 extends State<BaseClaimStep2> {
   BaseClaimSendService? baseClaimSendService; 
   ProfileBloc? profileBloc;
+  bool isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController textarea = TextEditingController();
@@ -90,9 +92,21 @@ class _BaseClaimStep2 extends State<BaseClaimStep2> {
     
   }
   _listener(BuildContext context, ProfileState state) {
+    
     if(state.loading == true){
+      isLoading = true;
       return;
     }
+    if(state.loading == false && state.error == null){
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => Alert(title: "Успешно!", text: "Заявление успешно отправлено!"));
+    } else if(state.loading == false && state.error != null){
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => Alert(title: "Ошибка!!", text: "Ошибка отправки заявления!"));
+    }
+
   }
   @override
   void didChangeDependencies() {
