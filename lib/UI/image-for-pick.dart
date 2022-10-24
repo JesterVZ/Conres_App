@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:conres_app/consts.dart';
 import 'package:flutter/material.dart';
+import 'package:image/image.dart' as image;
 
 class ImageForPick extends StatefulWidget {
   File file;
@@ -16,8 +17,13 @@ class ImageForPick extends StatefulWidget {
 
 class _ImageForPick extends State<ImageForPick> {
   bool isSelected = false;
+  
+
   @override
   Widget build(BuildContext context) {
+    image.Image currentImage = image.decodeImage(widget.file.readAsBytesSync()) as image.Image;
+    image.Image? thumb = image.copyResize(currentImage, width: 50, height: 50);
+    
     return Container(
       child: Stack(
       children: [
@@ -25,10 +31,7 @@ class _ImageForPick extends State<ImageForPick> {
           margin: EdgeInsets.all(5),
           width: 100,
           height: 100,
-          child: Image.file(
-            File(widget.file.path),
-            fit: BoxFit.cover,
-          ),
+          child: Image(image: thumb.),
         ),
         Positioned(
             top: 10,
