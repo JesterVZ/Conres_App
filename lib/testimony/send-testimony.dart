@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:conres_app/Services/send-testimont-service.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/elements/testimony/testimony-not-found.dart';
@@ -31,6 +32,11 @@ class _SendTestimony extends State<SendTestimony> {
   ProfileBloc? profileBloc;
   bool getPU = false;
   List<Widget> meters = [];
+  SendTestimonyService? sendTestimonyService;
+
+  List<TextEditingController>? dayControllers;
+  List<TextEditingController>? nightControllers;
+
   Widget content = Container(
       margin: EdgeInsets.only(top: 21),
       decoration: DottedDecoration(
@@ -88,7 +94,7 @@ class _SendTestimony extends State<SendTestimony> {
                                     Navigator.push(context, MaterialPageRoute(builder: (context) => ObjectsPU()));
                                   },
                                   style: ElevatedButton.styleFrom(
-                                      primary: colorGray, shape: RoundedRectangleBorder(
+                                      backgroundColor: colorGray, shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8)
                                   )),
 
@@ -136,6 +142,9 @@ class _SendTestimony extends State<SendTestimony> {
     });
 
   }
+  void addMeasure(){
+
+  }
   _listener(BuildContext context, ProfileState state){
     if(state.loading!){
       content = Center(
@@ -151,7 +160,9 @@ class _SendTestimony extends State<SendTestimony> {
     if(state.meters != null){
       getPU = true;
       for(int i = 0; i < state.meters!.length; i++){
-        meters.add(Testimony(state.meters![i]));
+        dayControllers!.add(TextEditingController());
+        nightControllers!.add(TextEditingController());
+        meters.add(Testimony(meter: state.meters![i], dayController: dayControllers![i], nightController: nightControllers![i]));
       }
       content = Column(
         children: meters,
@@ -161,6 +172,7 @@ class _SendTestimony extends State<SendTestimony> {
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    sendTestimonyService ??= DependencyProvider.of(context)!.sendTestimonyService;
     profileBloc!.getTU();
     super.didChangeDependencies();
   }

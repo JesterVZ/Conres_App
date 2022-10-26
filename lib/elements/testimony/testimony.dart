@@ -7,13 +7,15 @@ import '../../model/meter.dart';
 
 class Testimony extends StatefulWidget {
   final Meter meter;
-  const Testimony(this.meter, {Key? key}) : super(key: key);
+  TextEditingController dayController;
+  TextEditingController nightController;
+  Testimony({required this.meter, required this.dayController, required this.nightController, Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _Testimony();
 }
 
 class _Testimony extends State<Testimony> {
-  TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -85,7 +87,7 @@ class _Testimony extends State<Testimony> {
                               width: 91,
                               height: 45,
                               child: TextFormField(
-                                controller: controller,
+                                controller: widget.dayController,
                                 readOnly: true,
                                 autofocus: false,
                                 onTap: () {
@@ -109,7 +111,7 @@ class _Testimony extends State<Testimony> {
                                                   : "")).then((value) {
                                     setState(() {
                                       if (value != null) {
-                                        controller.text = value.toString();
+                                        widget.dayController.text = value.toString();
                                       }
                                     });
                                   });
@@ -138,7 +140,7 @@ class _Testimony extends State<Testimony> {
                             width: 91,
                             height: 45,
                             child: TextFormField(
-                              controller: controller,
+                              controller: widget.nightController,
                               readOnly: true,
                               autofocus: false,
                               onTap: () {
@@ -159,7 +161,7 @@ class _Testimony extends State<Testimony> {
                                                 : "")).then((value) {
                                   setState(() {
                                     if (value != null) {
-                                      controller.text = value.toString();
+                                      widget.nightController.text = value.toString();
                                     }
                                   });
                                 });
