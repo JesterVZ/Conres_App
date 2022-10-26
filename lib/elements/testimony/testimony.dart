@@ -67,6 +67,114 @@ class _Testimony extends State<Testimony> {
                             )
                           ],
                         ))),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(17),
+                      child: Container(
+                          child: Row(
+                        children: [
+                          Container(
+                            width: 10,
+                            height: 10,
+                            margin: const EdgeInsets.only(right: 9),
+                            decoration: BoxDecoration(
+                                color: yellowColor, shape: BoxShape.circle),
+                          ),
+                          Container(
+                              width: 91,
+                              height: 45,
+                              child: TextFormField(
+                                controller: controller,
+                                readOnly: true,
+                                autofocus: false,
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          TestimonyDialog(
+                                              "День",
+                                              widget.meter
+                                                          .measure_multipler !=
+                                                      null
+                                                  ? widget
+                                                      .meter.measure_multipler!
+                                                  : "",
+                                              "0",
+                                              widget
+                                                          .meter.lastReadings !=
+                                                      null
+                                                  ? widget.meter.lastReadings!
+                                                      .reading!
+                                                  : "")).then((value) {
+                                    setState(() {
+                                      if (value != null) {
+                                        controller.text = value.toString();
+                                      }
+                                    });
+                                  });
+                                },
+                                textAlign: TextAlign.center,
+                                decoration: InputDecoration(
+                                    hintText: "0000",
+                                    border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: inputBorder))),
+                              ))
+                        ],
+                      )),
+                    ),
+                    Container(
+                        child: Row(
+                      children: [
+                        Container(
+                          width: 10,
+                          height: 10,
+                          margin: const EdgeInsets.only(right: 9),
+                          decoration: BoxDecoration(
+                              color: colorMain, shape: BoxShape.circle),
+                        ),
+                        Container(
+                            width: 91,
+                            height: 45,
+                            child: TextFormField(
+                              controller: controller,
+                              readOnly: true,
+                              autofocus: false,
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        TestimonyDialog(
+                                            "Ночь",
+                                            widget.meter.measure_multipler !=
+                                                    null
+                                                ? widget
+                                                    .meter.measure_multipler!
+                                                : "",
+                                            "0",
+                                            widget.meter.lastReadings != null
+                                                ? widget.meter.lastReadings!
+                                                    .reading!
+                                                : "")).then((value) {
+                                  setState(() {
+                                    if (value != null) {
+                                      controller.text = value.toString();
+                                    }
+                                  });
+                                });
+                              },
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                  hintText: "0000",
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: inputBorder))),
+                            ))
+                      ],
+                    ))
+                  ],
+                ),
                 Container(
                     child: Padding(
                         padding: EdgeInsets.all(17),
@@ -86,45 +194,6 @@ class _Testimony extends State<Testimony> {
                                         fontSize: 18, color: colorMain))
                               ],
                             ),
-                            const Spacer(),
-                            Container(
-                                width: 91,
-                                height: 45,
-                                child: TextFormField(
-                                  controller: controller,
-                                  readOnly: true,
-                                  autofocus: false,
-                                  onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            TestimonyDialog(
-                                                "День",
-                                                widget.meter.measure_multipler !=
-                                                        null
-                                                    ? widget.meter
-                                                        .measure_multipler!
-                                                    : "",
-                                                "0",
-                                                widget.meter.lastReadings !=
-                                                        null
-                                                    ? widget.meter.lastReadings!
-                                                        .reading!
-                                                    : "")).then((value) {
-                                      setState(() {
-                                        if (value != null) {
-                                          controller.text = value.toString();
-                                        }
-                                      });
-                                    });
-                                  },
-                                  textAlign: TextAlign.center,
-                                  decoration: InputDecoration(
-                                      hintText: "0000",
-                                      border: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: inputBorder))),
-                                ))
                           ],
                         )))
               ],

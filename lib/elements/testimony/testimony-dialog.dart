@@ -29,7 +29,9 @@ class _TestimonyDialog extends State<TestimonyDialog> {
           width: 10,
           height: 10,
           margin: const EdgeInsets.only(right: 9),
-          decoration: BoxDecoration(color: yellowColor, shape: BoxShape.circle),
+          decoration: BoxDecoration(
+              color: widget.time == "День" ? yellowColor : colorMain,
+              shape: BoxShape.circle),
         ),
         Text(widget.time)
       ],

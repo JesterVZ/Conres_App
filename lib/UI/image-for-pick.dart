@@ -8,8 +8,7 @@ class ImageForPick extends StatefulWidget {
   File file;
   int? counter;
   ValueChanged<File>? func;
-  ImageForPick(
-      {required this.file, this.func, this.counter});
+  ImageForPick({required this.file, this.func, this.counter});
 
   @override
   State<StatefulWidget> createState() => _ImageForPick();
@@ -17,21 +16,21 @@ class ImageForPick extends StatefulWidget {
 
 class _ImageForPick extends State<ImageForPick> {
   bool isSelected = false;
-  
 
   @override
   Widget build(BuildContext context) {
-    image.Image currentImage = image.decodeImage(widget.file.readAsBytesSync()) as image.Image;
+    image.Image currentImage =
+        image.decodeImage(widget.file.readAsBytesSync()) as image.Image;
     image.Image? thumb = image.copyResize(currentImage, width: 50, height: 50);
-    
+
     return Container(
-      child: Stack(
+        child: Stack(
       children: [
         Container(
           margin: EdgeInsets.all(5),
           width: 100,
           height: 100,
-          child: Image(image: thumb.),
+          child: Image.file(widget.file),
         ),
         Positioned(
             top: 10,
@@ -42,7 +41,8 @@ class _ImageForPick extends State<ImageForPick> {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.all(0),
-                        backgroundColor: isSelected == true ? colorMain :  Colors.transparent,
+                        backgroundColor:
+                            isSelected == true ? colorMain : Colors.transparent,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                             side: BorderSide(color: Colors.white, width: 2))),
@@ -51,15 +51,12 @@ class _ImageForPick extends State<ImageForPick> {
                         isSelected = !isSelected;
                         widget.func!.call(widget.file);
                       });
-                      
                     },
                     child: (widget.counter != null && widget.counter! > 0)
                         ? Text(widget.counter.toString(),
                             style: TextStyle(color: Colors.white))
                         : Container())))
       ],
-    )
-    );
-    
+    ));
   }
 }
