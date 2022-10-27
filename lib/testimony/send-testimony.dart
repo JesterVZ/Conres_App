@@ -34,8 +34,8 @@ class _SendTestimony extends State<SendTestimony> {
   List<Widget> meters = [];
   SendTestimonyService? sendTestimonyService;
 
-  List<TextEditingController>? dayControllers;
-  List<TextEditingController>? nightControllers;
+  List<TextEditingController>? dayControllers = [];
+  List<TextEditingController>? nightControllers = [];
 
   Widget content = Container(
       margin: EdgeInsets.only(top: 21),
@@ -54,125 +54,148 @@ class _SendTestimony extends State<SendTestimony> {
     return BlocScreen<ProfileBloc, ProfileState>(
         bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
-    builder: (context, state) {
-      return Scaffold(
-          body: Container(
+        builder: (context, state) {
+          return Scaffold(
+              body: Container(
             color: pageColor,
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 52),
+                    margin: EdgeInsets.only(top: 52),
                     padding: EdgeInsets.only(
-                        left: defaultSidePadding, right: defaultSidePadding, bottom: 12),
+                        left: defaultSidePadding,
+                        right: defaultSidePadding,
+                        bottom: 12),
                     child: HeaderNotification(
                       text: "Передача показаний",
                     )),
-                Expanded(child: Scrollbar(child: SingleChildScrollView(
-                    child: content
-                ))),
+                Expanded(
+                    child: Scrollbar(
+                        child: SingleChildScrollView(child: content))),
                 Visibility(
                   visible: getPU,
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 24),
-                    width: MediaQuery.of(context).size.width - 35,
-                    height: 55,
-                    child: ElevatedButton(
-                      onPressed: (){},
-                      style: ElevatedButton.styleFrom(primary: colorMain, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                      child: Text("Передать показания", style: TextStyle(fontSize: 18),),
-                    )
-                  ),
+                      margin: EdgeInsets.only(bottom: 24),
+                      width: MediaQuery.of(context).size.width - 35,
+                      height: 55,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          List<String> dayValues = [];
+                          List<String> nightValues = [];
+                          for (int i = 0; i < dayControllers!.length; i++) {
+                            dayValues.add(dayControllers![i].text);
+                          }
+                          for (int i = 0; i < nightControllers!.length; i++) {
+                            nightValues.add(nightControllers![i].text);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: colorMain,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        child: const Text(
+                          "Передать показания",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      )),
                 ),
                 Visibility(
-                  visible: !getPU,
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: 24),
-                              width: MediaQuery.of(context).size.width - 35,
-                              height: 70,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ObjectsPU()));
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: colorGray, shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8)
-                                  )),
-
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width: 40,
-                                        height: 40,
-                                        decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                            shape: BoxShape.circle
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: SvgPicture.asset('assets/meters-data.svg', color: colorGray,),
-                                        ),
-                                        //margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                                      ),
-                                      Spacer(),
-                                      const Text(
-                                        "Привязать новый ПУ",
-                                        style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: 'Bubicon-Medium'),
-                                      ),
-                                      Spacer(),
-                                      Container(
-                                        //margin: EdgeInsets.fromLTRB(45, 0, 0, 0),
-                                        width: 32,
-                                        height: 32,
-                                        decoration: BoxDecoration(
-                                            color: meterDataColor,
-                                            shape: BoxShape.circle
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.fromLTRB(13, 9, 11, 9),
-                                          child: SvgPicture.asset("assets/ls-right-arrow.svg", color: Colors.white,),
-                                        ),
-                                      )
-                                    ],
-                                  ))))
+                    visible: !getPU,
+                    child: Container(
+                        margin: EdgeInsets.only(bottom: 24),
+                        width: MediaQuery.of(context).size.width - 35,
+                        height: 70,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ObjectsPU()));
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: colorGray,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8))),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: SvgPicture.asset(
+                                      'assets/meters-data.svg',
+                                      color: colorGray,
+                                    ),
+                                  ),
+                                  //margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                                ),
+                                Spacer(),
+                                const Text(
+                                  "Привязать новый ПУ",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontFamily: 'Bubicon-Medium'),
+                                ),
+                                Spacer(),
+                                Container(
+                                  //margin: EdgeInsets.fromLTRB(45, 0, 0, 0),
+                                  width: 32,
+                                  height: 32,
+                                  decoration: BoxDecoration(
+                                      color: meterDataColor,
+                                      shape: BoxShape.circle),
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(13, 9, 11, 9),
+                                    child: SvgPicture.asset(
+                                      "assets/ls-right-arrow.svg",
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ))))
               ],
             ),
           ));
-    });
-
+        });
   }
-  void addMeasure(){
 
-  }
-  _listener(BuildContext context, ProfileState state){
-    if(state.loading!){
+  void addMeasure() {}
+  _listener(BuildContext context, ProfileState state) {
+    if (state.loading!) {
       content = Center(
-        child: Container(
-          width: 50,
-          height: 50,
-          child: Image.asset('assets/loading.gif')
-        )
-
-      );
+          child: Container(
+              width: 50, height: 50, child: Image.asset('assets/loading.gif')));
       return;
     }
-    if(state.meters != null){
+    if (state.meters != null) {
       getPU = true;
-      for(int i = 0; i < state.meters!.length; i++){
+      for (int i = 0; i < state.meters!.length; i++) {
         dayControllers!.add(TextEditingController());
         nightControllers!.add(TextEditingController());
-        meters.add(Testimony(meter: state.meters![i], dayController: dayControllers![i], nightController: nightControllers![i]));
+        meters.add(Testimony(
+            meter: state.meters![i],
+            dayController: dayControllers![i],
+            nightController: nightControllers![i]));
       }
       content = Column(
         children: meters,
       );
     }
   }
+
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
-    sendTestimonyService ??= DependencyProvider.of(context)!.sendTestimonyService;
+    sendTestimonyService ??=
+        DependencyProvider.of(context)!.sendTestimonyService;
     profileBloc!.getTU();
     super.didChangeDependencies();
   }

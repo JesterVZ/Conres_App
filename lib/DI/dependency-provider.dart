@@ -1,4 +1,5 @@
 import 'package:conres_app/Services/base-claim-send-service.dart';
+import 'package:conres_app/Services/profile-service.dart';
 import 'package:conres_app/bloc/auth/auth-block.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/consts.dart';
@@ -31,38 +32,43 @@ class DependencyProvider extends InheritedWidget {
   UpdateTicketService? _updateTicketService;
   BaseClaimSendService? _baseClaimSendService;
   SendTestimonyService? _sendTestimonyService;
+  ProfileService? _profileService;
 
   DependencyProvider({Key? key, Widget? child})
       : assert(child != null),
         super(key: key, child: child!);
 
   WebSocketChannel? get webSocketChannel {
-    _webSocketChannel ??=
-        IOWebSocketChannel.connect("${ws}:2450/");
+    _webSocketChannel ??= IOWebSocketChannel.connect("${ws}:2450/");
     return _webSocketChannel;
   }
 
-  WebSocketListener? get webSocketListener{
-    _webSocketListener ??=WebSocketListener();
+  WebSocketListener? get webSocketListener {
+    _webSocketListener ??= WebSocketListener();
     return _webSocketListener;
   }
 
-  UpdateClaimService? get updateClaimService{
+  ProfileService? get profileService {
+    _profileService ??= ProfileService();
+    return _profileService;
+  }
+
+  UpdateClaimService? get updateClaimService {
     _updateClaimService ??= UpdateClaimService();
     return _updateClaimService;
   }
 
-  UpdateTicketService? get updateTicketService{
+  UpdateTicketService? get updateTicketService {
     _updateTicketService ??= UpdateTicketService();
     return _updateTicketService;
   }
 
-  BaseClaimSendService? get baseClaimSendService{
+  BaseClaimSendService? get baseClaimSendService {
     _baseClaimSendService ??= BaseClaimSendService();
     return _baseClaimSendService;
   }
 
-  SendTestimonyService? get sendTestimonyService{
+  SendTestimonyService? get sendTestimonyService {
     _sendTestimonyService ??= SendTestimonyService();
     return _sendTestimonyService;
   }

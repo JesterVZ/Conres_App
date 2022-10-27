@@ -48,9 +48,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleGetAllInfo(event);
     } else if (event is SendMessageEvent) {
       yield* _handleSendMessage(event);
-    } else if(event is EditMessageEvent){
+    } else if (event is EditMessageEvent) {
       yield* _handleEditMessage(event);
-    }else if (event is SendClaimMessageEvent) {
+    } else if (event is SendClaimMessageEvent) {
       yield* _handleSendClaimMessage(event);
     } else if (event is ReadMessage) {
       yield* _handleReadMessage(event);
@@ -68,12 +68,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleGetClaimMessages(event);
     } else if (event is GetAllPhotos) {
       yield* _handleGetAllPhotos(event);
-    } else if(event is SendBaseClaim){
-      yield*_handleSendBaseClaim(event);
-    } else if(event is GetTuPoints){
+    } else if (event is SendBaseClaim) {
+      yield* _handleSendBaseClaim(event);
+    } else if (event is GetTuPoints) {
       yield* _handleGetTuPoints(event);
-    } else if(event is GetPrivatePolicy){
+    } else if (event is GetPrivatePolicy) {
       yield* _handleGetPrivatePolicy(event);
+    } else if (event is SendTestimonyEvent) {
+      yield* _handleSendTestimony(event);
     }
   }
 
@@ -152,7 +154,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(const GetTU());
   }
 
-  getTuPoints(){
+  getTuPoints() {
     add(const GetTuPoints());
   }
 
@@ -165,16 +167,21 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(GetAllPhotos(album));
   }
 
-  editMessage(String ticket_id, String message, String ticket_status_id, dynamic file){
+  editMessage(
+      String ticket_id, String message, String ticket_status_id, dynamic file) {
     add(EditMessageEvent(ticket_id, message, ticket_status_id, file));
   }
 
-  sendBaseClaim(BaseClaimSendService baseClaimSendService){
+  sendBaseClaim(BaseClaimSendService baseClaimSendService) {
     add(SendBaseClaim(baseClaimSendService));
   }
 
-  getPrivatePolicy(){
+  getPrivatePolicy() {
     add(GetPrivatePolicy());
+  }
+
+  sendTestimony(List<String> dayValues, List<String> nightValues) {
+    add(SendTestimonyEvent(dayValues, nightValues));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -402,7 +409,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
-  Stream<ProfileState> _handleGetTuPoints(GetTuPoints event) async*{
+  Stream<ProfileState> _handleGetTuPoints(GetTuPoints event) async* {
     yield state.copyWith(loading: true, error: null);
     try {
       var result = await repo.getTU();
@@ -412,7 +419,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
-  Stream<ProfileState> _handleGetTU(GetTU event) async* { // получить счетчики
+  Stream<ProfileState> _handleGetTU(GetTU event) async* {
+    // получить счетчики
     yield state.copyWith(loading: true, error: null);
     try {
       var result = await repo.getMeters();
@@ -427,6 +435,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       var result = await repo.createNewTicket(event.contact_email,
           event.contact_name, event.ticket_theme_id, event.message);
+      yield state.copyWith(loading: false, error: null);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
@@ -450,29 +459,39 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       List<Medium> imagePage = [];
       MediaPage thisAlbumImages = await event.album.listMedia();
-        imagePage += thisAlbumImages.items;
+      imagePage += thisAlbumImages.items;
       yield state.copyWith(loading: false, error: null, images: imagePage);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleSendBaseClaim(SendBaseClaim event) async*{
+  Stream<ProfileState> _handleSendBaseClaim(SendBaseClaim event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
+    try {
       var result = await repo.sendBaseClaim(event.baseClaimSendService);
       yield state.copyWith(loading: false, error: null);
-    }catch (e) {
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleGetPrivatePolicy(GetPrivatePolicy event) async*{
+  Stream<ProfileState> _handleGetPrivatePolicy(GetPrivatePolicy event) async* {
     yield state.copyWith(loading: true, error: null);
-    try{
+    try {
       var result = await repo.getPrivatePolicy();
-      yield state.copyWith(loading: false, error: null, privatePolicyString: result);
-    }catch (e) {
+      yield state.copyWith(
+          loading: false, error: null, privatePolicyString: result);
+    } catch (e) {
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleSendTestimony(SendTestimonyEvent event) async* {
+    yield state.copyWith(loading: true, error: null);
+    try {
+      yield state.copyWith(loading: false, error: null);
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }

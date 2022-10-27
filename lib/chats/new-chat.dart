@@ -22,6 +22,8 @@ class _NewChat extends State<NewChat> {
   TextEditingController FioController = TextEditingController();
   TextEditingController EmailController = TextEditingController();
   TextEditingController TextController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
   ProfileBloc? profileBloc;
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class _NewChat extends State<NewChat> {
         child: MainForm(
             header: HeaderRow(text: "Новое обращение", fontSize: 24),
             body: Form(
+              key: _formKey,
               child: Column(
                 children: [
                   Container(
@@ -45,54 +48,60 @@ class _NewChat extends State<NewChat> {
                         ],
                       )),
                   Container(
-                    margin: EdgeInsets.only(bottom: 12),
-                    child: DefaultInput(
-                      controller: FioController,
-                      keyboardType: TextInputType.text,
-                      labelText: "ФИО",
-                      hintText: "Иванов Иван Иванович",
-                      validatorText: "Введите ФИО")
-                    ),
+                      margin: EdgeInsets.only(bottom: 12),
+                      child: DefaultInput(
+                          controller: FioController,
+                          keyboardType: TextInputType.text,
+                          labelText: "ФИО",
+                          hintText: "Иванов Иван Иванович",
+                          validatorText: "Введите ФИО")),
                   Container(
                     margin: EdgeInsets.only(bottom: 12),
                     child: DefaultInput(
-                      controller: FioController,
-                      keyboardType: TextInputType.text,
-                      labelText: "Email",
-                      hintText: "Example@gmail.com",
-                      validatorText: "Введите Email"),
-                    ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 12),
-                    child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Текст обращения",
-                          style: TextStyle(color: colorGray, fontSize: 16.0)),
-                      TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Введите текст";
-                          }
-                          return null;
-                        },
-                        textCapitalization: TextCapitalization.sentences,
-                        maxLines: 5,
-                        controller: TextController,
-                        decoration: InputDecoration(
-                            hintText: "Текст Вашего обращения",
-                            border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: inputBorder, width: 5.0),
-                                borderRadius: BorderRadius.circular(10))),
-                      )
-                    ],
-                  )
+                        controller: EmailController,
+                        keyboardType: TextInputType.text,
+                        labelText: "Email",
+                        hintText: "Example@gmail.com",
+                        validatorText: "Введите Email"),
                   ),
-                  DefaultButton(text: "Отправить", isGetPadding: false, onPressed: (){
-                    profileBloc!.createNewTicket(EmailController.text, FioController.text, "0", TextController.text);
-                  })
+                  Container(
+                      margin: EdgeInsets.only(bottom: 12),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Текст обращения",
+                              style:
+                                  TextStyle(color: colorGray, fontSize: 16.0)),
+                          TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Введите текст";
+                              }
+                              return null;
+                            },
+                            textCapitalization: TextCapitalization.sentences,
+                            maxLines: 5,
+                            controller: TextController,
+                            decoration: InputDecoration(
+                                hintText: "Текст Вашего обращения",
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: inputBorder, width: 5.0),
+                                    borderRadius: BorderRadius.circular(10))),
+                          )
+                        ],
+                      )),
+                  DefaultButton(
+                      text: "Создать обращение",
+                      isGetPadding: false,
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          profileBloc!.createNewTicket(EmailController.text,
+                              FioController.text, "0", TextController.text);
+                          Navigator.pop(context);
+                        }
+                      })
                 ],
               ),
             )));
@@ -107,7 +116,7 @@ class _NewChat extends State<NewChat> {
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
-    
+
     super.didChangeDependencies();
   }
 }

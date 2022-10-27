@@ -14,131 +14,139 @@ abstract class ProfileEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetCookieStrEvent extends ProfileEvent{
+class GetCookieStrEvent extends ProfileEvent {
   List cookies;
   GetCookieStrEvent(this.cookies);
 }
 
-class GetLoginData extends ProfileEvent{
+class GetLoginData extends ProfileEvent {
   const GetLoginData();
 }
 
-class GetWebSocketData extends ProfileEvent{
+class GetWebSocketData extends ProfileEvent {
   final WebSocketData webSocketData;
   const GetWebSocketData(this.webSocketData);
 }
 
-class LogoutEvent extends ProfileEvent{
+class LogoutEvent extends ProfileEvent {
   const LogoutEvent();
 }
 
-class BindNewLS extends ProfileEvent{
+class BindNewLS extends ProfileEvent {
   final String number;
   final String address;
   const BindNewLS(this.number, this.address);
 }
 
-class GetContracts extends ProfileEvent{
+class GetContracts extends ProfileEvent {
   const GetContracts();
 }
 
-class GetAllInfo extends ProfileEvent{
+class GetAllInfo extends ProfileEvent {
   const GetAllInfo();
 }
 
-class GetClaims extends ProfileEvent{
+class GetClaims extends ProfileEvent {
   const GetClaims();
 }
 
-class GetTickets extends ProfileEvent{
+class GetTickets extends ProfileEvent {
   final String page;
   const GetTickets(this.page);
 }
 
-class GetMessages extends ProfileEvent{
+class GetMessages extends ProfileEvent {
   final String chat_id;
   final String page;
   final String last_message_id;
   const GetMessages(this.chat_id, this.page, this.last_message_id);
 }
 
-class SendMessageEvent extends ProfileEvent{
+class SendMessageEvent extends ProfileEvent {
   //ticket_status_id: Открыт/Закрыт/В обработке
   final String ticket_id;
   final String message;
   final String ticket_status_id;
   final dynamic file;
-  const SendMessageEvent(this.ticket_id, this.message, this.ticket_status_id, this.file);
+  const SendMessageEvent(
+      this.ticket_id, this.message, this.ticket_status_id, this.file);
 }
 
-class EditMessageEvent extends ProfileEvent{
+class EditMessageEvent extends ProfileEvent {
   //ticket_status_id: Открыт/Закрыт/В обработке
   final String ticket_id;
   final String message;
   final String ticket_status_id;
   final dynamic file;
-  const EditMessageEvent(this.ticket_id, this.message, this.ticket_status_id, this.file);
+  const EditMessageEvent(
+      this.ticket_id, this.message, this.ticket_status_id, this.file);
 }
 
-
-class SendClaimMessageEvent extends ProfileEvent{
+class SendClaimMessageEvent extends ProfileEvent {
   final String claim_id;
   final String text;
   final dynamic file;
   const SendClaimMessageEvent(this.claim_id, this.text, this.file);
 }
 
-class ReadMessage extends ProfileEvent{
+class ReadMessage extends ProfileEvent {
   String ticketId;
   String messageId;
   ReadMessage(this.ticketId, this.messageId);
 }
 
-class DownloadFile extends ProfileEvent{
+class DownloadFile extends ProfileEvent {
   String uri;
   String filename;
   DownloadFile(this.uri, this.filename);
 }
 
-class GetObjectsPU extends ProfileEvent{
+class GetObjectsPU extends ProfileEvent {
   const GetObjectsPU();
 }
 
-class GetFullProfileInfo extends ProfileEvent{
+class GetFullProfileInfo extends ProfileEvent {
   const GetFullProfileInfo();
 }
 
-class GetTU extends ProfileEvent{
+class GetTU extends ProfileEvent {
   const GetTU();
 }
 
-class CreateNewTicket extends ProfileEvent{
+class CreateNewTicket extends ProfileEvent {
   String contact_email;
   String contact_name;
   String ticket_theme_id;
   String message;
-  CreateNewTicket(this.contact_email, this.contact_name, this.message, this.ticket_theme_id);
+  CreateNewTicket(this.contact_email, this.contact_name, this.message,
+      this.ticket_theme_id);
 }
 
-class GetClaimMessages extends ProfileEvent{
+class GetClaimMessages extends ProfileEvent {
   String claim_id;
   GetClaimMessages(this.claim_id);
 }
 
-class GetAllPhotos extends ProfileEvent{
+class GetAllPhotos extends ProfileEvent {
   Album album;
   GetAllPhotos(this.album);
 }
 
-class SendBaseClaim extends ProfileEvent{
+class SendBaseClaim extends ProfileEvent {
   BaseClaimSendService baseClaimSendService;
   SendBaseClaim(this.baseClaimSendService);
 }
 
-class GetTuPoints extends ProfileEvent{ 
+class GetTuPoints extends ProfileEvent {
   const GetTuPoints();
 }
 
-class GetPrivatePolicy extends ProfileEvent{
+class GetPrivatePolicy extends ProfileEvent {
   const GetPrivatePolicy();
+}
+
+class SendTestimonyEvent extends ProfileEvent {
+  List<String> dayValues = [];
+  List<String> nightValues = [];
+  SendTestimonyEvent(this.dayValues, this.nightValues);
 }

@@ -26,7 +26,7 @@ import 'model/model.dart';
 import 'model/result-data.dart';
 import 'model/ticket.dart';
 
-class HttpClient{
+class HttpClient {
   //static final String url = domain + 'lk/index.php?route=common/registration/api';
   static final String loginUri = domain + 'lk/index.php?route=common/login/api';
 
@@ -41,30 +41,31 @@ class HttpClient{
     ));
   }
 
-  static CookieJar _getCookieJar(){
+  static CookieJar _getCookieJar() {
     return CookieJar();
   }
 
-  Future<dynamic> bindNewLS(String accountNumber, String accountAddress) async{
-    String uri = domain + 'lk/index.php?route=catalog/account_binding/api_bind_request';
-    try{
+  Future<dynamic> bindNewLS(String accountNumber, String accountAddress) async {
+    String uri =
+        domain + 'lk/index.php?route=catalog/account_binding/api_bind_request';
+    try {
       var formData = FormData.fromMap({
         'account_bind_number': accountNumber,
         'account_bind_address': accountAddress
       });
       final result = await _apiClient.post(uri, data: formData);
-      if(result.statusCode == 200){
+      if (result.statusCode == 200) {
         return result.data['code_msg']['msg'];
       }
-    }catch(e){
+    } catch (e) {
       return e;
     }
   }
 
-  Future<dynamic> register(Object sender) async{
+  Future<dynamic> register(Object sender) async {
     String url = domain + 'lk/index.php?route=common/registration/api';
-    if(sender is Fl){
-      try{
+    if (sender is Fl) {
+      try {
         var formData = FormData.fromMap({
           'user_lk_group_id': '1',
           'user_lk_type_id': sender.User_lk_type_id,
@@ -74,32 +75,28 @@ class HttpClient{
           'patronymic': sender.Patronymic,
           'inn': sender.Inn,
           'snils': sender.Snils,
-
           'contacts[0][value]': sender.Tel,
           'contacts[0][contact_type_id]': '2',
           'contacts[0][flags][1]': '1',
-
           'contacts[1][contact_type_id]': '3',
           'contacts[1][flags][1]': '1',
           'contacts[1][flags][2]': '1',
-
           'contacts[1][value]': sender.Email,
           'password': sender.Password,
           'confirm': sender.RepeatPassword
-
         });
-        var cookieJar=CookieJar();
+        var cookieJar = CookieJar();
         _apiClient.interceptors.add(CookieManager(cookieJar));
         final response = await _apiClient.post(url, data: formData);
-        if(response.statusCode == 200){
+        if (response.statusCode == 200) {
           return ResultData.fromMap(response.data);
         }
-      } catch(e){
+      } catch (e) {
         return e;
       }
     }
-    if(sender is Ip){
-      try{
+    if (sender is Ip) {
+      try {
         var formData = FormData.fromMap({
           'user_lk_group_id': '2',
           'user_lk_type_id': sender.User_lk_type_id,
@@ -109,38 +106,33 @@ class HttpClient{
           'patronymic': sender.Patronymic,
           'inn': sender.inn,
           'ogrn': sender.ogrnip,
-
           'contacts[0][value]': sender.tel,
           'contacts[0][contact_type_id]': '2',
           'contacts[0][flags][1]': '1',
-
           'contacts[1][contact_type_id]': '3',
           'contacts[1][flags][1]': '1',
           'contacts[1][flags][2]': '1',
-
           'proxy[lastname]': sender.dl?.Family,
           'proxy[firstname]': sender.dl?.Name,
           'proxy[patronymic]': sender.dl?.Patronymic,
           'proxy[telephone]': sender.dl?.TelDL,
           'proxy[email]': sender.dl?.EmailDL,
-
           'contacts[1][value]': sender.email,
           'password': sender.Password,
           'confirm': sender.RepeatPassword
-
         });
-        var cookieJar=CookieJar();
+        var cookieJar = CookieJar();
         _apiClient.interceptors.add(CookieManager(cookieJar));
         final response = await _apiClient.post(url, data: formData);
-        if(response.statusCode == 200){
+        if (response.statusCode == 200) {
           return ResultData.fromMap(response.data);
         }
-      }catch(e){
+      } catch (e) {
         return e;
       }
     }
-    if(sender is Ul){
-      try{
+    if (sender is Ul) {
+      try {
         var formData = FormData.fromMap({
           'user_lk_group_id': '3',
           'user_lk_type_id': '3',
@@ -150,42 +142,37 @@ class HttpClient{
           'inn': sender.Inn,
           'kpp': sender.Kpp,
           'ogrn': sender.Orgnip,
-
           'contacts[0][value]': sender.Tel,
           'contacts[0][contact_type_id]': '2',
           'contacts[0][flags][1]': '1',
           'contacts[0][flags][2]': '1',
-
           'contacts[1][contact_type_id]': '3',
           'contacts[1][flags][1]': '1',
           'contacts[1][flags][2]': '1',
           'contacts[1][value]': sender.Email,
-          
           'proxy[lastname]': sender.dl?.Family,
           'proxy[firstname]': sender.dl?.Name,
           'proxy[patronymic]': sender.dl?.Patronymic,
           'proxy[telephone]': sender.dl?.TelDL,
           'proxy[email]': sender.dl?.EmailDL,
-
-          
           'password': sender.Password,
           'confirm': sender.RepeatPassword,
         });
-        var cookieJar=CookieJar();
+        var cookieJar = CookieJar();
         _apiClient.interceptors.add(CookieManager(cookieJar));
         final response = await _apiClient.post(url, data: formData);
-        if(response.statusCode == 200){
+        if (response.statusCode == 200) {
           return ResultData.fromMap(response.data);
         }
-      }catch(e){
+      } catch (e) {
         return e;
       }
     }
   }
 
-  Future<dynamic> getCookies(String username, String password, int type) async{
+  Future<dynamic> getCookies(String username, String password, int type) async {
     String uri = domain + 'lk/index.php?route=common/login/api';
-    try{
+    try {
       var formData = FormData.fromMap({
         'user_lk_type_id': type,
         'username': username,
@@ -193,53 +180,53 @@ class HttpClient{
       });
       _apiClient.interceptors.add(CookieManager(_cookieJar));
       final response = await _apiClient.post(uri, data: formData);
-      if(response.statusCode == 200){
-        if(response.data["code_result"] == 200){
+      if (response.statusCode == 200) {
+        if (response.data["code_result"] == 200) {
           final cookies = await _cookieJar.loadForRequest(Uri.parse(uri));
           return cookies;
         } else {
           return "Неправильный логин или пароль!";
         }
       }
-    } catch(e){
+    } catch (e) {
       return e;
     }
   }
 
-  Future<String> getCookieStringForWebSocket(List cookies) async{
-
+  Future<String> getCookieStringForWebSocket(List cookies) async {
     String pf = cookies[2].value;
     String pa = cookies[3].value;
     String pc = cookies[4].value;
     String pp = cookies[5].value;
     String pd = cookies[6].value;
 
-    String result = '{"cmd":"connect","cookie": "salp0-36=1; salp0-37=1; salp0-38=1; time_offset=5; pf=' +
-        pf +
-        '; pa=' +
-        pa +
-        '; pc=' +
-        pc +
-        '; pp='
-        + pp +
-        '; pd='
-        + pd + '; currency=RUB; language=ru-ru; _ga=GA1.1.682084980.1646901701; time_offset=5; _ga_4LXS3K46R3=GS1.1.1648636976.49.0.1648637488.0"}';
+    String result =
+        '{"cmd":"connect","cookie": "salp0-36=1; salp0-37=1; salp0-38=1; time_offset=5; pf=' +
+            pf +
+            '; pa=' +
+            pa +
+            '; pc=' +
+            pc +
+            '; pp=' +
+            pp +
+            '; pd=' +
+            pd +
+            '; currency=RUB; language=ru-ru; _ga=GA1.1.682084980.1646901701; time_offset=5; _ga_4LXS3K46R3=GS1.1.1648636976.49.0.1648637488.0"}';
     return result;
   }
 
-  Future<Object?> login(List<dynamic> cookies) async{
+  Future<Object?> login(List<dynamic> cookies) async {
     String uri = domain + 'lk/index.php?route=common/api/api_getInfo_old';
-    try{
+    try {
       final result = await _apiClient.post(uri);
-      if(result.statusCode == 200){
+      if (result.statusCode == 200) {
         return Profile.fromMap(result.data['data']);
       }
       return null;
-    }catch(e){
+    } catch (e) {
       throw Exception(e);
     }
   }
-
 
 /*
   Future<Object?> getTestimony() async{
@@ -265,69 +252,74 @@ class HttpClient{
     return null;
   }
 */
-  Future<LastReadings?> GetLastReadings(Map<String, dynamic> sender, Meter meter) async{
+  Future<LastReadings?> GetLastReadings(
+      Map<String, dynamic> sender, Meter meter) async {
     LastReadings result;
-    try{
+    try {
       result = LastReadings.fromMap(sender[meter.meter_id][0]);
       return result;
-    }catch(e){
+    } catch (e) {
       print(e);
       return null;
     }
   }
 
-  Future<dynamic> getContracts() async{
+  Future<dynamic> getContracts() async {
     String uri = domain + 'lk/index.php?route=contracts/contracts/api_list';
-    try{
+    try {
       final result = await _apiClient.post(uri);
       List<Contract> contracts = [];
-      if(result.statusCode == 200){
-        for(int i = 0; i < result.data['data']['accounts'].length; i++){
-          Contract thisContract = Contract.fromMap(result.data['data']['accounts'][i]);
-          thisContract.isCurrent = result.data['data']['account_number'] == thisContract.account_number! ? true : false;
+      if (result.statusCode == 200) {
+        for (int i = 0; i < result.data['data']['accounts'].length; i++) {
+          Contract thisContract =
+              Contract.fromMap(result.data['data']['accounts'][i]);
+          thisContract.isCurrent = result.data['data']['account_number'] ==
+                  thisContract.account_number!
+              ? true
+              : false;
           contracts.add(thisContract);
         }
         return contracts;
       }
-    }catch(e){
+    } catch (e) {
       return e.toString();
     }
   }
 
-  Future<Object?> getInfo() async{
+  Future<Object?> getInfo() async {
     String uri = domain + 'lk/index.php?route=common/api/api_getInfo';
-    try{
+    try {
       final result = await _apiClient.post(uri);
-      if(result.statusCode == 200){
+      if (result.statusCode == 200) {
         return result.data['data'];
       }
-    }catch(e){
+    } catch (e) {
       return e;
     }
   }
 
-  Future<Object?>? getTickets(String page) async{
+  Future<Object?>? getTickets(String page) async {
     String uri = domain + 'lk/index.php?route=catalog/ticket/api_getTickets';
-    try{
-      var formData = FormData.fromMap({
-        'page': page
-      });
+    try {
+      var formData = FormData.fromMap({'page': page});
       final result = await _apiClient.post(uri, data: formData);
-      if(result.statusCode == 200){
+      if (result.statusCode == 200) {
         List<Ticket> tickets = [];
-        for(int i = 0; i < result.data['data']['tickets'].length; i++){
+        for (int i = 0; i < result.data['data']['tickets'].length; i++) {
           tickets.add(Ticket.fromMap(result.data['data']['tickets'][i]));
         }
         return tickets;
       }
-    }catch(e){
+    } catch (e) {
       return e;
     }
   }
 
-  Future<Object?>? getMessagesFromTicket(String chat_id, String page, String last_message_id) async{
-    String uri = domain + 'lk/index.php?route=catalog/ticket/api_getMessagesTicket';
-    try{
+  Future<Object?>? getMessagesFromTicket(
+      String chat_id, String page, String last_message_id) async {
+    String uri =
+        domain + 'lk/index.php?route=catalog/ticket/api_getMessagesTicket';
+    try {
       var formData = FormData.fromMap({
         'chat_id': chat_id,
         'type': 'scroll',
@@ -335,114 +327,124 @@ class HttpClient{
         'last_message_id': last_message_id
       });
       final result = await _apiClient.post(uri, data: formData);
-      if(result.statusCode == 200){
+      if (result.statusCode == 200) {
         List<TicketMessage> messages = [];
-        for(int i = 0; i < result.data['data']['messages'].length; i++){
-          messages.add(TicketMessage.fromMap(result.data['data']['messages'][i]));
+        for (int i = 0; i < result.data['data']['messages'].length; i++) {
+          messages
+              .add(TicketMessage.fromMap(result.data['data']['messages'][i]));
         }
         TicketFullInfo fullInfo = TicketFullInfo(
-          messages: messages, 
-          messages_more: result.data['data']['messages_more'],
-          messages_page: result.data['data']['messages_page'],
-          last_message_id: result.data['data']['last_message_id'],
-          last_read_msg: result.data['data']['last_read_msg'],
-          ticket_is_closed: result.data['data']['ticket_is_closed']);
+            messages: messages,
+            messages_more: result.data['data']['messages_more'],
+            messages_page: result.data['data']['messages_page'],
+            last_message_id: result.data['data']['last_message_id'],
+            last_read_msg: result.data['data']['last_read_msg'],
+            ticket_is_closed: result.data['data']['ticket_is_closed']);
         return fullInfo;
       }
-    }catch(e){
+    } catch (e) {
       return e;
     }
   }
 
-  Future<Object?> getClaims() async{
+  Future<Object?> getClaims() async {
     String uri = domain + 'lk/index.php?route=claims/claims/api';
-    try{
+    try {
       final result = await _apiClient.post(uri);
-      if(result.statusCode == 200){
+      if (result.statusCode == 200) {
         List<Claim> claims = [];
-        for(int i = 0; i < result.data['data']['user_claims'].length; i++){
+        for (int i = 0; i < result.data['data']['user_claims'].length; i++) {
           claims.add(Claim.fromMap(result.data['data']['user_claims'][i]));
         }
         return claims;
       }
-    }catch(e){
+    } catch (e) {
       return e;
     }
   }
 
-  Future<Object?> sendMessage(String ticketId, String message, String ticketStatusId, dynamic file) async{
+  Future<Object?> sendMessage(String ticketId, String message,
+      String ticketStatusId, dynamic file) async {
     String uri = domain + 'lk/index.php?route=catalog/ticket/sendMessage';
-    try{
+    try {
       var formData;
-      if(file == null){
+      if (file == null) {
         formData = FormData.fromMap({
-        'ticket_id': ticketId,
-        'message': message, 
-        'ticket_status_id': ticketStatusId
-      });
+          'ticket_id': ticketId,
+          'message': message,
+          'ticket_status_id': ticketStatusId
+        });
       } else {
         formData = FormData.fromMap({
-        'contract_files_name[]': file.path!.split('/').last, //имя файла
-        'contract_files[]': await MultipartFile.fromFile(file.path!, filename: file.path!.split('/').last),
-        'ticket_id': ticketId,
-        'message': message, 
-        'ticket_status_id': ticketStatusId
-      });
+          'contract_files_name[]': file.path!.split('/').last, //имя файла
+          'contract_files[]': await MultipartFile.fromFile(file.path!,
+              filename: file.path!.split('/').last),
+          'ticket_id': ticketId,
+          'message': message,
+          'ticket_status_id': ticketStatusId
+        });
       }
       final result = await _apiClient.post(uri, data: formData);
-      if(result.statusCode == 200){
+      if (result.statusCode == 200) {
         return json.decode(result.data);
       }
-    }catch(e){
+    } catch (e) {
       return e.toString();
     }
   }
 
-  Future<Object?> editMessage(String ticketId, String message, String ticketStatusId, dynamic file) async{
+  Future<Object?> sendTestimony(
+      List<String> dayValues, List<String> nightValues) async {
+    String uri =
+        domain + 'lk/index.php?route=catalog/measures/api_measure_send_ajax';
+  }
+
+  Future<Object?> editMessage(String ticketId, String message,
+      String ticketStatusId, dynamic file) async {
     String uri = domain + 'lk/index.php?route=catalog/ticket/editMessage';
-    try{
+    try {
       var formData;
-      if(file == null){
+      if (file == null) {
         formData = FormData.fromMap({
-        'ticket_id': ticketId,
-        'message': message, 
-        'ticket_status_id': ticketStatusId
-      });
+          'ticket_id': ticketId,
+          'message': message,
+          'ticket_status_id': ticketStatusId
+        });
       } else {
         formData = FormData.fromMap({
-        'contract_files_name[]': file.path!.split('/').last, //имя файла
-        'contract_files[]': await MultipartFile.fromFile(file.path!, filename: file.path!.split('/').last),
-        'ticket_id': ticketId,
-        'message': message, 
-        'ticket_status_id': ticketStatusId
-      });
+          'contract_files_name[]': file.path!.split('/').last, //имя файла
+          'contract_files[]': await MultipartFile.fromFile(file.path!,
+              filename: file.path!.split('/').last),
+          'ticket_id': ticketId,
+          'message': message,
+          'ticket_status_id': ticketStatusId
+        });
       }
       final result = await _apiClient.post(uri, data: formData);
-      if(result.statusCode == 200){
+      if (result.statusCode == 200) {
         return json.decode(result.data);
       }
-    }catch(e){
+    } catch (e) {
       return e.toString();
     }
   }
 
-
-  Future<Object?> setReadMessage(String ticketId, String messageId) async{
-    String uri = domain + 'lk/index.php?route=catalog/ticket/api_setReadMessage';
-    try{
+  Future<Object?> setReadMessage(String ticketId, String messageId) async {
+    String uri =
+        domain + 'lk/index.php?route=catalog/ticket/api_setReadMessage';
+    try {
       var formData = FormData.fromMap({
         'ticket_id': ticketId,
         'message_id': messageId,
       });
       final result = await _apiClient.post(uri, data: formData);
-      if(result.statusCode == 200){
-
-      }
-    }catch(e){
+      if (result.statusCode == 200) {}
+    } catch (e) {
       return e;
     }
   }
-  Future<Object?> download(String uri, String fileName) async{
+
+  Future<Object?> download(String uri, String fileName) async {
     try {
       final dir = await getExternalStorageDirectory();
       final isPermissionStatusGranted = await _requestPermissions();
@@ -463,95 +465,95 @@ class HttpClient{
     }
   }
 
-  Future<Object?> getFullProfileInfo() async{
+  Future<Object?> getFullProfileInfo() async {
     String uri = domain + 'lk/index.php?route=catalog/user_information/api_get';
     final result = await _apiClient.post(uri);
-    if(result.statusCode == 200){
+    if (result.statusCode == 200) {
       return UserInformation.fromMap(result.data['data']);
     } else {
       throw Exception();
     }
   }
 
-  Future<Object?> getTU() async{
+  Future<Object?> getTU() async {
     String uri = domain + 'lk/index.php?route=catalog/objects/api_list';
-    try{
+    try {
       final result = await _apiClient.post(uri);
-      if(result.statusCode == 200){
-
+      if (result.statusCode == 200) {
         List<TuModel> objects = [];
 
-        if(result.data['data']['list_tu'].length > 0){
-          for(int i = 0; i < result.data['data']['list_tu'].length; i++){
+        if (result.data['data']['list_tu'].length > 0) {
+          for (int i = 0; i < result.data['data']['list_tu'].length; i++) {
             objects.add(TuModel.fromMap(result.data['data']['list_tu'][i]));
           }
           return objects;
         }
       }
-    }catch(e){
-      return(e);
+    } catch (e) {
+      return (e);
     }
   }
 
-  Future<Object?> getPrivatePolicy() async{
+  Future<Object?> getPrivatePolicy() async {
     String uri = domain + 'lk/index.php?route=common/registration/api_getPdn';
 
-    try{
+    try {
       final result = await _apiClient.post(uri);
-      if(result.statusCode == 200){
+      if (result.statusCode == 200) {
         return result.data['data']['information_pdn_info']['description'];
       }
-    }catch(e){
-      return(e);
+    } catch (e) {
+      return (e);
     }
   }
 
-  Future<Object?> getObjectsPU () async{
+  Future<Object?> getObjectsPU() async {
     String uri = domain + 'lk/index.php?route=catalog/objects/api_list';
-    try{
+    try {
       final result = await _apiClient.post(uri);
-      if(result.statusCode == 200){
-
+      if (result.statusCode == 200) {
         List<ObjectPuModel> objects = [];
 
-        if(result.data['data']['objects'].length > 0){
-          for(int i = 0; i < result.data['data']['objects'].length; i++){
-            objects.add(ObjectPuModel.fromMap(result.data['data']['objects'][i]));
+        if (result.data['data']['objects'].length > 0) {
+          for (int i = 0; i < result.data['data']['objects'].length; i++) {
+            objects
+                .add(ObjectPuModel.fromMap(result.data['data']['objects'][i]));
           }
           return objects;
         }
       }
-    }catch(e){
-      return(e);
+    } catch (e) {
+      return (e);
     }
-
   }
-    Future<Object?> getMeters() async{
+
+  Future<Object?> getMeters() async {
     String uri = domain + 'lk/index.php?route=catalog/measures/api_form';
-    try{
+    try {
       final result = await _apiClient.post(uri);
       List<Meter> meters = [];
-      if(result.statusCode == 200){
-        
-        if(result.data['data']['meters'].length > 0){
-            for(int i = 0; i < result.data['data']['meters'].length; i++){
+      if (result.statusCode == 200) {
+        if (result.data['data']['meters'].length > 0) {
+          for (int i = 0; i < result.data['data']['meters'].length; i++) {
             Meter thisMeter = Meter.fromMap(result.data['data']['meters'][i]);
-            thisMeter.lastReadings = await GetLastReadings(result.data['data']['lastReadings'], thisMeter);
+            thisMeter.lastReadings = await GetLastReadings(
+                result.data['data']['lastReadings'], thisMeter);
             meters.add(thisMeter);
           }
         }
 
         return meters;
       }
-    }catch(e){
+    } catch (e) {
       return e.toString();
     }
     return null;
   }
 
-  Future<Object?> addTicket(String contact_email, String contact_name, String ticket_theme_id, String message) async{
+  Future<Object?> addTicket(String contact_email, String contact_name,
+      String ticket_theme_id, String message) async {
     String uri = domain + 'lk/index.php?route=catalog/ticket/api_addTicket';
-    try{
+    try {
       var formData = FormData.fromMap({
         'contact_email': contact_email,
         'contact_name': contact_name,
@@ -559,77 +561,82 @@ class HttpClient{
         'message': message
       });
       final result = await _apiClient.post(uri, data: formData);
-    }catch(e){
+      if (result.statusCode == 200) {
+        return result;
+      }
+    } catch (e) {
       return e.toString();
     }
   }
 
-
   Future<bool> _requestPermissions() async {
     var permission = await Permission.storage.request();
-    if(permission.isGranted){
+    if (permission.isGranted) {
       return true;
     } else {
       return false;
     }
   }
 
-  Future<Object?> getStors() async{
-    String uri = "https://dev.conres.ru/backmanager/index.php?route=common/api/api_get_stores";
+  Future<Object?> getStors() async {
+    String uri =
+        "https://dev.conres.ru/backmanager/index.php?route=common/api/api_get_stores";
     final result = await _apiClient.post(uri);
     List<Store> stores = [];
-    if(result.statusCode == 200){
-      for(int i = 0; i < result.data['data']['stores'].length; i++){
+    if (result.statusCode == 200) {
+      for (int i = 0; i < result.data['data']['stores'].length; i++) {
         stores.add(Store.fromMap(result.data['data']['stores'][i]));
       }
       return stores;
     }
   }
 
-  Future<Object?> getMessagesFromClaim(String claim_id) async{
-    String uri = domain + 'lk/index.php?route=claims/claims/api_getClaimMessages';
-    var formData = FormData.fromMap({
-      'claim_id': claim_id
-    });
+  Future<Object?> getMessagesFromClaim(String claim_id) async {
+    String uri =
+        domain + 'lk/index.php?route=claims/claims/api_getClaimMessages';
+    var formData = FormData.fromMap({'claim_id': claim_id});
     final result = await _apiClient.post(uri, data: formData);
     List<ClaimMessage> messages = [];
-    if(result.statusCode == 200){
-      for(int i = 0; i < result.data['data']['messages'].length; i++){
+    if (result.statusCode == 200) {
+      for (int i = 0; i < result.data['data']['messages'].length; i++) {
         messages.add(ClaimMessage.fromMap(result.data['data']['messages'][i]));
       }
       return messages;
     }
   }
 
-  Future<Object?> sendClaimMessage(String claim_id, String text, dynamic file) async{
+  Future<Object?> sendClaimMessage(
+      String claim_id, String text, dynamic file) async {
     String uri = domain + 'lk/index.php?route=claims/claims/api_sendMessage';
-    try{
+    try {
       var formData;
-      if(file == null){
+      if (file == null) {
         formData = FormData.fromMap({
-        'claim_id': claim_id,
-        'text': text, 
-      });
+          'claim_id': claim_id,
+          'text': text,
+        });
       } else {
         formData = FormData.fromMap({
-        'contract_files_name[]': file.path!.split('/').last, //имя файла
-        'contract_files[]': await MultipartFile.fromFile(file.path!, filename: file.path!.split('/').last),
-        'claim_id': claim_id,
-        'text': text, 
-      });
+          'contract_files_name[]': file.path!.split('/').last, //имя файла
+          'contract_files[]': await MultipartFile.fromFile(file.path!,
+              filename: file.path!.split('/').last),
+          'claim_id': claim_id,
+          'text': text,
+        });
       }
       final result = await _apiClient.post(uri, data: formData);
-      if(result.statusCode == 200){
+      if (result.statusCode == 200) {
         return result.data;
       }
-    }catch(e){
+    } catch (e) {
       return e.toString();
     }
   }
 
-  Future<Object?> sendBaseClaim(BaseClaimSendService baseClaimSendService) async{
+  Future<Object?> sendBaseClaim(
+      BaseClaimSendService baseClaimSendService) async {
     String uri = domain + 'lk/index.php?route=claims/new_claim/api_sendClaim';
-    try{
+    try {
       var formdata = FormData.fromMap({
         'claim_type_id': baseClaimSendService.claim_type_id,
         'claim_name': baseClaimSendService.claim_name,
@@ -644,16 +651,13 @@ class HttpClient{
         'field_header_address_1': baseClaimSendService.field_header_address_1,
         'field_header_address_2': baseClaimSendService.field_header_address_2,
         'field_header_egrul_date': baseClaimSendService.field_header_egrul_date,
-
       });
       final result = await _apiClient.post(uri, data: formdata);
-      if(result.statusCode == 200){
+      if (result.statusCode == 200) {
         return true;
       } else {
         return false;
       }
-    }catch(e){
-
-    }
+    } catch (e) {}
   }
 }
