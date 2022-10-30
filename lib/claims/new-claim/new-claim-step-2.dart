@@ -43,6 +43,8 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
     });
   }
 
+  Future<void> _refrash() async {}
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -50,6 +52,7 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: MainForm(
+            onRefrash: _refrash,
             header: HeaderRow(text: claimStep2, fontSize: 24),
             body: Form(
               key: _formKey,

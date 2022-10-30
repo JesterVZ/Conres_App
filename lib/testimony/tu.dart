@@ -28,7 +28,8 @@ class _PageTU extends State<PageTU> {
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
           return MainForm(
-            header: HeaderNotification(text: "Точки учета"),
+            onRefrash: _refrash,
+            header: HeaderNotification(canGoBack: true, text: "Точки учета"),
             body: Column(
               children: objects,
             ),
@@ -51,6 +52,8 @@ class _PageTU extends State<PageTU> {
       }
     }
   }
+
+  Future<void> _refrash() async {}
 
   void _edit() {
     showDialog(

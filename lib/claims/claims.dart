@@ -1,5 +1,7 @@
 import 'package:accordion/accordion.dart';
 import 'package:conres_app/Services/update-claim-service.dart';
+import 'package:conres_app/UI/default-button.dart';
+import 'package:conres_app/UI/main-form.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/claims/new-claim/new-claim-documant.dart';
@@ -36,61 +38,40 @@ class _Claims extends State<Claims> {
     controller.addListener(pagination);
     super.initState();
   }
+
   Future<void> _refrash() async {
     claims.clear();
     profileBloc!.getClaims();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(
         bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
-          return Scaffold(
-              body: Container(
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 52),
-                    padding: EdgeInsets.only(
-                        left: defaultSidePadding, right: defaultSidePadding, bottom: 12),
-                    child: HeaderNotification(
-                      text: "Заявления",
-                    )),
-                    Expanded(
-                  child: Scrollbar(
-                      child: RefreshIndicator(
-                          onRefresh: _refrash,
-                          child: ListView.builder(
-                            itemCount: claimsMap.length,
-                            itemBuilder: (context, int index) {
-                              return ClaimElement(
-                                currentClaim: claimsMap.values.elementAt(index), 
-                                downloadFunction: downloadClaim, 
-                                userId: userId, 
-                                mainListener: widget.mainListener);
-                            })))),
-                Container(
-                  padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
-                  width: MediaQuery.of(context).size.width,
-                  height: 55,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => NewClaimDicument()));
-                    },
-                    child: Text("Новое заявление", style: buttonTextStyle),
-                    style: ElevatedButton.styleFrom(
-                        primary: colorMain,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8))),
-                  ),
-                )
-              ],
-            ),
-          ));
+          return MainForm(
+              header: HeaderNotification(text: "Заявления"),
+              body: ListView.builder(
+                  itemCount: claimsMap.length,
+                  itemBuilder: (context, int index) {
+                    return ClaimElement(
+                        currentClaim: claimsMap.values.elementAt(index),
+                        downloadFunction: downloadClaim,
+                        userId: userId,
+                        mainListener: widget.mainListener);
+                  }),
+              footer: DefaultButton(
+                isGetPadding: true,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewClaimDicument()));
+                },
+                text: "Новое заявление",
+              ),
+              onRefrash: _refrash);
         });
   }
 
@@ -103,12 +84,11 @@ class _Claims extends State<Claims> {
       if (state.claims != null) {
         if (claims.isEmpty) {
           setState(() {
-            claimsMap = { for (var e in state.claims!) e.claim_id! : e };
+            claimsMap = {for (var e in state.claims!) e.claim_id!: e};
           });
         }
+      }
     }
-    }
-    
   }
 
   void pagination() {
@@ -119,21 +99,21 @@ class _Claims extends State<Claims> {
     }
   }
 
-  void downloadClaim(Claim claim){
+  void downloadClaim(Claim claim) {
     String url = claimLoadLink + claim.document_href!;
     String filename = getFileName(claim.document_href!);
     profileBloc!.downloadFile(url, filename);
   }
 
-  String getFileName(String value){
+  String getFileName(String value) {
     List<String> result = value.split("/");
     return result[1];
   }
 
-  void updateStatus(String claim_id, String status, String status_pay){
+  void updateStatus(String claim_id, String status, String status_pay) {
     Claim newClaim = claimsMap[claim_id];
     newClaim.status = status;
-    switch(status_pay){
+    switch (status_pay) {
       case "1":
         newClaim.status_pay = "Не оплачено";
         break;
@@ -147,7 +127,6 @@ class _Claims extends State<Claims> {
     setState(() {
       claimsMap.update(claim_id, (value) => newClaim);
     });
-    
   }
 
   @override
@@ -157,6 +136,5 @@ class _Claims extends State<Claims> {
     updateClaimService ??= DependencyProvider.of(context)!.updateClaimService;
     updateClaimService!.update = updateStatus;
     profileBloc!.getClaims();
-    
   }
 }

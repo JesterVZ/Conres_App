@@ -21,6 +21,8 @@ class _NewClaimStep4 extends State<NewClaimStep4> {
   final controllerList = List<TextEditingController>.generate(
       6, (index) => TextEditingController());
   final _formKey = GlobalKey<FormState>();
+
+  Future<void> _refrash() async {}
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -28,6 +30,7 @@ class _NewClaimStep4 extends State<NewClaimStep4> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: MainForm(
+          onRefrash: _refrash,
           header: HeaderRow(text: claimStep4, fontSize: 24),
           body: Form(
             key: _formKey,
@@ -83,30 +86,28 @@ class _NewClaimStep4 extends State<NewClaimStep4> {
                   child: DefaultInput(
                       controller: controllerList[0],
                       keyboardType: TextInputType.number,
-                      labelText:
-                          "Количество и мощность генераторов",
+                      labelText: "Количество и мощность генераторов",
                       hintText: "",
                       validatorText: "Введите серию"),
                 ),
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 55.0,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              Navigator.push(
+                SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 55.0,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => NewClaimStep5()));
-                            }
-                            
-                          },
-                          child: Text(
-                            next,
-                            style: buttonTextStyle,
-                          ),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: colorMain))),
+                          }
+                        },
+                        child: Text(
+                          next,
+                          style: buttonTextStyle,
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: colorMain))),
               ],
             ),
           ),

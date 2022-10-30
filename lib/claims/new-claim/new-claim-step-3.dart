@@ -39,6 +39,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
     });
   }
 
+  Future<void> _refrash() async {}
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -46,6 +48,7 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: MainForm(
+            onRefrash: _refrash,
             header: HeaderRow(text: claimStep3, fontSize: 24),
             body: Form(
               key: _formKey,
@@ -176,11 +179,10 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => NewClaimStep4()));
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => NewClaimStep4()));
                             }
-                            
                           },
                           child: Text(
                             next,

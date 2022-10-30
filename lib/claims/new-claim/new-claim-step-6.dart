@@ -27,6 +27,8 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
   Map<String?, FilePickerResult?> imagesMap = {"1": null, "2": null, "3": null};
   PanelController panelController = PanelController();
 
+  Future<void> _refrash() async {}
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -40,6 +42,7 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
           controller: panelController,
           borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
           body: MainForm(
+              onRefrash: _refrash,
               header: HeaderRow(text: claimStep6, fontSize: 24),
               body: Form(
                   key: _formKey,
@@ -97,11 +100,8 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
               const Divider(),
               GestureDetector(
                 onTap: () {
-                  
-                  Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NewClaimStep7()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => NewClaimStep7()));
                 },
                 child: Container(
                   height: 40,
@@ -110,11 +110,8 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
               ),
               GestureDetector(
                 onTap: () {
-                  
-                  Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NewClaimStep7()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => NewClaimStep7()));
                 },
                 child: Container(
                   height: 40,

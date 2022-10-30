@@ -25,6 +25,7 @@ class _NewChat extends State<NewChat> {
   final _formKey = GlobalKey<FormState>();
 
   ProfileBloc? profileBloc;
+  Future<void> _refrash() async {}
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -32,6 +33,7 @@ class _NewChat extends State<NewChat> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: MainForm(
+            onRefrash: _refrash,
             header: HeaderRow(text: "Новое обращение", fontSize: 24),
             body: Form(
               key: _formKey,

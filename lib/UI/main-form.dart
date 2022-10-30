@@ -7,10 +7,13 @@ import '../elements/header/header-notification.dart';
 class MainForm extends StatefulWidget {
   Widget body;
   Widget header;
-  MainForm({
-    required this.header,
-    required this.body
-  });
+  Widget? footer;
+  Future<void> Function() onRefrash;
+  MainForm(
+      {required this.header,
+      required this.body,
+      this.footer,
+      required this.onRefrash});
   @override
   State<StatefulWidget> createState() => _MainForm();
 }
@@ -21,8 +24,7 @@ class _MainForm extends State<MainForm> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
-        body: 
-        Column(children: [
+        body: Column(children: [
           Container(
               margin: EdgeInsets.only(top: 52),
               padding: EdgeInsets.only(
@@ -31,13 +33,17 @@ class _MainForm extends State<MainForm> {
                   bottom: 12),
               child: widget.header),
           Expanded(
-            child: Scrollbar(
-              child: SingleChildScrollView(
-                child: Padding(
-                padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
-                child: widget.body)
-              )
-            ))
+              child: Scrollbar(
+                  child: RefreshIndicator(
+                      onRefresh: widget.onRefrash, child: widget.body))),
+          Visibility(
+            visible: widget.footer != null ? true : false,
+            child: Container(
+              height: 90,
+              padding: EdgeInsets.only(top: 17.5, bottom: 17.5),
+              child: widget.footer,
+            ),
+          )
         ]));
   }
 }

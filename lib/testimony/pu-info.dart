@@ -1,20 +1,21 @@
 import 'package:conres_app/UI/main-form.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
-class SmartPU extends StatefulWidget {
+class PuFullInfo extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _SmartPU();
+  State<StatefulWidget> createState() => _PuFullInfo();
 }
 
-class _SmartPU extends State<SmartPU> {
+class _PuFullInfo extends State<PuFullInfo> {
   @override
   Widget build(BuildContext context) {
     return MainForm(
         onRefrash: _refrash,
-        header: HeaderNotification(text: "Показания умных ПУ"),
-        body: Column(children: []));
+        header: HeaderNotification(text: "Информация о ПУ", canGoBack: true),
+        body: Column(
+          children: [],
+        ));
   }
 
   Future<void> _refrash() async {}

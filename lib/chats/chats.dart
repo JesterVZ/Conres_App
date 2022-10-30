@@ -1,4 +1,6 @@
 import 'package:conres_app/Services/update-ticket-service.dart';
+import 'package:conres_app/UI/default-button.dart';
+import 'package:conres_app/UI/main-form.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/chats/new-chat.dart';
@@ -52,65 +54,27 @@ class _Chats extends State<Chats> {
         bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
-          return Scaffold(
-              body: Stack(
-            children: [
-              Container(
-                child: Column(
-                  children: [
-                    Container(
-                  margin: EdgeInsets.only(top: 52),
-                    padding: EdgeInsets.only(
-                        left: defaultSidePadding, right: defaultSidePadding, bottom: 12),
-                    child: HeaderNotification(
-                      text: "Обращения",
-                    )),
-                    Expanded(
-                        child: Scrollbar(
-                            child: RefreshIndicator(
-                                onRefresh: _refrash,
-                                child: ListView.builder(
-                                        controller: scrollController,
-                                        itemCount: ticketsMap.length,
-                                        itemBuilder: (context, int index) {
-                                          return TicketRow(
-                                              ticket: ticketsMap.values.elementAt(index),
-                                              openChat: _openChat,
-                                              counter: ticketsMap.values.elementAt(index)
-                                                  .count_tm_resiver);
-                                        })))),
-                    Container(
-                      padding: EdgeInsets.only(
-                          left: defaultSidePadding, right: defaultSidePadding),
-                      width: MediaQuery.of(context).size.width,
-                      height: 55,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => NewChat()));
-                        },
-                        child: Text("Новое обращение", style: buttonTextStyle),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: colorMain,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8))),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Visibility(
-                  child: Center(
-                      child: Container(
-                    width: 50,
-                    height: 50,
-                    child: const CircularProgressIndicator(),
-                  )),
-                  visible: isLoading)
-            ],
-          ));
+          return MainForm(
+              header: HeaderNotification(text: "Обращения"),
+              body: ListView.builder(
+                  controller: scrollController,
+                  itemCount: ticketsMap.length,
+                  itemBuilder: (context, int index) {
+                    return TicketRow(
+                        ticket: ticketsMap.values.elementAt(index),
+                        openChat: _openChat,
+                        counter: ticketsMap.values
+                            .elementAt(index)
+                            .count_tm_resiver);
+                  }),
+              footer: DefaultButton(
+                  text: "Новое обращение",
+                  isGetPadding: true,
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => NewChat()));
+                  }),
+              onRefrash: _refrash);
         });
   }
 
@@ -123,19 +87,19 @@ class _Chats extends State<Chats> {
       userId = state.fullInfo!['user_id'];
     }
     if (state.tickets != null && state.tickets!.isNotEmpty) {
-      ticketsMap = { for (var e in state.tickets!) e.ticket_id! : e };
-      
+      ticketsMap = {for (var e in state.tickets!) e.ticket_id!: e};
+
       if (tickets.isEmpty ||
           (tickets.first.ticket_id != state.tickets!.first.ticket_id &&
               (int.parse(state.page!) == page) &&
               page == 1)) {
         tickets = state.tickets!;
-        ticketsMap = { for (var e in state.tickets!) e.ticket_id! : e };
+        ticketsMap = {for (var e in state.tickets!) e.ticket_id!: e};
       }
-      
+
       if ((int.parse(state.page!) == page) && page > 1) {
         tickets = tickets + state.tickets!;
-        ticketsMap = { for (var e in state.tickets!) e.ticket_id! : e };
+        ticketsMap = {for (var e in state.tickets!) e.ticket_id!: e};
       }
     }
   }
@@ -150,7 +114,7 @@ class _Chats extends State<Chats> {
     }
   }
 
-  void updateStatus(String ticket_id, String status){
+  void updateStatus(String ticket_id, String status) {
     Ticket newTicket = ticketsMap[ticket_id];
     newTicket.cur_status!.name = status;
     setState(() {
@@ -164,7 +128,7 @@ class _Chats extends State<Chats> {
         context,
         MaterialPageRoute(
             builder: (context) => MessagesPage(
-              mainListener: widget.mainListener,
+                mainListener: widget.mainListener,
                 userId: userId!,
                 genericId: ticket.ticket_id.toString(),
                 type: ChatTypes.Ticket,

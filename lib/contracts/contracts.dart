@@ -1,3 +1,5 @@
+import 'package:conres_app/UI/default-button.dart';
+import 'package:conres_app/UI/main-form.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/elements/header/header.dart';
 import 'package:conres_app/elements/route/def-page-router.dart';
@@ -37,52 +39,21 @@ class _Contracts extends State<Contracts> {
         bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
-          return Column(
-            children: [
-              Container(
-                  margin: EdgeInsets.only(top: 52),
-                  padding: EdgeInsets.only(
-                      left: defaultSidePadding,
-                      right: defaultSidePadding,
-                      bottom: 12),
-                  child: HeaderNotification(
-                    text: "Договоры",
-                  )),
-              Expanded(
-                  child: Scrollbar(
-                      child: RefreshIndicator(
-                          onRefresh: _refrash,
-                          child: SingleChildScrollView(
-                              child: Column(
-                            children: [
-                              Column(
-                                children: [
-                                  //здесь договоры
-                                  Column(
-                                    children: contracts,
-                                  ),
-                                ],
-                              )
-                            ],
-                          ))))),
-              Container(
-                padding: EdgeInsets.only(
-                    left: defaultSidePadding, right: defaultSidePadding),
-                width: MediaQuery.of(context).size.width,
-                height: 55,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const NewLS()));
-                  },
-                  child: Text(linkNewLs, style: buttonTextStyle, textAlign: TextAlign.center,),
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: colorMain,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8))),
-                ),
-              )
-            ],
+          return MainForm(
+            header: HeaderNotification(text: "Договоры", canGoBack: false),
+            body: SingleChildScrollView(
+                child: Padding(
+                    padding: EdgeInsets.only(
+                        left: defaultSidePadding, right: defaultSidePadding),
+                    child: Column(
+                      children: contracts,
+                    ))),
+            onRefrash: _refrash,
+            footer: DefaultButton(
+              onPressed: () {},
+              isGetPadding: true,
+              text: "Новый лицевой счет",
+            ),
           );
         });
   }

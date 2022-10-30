@@ -28,11 +28,14 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
     });
   }
 
-  void _delete(int id){
+  void _delete(int id) {
     setState(() {
       objects.removeWhere((element) => element.id == id);
     });
   }
+
+  Future<void> _refrash() async {}
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -40,6 +43,7 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: MainForm(
+            onRefrash: _refrash,
             header: HeaderRow(text: claimStep5, fontSize: 24),
             body: Form(
                 key: _formKey,
@@ -129,11 +133,10 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NewClaimStep6()));
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NewClaimStep6()));
                               }
-                              
                             },
                             child: Text(
                               next,

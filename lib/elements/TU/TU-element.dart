@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../consts.dart';
+import '../../testimony/pu-info.dart';
 import '../full-profile/ExpansionTileElement.dart';
 
 class TuElement extends StatefulWidget {
@@ -116,10 +117,28 @@ class _TuElement extends State<TuElement> {
                       onPressed: () {
                         widget.editFunc.call();
                       },
-                      child: Text("Редактировать",
+                      child: const Text("Редактировать",
                           style: TextStyle(color: Colors.white, fontSize: 18)),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: colorGray,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                    )),
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 55,
+                    margin: EdgeInsets.only(bottom: 12, top: 12),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PuFullInfo()));
+                      },
+                      child: Text("Подробнее",
+                          style: TextStyle(color: colorMain, fontSize: 18)),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: messageColor,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                     )),
