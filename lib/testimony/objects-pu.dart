@@ -65,7 +65,7 @@ class _ObjectsPU extends State<ObjectsPU> {
                           child: const Text("Новый объект",
                               style: TextStyle(fontSize: 14)),
                           style: ElevatedButton.styleFrom(
-                              primary: colorMain,
+                              backgroundColor: colorMain,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8))),
                         )),
@@ -84,7 +84,7 @@ class _ObjectsPU extends State<ObjectsPU> {
                           child: const Text("Новый ПУ",
                               style: TextStyle(fontSize: 14)),
                           style: ElevatedButton.styleFrom(
-                              primary: colorMain,
+                              backgroundColor: colorMain,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8))),
                         ))

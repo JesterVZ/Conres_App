@@ -12,6 +12,8 @@ import '../elements/TU/edit-tu-dialog.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/header/header-notification.dart';
 import '../elements/testimony/object-pu-dialog.dart';
+import 'link-pu/link-pu-step-1.dart';
+import 'link-tu/link-tu.dart';
 
 class PageTU extends StatefulWidget {
   @override
@@ -28,12 +30,60 @@ class _PageTU extends State<PageTU> {
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
           return MainForm(
-            onRefrash: _refrash,
-            header: HeaderNotification(canGoBack: true, text: "Точки учета"),
-            body: Column(
-              children: objects,
-            ),
-          );
+              onRefrash: _refrash,
+              header: HeaderNotification(canGoBack: true, text: "Точки учета"),
+              body: SingleChildScrollView(
+                  child: Padding(
+                      padding: EdgeInsets.only(
+                          left: defaultSidePadding, right: defaultSidePadding),
+                      child: Column(
+                        children: objects,
+                      ))),
+              footer: Container(
+                child: Row(
+                  children: [
+                    Container(
+                        padding: EdgeInsets.only(
+                          left: defaultSidePadding,
+                        ),
+                        width: 160,
+                        height: 55,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LinkTu()));
+                          },
+                          child: const Text("Новый ТУ",
+                              style: TextStyle(fontSize: 14)),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: colorMain,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8))),
+                        )),
+                    const Spacer(),
+                    Container(
+                        padding: EdgeInsets.only(right: defaultSidePadding),
+                        width: 160,
+                        height: 55,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LinkPUStep1()));
+                          },
+                          child: const Text("Новый ПУ",
+                              style: TextStyle(fontSize: 14)),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: colorMain,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8))),
+                        ))
+                  ],
+                ),
+              ));
         });
   }
 
