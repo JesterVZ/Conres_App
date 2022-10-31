@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 
-class BaseClaimSendService{
+class BaseClaimSendService {
   String? claim_type_id;
   String? claim_template;
   String? claim_type;
@@ -17,4 +18,5 @@ class BaseClaimSendService{
   String? field_content_main;
   String? claim_operator_email;
   Map<int?, FilePickerResult?>? files;
+  VoidCallback? delegateFunc;
 }

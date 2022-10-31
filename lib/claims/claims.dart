@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../DI/dependency-provider.dart';
+import '../Services/base-claim-send-service.dart';
 import '../consts.dart';
 import '../contracts/new-ls/new-ls.dart';
 import '../elements/bloc/bloc-screen.dart';
@@ -32,11 +33,17 @@ class _Claims extends State<Claims> {
   Map<String, dynamic> claimsMap = {};
   ScrollController controller = ScrollController();
   UpdateClaimService? updateClaimService;
+  BaseClaimSendService? baseClaimSendService;
 
   @override
   void initState() {
     controller.addListener(pagination);
     super.initState();
+  }
+
+  void refrashDelegate() {
+    claims.clear();
+    profileBloc!.getClaims();
   }
 
   Future<void> _refrash() async {
@@ -134,6 +141,9 @@ class _Claims extends State<Claims> {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     updateClaimService ??= DependencyProvider.of(context)!.updateClaimService;
+    baseClaimSendService ??=
+        DependencyProvider.of(context)!.baseClaimSendService;
+    baseClaimSendService!.delegateFunc = refrashDelegate;
     updateClaimService!.update = updateStatus;
     profileBloc!.getClaims();
   }

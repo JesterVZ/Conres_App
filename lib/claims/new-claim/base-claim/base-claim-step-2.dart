@@ -1,4 +1,5 @@
 import 'package:conres_app/Services/base-claim-send-service.dart';
+import 'package:conres_app/claims/claims.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -131,6 +132,7 @@ class _BaseClaimStep2 extends State<BaseClaimStep2> {
                                                 imagesMap;
                                             profileBloc!.sendBaseClaim(
                                                 baseClaimSendService!);
+                                            isSent = true;
                                           },
                                           child: Text(
                                             "Отправить",
@@ -154,6 +156,8 @@ class _BaseClaimStep2 extends State<BaseClaimStep2> {
           builder: (BuildContext context) =>
               Alert(title: "Успешно!", text: "Заявление успешно отправлено!"));
       isSent = false;
+      baseClaimSendService!.delegateFunc!.call();
+      Navigator.of(context).popUntil((route) => route.isFirst);
     } else if (state.loading == false && state.error != null) {
       showDialog(
           context: context,

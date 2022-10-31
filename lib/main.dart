@@ -9,15 +9,9 @@ import 'loading/loading-page.dart';
 import 'login/login-main.dart';
 
 void main() {
-
   HttpOverrides.global = MyHttpOverrides();
-  runApp(
-      DependencyProvider(
-          child: const MyApp()
-      )
-  );
+  runApp(DependencyProvider(child: const MyApp()));
 }
-
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -28,16 +22,14 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _MyApp();
-
 }
 
-class _MyApp extends State<MyApp>{
+class _MyApp extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -48,12 +40,9 @@ class _MyApp extends State<MyApp>{
       theme: ThemeData(
           primarySwatch: Colors.blue,
           scaffoldBackgroundColor: pageColor,
-          fontFamily: 'Bubicon-Medium'
-      ),
+          fontFamily: 'Bubicon-Medium'),
       //home: SplashScreen(),
       home: SelectStore(),
     );
-
   }
-
 }
