@@ -30,87 +30,91 @@ class _NewClaimStep4 extends State<NewClaimStep4> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: MainForm(
-          onRefrash: _refrash,
-          header: HeaderRow(text: claimStep4, fontSize: 24),
-          body: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Container(
-                  child: DefaultInput(
-                      controller: controllerList[0],
-                      keyboardType: TextInputType.number,
-                      labelText:
-                          "Заявляемый характер нагрузки и наличие нагрузок, искажающих форму кривой электрического тока и вызывающих несимметрию напряжения в точках присоединения",
-                      hintText: "",
-                      validatorText: "Введите серию"),
+            onRefrash: _refrash,
+            header: HeaderRow(text: claimStep4, fontSize: 24),
+            body: SingleChildScrollView(
+                child: Padding(
+              padding: EdgeInsets.only(
+                  left: defaultSidePadding, right: defaultSidePadding),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Container(
+                      child: DefaultInput(
+                          controller: controllerList[0],
+                          keyboardType: TextInputType.number,
+                          labelText:
+                              "Заявляемый характер нагрузки и наличие нагрузок, искажающих форму кривой электрического тока и вызывающих несимметрию напряжения в точках присоединения",
+                          hintText: "",
+                          validatorText: "Введите серию"),
+                    ),
+                    Container(
+                      child: DefaultInput(
+                          controller: controllerList[0],
+                          keyboardType: TextInputType.number,
+                          labelText:
+                              "Величина и обоснование величины технологического минимума",
+                          hintText: "",
+                          validatorText: "Введите серию"),
+                    ),
+                    Container(
+                      child: DefaultInput(
+                          controller: controllerList[0],
+                          keyboardType: TextInputType.number,
+                          labelText:
+                              "Необходимость наличия технологической и (или) аварийной брони",
+                          hintText: "",
+                          validatorText: "Введите серию"),
+                    ),
+                    Container(
+                      child: DefaultInput(
+                          controller: controllerList[0],
+                          keyboardType: TextInputType.number,
+                          labelText:
+                              "Величина и обоснование технологической и аварийной брони",
+                          hintText: "",
+                          validatorText: "Введите серию"),
+                    ),
+                    Container(
+                      child: DefaultInput(
+                          controller: controllerList[0],
+                          keyboardType: TextInputType.number,
+                          labelText:
+                              "Количество и мощность присоединяемых к сети трансформаторов",
+                          hintText: "",
+                          validatorText: "Введите серию"),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 26),
+                      child: DefaultInput(
+                          controller: controllerList[0],
+                          keyboardType: TextInputType.number,
+                          labelText: "Количество и мощность генераторов",
+                          hintText: "",
+                          validatorText: "Введите серию"),
+                    ),
+                    SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: 55.0,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NewClaimStep5()));
+                              }
+                            },
+                            child: Text(
+                              next,
+                              style: buttonTextStyle,
+                            ),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: colorMain))),
+                  ],
                 ),
-                Container(
-                  child: DefaultInput(
-                      controller: controllerList[0],
-                      keyboardType: TextInputType.number,
-                      labelText:
-                          "Величина и обоснование величины технологического минимума",
-                      hintText: "",
-                      validatorText: "Введите серию"),
-                ),
-                Container(
-                  child: DefaultInput(
-                      controller: controllerList[0],
-                      keyboardType: TextInputType.number,
-                      labelText:
-                          "Необходимость наличия технологической и (или) аварийной брони",
-                      hintText: "",
-                      validatorText: "Введите серию"),
-                ),
-                Container(
-                  child: DefaultInput(
-                      controller: controllerList[0],
-                      keyboardType: TextInputType.number,
-                      labelText:
-                          "Величина и обоснование технологической и аварийной брони",
-                      hintText: "",
-                      validatorText: "Введите серию"),
-                ),
-                Container(
-                  child: DefaultInput(
-                      controller: controllerList[0],
-                      keyboardType: TextInputType.number,
-                      labelText:
-                          "Количество и мощность присоединяемых к сети трансформаторов",
-                      hintText: "",
-                      validatorText: "Введите серию"),
-                ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 26),
-                  child: DefaultInput(
-                      controller: controllerList[0],
-                      keyboardType: TextInputType.number,
-                      labelText: "Количество и мощность генераторов",
-                      hintText: "",
-                      validatorText: "Введите серию"),
-                ),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 55.0,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => NewClaimStep5()));
-                          }
-                        },
-                        child: Text(
-                          next,
-                          style: buttonTextStyle,
-                        ),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: colorMain))),
-              ],
-            ),
-          ),
-        ));
+              ),
+            ))));
   }
 }

@@ -54,116 +54,127 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
         child: MainForm(
             onRefrash: _refrash,
             header: HeaderRow(text: claimStep2, fontSize: 24),
-            body: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  Container(
+            body: SingleChildScrollView(
+                child: Padding(
+                    padding: EdgeInsets.only(
+                        left: defaultSidePadding, right: defaultSidePadding),
+                    child: Form(
+                      key: _formKey,
                       child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.fromLTRB(0, 25, 0, 10),
-                        child: Text(
-                            "Заявление на присоединение энергопринимающих устройств",
-                            style: claimTextStyle),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(cause, style: labelTextStyle),
                           Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: const CustomDropDown(
-                                title: "Выберите причину",
-                                items: [
-                                  "увеличением объема максимальной мощности",
-                                  "новым строительством",
-                                  "изменением категории надежности электроснабжения",
-                                  "другое"
-                                ],
-                              )),
-                          Container(
-                              margin: EdgeInsets.fromLTRB(0, 0, 0, 28),
-                              child: Text(
-                                warning,
-                                style: warningTextStyle,
-                                textAlign: TextAlign.center,
-                              )),
-                          DefaultInput(
-                              controller: controllerList[0],
-                              keyboardType: TextInputType.text,
-                              labelText: "Наименование объекта",
-                              hintText: "Наименование объекта",
-                              validatorText: "Введите наименование объекта"),
-                          DefaultInput(
-                              controller: controllerList[1],
-                              keyboardType: TextInputType.text,
-                              labelText: "Адрес объекта",
-                              hintText: "Адрес объекта",
-                              validatorText: "Введите адрес объекта"),
-                          DefaultInput(
-                              controller: controllerList[2],
-                              keyboardType: TextInputType.text,
-                              labelText: "Кадастровый номер (необязательно)",
-                              hintText: "00:00:0000000:000",
-                              validatorText: "Введите кадастровый номер"),
-                          Column(
-                            children: objects,
-                          ),
-                          Container(
-                              margin: EdgeInsets.fromLTRB(0, 24, 0, 24),
-                              height: 55,
-                              child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white),
-                                  onPressed: () {
-                                    setState(() {
-                                      _addNewObject();
-                                    });
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                          margin: const EdgeInsets.fromLTRB(
-                                              0, 0, 10, 0),
-                                          child: SvgPicture.asset(
-                                              'assets/plus.svg')),
-                                      Text(addObject,
-                                          style: TextStyle(
-                                              color: colorMain, fontSize: 18))
-                                    ],
-                                  ))),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              height: 55.0,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  NewClaimStep3()));
-                                    }
-                                  },
-                                  child: Text(
-                                    next,
-                                    style: buttonTextStyle,
+                              child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.fromLTRB(0, 25, 0, 10),
+                                child: Text(
+                                    "Заявление на присоединение энергопринимающих устройств",
+                                    style: claimTextStyle),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(cause, style: labelTextStyle),
+                                  Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: const CustomDropDown(
+                                        title: "Выберите причину",
+                                        items: [
+                                          "увеличением объема максимальной мощности",
+                                          "новым строительством",
+                                          "изменением категории надежности электроснабжения",
+                                          "другое"
+                                        ],
+                                      )),
+                                  Container(
+                                      margin: EdgeInsets.fromLTRB(0, 0, 0, 28),
+                                      child: Text(
+                                        warning,
+                                        style: warningTextStyle,
+                                        textAlign: TextAlign.center,
+                                      )),
+                                  DefaultInput(
+                                      controller: controllerList[0],
+                                      keyboardType: TextInputType.text,
+                                      labelText: "Наименование объекта",
+                                      hintText: "Наименование объекта",
+                                      validatorText:
+                                          "Введите наименование объекта"),
+                                  DefaultInput(
+                                      controller: controllerList[1],
+                                      keyboardType: TextInputType.text,
+                                      labelText: "Адрес объекта",
+                                      hintText: "Адрес объекта",
+                                      validatorText: "Введите адрес объекта"),
+                                  DefaultInput(
+                                      controller: controllerList[2],
+                                      keyboardType: TextInputType.text,
+                                      labelText:
+                                          "Кадастровый номер (необязательно)",
+                                      hintText: "00:00:0000000:000",
+                                      validatorText:
+                                          "Введите кадастровый номер"),
+                                  Column(
+                                    children: objects,
                                   ),
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: colorMain))),
+                                  Container(
+                                      margin: EdgeInsets.fromLTRB(0, 24, 0, 24),
+                                      height: 55,
+                                      child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.white),
+                                          onPressed: () {
+                                            setState(() {
+                                              _addNewObject();
+                                            });
+                                          },
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                  margin:
+                                                      const EdgeInsets.fromLTRB(
+                                                          0, 0, 10, 0),
+                                                  child: SvgPicture.asset(
+                                                      'assets/plus.svg')),
+                                              Text(addObject,
+                                                  style: TextStyle(
+                                                      color: colorMain,
+                                                      fontSize: 18))
+                                            ],
+                                          ))),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 55.0,
+                                      child: ElevatedButton(
+                                          onPressed: () {
+                                            if (_formKey.currentState!
+                                                .validate()) {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          NewClaimStep3()));
+                                            }
+                                          },
+                                          child: Text(
+                                            next,
+                                            style: buttonTextStyle,
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: colorMain))),
+                                ],
+                              )
+                            ],
+                          ))
                         ],
-                      )
-                    ],
-                  ))
-                ],
-              ),
-            )));
+                      ),
+                    )))));
   }
 }

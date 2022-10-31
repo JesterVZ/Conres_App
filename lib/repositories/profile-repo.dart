@@ -131,5 +131,8 @@ class ProfileRepo {
   }
 
   Future<dynamic> sendTestimony(
-      List<String> dayValues, List<String> nightValues) async {}
+      List<String> dayValues, List<String> nightValues) async {
+    var result = await httpClient.sendTestimony(dayValues, nightValues);
+    return result;
+  }
 }

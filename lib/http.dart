@@ -396,7 +396,27 @@ class HttpClient {
   Future<Object?> sendTestimony(
       List<String> dayValues, List<String> nightValues) async {
     String uri =
-        domain + 'lk/index.php?route=catalog/measures/api_measure_send_ajax';
+        domain + 'lk/index.php?route=catalog/measures/api_measure_send';
+    var formData;
+    Map<String, dynamic> map = Map<String, dynamic>();
+    for (int i = 0; i < dayValues.length; i++) {
+      final dayEntries = <String, dynamic>{
+        "new_measures_${i + 1}[0]": dayValues[i]
+      };
+      final nightEntries = <String, dynamic>{
+        "new_measures_${i + 1}[1]": nightValues[i]
+      };
+      map.addEntries(dayEntries.entries);
+      map.addEntries(nightEntries.entries);
+    }
+
+    formData = map;
+    final result = await _apiClient.post(uri, data: formData);
+    if (result.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<Object?> editMessage(String ticketId, String message,

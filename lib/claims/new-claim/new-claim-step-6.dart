@@ -44,52 +44,58 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
           body: MainForm(
               onRefrash: _refrash,
               header: HeaderRow(text: claimStep6, fontSize: 24),
-              body: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.fromLTRB(0, 25, 0, 24),
-                        child: Text(
-                            "Укажите гарантирующего поставщика и тип договора",
-                            style: claimTextStyle),
-                      ),
-                      Container(
-                        child: DefaultInput(
-                            controller: controller,
-                            keyboardType: TextInputType.number,
-                            labelText: "Наименование Гарантирующего Поставщика",
-                            hintText: "ООО Светлячок",
-                            validatorText: "Введите поставщика"),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 12),
-                        width: MediaQuery.of(context).size.width,
+              body: SingleChildScrollView(
+                child: Padding(
+                    padding: EdgeInsets.only(
+                        left: defaultSidePadding, right: defaultSidePadding),
+                    child: Form(
+                        key: _formKey,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Тип договора:"),
                             Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 55,
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      panelController.open();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: messageColor,
-                                    ),
-                                    child: Text(
-                                      "Выберите договор",
-                                      style: TextStyle(
-                                          color: colorMain, fontSize: 18),
-                                    )))
+                              margin: EdgeInsets.fromLTRB(0, 25, 0, 24),
+                              child: Text(
+                                  "Укажите гарантирующего поставщика и тип договора",
+                                  style: claimTextStyle),
+                            ),
+                            Container(
+                              child: DefaultInput(
+                                  controller: controller,
+                                  keyboardType: TextInputType.number,
+                                  labelText:
+                                      "Наименование Гарантирующего Поставщика",
+                                  hintText: "ООО Светлячок",
+                                  validatorText: "Введите поставщика"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 12),
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Тип договора:"),
+                                  Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 55,
+                                      child: ElevatedButton(
+                                          onPressed: () {
+                                            panelController.open();
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: messageColor,
+                                          ),
+                                          child: Text(
+                                            "Выберите договор",
+                                            style: TextStyle(
+                                                color: colorMain, fontSize: 18),
+                                          )))
+                                ],
+                              ),
+                            )
                           ],
-                        ),
-                      )
-                    ],
-                  ))),
+                        ))),
+              )),
           panel: Column(
             children: [
               Container(

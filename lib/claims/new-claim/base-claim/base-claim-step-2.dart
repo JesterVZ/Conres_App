@@ -39,64 +39,77 @@ class _BaseClaimStep2 extends State<BaseClaimStep2> {
               child: MainForm(
                   onRefrash: _refrash,
                   header: HeaderRow(text: claimStep2, fontSize: 24),
-                  body: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                  "Заявление о необходимости снятия показаний существующего прибора учета",
-                                  style: TextStyle(
-                                      color: colorGray, fontSize: 16.0)),
-                              TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Введите текст!";
-                                  }
-                                  return null;
-                                },
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                                keyboardType: TextInputType.multiline,
-                                controller: textarea,
-                                maxLines: 4,
-                                decoration: InputDecoration(
-                                    hintText: "Ваше заявление",
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: inputBorder, width: 5.0),
-                                        borderRadius:
-                                            BorderRadius.circular(10))),
-                              )
-                            ],
-                          ),
-                          Container(
-                              margin: EdgeInsets.only(top: 12),
-                              width: MediaQuery.of(context).size.width,
-                              height: 55.0,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    baseClaimSendService!.claim_template =
-                                        "claims/claim_2";
-                                    baseClaimSendService!.claim_type_id = "3";
-                                    baseClaimSendService!.claim_type = "ul";
-                                    baseClaimSendService!.claim_name = "3";
-                                    baseClaimSendService!.field_content_main =
-                                        textarea.text;
-                                    profileBloc!
-                                        .sendBaseClaim(baseClaimSendService!);
-                                  },
-                                  child: Text(
-                                    "Отправить",
-                                    style: buttonTextStyle,
+                  body: SingleChildScrollView(
+                      child: Padding(
+                          padding: EdgeInsets.only(
+                              left: defaultSidePadding,
+                              right: defaultSidePadding),
+                          child: Form(
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          "Заявление о необходимости снятия показаний существующего прибора учета",
+                                          style: TextStyle(
+                                              color: colorGray,
+                                              fontSize: 16.0)),
+                                      TextFormField(
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return "Введите текст!";
+                                          }
+                                          return null;
+                                        },
+                                        textCapitalization:
+                                            TextCapitalization.sentences,
+                                        keyboardType: TextInputType.multiline,
+                                        controller: textarea,
+                                        maxLines: 4,
+                                        decoration: InputDecoration(
+                                            hintText: "Ваше заявление",
+                                            border: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: inputBorder,
+                                                    width: 5.0),
+                                                borderRadius:
+                                                    BorderRadius.circular(10))),
+                                      )
+                                    ],
                                   ),
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: colorMain))),
-                        ],
-                      ))));
+                                  Container(
+                                      margin: EdgeInsets.only(top: 12),
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 55.0,
+                                      child: ElevatedButton(
+                                          onPressed: () {
+                                            baseClaimSendService!
+                                                    .claim_template =
+                                                "claims/claim_2";
+                                            baseClaimSendService!
+                                                .claim_type_id = "3";
+                                            baseClaimSendService!.claim_type =
+                                                "ul";
+                                            baseClaimSendService!.claim_name =
+                                                "3";
+                                            baseClaimSendService!
+                                                    .field_content_main =
+                                                textarea.text;
+                                            profileBloc!.sendBaseClaim(
+                                                baseClaimSendService!);
+                                          },
+                                          child: Text(
+                                            "Отправить",
+                                            style: buttonTextStyle,
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: colorMain))),
+                                ],
+                              ))))));
         });
   }
 

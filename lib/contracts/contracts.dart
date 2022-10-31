@@ -50,7 +50,10 @@ class _Contracts extends State<Contracts> {
                     ))),
             onRefrash: _refrash,
             footer: DefaultButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => NewLS()));
+              },
               isGetPadding: true,
               text: "Новый лицевой счет",
             ),

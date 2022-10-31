@@ -490,6 +490,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _handleSendTestimony(SendTestimonyEvent event) async* {
     yield state.copyWith(loading: true, error: null);
     try {
+      var result = await repo.sendTestimony(event.dayValues, event.nightValues);
       yield state.copyWith(loading: false, error: null);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());

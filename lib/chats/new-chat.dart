@@ -35,78 +35,87 @@ class _NewChat extends State<NewChat> {
         child: MainForm(
             onRefrash: _refrash,
             header: HeaderRow(text: "Новое обращение", fontSize: 24),
-            body: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: const CustomDropDown(
-                        title: "Выберите причину",
-                        items: [
-                          "вопрос о техническом присоединении",
-                          "сообщить об аварии",
-                          "другое"
-                        ],
-                      )),
-                  Container(
-                      margin: EdgeInsets.only(bottom: 12),
-                      child: DefaultInput(
-                          controller: FioController,
-                          keyboardType: TextInputType.text,
-                          labelText: "ФИО",
-                          hintText: "Иванов Иван Иванович",
-                          validatorText: "Введите ФИО")),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 12),
-                    child: DefaultInput(
-                        controller: EmailController,
-                        keyboardType: TextInputType.text,
-                        labelText: "Email",
-                        hintText: "Example@gmail.com",
-                        validatorText: "Введите Email"),
-                  ),
-                  Container(
-                      margin: EdgeInsets.only(bottom: 12),
+            body: SingleChildScrollView(
+                child: Padding(
+                    padding: EdgeInsets.only(
+                        left: defaultSidePadding, right: defaultSidePadding),
+                    child: Form(
+                      key: _formKey,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Текст обращения",
-                              style:
-                                  TextStyle(color: colorGray, fontSize: 16.0)),
-                          TextFormField(
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Введите текст";
-                              }
-                              return null;
-                            },
-                            textCapitalization: TextCapitalization.sentences,
-                            maxLines: 5,
-                            controller: TextController,
-                            decoration: InputDecoration(
-                                hintText: "Текст Вашего обращения",
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: inputBorder, width: 5.0),
-                                    borderRadius: BorderRadius.circular(10))),
-                          )
+                          Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: const CustomDropDown(
+                                title: "Выберите причину",
+                                items: [
+                                  "вопрос о техническом присоединении",
+                                  "сообщить об аварии",
+                                  "другое"
+                                ],
+                              )),
+                          Container(
+                              margin: EdgeInsets.only(bottom: 12),
+                              child: DefaultInput(
+                                  controller: FioController,
+                                  keyboardType: TextInputType.text,
+                                  labelText: "ФИО",
+                                  hintText: "Иванов Иван Иванович",
+                                  validatorText: "Введите ФИО")),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 12),
+                            child: DefaultInput(
+                                controller: EmailController,
+                                keyboardType: TextInputType.text,
+                                labelText: "Email",
+                                hintText: "Example@gmail.com",
+                                validatorText: "Введите Email"),
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(bottom: 12),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Текст обращения",
+                                      style: TextStyle(
+                                          color: colorGray, fontSize: 16.0)),
+                                  TextFormField(
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Введите текст";
+                                      }
+                                      return null;
+                                    },
+                                    textCapitalization:
+                                        TextCapitalization.sentences,
+                                    maxLines: 5,
+                                    controller: TextController,
+                                    decoration: InputDecoration(
+                                        hintText: "Текст Вашего обращения",
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: inputBorder, width: 5.0),
+                                            borderRadius:
+                                                BorderRadius.circular(10))),
+                                  )
+                                ],
+                              )),
+                          DefaultButton(
+                              text: "Создать обращение",
+                              isGetPadding: false,
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  profileBloc!.createNewTicket(
+                                      EmailController.text,
+                                      FioController.text,
+                                      "0",
+                                      TextController.text);
+                                  Navigator.pop(context);
+                                }
+                              })
                         ],
-                      )),
-                  DefaultButton(
-                      text: "Создать обращение",
-                      isGetPadding: false,
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          profileBloc!.createNewTicket(EmailController.text,
-                              FioController.text, "0", TextController.text);
-                          Navigator.pop(context);
-                        }
-                      })
-                ],
-              ),
-            )));
+                      ),
+                    )))));
   }
 
   _listener(BuildContext context, ProfileState state) {

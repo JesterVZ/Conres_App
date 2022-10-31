@@ -50,148 +50,161 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
         child: MainForm(
             onRefrash: _refrash,
             header: HeaderRow(text: claimStep3, fontSize: 24),
-            body: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 25, 0, 24),
-                    child: Text(
-                        "Максимальная мощность энергопринимающих устройств (присоединяемых и ранее присоединенных) составляет",
-                        style: claimTextStyle),
-                  ),
-                  Container(
-                    child: Text("Максимальная мощность (всего) на напряжении:",
-                        style: TextStyle(color: colorGray, fontSize: 16)),
-                  ),
-                  Container(
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 158,
-                          child: DefaultInput(
-                              controller: controllerList[0],
-                              keyboardType: TextInputType.number,
-                              labelText: "кВт",
-                              hintText: "000",
-                              validatorText: "Введите серию"),
-                        ),
-                        const Spacer(),
-                        SizedBox(
-                          width: 158,
-                          child: DefaultInput(
-                              controller: controllerList[1],
-                              keyboardType: TextInputType.number,
-                              labelText: "Вт",
-                              hintText: "000",
-                              validatorText: "Введите номер"),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Text("Вновь присоединяемая мощность на напряжении:",
-                        style: TextStyle(color: colorGray, fontSize: 16)),
-                  ),
-                  Container(
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 158,
-                          child: DefaultInput(
-                              controller: controllerList[2],
-                              keyboardType: TextInputType.number,
-                              labelText: "кВт",
-                              hintText: "000",
-                              validatorText: "Введите серию"),
-                        ),
-                        const Spacer(),
-                        SizedBox(
-                          width: 158,
-                          child: DefaultInput(
-                              controller: controllerList[3],
-                              keyboardType: TextInputType.number,
-                              labelText: "Вт",
-                              hintText: "000",
-                              validatorText: "Введите номер"),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Text("Ранее присоединяемая мощность на напряжении:",
-                        style: TextStyle(color: colorGray, fontSize: 16)),
-                  ),
-                  Container(
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 158,
-                          child: DefaultInput(
-                              controller: controllerList[4],
-                              keyboardType: TextInputType.number,
-                              labelText: "кВт",
-                              hintText: "000",
-                              validatorText: "Введите серию"),
-                        ),
-                        const Spacer(),
-                        SizedBox(
-                          width: 158,
-                          child: DefaultInput(
-                              controller: controllerList[5],
-                              keyboardType: TextInputType.number,
-                              labelText: "Вт",
-                              hintText: "000",
-                              validatorText: "Введите номер"),
-                        )
-                      ],
-                    ),
-                  ),
-                  Column(
-                    children: objects,
-                  ),
-                  Container(
-                      margin: EdgeInsets.fromLTRB(0, 24, 0, 24),
-                      height: 55,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white),
-                          onPressed: () {
-                            _addNewObject();
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                  margin:
-                                      const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                                  child: SvgPicture.asset('assets/plus.svg')),
-                              Text(addObject,
-                                  style:
-                                      TextStyle(color: colorMain, fontSize: 18))
-                            ],
-                          ))),
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 55.0,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NewClaimStep4()));
-                            }
-                          },
-                          child: Text(
-                            next,
-                            style: buttonTextStyle,
+            body: SingleChildScrollView(
+                child: Padding(
+                    padding: EdgeInsets.only(
+                        left: defaultSidePadding, right: defaultSidePadding),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 25, 0, 24),
+                            child: Text(
+                                "Максимальная мощность энергопринимающих устройств (присоединяемых и ранее присоединенных) составляет",
+                                style: claimTextStyle),
                           ),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: colorMain))),
-                ],
-              ),
-            )));
+                          Container(
+                            child: Text(
+                                "Максимальная мощность (всего) на напряжении:",
+                                style:
+                                    TextStyle(color: colorGray, fontSize: 16)),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[0],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "кВт",
+                                      hintText: "000",
+                                      validatorText: "Введите серию"),
+                                ),
+                                const Spacer(),
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[1],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "Вт",
+                                      hintText: "000",
+                                      validatorText: "Введите номер"),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                                "Вновь присоединяемая мощность на напряжении:",
+                                style:
+                                    TextStyle(color: colorGray, fontSize: 16)),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[2],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "кВт",
+                                      hintText: "000",
+                                      validatorText: "Введите серию"),
+                                ),
+                                const Spacer(),
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[3],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "Вт",
+                                      hintText: "000",
+                                      validatorText: "Введите номер"),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                                "Ранее присоединяемая мощность на напряжении:",
+                                style:
+                                    TextStyle(color: colorGray, fontSize: 16)),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[4],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "кВт",
+                                      hintText: "000",
+                                      validatorText: "Введите серию"),
+                                ),
+                                const Spacer(),
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[5],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "Вт",
+                                      hintText: "000",
+                                      validatorText: "Введите номер"),
+                                )
+                              ],
+                            ),
+                          ),
+                          Column(
+                            children: objects,
+                          ),
+                          Container(
+                              margin: EdgeInsets.fromLTRB(0, 24, 0, 24),
+                              height: 55,
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.white),
+                                  onPressed: () {
+                                    _addNewObject();
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                          margin: const EdgeInsets.fromLTRB(
+                                              0, 0, 10, 0),
+                                          child: SvgPicture.asset(
+                                              'assets/plus.svg')),
+                                      Text(addObject,
+                                          style: TextStyle(
+                                              color: colorMain, fontSize: 18))
+                                    ],
+                                  ))),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: 55.0,
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NewClaimStep4()));
+                                    }
+                                  },
+                                  child: Text(
+                                    next,
+                                    style: buttonTextStyle,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: colorMain))),
+                        ],
+                      ),
+                    )))));
   }
 }

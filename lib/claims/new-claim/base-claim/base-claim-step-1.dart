@@ -33,100 +33,115 @@ class _BaseClaimStep1 extends State<BaseClaimStep1> {
         child: MainForm(
             onRefrash: _refrash,
             header: HeaderRow(text: claimStep1, fontSize: 24),
-            body: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    SizedBox(
+            body: SingleChildScrollView(
+                child: Padding(
+                    padding: EdgeInsets.only(
+                        left: defaultSidePadding, right: defaultSidePadding),
+                    child: Form(
+                        key: _formKey,
                         child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                            margin: const EdgeInsets.fromLTRB(0, 25, 0, 10),
-                            child: Text(claimInfo, style: claimTextStyle)),
-                        DefaultInput(
-                            controller: controllerList[0],
-                            keyboardType: TextInputType.text,
-                            labelText: "Полное наименование организации",
-                            hintText: "ООО Потребитель",
-                            validatorText: "Введите наименование организации"),
-                        DefaultInput(
-                            controller: controllerList[1],
-                            keyboardType: TextInputType.text,
-                            labelText: "Фактический адрес",
-                            hintText: "Город, Улица, Дом, Квартира",
-                            validatorText: "Введите адрес"),
-                        DefaultInput(
-                            controller: controllerList[2],
-                            keyboardType: TextInputType.text,
-                            labelText: "Юридические адрес",
-                            hintText: "Город, Улица, Дом, Квартира",
-                            validatorText: "Введите адрес"),
-                        DefaultInput(
-                            controller: controllerList[3],
-                            keyboardType: TextInputType.text,
-                            labelText: "ОГРН",
-                            hintText: "0000000000000",
-                            validatorText: "Введите огрн"),
-                        DefaultInput(
-                            controller: controllerList[4],
-                            keyboardType: TextInputType.text,
-                            labelText: "Телефон",
-                            hintText: "+7 (999)-000-00-00",
-                            validatorText: "Введите огрн"),
-                        Container(
-                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                            child: Column(
+                          children: [
+                            SizedBox(
+                                child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Дата внесения в реестр",
-                                    style: TextStyle(
-                                        color: colorGray, fontSize: 16.0)),
-                                BasicDateField(
-                                    controller: controllerList[5],
-                                    format: DateFormat("dd.MM.yyyy"))
+                                Container(
+                                    margin:
+                                        const EdgeInsets.fromLTRB(0, 25, 0, 10),
+                                    child:
+                                        Text(claimInfo, style: claimTextStyle)),
+                                DefaultInput(
+                                    controller: controllerList[0],
+                                    keyboardType: TextInputType.text,
+                                    labelText:
+                                        "Полное наименование организации",
+                                    hintText: "ООО Потребитель",
+                                    validatorText:
+                                        "Введите наименование организации"),
+                                DefaultInput(
+                                    controller: controllerList[1],
+                                    keyboardType: TextInputType.text,
+                                    labelText: "Фактический адрес",
+                                    hintText: "Город, Улица, Дом, Квартира",
+                                    validatorText: "Введите адрес"),
+                                DefaultInput(
+                                    controller: controllerList[2],
+                                    keyboardType: TextInputType.text,
+                                    labelText: "Юридические адрес",
+                                    hintText: "Город, Улица, Дом, Квартира",
+                                    validatorText: "Введите адрес"),
+                                DefaultInput(
+                                    controller: controllerList[3],
+                                    keyboardType: TextInputType.text,
+                                    labelText: "ОГРН",
+                                    hintText: "0000000000000",
+                                    validatorText: "Введите огрн"),
+                                DefaultInput(
+                                    controller: controllerList[4],
+                                    keyboardType: TextInputType.text,
+                                    labelText: "Телефон",
+                                    hintText: "+7 (999)-000-00-00",
+                                    validatorText: "Введите огрн"),
+                                Container(
+                                    margin:
+                                        const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Дата внесения в реестр",
+                                            style: TextStyle(
+                                                color: colorGray,
+                                                fontSize: 16.0)),
+                                        BasicDateField(
+                                            controller: controllerList[5],
+                                            format: DateFormat("dd.MM.yyyy"))
+                                      ],
+                                    )),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 55.0,
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            baseClaimSendService!
+                                                    .field_header_who =
+                                                controllerList[0].text;
+                                            baseClaimSendService!
+                                                    .field_header_egrul =
+                                                controllerList[3].text;
+                                            baseClaimSendService!
+                                                    .field_header_address_1 =
+                                                controllerList[1].text;
+                                            baseClaimSendService!
+                                                    .field_header_address_2 =
+                                                controllerList[2].text;
+                                            baseClaimSendService!
+                                                    .field_header_egrul_date =
+                                                controllerList[5].text;
+                                            baseClaimSendService!.field_phone =
+                                                controllerList[4].text;
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        BaseClaimStep2()));
+                                          }
+                                        },
+                                        child: Text(
+                                          next,
+                                          style: buttonTextStyle,
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: colorMain))),
                               ],
                             )),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: 55.0,
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    baseClaimSendService!.field_header_who =
-                                        controllerList[0].text;
-                                    baseClaimSendService!.field_header_egrul =
-                                        controllerList[3].text;
-                                    baseClaimSendService!
-                                            .field_header_address_1 =
-                                        controllerList[1].text;
-                                    baseClaimSendService!
-                                            .field_header_address_2 =
-                                        controllerList[2].text;
-                                    baseClaimSendService!
-                                            .field_header_egrul_date =
-                                        controllerList[5].text;
-                                    baseClaimSendService!.field_phone =
-                                        controllerList[4].text;
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                BaseClaimStep2()));
-                                  }
-                                },
-                                child: Text(
-                                  next,
-                                  style: buttonTextStyle,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: colorMain))),
-                      ],
-                    )),
-                  ],
-                ))));
+                          ],
+                        ))))));
   }
 
   @override
