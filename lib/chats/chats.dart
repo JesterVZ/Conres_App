@@ -43,6 +43,11 @@ class _Chats extends State<Chats> {
     super.initState();
   }
 
+  void refrashDelegate() {
+    tickets.clear();
+    profileBloc!.getTickets(page.toString());
+  }
+
   Future<void> _refrash() async {
     tickets.clear();
     profileBloc!.getTickets(page.toString());
@@ -71,8 +76,11 @@ class _Chats extends State<Chats> {
                   text: "Новое обращение",
                   isGetPadding: true,
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => NewChat()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                NewChat(refrash: refrashDelegate)));
                   }),
               onRefrash: _refrash);
         });

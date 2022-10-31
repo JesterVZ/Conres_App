@@ -17,6 +17,7 @@ import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../consts.dart';
+import '../elements/alert.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/header/header-notification.dart';
 import '../elements/testimony/testimony.dart';
@@ -33,6 +34,7 @@ class SendTestimony extends StatefulWidget {
 class _SendTestimony extends State<SendTestimony> {
   ProfileBloc? profileBloc;
   bool getPU = false;
+  bool isLoading = true;
   List<Widget> meters = [];
   SendTestimonyService? sendTestimonyService;
 
@@ -47,36 +49,50 @@ class _SendTestimony extends State<SendTestimony> {
         bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
-          return MainForm(
-              header: HeaderNotification(
-                  text: "Передача показаний", canGoBack: true),
-              body: SingleChildScrollView(
-                  child: Padding(
-                      padding: EdgeInsets.only(
-                          left: defaultSidePadding, right: defaultSidePadding),
-                      child: Column(
-                        children: meters,
-                      ))),
-              footer: DefaultButton(
-                  isGetPadding: true,
-                  onPressed: () {
-                    List<String> dayValues = [];
-                    List<String> nightValues = [];
-                    for (int i = 0; i < dayControllers!.length; i++) {
-                      dayValues.add(dayControllers![i].text);
-                    }
-                    for (int i = 0; i < nightControllers!.length; i++) {
-                      nightValues.add(nightControllers![i].text);
-                    }
-                    profileBloc!.sendTestimony(dayValues, nightValues);
-                  },
-                  text: "Передать показания"),
-              onRefrash: _refrash);
+          return Stack(
+            children: [
+              MainForm(
+                  header: HeaderNotification(
+                      text: "Передача показаний", canGoBack: true),
+                  body: SingleChildScrollView(
+                      child: Padding(
+                          padding: EdgeInsets.only(
+                              left: defaultSidePadding,
+                              right: defaultSidePadding),
+                          child: Column(
+                            children: meters,
+                          ))),
+                  footer: DefaultButton(
+                      isGetPadding: true,
+                      onPressed: () {
+                        List<String> dayValues = [];
+                        List<String> nightValues = [];
+                        for (int i = 0; i < dayControllers!.length; i++) {
+                          dayValues.add(dayControllers![i].text);
+                        }
+                        for (int i = 0; i < nightControllers!.length; i++) {
+                          nightValues.add(nightControllers![i].text);
+                        }
+                        profileBloc!.sendTestimony(dayValues, nightValues);
+                      },
+                      text: "Передать показания"),
+                  onRefrash: _refrash),
+              Visibility(
+                  child: Center(
+                      child: Container(
+                    width: 50,
+                    height: 50,
+                    child: CircularProgressIndicator(color: colorMain),
+                  )),
+                  visible: (isLoading == true) ? true : false)
+            ],
+          );
         });
   }
 
   void addMeasure() {}
   _listener(BuildContext context, ProfileState state) {
+    isLoading = state.loading!;
     if (state.loading!) {
       return;
     }
@@ -90,6 +106,18 @@ class _SendTestimony extends State<SendTestimony> {
             dayController: dayControllers![i],
             nightController: nightControllers![i]));
       }
+    }
+    if (state.loading! == false && state.isMeasureSent == true) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) =>
+              Alert(title: "Успешно!", text: "Показания переданы!"));
+    }
+    if (state.error != null) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) =>
+              Alert(title: "Ошибка!", text: state.error.toString()));
     }
   }
 

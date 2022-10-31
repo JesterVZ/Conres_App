@@ -17,6 +17,7 @@ import '../../websocket/websocket.dart';
 class ProfileState {
   final String? cookieStr;
   final bool? loading;
+  final bool? isMeasureSent;
   final String? error;
   final Map<String, dynamic>? fullInfo;
 
@@ -40,7 +41,7 @@ class ProfileState {
 
   final bool? isClaimSent;
 
-  final String? privatePolicyString; 
+  final String? privatePolicyString;
 
   ProfileState(
       {this.loginData,
@@ -63,6 +64,7 @@ class ProfileState {
       this.objectsPU,
       this.TuPoints,
       this.privatePolicyString,
+      this.isMeasureSent,
       this.isClaimSent,
       this.userInformation});
 
@@ -70,6 +72,7 @@ class ProfileState {
   ProfileState copyWith(
       {String? cookieStr,
       bool? loading,
+      bool? isMeasureSent,
       List<dynamic>? loginData,
       String? bindLsData,
       Map<String, dynamic>? sendMessageData,
@@ -95,6 +98,7 @@ class ProfileState {
         loading: loading ?? this.loading,
         cookieStr: cookieStr ?? this.cookieStr,
         loginData: loginData,
+        isMeasureSent: isMeasureSent,
         bindLsData: bindLsData,
         contracts: contracts ?? this.contracts,
         numbers: numbers ?? this.numbers,

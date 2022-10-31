@@ -27,6 +27,7 @@ class _MaskInput extends State<MaskInput> {
   bool _isInnValidate = false;
   bool _isSnilsValidate = false;
   bool _isOfrnipValidate = false;
+  bool _isOgrnValidate = false;
   bool _isEmailValidate = false;
   bool _isKppValidate = false;
   bool _islsValidate = false;
@@ -152,6 +153,35 @@ class _MaskInput extends State<MaskInput> {
           onChanged: (value) {
             setState(() {
               _isSnilsValidate = isSnilsValidate(value);
+            });
+          },
+        );
+      case "ogrn":
+        return TextFormField(
+          style: TextStyle(color: _isOgrnValidate ? Colors.green : Colors.red),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Введите ОГРН";
+            } else if (_isOgrnValidate == false) {
+              return "ОГРН некорректен";
+            }
+            return null;
+          },
+          controller: textEditingController,
+          inputFormatters: [textInputFormatter],
+          keyboardType: TextInputType.number,
+          autocorrect: false,
+          decoration: InputDecoration(
+              hintText: hint,
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(color: inputBorder),
+                  borderRadius: BorderRadius.circular(10)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: _isOgrnValidate ? Colors.green : Colors.red))),
+          onChanged: (value) {
+            setState(() {
+              _isOgrnValidate = isOgrnValidate(value);
             });
           },
         );

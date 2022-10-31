@@ -1,4 +1,5 @@
 import 'package:conres_app/Services/base-claim-send-service.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,7 @@ import '../../../bloc/profile/profile-state.dart';
 import '../../../consts.dart';
 import '../../../elements/alert.dart';
 import '../../../elements/bloc/bloc-screen.dart';
+import '../../../elements/claims/file-element.dart';
 import '../../../elements/header/header.dart';
 
 class BaseClaimStep2 extends StatefulWidget {
@@ -21,10 +23,18 @@ class _BaseClaimStep2 extends State<BaseClaimStep2> {
   ProfileBloc? profileBloc;
   bool isLoading = false;
 
+  bool isSent = false; //отправлено ли
+
   final _formKey = GlobalKey<FormState>();
   TextEditingController textarea = TextEditingController();
 
   Future<void> _refrash() async {}
+  Map<int?, FilePickerResult?> imagesMap = {0: null, 1: null};
+  void _pickDocument(int id, FilePickerResult? result) {
+    setState(() {
+      imagesMap.update(id, (value) => result);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +92,24 @@ class _BaseClaimStep2 extends State<BaseClaimStep2> {
                                     ],
                                   ),
                                   Container(
+                                    margin: EdgeInsets.only(top: 13),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Text("Приложение",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: colorGray, fontSize: 16.0)),
+                                  ),
+                                  DocElement(id: 0, result: _pickDocument),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 13),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Text("Приложение",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: colorGray, fontSize: 16.0)),
+                                  ),
+                                  DocElement(id: 1, result: _pickDocument),
+                                  Container(
                                       margin: EdgeInsets.only(top: 12),
                                       width: MediaQuery.of(context).size.width,
                                       height: 55.0,
@@ -99,6 +127,8 @@ class _BaseClaimStep2 extends State<BaseClaimStep2> {
                                             baseClaimSendService!
                                                     .field_content_main =
                                                 textarea.text;
+                                            baseClaimSendService!.files =
+                                                imagesMap;
                                             profileBloc!.sendBaseClaim(
                                                 baseClaimSendService!);
                                           },
@@ -118,11 +148,12 @@ class _BaseClaimStep2 extends State<BaseClaimStep2> {
       isLoading = true;
       return;
     }
-    if (state.loading == false && state.error == null) {
+    if (state.loading == false && state.error == null && isSent == true) {
       showDialog(
           context: context,
           builder: (BuildContext context) =>
               Alert(title: "Успешно!", text: "Заявление успешно отправлено!"));
+      isSent = false;
     } else if (state.loading == false && state.error != null) {
       showDialog(
           context: context,

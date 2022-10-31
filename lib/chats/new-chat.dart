@@ -14,6 +14,8 @@ import '../elements/dropdown.dart';
 import '../elements/header/header-notification.dart';
 
 class NewChat extends StatefulWidget {
+  VoidCallback? refrash;
+  NewChat({required this.refrash});
   @override
   State<StatefulWidget> createState() => _NewChat();
 }
@@ -22,6 +24,7 @@ class _NewChat extends State<NewChat> {
   TextEditingController FioController = TextEditingController();
   TextEditingController EmailController = TextEditingController();
   TextEditingController TextController = TextEditingController();
+  TextEditingController TypeController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   ProfileBloc? profileBloc;
@@ -45,9 +48,10 @@ class _NewChat extends State<NewChat> {
                         children: [
                           Container(
                               width: MediaQuery.of(context).size.width,
-                              child: const CustomDropDown(
+                              child: CustomDropDown(
+                                selectedItem: TypeController,
                                 title: "Выберите причину",
-                                items: [
+                                items: const [
                                   "вопрос о техническом присоединении",
                                   "сообщить об аварии",
                                   "другое"
@@ -105,11 +109,25 @@ class _NewChat extends State<NewChat> {
                               isGetPadding: false,
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
+                                  String type = "";
+                                  switch (TypeController.text) {
+                                    case "другое":
+                                      type = "0";
+                                      break;
+                                    case "вопрос о техническом присоединении":
+                                      type = "1";
+                                      break;
+                                    case "сообщить об аварии":
+                                      type = "3";
+                                      break;
+                                  }
+
                                   profileBloc!.createNewTicket(
                                       EmailController.text,
                                       FioController.text,
-                                      "0",
+                                      type,
                                       TextController.text);
+                                  widget.refrash!.call();
                                   Navigator.pop(context);
                                 }
                               })

@@ -25,6 +25,10 @@ bool isOgrnipValidate(String val) {
   return RegExp(r'[0-9]{15}$').hasMatch(val);
 }
 
+bool isOgrnValidate(String val) {
+  return RegExp(r'[0-9]{13}$').hasMatch(val);
+}
+
 bool isOgrnipUlValidate(String val) {
   return RegExp(r'[0-9]{13}$').hasMatch(val);
 }

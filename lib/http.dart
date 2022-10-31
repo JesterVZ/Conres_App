@@ -656,6 +656,21 @@ class HttpClient {
   Future<Object?> sendBaseClaim(
       BaseClaimSendService baseClaimSendService) async {
     String uri = domain + 'lk/index.php?route=claims/new_claim/api_sendClaim';
+    List<MultipartFile> files = [];
+    List<String> fileNames = [];
+
+    var entries = baseClaimSendService.files!.entries.toList();
+    for (int i = 0; i < baseClaimSendService.files!.length; i++) {
+      if (entries[i].value != null) {
+        dynamic file = File(entries[i].value!.files[0].path!);
+        MultipartFile multipartFile = await MultipartFile.fromFile(
+          file.path!,
+          filename: file.path!.split('/').last,
+        );
+        fileNames.add(file.path!.split('/').last);
+        files.add(multipartFile);
+      }
+    }
     try {
       var formdata = FormData.fromMap({
         'claim_type_id': baseClaimSendService.claim_type_id,
@@ -671,13 +686,18 @@ class HttpClient {
         'field_header_address_1': baseClaimSendService.field_header_address_1,
         'field_header_address_2': baseClaimSendService.field_header_address_2,
         'field_header_egrul_date': baseClaimSendService.field_header_egrul_date,
+        'contract_files[]': files,
+        'contract_files_name[]': fileNames
       });
+
       final result = await _apiClient.post(uri, data: formdata);
       if (result.statusCode == 200) {
         return true;
       } else {
         return false;
       }
-    } catch (e) {}
+    } catch (e) {
+      return e.toString();
+    }
   }
 }

@@ -1,7 +1,9 @@
 import 'package:conres_app/claims/new-claim/base-claim/base-claim-step-2.dart';
 import 'package:conres_app/elements/header/header.dart';
+import 'package:conres_app/elements/masks.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../DI/dependency-provider.dart';
 import '../../../Services/base-claim-send-service.dart';
@@ -71,12 +73,22 @@ class _BaseClaimStep1 extends State<BaseClaimStep1> {
                                     labelText: "Юридические адрес",
                                     hintText: "Город, Улица, Дом, Квартира",
                                     validatorText: "Введите адрес"),
-                                DefaultInput(
-                                    controller: controllerList[3],
-                                    keyboardType: TextInputType.text,
-                                    labelText: "ОГРН",
-                                    hintText: "0000000000000",
-                                    validatorText: "Введите огрн"),
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("ОГРН",
+                                          style: TextStyle(
+                                              color: colorGray,
+                                              fontSize: 16.0)),
+                                      MaskInput(
+                                          textController: controllerList[3],
+                                          type: "ogrn",
+                                          formatter: MaskTextInputFormatter(
+                                              mask: "#############"),
+                                          hint: "0000000000000")
+                                    ]),
                                 DefaultInput(
                                     controller: controllerList[4],
                                     keyboardType: TextInputType.text,
