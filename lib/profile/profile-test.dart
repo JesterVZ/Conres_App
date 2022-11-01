@@ -1,3 +1,4 @@
+import 'package:conres_app/Services/profile-service.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/contracts/contracts.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,8 @@ import '../model/profile.dart';
 import '../testimony/send-testimony.dart';
 
 class ProfilePageTest extends StatefulWidget {
-  ProfilePageTest({Key? key, this.loginData, required this.func, required this.cookies})
+  ProfilePageTest(
+      {Key? key, this.loginData, required this.func, required this.cookies})
       : super(key: key);
   ValueChanged<Contract> func;
 
@@ -29,6 +31,7 @@ class _ProfilePage extends State<ProfilePageTest> {
   AuthBloc? authBloc;
   ProfileBloc? profileBloc;
   Profile? profile;
+  ProfileService? profileService;
 
   Future<void> _refrash() async {
     authBloc!.loginWithCookies(widget.cookies);
@@ -64,7 +67,8 @@ class _ProfilePage extends State<ProfilePageTest> {
                                       text: "Ваш профиль",
                                     )),
                                 Visibility(
-                                    visible: (profile != null && profile!.personal != null)
+                                    visible: (profile != null &&
+                                            profile!.personal != null)
                                         ? true
                                         : false,
                                     child: GestureDetector(
@@ -97,13 +101,21 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    const Text(
-                                                        "Текущий Лицевой счёт",
-                                                        style: TextStyle(
+                                                    Text(
+                                                        profileService!
+                                                                    .userType ==
+                                                                "fl"
+                                                            ? "Лицевой счёт"
+                                                            : "Договор",
+                                                        style: const TextStyle(
                                                             color: Colors.white,
                                                             fontSize: 15)),
                                                     Text(
-                                                            (profile != null && profile!.personal != null) ? profile!.personal! : "",
+                                                        (profile != null &&
+                                                                profile!.personal !=
+                                                                    null)
+                                                            ? profile!.personal!
+                                                            : "Заключите договор",
                                                         style: const TextStyle(
                                                             color: Colors.white,
                                                             fontSize: 18))
@@ -174,7 +186,12 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                               color:
                                                                   profileLabelColor,
                                                               fontSize: 15)),
-                                                      Text((profile != null && profile!.inn != null) ? profile!.inn! : "",
+                                                      Text(
+                                                          (profile != null &&
+                                                                  profile!.inn !=
+                                                                      null)
+                                                              ? profile!.inn!
+                                                              : "",
                                                           style:
                                                               const TextStyle(
                                                             color: Colors.black,
@@ -214,7 +231,13 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                         fontSize: 15,
                                                       )),
                                                   Text(
-                                                      (profile != null) ? profile!.personalGP == null? needDogovor : profile!.personalGP! : "",
+                                                      (profile != null)
+                                                          ? profile!.personalGP ==
+                                                                  null
+                                                              ? needDogovor
+                                                              : profile!
+                                                                  .personalGP!
+                                                          : "",
                                                       style: const TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 18))
@@ -234,7 +257,12 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                           color:
                                                               profileLabelColor,
                                                           fontSize: 15)),
-                                                  Text((profile != null && profile!.email != null) ? profile!.email! : "",
+                                                  Text(
+                                                      (profile != null &&
+                                                              profile!.email !=
+                                                                  null)
+                                                          ? profile!.email!
+                                                          : "",
                                                       style: const TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 18))
@@ -254,7 +282,12 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                           color:
                                                               profileLabelColor,
                                                           fontSize: 15)),
-                                                  Text((profile != null && profile!.address != null) ? profile!.address! : "",
+                                                  Text(
+                                                      (profile != null &&
+                                                              profile!.address !=
+                                                                  null)
+                                                          ? profile!.address!
+                                                          : "",
                                                       style: const TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 18))
@@ -266,8 +299,10 @@ class _ProfilePage extends State<ProfilePageTest> {
                               ],
                             ),
                             Visibility(
-                                visible:
-                                    (profile != null && profile!.personal != null) ? true : false,
+                                visible: (profile != null &&
+                                        profile!.personal != null)
+                                    ? true
+                                    : false,
                                 child: Positioned(
                                     bottom: 24,
                                     child: Container(
@@ -283,7 +318,8 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                       builder: (context) =>
                                                           SendTestimony(
                                                               personal: profile!
-                                                                  .personal ?? "")));
+                                                                      .personal ??
+                                                                  "")));
                                             },
                                             style: ElevatedButton.styleFrom(
                                                 backgroundColor: colorGray,
@@ -359,7 +395,7 @@ class _ProfilePage extends State<ProfilePageTest> {
     if (state.loading == true) {
       return;
     }
-    if(state.profile != null){
+    if (state.profile != null) {
       setState(() {
         profile = state.profile!;
       });
@@ -371,6 +407,7 @@ class _ProfilePage extends State<ProfilePageTest> {
     super.didChangeDependencies();
     authBloc ??= DependencyProvider.of(context)!.authBloc;
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    profileService ??= DependencyProvider.of(context)!.profileService;
     authBloc!.loginWithCookies(widget.cookies);
   }
 }

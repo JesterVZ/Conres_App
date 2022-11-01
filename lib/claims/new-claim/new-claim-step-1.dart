@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:intl/intl.dart';
+import '../../DI/dependency-provider.dart';
+import '../../Services/main-claim-send-service.dart';
 import '../../UI/default-input.dart';
 import '../../UI/main-form.dart';
 import '../../consts.dart';
@@ -20,6 +22,7 @@ class _NewClaimStep1 extends State<NewClaimStep1> {
   final controllerList = List<TextEditingController>.generate(
       9, (index) => TextEditingController());
   final _formKey = GlobalKey<FormState>();
+  MainClaimSendService? mainClaimSendService;
 
   Future<void> _refrash() async {}
   @override
@@ -131,6 +134,15 @@ class _NewClaimStep1 extends State<NewClaimStep1> {
                                         onPressed: () {
                                           if (_formKey.currentState!
                                               .validate()) {
+                                            mainClaimSendService!
+                                                .field_header_who = controllerList[
+                                                    0]
+                                                .text; // фио либо полное название организации
+                                            mainClaimSendService!
+                                                    .field_header_address_1 =
+                                                controllerList[1]
+                                                    .text; // фактический адрес
+
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
@@ -150,5 +162,12 @@ class _NewClaimStep1 extends State<NewClaimStep1> {
                             ),
                           ],
                         ))))));
+  }
+
+  @override
+  void didChangeDependencies() {
+    mainClaimSendService ??=
+        DependencyProvider.of(context)!.mainClaimSendService;
+    super.didChangeDependencies();
   }
 }

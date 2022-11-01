@@ -6,12 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
+import '../../DI/dependency-provider.dart';
+import '../../Services/main-claim-send-service.dart';
 import '../../UI/default-input.dart';
 import '../../UI/main-form.dart';
 import '../../consts.dart';
 import '../../elements/claims/claim-step2-object.dart';
 import '../../elements/dropdown.dart';
 import '../../elements/masks.dart';
+import '../../model/claims/claim-step-2-object.dart';
 import 'new-claim-step-3.dart';
 
 class NewClaimStep2 extends StatefulWidget {
@@ -30,6 +33,8 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
 
   final _formKey = GlobalKey<FormState>();
   List<ClaimStep2Object> objects = [];
+  TextEditingController reasonController = TextEditingController();
+  MainClaimSendService? mainClaimSendService;
 
   void _addNewObject() {
     setState(() {
@@ -80,9 +85,10 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
                                   Text(cause, style: labelTextStyle),
                                   Container(
                                       width: MediaQuery.of(context).size.width,
-                                      child: const CustomDropDown(
+                                      child: CustomDropDown(
+                                        selectedItem: reasonController,
                                         title: "Выберите причину",
-                                        items: [
+                                        items: const [
                                           "увеличением объема максимальной мощности",
                                           "новым строительством",
                                           "изменением категории надежности электроснабжения",
@@ -156,6 +162,21 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
                                           onPressed: () {
                                             if (_formKey.currentState!
                                                 .validate()) {
+                                              List<ClaimStep2TableObject>
+                                                  tableObjects = [];
+                                              tableObjects.add(
+                                                  ClaimStep2TableObject(
+                                                      address: controllerList[1]
+                                                          .text,
+                                                      kadastr: controllerList[2]
+                                                          .text,
+                                                      name: controllerList[0]
+                                                          .text));
+
+                                              mainClaimSendService!.reason =
+                                                  reasonController.text;
+                                              mainClaimSendService!
+                                                  .step2Object = tableObjects;
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -176,5 +197,12 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
                         ],
                       ),
                     )))));
+  }
+
+  @override
+  void didChangeDependencies() {
+    mainClaimSendService ??=
+        DependencyProvider.of(context)!.mainClaimSendService;
+    super.didChangeDependencies();
   }
 }

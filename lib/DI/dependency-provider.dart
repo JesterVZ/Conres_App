@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../Services/base-claim-send-service.dart';
+import '../Services/main-claim-send-service.dart';
 import '../Services/send-testimont-service.dart';
 import '../Services/update-claim-service.dart';
 import '../Services/update-ticket-service.dart';
@@ -32,6 +33,7 @@ class DependencyProvider extends InheritedWidget {
   UpdateTicketService? _updateTicketService;
   BaseClaimSendService? _baseClaimSendService;
   SendTestimonyService? _sendTestimonyService;
+  MainClaimSendService? _mainClaimSendService;
   ProfileService? _profileService;
 
   DependencyProvider({Key? key, Widget? child})
@@ -56,6 +58,11 @@ class DependencyProvider extends InheritedWidget {
   UpdateClaimService? get updateClaimService {
     _updateClaimService ??= UpdateClaimService();
     return _updateClaimService;
+  }
+
+  MainClaimSendService? get mainClaimSendService {
+    _mainClaimSendService ??= MainClaimSendService();
+    return _mainClaimSendService;
   }
 
   UpdateTicketService? get updateTicketService {
