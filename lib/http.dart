@@ -700,4 +700,38 @@ class HttpClient {
       return e.toString();
     }
   }
+
+  Future<Object?> editObjectPu(
+      String object_id, String object_name, String object_address) async {
+    String uri =
+        domain + 'lk/index.php?route=catalog/objects/api_editObjectsInfo';
+    var formdata = FormData.fromMap({
+      'object_id': object_id,
+      'new_object_name': object_name,
+      'new_object_address': object_address
+    });
+    final result = await _apiClient.post(uri, data: formdata);
+    if (result.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<Object?> editObjectTu(String point_id, String new_tu_number,
+      String new_tu_name, String new_tu_address) async {
+    String uri = domain + 'lk/index.php?route=catalog/pu_info/api_editTuInfo';
+    var formdata = FormData.fromMap({
+      'point_id': point_id,
+      'new_tu_number': new_tu_number,
+      'new_tu_name': new_tu_name,
+      'new_tu_address': new_tu_address
+    });
+    final result = await _apiClient.post(uri, data: formdata);
+    if (result.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

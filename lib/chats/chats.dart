@@ -128,6 +128,7 @@ class _Chats extends State<Chats> {
     setState(() {
       ticketsMap.update(ticket_id, (value) => newTicket);
     });
+    refrashDelegate();
   }
 
   void _openChat(Ticket ticket) {
