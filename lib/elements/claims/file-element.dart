@@ -19,7 +19,9 @@ class _DocElement extends State<DocElement> {
   void pick() async {
     file = await FilePicker.platform.pickFiles(allowMultiple: false);
     if (file != null) {
-      widget.result.call(widget.id, file!);
+      setState(() {
+        widget.result.call(widget.id, file!);
+      });
     }
   }
 
@@ -27,9 +29,7 @@ class _DocElement extends State<DocElement> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          pick();
-        });
+        pick();
       },
       child: Container(
         padding: const EdgeInsets.only(left: 18, right: 18),
