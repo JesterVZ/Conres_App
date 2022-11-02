@@ -4,6 +4,7 @@ import 'package:conres_app/registration/registration-ul.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../DI/dependency-provider.dart';
 import '../Services/profile-service.dart';
@@ -23,6 +24,7 @@ class _ChangeType extends State<ChangeType> {
   TextEditingController lkController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   ProfileService? profileService;
+  SharedPreferences? preferences;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +55,7 @@ class _ChangeType extends State<ChangeType> {
                         height: 55.0,
                         child: ElevatedButton(
                             onPressed: () {
+                              preferences!.setString('lkType', "fl");
                               profileService!.userType = "fl";
                               widget.isReg
                                   ? Navigator.push(
@@ -81,6 +84,7 @@ class _ChangeType extends State<ChangeType> {
                         height: 55.0,
                         child: ElevatedButton(
                             onPressed: () {
+                              preferences!.setString('lkType', "ip");
                               profileService!.userType = "ip";
                               widget.isReg
                                   ? Navigator.push(
@@ -109,6 +113,7 @@ class _ChangeType extends State<ChangeType> {
                         height: 55.0,
                         child: ElevatedButton(
                             onPressed: () {
+                              preferences!.setString('lkType', "ul");
                               profileService!.userType = "ul";
                               widget.isReg
                                   ? Navigator.push(
@@ -138,8 +143,9 @@ class _ChangeType extends State<ChangeType> {
   }
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     profileService ??= DependencyProvider.of(context)!.profileService;
+    preferences = await SharedPreferences.getInstance();
     super.didChangeDependencies();
   }
 }

@@ -19,6 +19,9 @@ class MainClaimSendService {
   String? field_phone;
   String? field_header_egrul_date;
   String? reason;
+  String? field_pass_serial;
+  String? field_pass_number;
+  String? field_pass_giver;
   List<ClaimStep2TableObject?>? step2Object;
   String? field_max_power_3;
   String? field_max_voltage_3;
