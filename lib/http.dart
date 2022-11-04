@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:conres_app/Services/main-claim-send-service.dart';
 import 'package:conres_app/model/claim-message.dart';
 import 'package:conres_app/model/object_pu.dart';
 import 'package:conres_app/model/store.dart';
@@ -686,7 +687,59 @@ class HttpClient {
         'field_header_address_1': baseClaimSendService.field_header_address_1,
         'field_header_address_2': baseClaimSendService.field_header_address_2,
         'field_header_egrul_date': baseClaimSendService.field_header_egrul_date,
+        'field_content_main': baseClaimSendService.field_content_main,
         'contract_files[]': files,
+        'contract_files_name[]': fileNames
+      });
+
+      final result = await _apiClient.post(uri, data: formdata);
+      if (result.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  Future<Object?> sendMainClaim(
+      MainClaimSendService mainClaimSendService) async {
+    String uri = domain + 'lk/index.php?route=claims/new_claim/api_sendClaim';
+    List<MultipartFile> files = [];
+    List<String> fileNames = [];
+
+    var entries = mainClaimSendService.files!.entries.toList();
+    for (int i = 0; i < mainClaimSendService.files!.length; i++) {
+      if (entries[i].value != null) {
+        dynamic file = File(entries[i].value!.files[0].path!);
+        MultipartFile multipartFile = await MultipartFile.fromFile(
+          file.path!,
+          filename: file.path!.split('/').last,
+        );
+        fileNames.add(file.path!.split('/').last);
+        files.add(multipartFile);
+      }
+    }
+
+    try {
+      var formdata = FormData.fromMap({
+        'claim_type_id': mainClaimSendService.claim_type_id,
+        'claim_name': mainClaimSendService.claim_name,
+        'field_header_whom_1': mainClaimSendService.field_header_whom_1,
+        'field_phone': mainClaimSendService.field_phone,
+        'field_email': "info@conres.ru",
+        'field_content_date': mainClaimSendService.field_header_egrul_date,
+        'claim_type': mainClaimSendService.claim_type,
+        'claim_template': mainClaimSendService.claim_template,
+        'field_header_who': mainClaimSendService.field_header_who,
+        'field_header_egrul': mainClaimSendService.field_header_egrul,
+        'field_header_address_1': mainClaimSendService.field_header_address_1,
+        'field_header_address_2': mainClaimSendService.field_header_address_2,
+        'field_header_egrul_date': mainClaimSendService.field_header_egrul_date,
+        'reason': mainClaimSendService.reason,
+        ''
+            'contract_files[]': files,
         'contract_files_name[]': fileNames
       });
 
