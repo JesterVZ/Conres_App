@@ -58,7 +58,7 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
                           Container(
                             child: DefaultInput(
                                 controller: controller,
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.text,
                                 labelText:
                                     "Наименование Гарантирующего Поставщика",
                                 hintText: "ООО Светлячок",

@@ -1,4 +1,5 @@
 import 'package:accordion/accordion.dart';
+import 'package:conres_app/Services/main-claim-send-service.dart';
 import 'package:conres_app/Services/update-claim-service.dart';
 import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/UI/main-form.dart';
@@ -34,6 +35,7 @@ class _Claims extends State<Claims> {
   ScrollController controller = ScrollController();
   UpdateClaimService? updateClaimService;
   BaseClaimSendService? baseClaimSendService;
+  MainClaimSendService? mainClaimSendService;
 
   @override
   void initState() {
@@ -143,7 +145,10 @@ class _Claims extends State<Claims> {
     updateClaimService ??= DependencyProvider.of(context)!.updateClaimService;
     baseClaimSendService ??=
         DependencyProvider.of(context)!.baseClaimSendService;
+    mainClaimSendService ??=
+        DependencyProvider.of(context)!.mainClaimSendService;
     baseClaimSendService!.delegateFunc = refrashDelegate;
+    mainClaimSendService!.delegateFunc = refrashDelegate;
     updateClaimService!.update = updateStatus;
     profileBloc!.getClaims();
   }
