@@ -508,6 +508,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null);
     try {
       var result = await repo.sendMainClaim(event.mainClaimSendService);
+      yield state.copyWith(loading: false, error: null);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }

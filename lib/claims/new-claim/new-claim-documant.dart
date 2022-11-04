@@ -1,14 +1,17 @@
 import 'package:conres_app/Services/main-claim-send-service.dart';
+import 'package:conres_app/Services/profile-service.dart';
 import 'package:conres_app/UI/main-form.dart';
 import 'package:conres_app/claims/new-claim/new-claim-step-1.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:flutter/material.dart';
 import '../../DI/dependency-provider.dart';
+import '../../Services/base-claim-send-service.dart';
 import '../../consts.dart';
 import '../../elements/claims/claim-type-element.dart';
 import '../../elements/header/header.dart';
 import 'base-claim/base-claim-step-1.dart';
 import 'new-claim-step-7.dart';
+import 'package:intl/intl.dart';
 
 class NewClaimDicument extends StatefulWidget {
   @override
@@ -17,6 +20,8 @@ class NewClaimDicument extends StatefulWidget {
 
 class _NewClaimDicument extends State<NewClaimDicument> {
   MainClaimSendService? mainClaimSendService;
+  BaseClaimSendService? baseClaimSendService;
+  ProfileService? profileService;
 
   Future<void> _refrash() async {}
   @override
@@ -31,6 +36,13 @@ class _NewClaimDicument extends State<NewClaimDicument> {
                   children: [
                     ClaimTypeELement(
                         func: () {
+                          DateTime now = DateTime.now();
+                          String formattedDate =
+                              DateFormat('dd.MM.yyyy').format(now);
+                          mainClaimSendService!.claim_name = "1";
+                          mainClaimSendService!.claim_type_id = "1";
+                          mainClaimSendService!.field_content_date =
+                              formattedDate;
                           mainClaimSendService!.claim_template =
                               "claims/claim_techconn";
                           Navigator.push(
@@ -42,7 +54,7 @@ class _NewClaimDicument extends State<NewClaimDicument> {
                             "Заявление на технологическое присоединение к электрическим сетям."),
                     ClaimTypeELement(
                         func: () {
-                          mainClaimSendService!.claim_template =
+                          baseClaimSendService!.claim_template =
                               "claims/claim_1";
                           Navigator.push(
                               context,
@@ -53,7 +65,7 @@ class _NewClaimDicument extends State<NewClaimDicument> {
                             "Заявление о необходимости снятия показаний существующего прибора учета."),
                     ClaimTypeELement(
                         func: () {
-                          mainClaimSendService!.claim_template =
+                          baseClaimSendService!.claim_template =
                               "claims/claim_2";
                           Navigator.push(
                               context,
@@ -64,7 +76,7 @@ class _NewClaimDicument extends State<NewClaimDicument> {
                             "Заявление на осуществление допуска в эксплуатацию прибора учета."),
                     ClaimTypeELement(
                         func: () {
-                          mainClaimSendService!.claim_template =
+                          baseClaimSendService!.claim_template =
                               "claims/claim_3";
                           Navigator.push(
                               context,
@@ -75,7 +87,7 @@ class _NewClaimDicument extends State<NewClaimDicument> {
                             "Заявление на оборудование точки поставки приборами учета."),
                     ClaimTypeELement(
                         func: () {
-                          mainClaimSendService!.claim_template =
+                          baseClaimSendService!.claim_template =
                               "claims/claim_4";
                           Navigator.push(
                               context,
@@ -93,6 +105,11 @@ class _NewClaimDicument extends State<NewClaimDicument> {
   void didChangeDependencies() {
     mainClaimSendService ??=
         DependencyProvider.of(context)!.mainClaimSendService;
+    baseClaimSendService ??=
+        DependencyProvider.of(context)!.baseClaimSendService;
+    profileService ??= DependencyProvider.of(context)!.profileService;
+    mainClaimSendService!.claim_type = profileService!.userType;
+    baseClaimSendService!.claim_type = profileService!.userType;
     super.didChangeDependencies();
   }
 }

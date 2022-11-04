@@ -723,23 +723,26 @@ class HttpClient {
     }
     Map<String, dynamic> objectsMap = Map<String, dynamic>();
     for (int i = 0; i < mainClaimSendService.step2Object!.length; i++) {
-      final object = {
-        'table_object[${i + 1}]': mainClaimSendService.step2Object![i]!.name,
-        'table_object[${i + 1}]': mainClaimSendService.step2Object![i]!.address,
-        'table_object[${i + 1}]': mainClaimSendService.step2Object![i]!.kadastr
+      var object = {
+        'table_object[${i + 1}][0]': mainClaimSendService.step2Object![i]!.name,
+        'table_object[${i + 1}][1]':
+            mainClaimSendService.step2Object![i]!.address,
+        'table_object[${i + 1}][2]':
+            mainClaimSendService.step2Object![i]!.kadastr
       };
       objectsMap.addEntries(object.entries);
     }
     Map<String, dynamic> stagesMap = Map<String, dynamic>();
     for (int i = 0; i < mainClaimSendService.step5Stage!.length; i++) {
-      final object = {
-        'table_staging[${i + 1}]': mainClaimSendService.step5Stage![i].stage,
-        'table_staging[${i + 1}]':
+      var object = {
+        'table_staging[${i + 1}][0]': mainClaimSendService.step5Stage![i].stage,
+        'table_staging[${i + 1}][1]':
             mainClaimSendService.step5Stage![i].projectTerm,
-        'table_staging[${i + 1}]':
+        'table_staging[${i + 1}][2]':
             mainClaimSendService.step5Stage![i].inputTerm,
-        'table_staging[${i + 1}]': mainClaimSendService.step5Stage![i].power,
-        'table_staging[${i + 1}]': mainClaimSendService.step5Stage![i].category,
+        'table_staging[${i + 1}][3]': mainClaimSendService.step5Stage![i].power,
+        'table_staging[${i + 1}][4]':
+            mainClaimSendService.step5Stage![i].category,
       };
       stagesMap.addEntries(object.entries);
     }

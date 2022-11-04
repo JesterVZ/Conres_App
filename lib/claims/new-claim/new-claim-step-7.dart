@@ -1,9 +1,14 @@
+import 'package:conres_app/DI/dependency-provider.dart';
+import 'package:conres_app/Services/main-claim-send-service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../UI/main-form.dart';
+import '../../bloc/profile/profile-bloc.dart';
+import '../../bloc/profile/profile-state.dart';
 import '../../consts.dart';
+import '../../elements/bloc/bloc-screen.dart';
 import '../../elements/claims/claim-step7-object.dart';
 import '../../elements/claims/file-element.dart';
 import '../../elements/header/header.dart';
@@ -14,6 +19,8 @@ class NewClaimStep7 extends StatefulWidget {
 }
 
 class _NewClaimStep7 extends State<NewClaimStep7> {
+  ProfileBloc? profileBloc;
+  MainClaimSendService? mainClaimSendService;
   List<Widget> objects = [];
   Map<int?, FilePickerResult?> imagesMap = {
     //3 основных документа
@@ -39,102 +46,128 @@ class _NewClaimStep7 extends State<NewClaimStep7> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-        child: MainForm(
-            onRefrash: _refrash,
-            header: HeaderRow(text: claimStep7, fontSize: 24),
-            body: SingleChildScrollView(
-                child: Padding(
-                    padding: EdgeInsets.only(
-                        left: defaultSidePadding, right: defaultSidePadding),
-                    child: Form(
-                        key: _formKey,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.only(top: 25, bottom: 5),
-                                child: Text("Приложите документы",
-                                    textAlign: TextAlign.left,
-                                    style: claimTextStyle),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 13),
-                                width: MediaQuery.of(context).size.width,
-                                child: Text("Паспорт страницы 1-2",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        color: colorGray, fontSize: 16.0)),
-                              ),
-                              DocElement(id: 0, result: _pickDocument),
-                              Container(
-                                margin: EdgeInsets.only(top: 13),
-                                width: MediaQuery.of(context).size.width,
-                                child: Text("Паспорт страницы 3-4",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        color: colorGray, fontSize: 16.0)),
-                              ),
-                              DocElement(id: 1, result: _pickDocument),
-                              Container(
-                                margin: EdgeInsets.only(top: 13),
-                                width: MediaQuery.of(context).size.width,
-                                child: Text(
-                                    "Документ, подтверждающий право собственности",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        color: colorGray, fontSize: 16.0)),
-                              ),
-                              DocElement(id: 2, result: _pickDocument),
-                              Column(
-                                children: objects,
-                              ),
-                              Container(
-                                  margin: EdgeInsets.fromLTRB(0, 24, 0, 24),
-                                  height: 55,
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.white),
-                                      onPressed: () {
-                                        setState(() {
-                                          setState(() {
-                                            _addDocument();
-                                          });
-                                        });
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 10, 0),
-                                              child: SvgPicture.asset(
-                                                  'assets/plus.svg')),
-                                          Text(addObject,
-                                              style: TextStyle(
-                                                  color: colorMain,
-                                                  fontSize: 18))
-                                        ],
-                                      ))),
-                              SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 55.0,
-                                  child: ElevatedButton(
-                                      onPressed: () {},
+    return BlocScreen<ProfileBloc, ProfileState>(
+        bloc: profileBloc,
+        listener: (context, state) => _listener(context, state),
+        builder: (context, state) {
+          return GestureDetector(
+              onTap: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              child: MainForm(
+                  onRefrash: _refrash,
+                  header: HeaderRow(text: claimStep7, fontSize: 24),
+                  body: SingleChildScrollView(
+                      child: Padding(
+                          padding: EdgeInsets.only(
+                              left: defaultSidePadding,
+                              right: defaultSidePadding),
+                          child: Form(
+                              key: _formKey,
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      margin:
+                                          EdgeInsets.only(top: 25, bottom: 5),
+                                      child: Text("Приложите документы",
+                                          textAlign: TextAlign.left,
+                                          style: claimTextStyle),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 13),
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Text("Паспорт страницы 1-2",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              color: colorGray,
+                                              fontSize: 16.0)),
+                                    ),
+                                    DocElement(id: 0, result: _pickDocument),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 13),
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Text("Паспорт страницы 3-4",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              color: colorGray,
+                                              fontSize: 16.0)),
+                                    ),
+                                    DocElement(id: 1, result: _pickDocument),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 13),
+                                      width: MediaQuery.of(context).size.width,
                                       child: Text(
-                                        "Отправить",
-                                        style: buttonTextStyle,
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: colorMain))),
-                            ]))))));
+                                          "Документ, подтверждающий право собственности",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              color: colorGray,
+                                              fontSize: 16.0)),
+                                    ),
+                                    DocElement(id: 2, result: _pickDocument),
+                                    Column(
+                                      children: objects,
+                                    ),
+                                    Container(
+                                        margin:
+                                            EdgeInsets.fromLTRB(0, 24, 0, 24),
+                                        height: 55,
+                                        child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.white),
+                                            onPressed: () {
+                                              setState(() {
+                                                setState(() {
+                                                  _addDocument();
+                                                });
+                                              });
+                                            },
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                    margin: const EdgeInsets
+                                                        .fromLTRB(0, 0, 10, 0),
+                                                    child: SvgPicture.asset(
+                                                        'assets/plus.svg')),
+                                                Text(addObject,
+                                                    style: TextStyle(
+                                                        color: colorMain,
+                                                        fontSize: 18))
+                                              ],
+                                            ))),
+                                    SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height: 55.0,
+                                        child: ElevatedButton(
+                                            onPressed: () {
+                                              mainClaimSendService!.files =
+                                                  imagesMap;
+                                              profileBloc!.sendMainClaim(
+                                                  mainClaimSendService!);
+                                            },
+                                            child: Text(
+                                              "Отправить",
+                                              style: buttonTextStyle,
+                                            ),
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: colorMain))),
+                                  ]))))));
+        });
+  }
+
+  _listener(BuildContext context, ProfileState state) {}
+  @override
+  void didChangeDependencies() {
+    profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    mainClaimSendService ??=
+        DependencyProvider.of(context)!.mainClaimSendService;
+    super.didChangeDependencies();
   }
 }

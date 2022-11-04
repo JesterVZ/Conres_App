@@ -12,6 +12,7 @@ class MainClaimSendService {
   String? claim_type;
   String? claim_name;
   String? field_header_whom_1;
+  String? field_content_date;
 
   String? field_header_who;
   String? field_header_egrul;

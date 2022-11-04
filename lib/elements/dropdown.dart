@@ -21,6 +21,7 @@ class _CustomDropDown extends State<CustomDropDown> {
   @override
   void initState() {
     valueChoose = widget.items[0];
+    widget.selectedItem!.text = valueChoose;
   }
 
   @override
