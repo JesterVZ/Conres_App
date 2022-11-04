@@ -721,27 +721,104 @@ class HttpClient {
         files.add(multipartFile);
       }
     }
-
+    Map<String, dynamic> objectsMap = Map<String, dynamic>();
+    for (int i = 0; i < mainClaimSendService.step2Object!.length; i++) {
+      final object = {
+        'table_object[${i + 1}]': mainClaimSendService.step2Object![i]!.name,
+        'table_object[${i + 1}]': mainClaimSendService.step2Object![i]!.address,
+        'table_object[${i + 1}]': mainClaimSendService.step2Object![i]!.kadastr
+      };
+      objectsMap.addEntries(object.entries);
+    }
+    Map<String, dynamic> stagesMap = Map<String, dynamic>();
+    for (int i = 0; i < mainClaimSendService.step5Stage!.length; i++) {
+      final object = {
+        'table_staging[${i + 1}]': mainClaimSendService.step5Stage![i].stage,
+        'table_staging[${i + 1}]':
+            mainClaimSendService.step5Stage![i].projectTerm,
+        'table_staging[${i + 1}]':
+            mainClaimSendService.step5Stage![i].inputTerm,
+        'table_staging[${i + 1}]': mainClaimSendService.step5Stage![i].power,
+        'table_staging[${i + 1}]': mainClaimSendService.step5Stage![i].category,
+      };
+      stagesMap.addEntries(object.entries);
+    }
+    Map<String, dynamic> formDataMap = <String, dynamic>{
+      'claim_type_id': mainClaimSendService.claim_type_id,
+      'claim_name': mainClaimSendService.claim_name,
+      'field_header_whom_1': mainClaimSendService.field_header_whom_1,
+      'field_phone': mainClaimSendService.field_phone,
+      'field_email': "info@conres.ru",
+      'field_content_date': mainClaimSendService.field_header_egrul_date,
+      'claim_type': mainClaimSendService.claim_type,
+      'claim_template': mainClaimSendService.claim_template,
+      'field_header_who': mainClaimSendService.field_header_who,
+      'field_header_egrul': mainClaimSendService.field_header_egrul,
+      'field_header_address_1': mainClaimSendService.field_header_address_1,
+      'field_header_address_2': mainClaimSendService.field_header_address_2,
+      'field_header_egrul_date': mainClaimSendService.field_header_egrul_date,
+      'reason': mainClaimSendService.reason,
+      'table_object[0][0]': "Наименование объекта",
+      'table_object[0][1]': "Адрес объекта",
+      'table_object[0][2]': "Кадастровый номер (необязательно)",
+      'table_staging[0][0]': 'Этап (очередь) строительства',
+      'table_staging[0][1]':
+          'Планируемый срок проектирования энергоприниюмающих устройств (месяц, год)',
+      'table_staging[0][2]':
+          'Планируемый срок введения энергопринимающих устройств в эксплуатацию(месяц, год)',
+      'table_staging[0][3]':
+          'Максимальная мощность энергопринимаю-щих устройств (кВт)',
+      'table_staging[0][4]':
+          'Категория надежности энергопринимаю-щих устройств',
+      'field_max_power_3': mainClaimSendService.field_max_power_3,
+      'field_max_voltage_3': mainClaimSendService.field_max_voltage_3,
+      'field_max_connect_power_3':
+          mainClaimSendService.field_max_connect_power_3,
+      'field_max_connect_voltage_3':
+          mainClaimSendService.field_max_connect_voltage_3,
+      'field_max_current_power_3':
+          mainClaimSendService.field_max_current_power_3,
+      'field_max_current_voltage_3':
+          mainClaimSendService.field_max_current_voltage_3,
+      'field_max_power_2': mainClaimSendService.field_max_power_2,
+      'field_max_voltage_2': mainClaimSendService.field_max_voltage_2,
+      'field_max_connect_power_2':
+          mainClaimSendService.field_max_connect_power_2,
+      'field_max_connect_voltage_2':
+          mainClaimSendService.field_max_connect_voltage_2,
+      'field_max_current_power_2':
+          mainClaimSendService.field_max_current_power_2,
+      'field_max_current_voltage_2':
+          mainClaimSendService.field_max_current_voltage_2,
+      'field_max_power_1': mainClaimSendService.field_max_power_1,
+      'field_max_voltage_1': mainClaimSendService.field_max_voltage_1,
+      'field_max_connect_power_1':
+          mainClaimSendService.field_max_connect_power_1,
+      'field_max_connect_voltage_1':
+          mainClaimSendService.field_max_connect_voltage_1,
+      'field_max_current_power_1':
+          mainClaimSendService.field_max_current_power_1,
+      'field_max_current_voltage_1':
+          mainClaimSendService.field_max_current_voltage_1,
+      'field_load_nature': mainClaimSendService.field_load_nature,
+      'field_tech_min': mainClaimSendService.field_tech_min,
+      'field_emergency_armor_needed':
+          mainClaimSendService.field_emergency_armor_needed,
+      'field_emergency_armor_count':
+          mainClaimSendService.field_emergency_armor_count,
+      'field_count_power_transformer':
+          mainClaimSendService.field_count_power_transformer,
+      'field_count_power_generator':
+          mainClaimSendService.field_count_power_generator,
+      'field_gp': mainClaimSendService.field_gp,
+      'field_contract_type': mainClaimSendService.field_contract_type,
+      'contract_files[]': files,
+      'contract_files_name[]': fileNames
+    };
+    formDataMap.addEntries(objectsMap.entries);
+    formDataMap.addEntries(stagesMap.entries);
     try {
-      var formdata = FormData.fromMap({
-        'claim_type_id': mainClaimSendService.claim_type_id,
-        'claim_name': mainClaimSendService.claim_name,
-        'field_header_whom_1': mainClaimSendService.field_header_whom_1,
-        'field_phone': mainClaimSendService.field_phone,
-        'field_email': "info@conres.ru",
-        'field_content_date': mainClaimSendService.field_header_egrul_date,
-        'claim_type': mainClaimSendService.claim_type,
-        'claim_template': mainClaimSendService.claim_template,
-        'field_header_who': mainClaimSendService.field_header_who,
-        'field_header_egrul': mainClaimSendService.field_header_egrul,
-        'field_header_address_1': mainClaimSendService.field_header_address_1,
-        'field_header_address_2': mainClaimSendService.field_header_address_2,
-        'field_header_egrul_date': mainClaimSendService.field_header_egrul_date,
-        'reason': mainClaimSendService.reason,
-        ''
-            'contract_files[]': files,
-        'contract_files_name[]': fileNames
-      });
+      var formdata = FormData.fromMap(formDataMap);
 
       final result = await _apiClient.post(uri, data: formdata);
       if (result.statusCode == 200) {
