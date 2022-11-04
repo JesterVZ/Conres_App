@@ -1,5 +1,8 @@
 import 'dart:ui';
 
+import 'package:conres_app/DI/dependency-provider.dart';
+import 'package:conres_app/Services/main-claim-send-service.dart';
+import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/UI/main-form.dart';
 import 'package:conres_app/elements/header/header.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,9 +26,12 @@ class NewClaimStep3 extends StatefulWidget {
 
 class _NewClaimStep3 extends State<NewClaimStep3> {
   final controllerList = List<TextEditingController>.generate(
-      6, (index) => TextEditingController());
+      //контроллеры под инпуты
+      18,
+      (index) => TextEditingController());
   final _formKey = GlobalKey<FormState>();
   List<ClaimStep3Object> objects = [];
+  MainClaimSendService? mainClaimSendService;
 
   void _addNewObject() {
     setState(() {
@@ -65,6 +71,13 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                 style: claimTextStyle),
                           ),
                           Container(
+                            height: 20,
+                            margin: EdgeInsets.only(bottom: 24),
+                            child: Text("Категория надежности 3",
+                                style:
+                                    TextStyle(color: colorGray, fontSize: 16)),
+                          ),
+                          Container(
                             child: Text(
                                 "Максимальная мощность (всего) на напряжении:",
                                 style:
@@ -80,7 +93,7 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                       keyboardType: TextInputType.number,
                                       labelText: "кВт",
                                       hintText: "000",
-                                      validatorText: "Введите серию"),
+                                      validatorText: "Введите значение"),
                                 ),
                                 const Spacer(),
                                 SizedBox(
@@ -90,7 +103,7 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                       keyboardType: TextInputType.number,
                                       labelText: "Вт",
                                       hintText: "000",
-                                      validatorText: "Введите номер"),
+                                      validatorText: "Введите значение"),
                                 )
                               ],
                             ),
@@ -111,7 +124,7 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                       keyboardType: TextInputType.number,
                                       labelText: "кВт",
                                       hintText: "000",
-                                      validatorText: "Введите серию"),
+                                      validatorText: "Введите значение"),
                                 ),
                                 const Spacer(),
                                 SizedBox(
@@ -121,7 +134,7 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                       keyboardType: TextInputType.number,
                                       labelText: "Вт",
                                       hintText: "000",
-                                      validatorText: "Введите номер"),
+                                      validatorText: "Введите значение"),
                                 )
                               ],
                             ),
@@ -142,7 +155,7 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                       keyboardType: TextInputType.number,
                                       labelText: "кВт",
                                       hintText: "000",
-                                      validatorText: "Введите серию"),
+                                      validatorText: "Введите значение"),
                                 ),
                                 const Spacer(),
                                 SizedBox(
@@ -152,59 +165,289 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                       keyboardType: TextInputType.number,
                                       labelText: "Вт",
                                       hintText: "000",
-                                      validatorText: "Введите номер"),
+                                      validatorText: "Введите значение"),
                                 )
                               ],
                             ),
                           ),
-                          Column(
-                            children: objects,
+                          Container(
+                            height: 20,
+                            margin: EdgeInsets.only(top: 24, bottom: 24),
+                            child: Text("Категория надежности 2",
+                                style:
+                                    TextStyle(color: colorGray, fontSize: 16)),
                           ),
                           Container(
-                              margin: EdgeInsets.fromLTRB(0, 24, 0, 24),
-                              height: 55,
-                              child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white),
-                                  onPressed: () {
-                                    _addNewObject();
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                          margin: const EdgeInsets.fromLTRB(
-                                              0, 0, 10, 0),
-                                          child: SvgPicture.asset(
-                                              'assets/plus.svg')),
-                                      Text(addObject,
-                                          style: TextStyle(
-                                              color: colorMain, fontSize: 18))
-                                    ],
-                                  ))),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              height: 55.0,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  NewClaimStep4()));
-                                    }
-                                  },
-                                  child: Text(
-                                    next,
-                                    style: buttonTextStyle,
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: colorMain))),
+                            child: Text(
+                                "Максимальная мощность (всего) на напряжении:",
+                                style:
+                                    TextStyle(color: colorGray, fontSize: 16)),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[6],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "кВт",
+                                      hintText: "000",
+                                      validatorText: "Введите значение"),
+                                ),
+                                const Spacer(),
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[7],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "Вт",
+                                      hintText: "000",
+                                      validatorText: "Введите значение"),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                                "Вновь присоединяемая мощность на напряжении:",
+                                style:
+                                    TextStyle(color: colorGray, fontSize: 16)),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[8],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "кВт",
+                                      hintText: "000",
+                                      validatorText: "Введите значение"),
+                                ),
+                                const Spacer(),
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[9],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "Вт",
+                                      hintText: "000",
+                                      validatorText: "Введите значение"),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                                "Ранее присоединяемая мощность на напряжении:",
+                                style:
+                                    TextStyle(color: colorGray, fontSize: 16)),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[10],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "кВт",
+                                      hintText: "000",
+                                      validatorText: "Введите значение"),
+                                ),
+                                const Spacer(),
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[11],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "Вт",
+                                      hintText: "000",
+                                      validatorText: "Введите значение"),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: 20,
+                            margin: EdgeInsets.only(top: 24, bottom: 24),
+                            child: Text("Категория надежности 1",
+                                style:
+                                    TextStyle(color: colorGray, fontSize: 16)),
+                          ),
+                          Container(
+                            child: Text(
+                                "Максимальная мощность (всего) на напряжении:",
+                                style:
+                                    TextStyle(color: colorGray, fontSize: 16)),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[12],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "кВт",
+                                      hintText: "000",
+                                      validatorText: "Введите значение"),
+                                ),
+                                const Spacer(),
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[13],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "Вт",
+                                      hintText: "000",
+                                      validatorText: "Введите значение"),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                                "Вновь присоединяемая мощность на напряжении:",
+                                style:
+                                    TextStyle(color: colorGray, fontSize: 16)),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[14],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "кВт",
+                                      hintText: "000",
+                                      validatorText: "Введите значение"),
+                                ),
+                                const Spacer(),
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[15],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "Вт",
+                                      hintText: "000",
+                                      validatorText: "Введите значение"),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                                "Ранее присоединяемая мощность на напряжении:",
+                                style:
+                                    TextStyle(color: colorGray, fontSize: 16)),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[16],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "кВт",
+                                      hintText: "000",
+                                      validatorText: "Введите значение"),
+                                ),
+                                const Spacer(),
+                                SizedBox(
+                                  width: 158,
+                                  child: DefaultInput(
+                                      controller: controllerList[17],
+                                      keyboardType: TextInputType.number,
+                                      labelText: "Вт",
+                                      hintText: "000",
+                                      validatorText: "Введите значение"),
+                                )
+                              ],
+                            ),
+                          ),
+                          DefaultButton(
+                            text: "Далее",
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => NewClaimStep4()));
+
+                              if (_formKey.currentState!.validate()) {
+                                //категория надежности 3
+                                mainClaimSendService!.field_max_power_3 =
+                                    controllerList[0].text;
+                                mainClaimSendService!.field_max_voltage_3 =
+                                    controllerList[1].text;
+                                mainClaimSendService!
+                                        .field_max_connect_power_3 =
+                                    controllerList[2].text;
+                                mainClaimSendService!
+                                        .field_max_connect_voltage_3 =
+                                    controllerList[3].text;
+                                mainClaimSendService!
+                                        .field_max_current_power_3 =
+                                    controllerList[4].text;
+                                mainClaimSendService!
+                                        .field_max_current_voltage_3 =
+                                    controllerList[5].text;
+                                //категория надежности 2
+                                mainClaimSendService!.field_max_power_2 =
+                                    controllerList[6].text;
+                                mainClaimSendService!.field_max_voltage_2 =
+                                    controllerList[7].text;
+                                mainClaimSendService!
+                                        .field_max_connect_power_2 =
+                                    controllerList[8].text;
+                                mainClaimSendService!
+                                        .field_max_connect_voltage_2 =
+                                    controllerList[9].text;
+                                mainClaimSendService!
+                                        .field_max_current_power_2 =
+                                    controllerList[10].text;
+                                mainClaimSendService!
+                                        .field_max_current_voltage_2 =
+                                    controllerList[11].text;
+                                //категория надежности 2
+                                mainClaimSendService!.field_max_power_1 =
+                                    controllerList[12].text;
+                                mainClaimSendService!.field_max_voltage_1 =
+                                    controllerList[13].text;
+                                mainClaimSendService!
+                                        .field_max_connect_power_1 =
+                                    controllerList[14].text;
+                                mainClaimSendService!
+                                        .field_max_connect_voltage_1 =
+                                    controllerList[15].text;
+                                mainClaimSendService!
+                                        .field_max_current_power_1 =
+                                    controllerList[16].text;
+                                mainClaimSendService!
+                                        .field_max_current_voltage_1 =
+                                    controllerList[17].text;
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NewClaimStep4()));
+                              }
+                            },
+                            isGetPadding: false,
+                            margin: EdgeInsets.only(top: 12),
+                          )
                         ],
                       ),
                     )))));
+  }
+
+  @override
+  void didChangeDependencies() {
+    mainClaimSendService ??=
+        DependencyProvider.of(context)!.mainClaimSendService;
+    super.didChangeDependencies();
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/elements/header/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -150,41 +151,39 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
                                                       fontSize: 18))
                                             ],
                                           ))),
-                                  SizedBox(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 55.0,
-                                      child: ElevatedButton(
-                                          onPressed: () {
-                                            if (_formKey.currentState!
-                                                .validate()) {
-                                              List<ClaimStep2TableObject>
-                                                  tableObjects = [];
-                                              tableObjects.add(
-                                                  ClaimStep2TableObject(
-                                                      address: controllerList[1]
-                                                          .text,
-                                                      kadastr: controllerList[2]
-                                                          .text,
-                                                      name: controllerList[0]
-                                                          .text));
+                                  DefaultButton(
+                                      text: "Далее",
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NewClaimStep3()));
 
-                                              mainClaimSendService!.reason =
-                                                  reasonController.text;
-                                              mainClaimSendService!
-                                                  .step2Object = tableObjects;
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          NewClaimStep3()));
-                                            }
-                                          },
-                                          child: Text(
-                                            next,
-                                            style: buttonTextStyle,
-                                          ),
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: colorMain))),
+                                        if (_formKey.currentState!.validate()) {
+                                          List<ClaimStep2TableObject>
+                                              tableObjects = [];
+                                          tableObjects.add(
+                                              ClaimStep2TableObject(
+                                                  address:
+                                                      controllerList[1].text,
+                                                  kadastr:
+                                                      controllerList[2].text,
+                                                  name:
+                                                      controllerList[0].text));
+
+                                          mainClaimSendService!.reason =
+                                              reasonController.text;
+                                          mainClaimSendService!.step2Object =
+                                              tableObjects;
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      NewClaimStep3()));
+                                        }
+                                      },
+                                      isGetPadding: false)
                                 ],
                               )
                             ],

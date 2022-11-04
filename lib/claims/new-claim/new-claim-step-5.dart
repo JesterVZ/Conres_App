@@ -1,7 +1,10 @@
+import 'package:conres_app/DI/dependency-provider.dart';
+import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/elements/header/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import '../../Services/main-claim-send-service.dart';
 import '../../UI/default-input.dart';
 import '../../UI/main-form.dart';
 import '../../consts.dart';
@@ -21,6 +24,7 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
       5, (index) => TextEditingController());
   final _formKey = GlobalKey<FormState>();
   List<ClaimStep5Object> objects = [];
+  MainClaimSendService? mainClaimSendService;
 
   void _addNewObject() {
     setState(() {
@@ -69,7 +73,7 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
                             ),
                             Container(
                               child: DefaultInput(
-                                  controller: controllerList[0],
+                                  controller: controllerList[1],
                                   keyboardType: TextInputType.number,
                                   labelText:
                                       "Планируемый срок проектирования энергоприниюмающих устройств месяц, год) ",
@@ -78,7 +82,7 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
                             ),
                             Container(
                               child: DefaultInput(
-                                  controller: controllerList[0],
+                                  controller: controllerList[2],
                                   keyboardType: TextInputType.number,
                                   labelText:
                                       "Планируемый срок введения энергопринимающих устройств в эксплуатацию(месяц, год) ",
@@ -87,7 +91,7 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
                             ),
                             Container(
                               child: DefaultInput(
-                                  controller: controllerList[0],
+                                  controller: controllerList[3],
                                   keyboardType: TextInputType.number,
                                   labelText:
                                       "Максимальная мощность энергопринимаю-щих устройств (кВт)",
@@ -96,7 +100,7 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
                             ),
                             Container(
                               child: DefaultInput(
-                                  controller: controllerList[0],
+                                  controller: controllerList[4],
                                   keyboardType: TextInputType.number,
                                   labelText:
                                       "Категория надежности энергопринимаю-щих устройств ",
@@ -133,26 +137,31 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
                                                 color: colorMain, fontSize: 18))
                                       ],
                                     ))),
-                            SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                height: 55.0,
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      if (_formKey.currentState!.validate()) {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    NewClaimStep6()));
-                                      }
-                                    },
-                                    child: Text(
-                                      next,
-                                      style: buttonTextStyle,
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: colorMain))),
+                            DefaultButton(
+                                text: "Далее",
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              NewClaimStep6()));
+                                  if (_formKey.currentState!.validate()) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                NewClaimStep6()));
+                                  }
+                                },
+                                isGetPadding: false)
                           ],
                         ))))));
+  }
+
+  @override
+  void didChangeDependencies() {
+    mainClaimSendService ??=
+        DependencyProvider.of(context)!.mainClaimSendService;
+    super.didChangeDependencies();
   }
 }
