@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:conres_app/Services/main-claim-send-service.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
@@ -135,6 +136,11 @@ class GetAllPhotos extends ProfileEvent {
 class SendBaseClaim extends ProfileEvent {
   BaseClaimSendService baseClaimSendService;
   SendBaseClaim(this.baseClaimSendService);
+}
+
+class SendMainClaim extends ProfileEvent {
+  MainClaimSendService mainClaimSendService;
+  SendMainClaim(this.mainClaimSendService);
 }
 
 class GetTuPoints extends ProfileEvent {

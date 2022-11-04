@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:conres_app/DI/dependency-provider.dart';
 import 'package:conres_app/elements/header/header.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import '../../Services/main-claim-send-service.dart';
 import '../../UI/default-input.dart';
 import '../../UI/main-form.dart';
 import '../../consts.dart';
@@ -26,6 +28,7 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
   final _formKey = GlobalKey<FormState>();
   Map<String?, FilePickerResult?> imagesMap = {"1": null, "2": null, "3": null};
   PanelController panelController = PanelController();
+  MainClaimSendService? mainClaimSendService;
 
   Future<void> _refrash() async {}
 
@@ -47,7 +50,7 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
                       child: Column(
                         children: [
                           Container(
-                            margin: EdgeInsets.fromLTRB(0, 25, 0, 24),
+                            margin: const EdgeInsets.fromLTRB(0, 25, 0, 24),
                             child: Text(
                                 "Укажите гарантирующего поставщика и тип договора",
                                 style: claimTextStyle),
@@ -62,13 +65,13 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
                                 validatorText: "Введите поставщика"),
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 12),
+                            margin: const EdgeInsets.only(top: 12),
                             width: MediaQuery.of(context).size.width,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Тип договора:"),
+                                const Text("Тип договора:"),
                                 Container(
                                     width: MediaQuery.of(context).size.width,
                                     height: 55,
@@ -83,7 +86,7 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
                                                       height: 78,
                                                       alignment:
                                                           Alignment.center,
-                                                      child: Text(
+                                                      child: const Text(
                                                           "Выберите договор",
                                                           style: TextStyle(
                                                               fontSize: 20)),
@@ -91,6 +94,12 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
                                                     const Divider(),
                                                     GestureDetector(
                                                       onTap: () {
+                                                        mainClaimSendService!
+                                                                .field_gp =
+                                                            controller.text;
+                                                        mainClaimSendService!
+                                                                .field_contract_type =
+                                                            "увеличением объема максимальной мощности";
                                                         Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
@@ -100,12 +109,18 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
                                                       },
                                                       child: Container(
                                                         height: 40,
-                                                        child: Text(
-                                                            "Договор электроснабжения"),
+                                                        child: const Text(
+                                                            "Увеличением объема максимальной мощности"),
                                                       ),
                                                     ),
                                                     GestureDetector(
                                                       onTap: () {
+                                                        mainClaimSendService!
+                                                                .field_gp =
+                                                            controller.text;
+                                                        mainClaimSendService!
+                                                                .field_contract_type =
+                                                            "новым строительством";
                                                         Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
@@ -115,8 +130,29 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
                                                       },
                                                       child: Container(
                                                         height: 40,
-                                                        child: Text(
-                                                            "Договор купли-продажи"),
+                                                        child: const Text(
+                                                            "Новое строительство"),
+                                                      ),
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        mainClaimSendService!
+                                                                .field_gp =
+                                                            controller.text;
+                                                        mainClaimSendService!
+                                                                .field_contract_type =
+                                                            "изменением категории надежности электроснабжения";
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        NewClaimStep7()));
+                                                      },
+                                                      child: Container(
+                                                        height: 40,
+                                                        child: const Text(
+                                                            "Изменение категории надежности электроснабжения"),
                                                       ),
                                                     ),
                                                   ],
@@ -137,5 +173,12 @@ class _NewClaimStep6 extends State<NewClaimStep6> {
                         ],
                       ))),
             )));
+  }
+
+  @override
+  void didChangeDependencies() {
+    mainClaimSendService ??=
+        DependencyProvider.of(context)!.mainClaimSendService;
+    super.didChangeDependencies();
   }
 }

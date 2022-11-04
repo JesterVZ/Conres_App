@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:conres_app/Services/main-claim-send-service.dart';
 import 'package:conres_app/http.dart';
 import 'package:file_picker/file_picker.dart';
 import '../Services/base-claim-send-service.dart';
@@ -117,6 +118,12 @@ class ProfileRepo {
   Future<dynamic> sendBaseClaim(
       BaseClaimSendService baseClaimSendService) async {
     var result = await httpClient.sendBaseClaim(baseClaimSendService);
+    return result;
+  }
+
+  Future<dynamic> sendMainClaim(
+      MainClaimSendService mainClaimSendService) async {
+    var result = await httpClient.sendMainClaim(mainClaimSendService);
     return result;
   }
 

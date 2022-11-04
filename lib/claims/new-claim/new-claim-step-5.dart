@@ -10,6 +10,7 @@ import '../../UI/main-form.dart';
 import '../../consts.dart';
 import '../../elements/claims/claim-step5-object.dart';
 import '../../elements/dropdown.dart';
+import '../../model/claims/claim-step-5-staging.dart';
 import 'new-claim-step-6.dart';
 
 class NewClaimStep5 extends StatefulWidget {
@@ -140,6 +141,16 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
                             DefaultButton(
                                 text: "Далее",
                                 onPressed: () {
+                                  List<ClaimStep5Staging> tableStagings = [];
+                                  tableStagings.add(ClaimStep5Staging(
+                                    stage: controllerList[0].text,
+                                    projectTerm: controllerList[1].text,
+                                    inputTerm: controllerList[2].text,
+                                    power: controllerList[3].text,
+                                    category: controllerList[4].text,
+                                  ));
+                                  mainClaimSendService!.step5Stage =
+                                      tableStagings;
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(

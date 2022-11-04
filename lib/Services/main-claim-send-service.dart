@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 
 import '../elements/claims/claim-step2-object.dart';
 import '../model/claims/claim-step-2-object.dart';
+import '../model/claims/claim-step-5-staging.dart';
 
 class MainClaimSendService {
   String? claim_type_id;
@@ -23,6 +24,7 @@ class MainClaimSendService {
   String? field_pass_number;
   String? field_pass_giver;
   List<ClaimStep2TableObject?>? step2Object;
+  List<ClaimStep5Staging>? step5Stage;
   String? field_max_power_3;
   String? field_max_voltage_3;
   String? field_max_connect_power_3;

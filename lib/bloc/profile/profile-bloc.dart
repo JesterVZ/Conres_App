@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:conres_app/Services/main-claim-send-service.dart';
 import 'package:conres_app/bloc/profile/profile-event.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/claims/claims.dart';
@@ -76,6 +77,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleGetPrivatePolicy(event);
     } else if (event is SendTestimonyEvent) {
       yield* _handleSendTestimony(event);
+    } else if (event is SendMainClaim) {
+      yield* _handleSendMainClaim(event);
     }
   }
 
@@ -174,6 +177,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   sendBaseClaim(BaseClaimSendService baseClaimSendService) {
     add(SendBaseClaim(baseClaimSendService));
+  }
+
+  sendMainClaim(MainClaimSendService mainClaimSendService) {
+    add(SendMainClaim(mainClaimSendService));
   }
 
   getPrivatePolicy() {
@@ -492,6 +499,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       var result = await repo.sendTestimony(event.dayValues, event.nightValues);
       yield state.copyWith(loading: false, error: null, isMeasureSent: result);
+    } catch (e) {
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleSendMainClaim(SendMainClaim event) async* {
+    yield state.copyWith(loading: true, error: null);
+    try {
+      var result = await repo.sendMainClaim(event.mainClaimSendService);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
