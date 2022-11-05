@@ -74,73 +74,81 @@ class _ProfilePage extends State<ProfilePageTest> {
                                             profile!.personal != null)
                                         ? true
                                         : false,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        bottomNavigationSelectService!.function!
-                                            .call(TabItem.contracts);
-                                      },
-                                      child: Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 12, 0, 0),
-                                        decoration: BoxDecoration(
-                                            color: colorMain,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                defaultSidePadding,
-                                                14,
-                                                defaultSidePadding,
-                                                14),
-                                            child: Row(
-                                              children: [
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                    child: Container(
+                                        margin: EdgeInsets.only(top: 12),
+                                        child: Material(
+                                          color: colorMain,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: InkWell(
+                                            onTap: () {
+                                              bottomNavigationSelectService!
+                                                  .function!
+                                                  .call(TabItem.contracts);
+                                            },
+                                            child: Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    defaultSidePadding,
+                                                    14,
+                                                    defaultSidePadding,
+                                                    14),
+                                                child: Row(
                                                   children: [
-                                                    Text(
-                                                        profileService!
-                                                                    .userType ==
-                                                                "fl"
-                                                            ? "Лицевой счёт"
-                                                            : "Договор",
-                                                        style: const TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 15)),
-                                                    Text(
-                                                        (profile != null &&
-                                                                profile!.personal !=
-                                                                    null)
-                                                            ? profile!.personal!
-                                                            : "Заключите договор",
-                                                        style: const TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 18))
-                                                  ],
-                                                ),
-                                                const Spacer(),
-                                                Container(
-                                                  width: 32,
-                                                  height: 32,
-                                                  decoration: BoxDecoration(
-                                                      color: lsButtonColor,
-                                                      shape: BoxShape.circle),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            13, 9, 11, 9),
-                                                    child: SvgPicture.asset(
-                                                      "assets/ls-right-arrow.svg",
-                                                      color: colorMain,
+                                                    Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                            profileService!
+                                                                        .userType ==
+                                                                    "fl"
+                                                                ? "Лицевой счёт"
+                                                                : "Договор",
+                                                            style:
+                                                                const TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        15)),
+                                                        Text(
+                                                            (profile != null &&
+                                                                    profile!.personal !=
+                                                                        null)
+                                                                ? profile!
+                                                                    .personal!
+                                                                : "Заключите договор",
+                                                            style: const TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 18))
+                                                      ],
                                                     ),
-                                                  ),
-                                                )
-                                              ],
-                                            )),
-                                      ),
-                                    )),
+                                                    const Spacer(),
+                                                    Container(
+                                                      width: 32,
+                                                      height: 32,
+                                                      decoration: BoxDecoration(
+                                                          color: lsButtonColor,
+                                                          shape:
+                                                              BoxShape.circle),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.fromLTRB(
+                                                                13, 9, 11, 9),
+                                                        child: SvgPicture.asset(
+                                                          "assets/ls-right-arrow.svg",
+                                                          color: colorMain,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                )),
+                                          ),
+                                        ))),
                                 Container(
                                   margin: EdgeInsets.fromLTRB(0, 14, 0, 0),
                                   width: MediaQuery.of(context).size.width,
