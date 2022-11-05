@@ -106,10 +106,6 @@ class _NewClaimStep4 extends State<NewClaimStep4> {
                     DefaultButton(
                       text: "Далее",
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NewClaimStep5()));
                         if (_formKey.currentState!.validate()) {
                           mainClaimSendService!.field_load_nature =
                               controllerList[0].text;

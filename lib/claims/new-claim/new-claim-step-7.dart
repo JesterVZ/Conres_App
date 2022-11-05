@@ -126,7 +126,7 @@ class _NewClaimStep7 extends State<NewClaimStep7> {
                                           children: objects,
                                         ),
                                         Container(
-                                            margin: EdgeInsets.fromLTRB(
+                                            margin: const EdgeInsets.fromLTRB(
                                                 0, 24, 0, 24),
                                             height: 55,
                                             child: ElevatedButton(

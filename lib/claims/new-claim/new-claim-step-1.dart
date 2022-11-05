@@ -434,11 +434,6 @@ class _NewClaimStep1 extends State<NewClaimStep1> {
                                         DefaultButton(
                                           isGetPadding: false,
                                           onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        NewClaimStep2()));
                                             if (_formKey.currentState!
                                                 .validate()) {
                                               mainClaimSendService!

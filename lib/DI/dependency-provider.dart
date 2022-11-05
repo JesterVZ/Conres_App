@@ -1,4 +1,5 @@
 import 'package:conres_app/Services/base-claim-send-service.dart';
+import 'package:conres_app/Services/bottom-navigation-select-service.dart';
 import 'package:conres_app/Services/profile-service.dart';
 import 'package:conres_app/bloc/auth/auth-block.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
@@ -34,6 +35,7 @@ class DependencyProvider extends InheritedWidget {
   BaseClaimSendService? _baseClaimSendService;
   SendTestimonyService? _sendTestimonyService;
   MainClaimSendService? _mainClaimSendService;
+  BottomNavigationSelectService? _bottomNavigationSelectService;
   ProfileService? _profileService;
 
   DependencyProvider({Key? key, Widget? child})
@@ -78,6 +80,11 @@ class DependencyProvider extends InheritedWidget {
   SendTestimonyService? get sendTestimonyService {
     _sendTestimonyService ??= SendTestimonyService();
     return _sendTestimonyService;
+  }
+
+  BottomNavigationSelectService? get bottomNavigationSelectService {
+    _bottomNavigationSelectService ??= BottomNavigationSelectService();
+    return _bottomNavigationSelectService;
   }
 
   WebSocketData? get webSocketData {

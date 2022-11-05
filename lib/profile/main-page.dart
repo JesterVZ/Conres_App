@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../DI/dependency-provider.dart';
+import '../Services/bottom-navigation-select-service.dart';
 import '../bloc/profile/profile-state.dart';
 import '../chats/messages.dart';
 import '../claims/claims.dart';
@@ -41,6 +42,7 @@ class _MainPage extends State<MainPage> {
   WebSocketListener? webSocketListener;
   UpdateClaimService? updateClaimService;
   UpdateTicketService? updateTicketService;
+  BottomNavigationSelectService? bottomNavigationSelectService;
   int? ticketCounter;
   int? claimCounter;
   var _currentTab = TabItem.main;
@@ -60,26 +62,41 @@ class _MainPage extends State<MainPage> {
   void initState() {
     navigatorList.add(TabNavigator(
       navigatorKey: _navKeys[TabItem.main],
-      rootPage:
-          ProfilePageTest(loginData: widget.loginData, func: goToContract, cookies: widget.cookies,),
+      rootPage: ProfilePageTest(
+        loginData: widget.loginData,
+        func: goToContract,
+        cookies: widget.cookies,
+      ),
     ));
     navigatorList.add(TabNavigator(
-        navigatorKey: _navKeys[TabItem.contracts], rootPage: Contracts(canLogin: false, func: goToContract)));
+        navigatorKey: _navKeys[TabItem.contracts],
+        rootPage: Contracts(canLogin: false, func: goToContract)));
     navigatorList.add(TabNavigator(
-        navigatorKey: _navKeys[TabItem.claims], rootPage: Claims(mainListener: getData,)));
+        navigatorKey: _navKeys[TabItem.claims],
+        rootPage: Claims(
+          mainListener: getData,
+        )));
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.chats],
-        rootPage: Chats(mainListener: getData,)));
+        rootPage: Chats(
+          mainListener: getData,
+        )));
     navigatorList.add(TabNavigator(
-        navigatorKey: _navKeys[TabItem.more], rootPage: MoreScreen(logout: logout)));
+        navigatorKey: _navKeys[TabItem.more],
+        rootPage: MoreScreen(logout: logout)));
   }
 
   void logout() async {
     profileBloc!.logout();
   }
 
-  void goToContract(Contract contract) async{
-    Navigator.pushAndRemoveUntil(context, DefaultPageRouter(LoadingPage(newLogin: contract.account_number,)), (route) => false);
+  void goToContract(Contract contract) async {
+    Navigator.pushAndRemoveUntil(
+        context,
+        DefaultPageRouter(LoadingPage(
+          newLogin: contract.account_number,
+        )),
+        (route) => false);
   }
 
   void _selectTab(TabItem tabItem) {
@@ -92,7 +109,6 @@ class _MainPage extends State<MainPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(
@@ -101,42 +117,40 @@ class _MainPage extends State<MainPage> {
         builder: (context, state) {
           return Container(
             child: WillPopScope(
-            onWillPop: () async {
-              final isFirstRouteInCurrentTab =
-                  !await _navKeys[_currentTab]!.currentState!.maybePop();
+              onWillPop: () async {
+                final isFirstRouteInCurrentTab =
+                    !await _navKeys[_currentTab]!.currentState!.maybePop();
 
-              if (isFirstRouteInCurrentTab) {
-                //Не страница 'main'
-                if (_currentTab != TabItem.main) {
-                  _selectTab(TabItem.main);
-                  return false;
+                if (isFirstRouteInCurrentTab) {
+                  //Не страница 'main'
+                  if (_currentTab != TabItem.main) {
+                    _selectTab(TabItem.main);
+                    return false;
+                  }
                 }
-              }
-              return isFirstRouteInCurrentTab;
-            },
-            child: Scaffold(
-              body: IndexedStack(
-                
-                index: _currentTab.index,
-                children: [
-                  _buildOffstageNavigator(TabItem.main, navigatorList[0]),
-                  _buildOffstageNavigator(TabItem.contracts, navigatorList[1]),
-                  _buildOffstageNavigator(TabItem.claims, navigatorList[2]),
-                  _buildOffstageNavigator(TabItem.chats, navigatorList[3]),
-                  _buildOffstageNavigator(TabItem.more, navigatorList[4]),
-                ],
-              ),
-              bottomNavigationBar: BottomNavigation(
-                currentTab: _currentTab,
-                onSelectTab: _selectTab,
-                ticketCounter: ticketCounter,
-                claimCounter: claimCounter,
+                return isFirstRouteInCurrentTab;
+              },
+              child: Scaffold(
+                body: IndexedStack(
+                  index: _currentTab.index,
+                  children: [
+                    _buildOffstageNavigator(TabItem.main, navigatorList[0]),
+                    _buildOffstageNavigator(
+                        TabItem.contracts, navigatorList[1]),
+                    _buildOffstageNavigator(TabItem.claims, navigatorList[2]),
+                    _buildOffstageNavigator(TabItem.chats, navigatorList[3]),
+                    _buildOffstageNavigator(TabItem.more, navigatorList[4]),
+                  ],
+                ),
+                bottomNavigationBar: BottomNavigation(
+                  currentTab: _currentTab,
+                  onSelectTab: _selectTab,
+                  ticketCounter: ticketCounter,
+                  claimCounter: claimCounter,
+                ),
               ),
             ),
-          ),
           );
-
-          
         });
   }
 
@@ -145,19 +159,18 @@ class _MainPage extends State<MainPage> {
       return;
     }
     if (state.cookieStr != null) {
-      if(webSocketChannel != null){
-        if(isConnected == false){
+      if (webSocketChannel != null) {
+        if (isConnected == false) {
           webSocketChannel!.sink.add(state.cookieStr);
           isConnected = true;
         }
-        
       }
     }
-    if(state.loginData != null){
-      if (state.loginData!.isEmpty){
+    if (state.loginData != null) {
+      if (state.loginData!.isEmpty) {
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-          (route) => false);
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+            (route) => false);
       }
     }
     /*
@@ -178,29 +191,33 @@ class _MainPage extends State<MainPage> {
 
   void getData(dynamic event) async {
     print('\x1B[33m$event\x1B[0m');
-    if(this.mounted){
+    if (this.mounted) {
       setState(() {
-        try{
-        webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
-        if(webSocketData!.data!['counters'] != null){
-          ticketCounter=webSocketData!.data!['counters']['new_ticket_messages_count'];
-          claimCounter = webSocketData!.data!['counters']['new_claims_messages_count'];
-        }
-        if(webSocketData!.event == "claim_status"){
-          updateClaimService!.update!.call(webSocketData!.data['claim_id'], webSocketData!.data['status'], webSocketData!.data['status_pay']);
-        }
+        try {
+          webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
+          if (webSocketData!.data!['counters'] != null) {
+            ticketCounter =
+                webSocketData!.data!['counters']['new_ticket_messages_count'];
+            claimCounter =
+                webSocketData!.data!['counters']['new_claims_messages_count'];
+          }
+          if (webSocketData!.event == "claim_status") {
+            updateClaimService!.update!.call(
+                webSocketData!.data['claim_id'],
+                webSocketData!.data['status'],
+                webSocketData!.data['status_pay']);
+          }
 
-        if(webSocketData!.event == "ticket_msg"){
-          updateTicketService!.update!.call(webSocketData!.data['ticket_info'][0]['ticket_id'], webSocketData!.data['ticket_info'][0]['name']);
-        }
-
-        }catch(e){
+          if (webSocketData!.event == "ticket_msg") {
+            updateTicketService!.update!.call(
+                webSocketData!.data['ticket_info'][0]['ticket_id'],
+                webSocketData!.data['ticket_info'][0]['name']);
+          }
+        } catch (e) {
           print(e);
         }
-
       });
     }
-
   }
 
   @override
@@ -212,6 +229,9 @@ class _MainPage extends State<MainPage> {
     webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
     updateClaimService ??= DependencyProvider.of(context)!.updateClaimService;
     updateTicketService ??= DependencyProvider.of(context)!.updateTicketService;
+    bottomNavigationSelectService ??=
+        DependencyProvider.of(context)!.bottomNavigationSelectService;
+    bottomNavigationSelectService!.function = _selectTab;
     webSocketListener?.webSocketChannel = webSocketChannel;
     webSocketListener?.function = getData;
     profileBloc!.getCookies(widget.cookies);

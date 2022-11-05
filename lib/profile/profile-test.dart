@@ -1,10 +1,12 @@
 import 'package:conres_app/Services/profile-service.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/contracts/contracts.dart';
+import 'package:conres_app/profile/tab-item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../DI/dependency-provider.dart';
+import '../Services/bottom-navigation-select-service.dart';
 import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../consts.dart';
@@ -32,6 +34,7 @@ class _ProfilePage extends State<ProfilePageTest> {
   ProfileBloc? profileBloc;
   Profile? profile;
   ProfileService? profileService;
+  BottomNavigationSelectService? bottomNavigationSelectService;
 
   Future<void> _refrash() async {
     authBloc!.loginWithCookies(widget.cookies);
@@ -73,12 +76,8 @@ class _ProfilePage extends State<ProfilePageTest> {
                                         : false,
                                     child: GestureDetector(
                                       onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => Contracts(
-                                                    canLogin: true,
-                                                    func: widget.func)));
+                                        bottomNavigationSelectService!.function!
+                                            .call(TabItem.contracts);
                                       },
                                       child: Container(
                                         margin: const EdgeInsets.fromLTRB(
@@ -408,6 +407,8 @@ class _ProfilePage extends State<ProfilePageTest> {
     authBloc ??= DependencyProvider.of(context)!.authBloc;
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     profileService ??= DependencyProvider.of(context)!.profileService;
+    bottomNavigationSelectService ??=
+        DependencyProvider.of(context)!.bottomNavigationSelectService;
     authBloc!.loginWithCookies(widget.cookies);
   }
 }

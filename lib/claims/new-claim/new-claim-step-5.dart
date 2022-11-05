@@ -141,22 +141,17 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
                             DefaultButton(
                                 text: "Далее",
                                 onPressed: () {
-                                  List<ClaimStep5Staging> tableStagings = [];
-                                  tableStagings.add(ClaimStep5Staging(
-                                    stage: controllerList[0].text,
-                                    projectTerm: controllerList[1].text,
-                                    inputTerm: controllerList[2].text,
-                                    power: controllerList[3].text,
-                                    category: controllerList[4].text,
-                                  ));
-                                  mainClaimSendService!.step5Stage =
-                                      tableStagings;
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              NewClaimStep6()));
                                   if (_formKey.currentState!.validate()) {
+                                    List<ClaimStep5Staging> tableStagings = [];
+                                    tableStagings.add(ClaimStep5Staging(
+                                      stage: controllerList[0].text,
+                                      projectTerm: controllerList[1].text,
+                                      inputTerm: controllerList[2].text,
+                                      power: controllerList[3].text,
+                                      category: controllerList[4].text,
+                                    ));
+                                    mainClaimSendService!.step5Stage =
+                                        tableStagings;
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(

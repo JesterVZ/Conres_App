@@ -373,11 +373,6 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                           DefaultButton(
                             text: "Далее",
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NewClaimStep4()));
-
                               if (_formKey.currentState!.validate()) {
                                 //категория надежности 3
                                 mainClaimSendService!.field_max_power_3 =

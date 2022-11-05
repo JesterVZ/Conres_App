@@ -4,13 +4,14 @@ import '../../consts.dart';
 import '../tab-item.dart';
 
 class BottomNavigation extends StatelessWidget {
+  //основной  сэтап
   BottomNavigation(
       {required this.currentTab,
       required this.onSelectTab,
       required this.ticketCounter,
       required this.claimCounter});
-  final TabItem currentTab;
-  final ValueChanged<TabItem> onSelectTab;
+  TabItem currentTab;
+  Function(TabItem tabItem) onSelectTab;
   int? ticketCounter;
   int? claimCounter;
 
@@ -48,9 +49,7 @@ class BottomNavigation extends StatelessWidget {
                       child: Container(
                         padding: EdgeInsets.all(3),
                         decoration: BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.circle
-                        ),
+                            color: Colors.red, shape: BoxShape.circle),
                         constraints: const BoxConstraints(
                           minWidth: 12,
                           minHeight: 12,

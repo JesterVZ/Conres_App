@@ -154,12 +154,6 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
                                   DefaultButton(
                                       text: "Далее",
                                       onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    NewClaimStep3()));
-
                                         if (_formKey.currentState!.validate()) {
                                           List<ClaimStep2TableObject>
                                               tableObjects = [];
