@@ -277,7 +277,10 @@ class _MessagesPage extends State<MessagesPage> {
                                     GestureDetector(
                                       onTap: () {
                                         if (isWaitForSend == false) {
-                                          _send();
+                                          if(controller.text.trim() != ""){
+                                            _send();
+                                          }
+                                          
                                         }
                                       },
                                       child: Container(
@@ -582,6 +585,13 @@ class _MessagesPage extends State<MessagesPage> {
 
   void getData(dynamic event) async {
     print('\x1B[32m$event\x1B[0m');
+    var wsMap = jsonDecode(event.toString());
+    if(wsMap['data']['counters'] != null){
+      profileBloc!.setCounters(
+                wsMap['data']['counters']['new_ticket_messages_count'],
+                wsMap['data']['counters']['new_claims_messages_count']);
+    }
+    
     // _sendToastMessage(context, "got $event");
     if (isLoading == false) {
       if (widget.type == ChatTypes.Ticket) {

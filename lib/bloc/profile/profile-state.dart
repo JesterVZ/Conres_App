@@ -21,6 +21,9 @@ class ProfileState {
   final String? error;
   final Map<String, dynamic>? fullInfo;
 
+  final int? ticketCounter;
+  final int? claimCounter;
+
   final List<dynamic>? loginData;
   final List<Contract>? contracts;
   final List<String>? numbers;
@@ -62,6 +65,8 @@ class ProfileState {
       this.meters,
       this.claimMessages,
       this.objectsPU,
+      this.ticketCounter,
+      this.claimCounter,
       this.TuPoints,
       this.privatePolicyString,
       this.isMeasureSent,
@@ -83,6 +88,8 @@ class ProfileState {
       String? error,
       Map<String, dynamic>? fullInfo,
       final List<TuModel>? TuPoints,
+      int? ticketCounter,
+      int? claimCounter,
       String? privatePolicyString,
       List<Claim>? claims,
       List<Ticket>? tickets,
@@ -106,6 +113,8 @@ class ProfileState {
         tickets: tickets ?? this.tickets,
         claimMessages: claimMessages ?? this.claimMessages,
         images: images,
+        ticketCounter: ticketCounter,
+        claimCounter: claimCounter,
         privatePolicyString: privatePolicyString,
         TuPoints: TuPoints,
         ticketFullInfo: ticketFullInfo,

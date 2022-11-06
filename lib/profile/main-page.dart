@@ -155,6 +155,8 @@ class _MainPage extends State<MainPage> {
   }
 
   _listener(BuildContext context, ProfileState state) {
+    ticketCounter = state.ticketCounter ?? ticketCounter;
+    claimCounter = state.claimCounter ?? claimCounter;
     if (state.loading == true) {
       return;
     }
@@ -194,12 +196,12 @@ class _MainPage extends State<MainPage> {
     if (this.mounted) {
       setState(() {
         try {
+          var wsMap = jsonDecode(event.toString());
           webSocketData = WebSocketData.fromMap(jsonDecode(event.toString()));
           if (webSocketData!.data!['counters'] != null) {
-            ticketCounter =
-                webSocketData!.data!['counters']['new_ticket_messages_count'];
-            claimCounter =
-                webSocketData!.data!['counters']['new_claims_messages_count'];
+            profileBloc!.setCounters(
+                wsMap['data']['counters']['new_ticket_messages_count'],
+                wsMap['data']['counters']['new_claims_messages_count']);
           }
           if (webSocketData!.event == "claim_status") {
             updateClaimService!.update!.call(

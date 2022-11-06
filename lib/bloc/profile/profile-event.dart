@@ -156,3 +156,9 @@ class SendTestimonyEvent extends ProfileEvent {
   List<String> nightValues = [];
   SendTestimonyEvent(this.dayValues, this.nightValues);
 }
+
+class SetCounters extends ProfileEvent {
+  int ticketCounter;
+  int claimCounter;
+  SetCounters(this.ticketCounter, this.claimCounter);
+}

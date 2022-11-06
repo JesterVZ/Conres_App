@@ -27,7 +27,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
-    if (event is GetCookieStrEvent) {
+    if (event is SetCounters) {
+      yield* _handleSetCounters(event);
+    } else if (event is GetCookieStrEvent) {
       yield* _handleGetCookies(event);
     } else if (event is GetLoginData) {
       yield* _handleGetData(event);
@@ -189,6 +191,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   sendTestimony(List<String> dayValues, List<String> nightValues) {
     add(SendTestimonyEvent(dayValues, nightValues));
+  }
+
+  setCounters(int ticketCounter, int claimCounter) {
+    add(SetCounters(ticketCounter, claimCounter));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -509,6 +515,18 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       var result = await repo.sendMainClaim(event.mainClaimSendService);
       yield state.copyWith(loading: false, error: null);
+    } catch (e) {
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleSetCounters(SetCounters event) async* {
+    try {
+      yield state.copyWith(
+          loading: false,
+          error: null,
+          ticketCounter: event.ticketCounter,
+          claimCounter: event.claimCounter);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }

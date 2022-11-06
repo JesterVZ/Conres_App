@@ -107,7 +107,7 @@ class _Chats extends State<Chats> {
 
       if ((int.parse(state.page!) == page) && page > 1) {
         tickets = tickets + state.tickets!;
-        ticketsMap = {for (var e in state.tickets!) e.ticket_id!: e};
+        ticketsMap = {for (var e in tickets) e.ticket_id!: e};
       }
     }
   }
