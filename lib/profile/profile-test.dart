@@ -83,6 +83,8 @@ class _ProfilePage extends State<ProfilePageTest> {
                                           child: InkWell(
                                             onTap: () {
                                               bottomNavigationSelectService!
+                                                  .canLogin = true;
+                                              bottomNavigationSelectService!
                                                   .function!
                                                   .call(TabItem.contracts);
                                             },

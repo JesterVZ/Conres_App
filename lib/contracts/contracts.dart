@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../DI/dependency-provider.dart';
+import '../Services/bottom-navigation-select-service.dart';
 import '../bloc/profile/profile-bloc.dart';
 import '../bloc/profile/profile-state.dart';
 import '../consts.dart';
@@ -17,9 +18,8 @@ import '../elements/contracts/contract-element.dart';
 import 'new-ls/new-ls.dart';
 
 class Contracts extends StatefulWidget {
-  bool canLogin;
   ValueChanged<Contract> func;
-  Contracts({required this.canLogin, required this.func});
+  Contracts({required this.func});
   @override
   State<StatefulWidget> createState() => _Contracts();
 }
@@ -27,6 +27,7 @@ class Contracts extends StatefulWidget {
 class _Contracts extends State<Contracts> {
   ProfileBloc? profileBloc;
   List<Widget> contracts = [];
+  BottomNavigationSelectService? bottomNavigationSelectService;
 
   Future<void> _refrash() async {
     contracts.clear();
@@ -69,9 +70,9 @@ class _Contracts extends State<Contracts> {
       if (contracts.isEmpty) {
         for (int i = 0; i < state.contracts!.length; i++) {
           contracts.add(ContractElement(
+              bottomNavigationSelectService: bottomNavigationSelectService!,
               contract: state.contracts![i],
-              func: widget.func,
-              canLogin: widget.canLogin));
+              func: widget.func));
         }
       }
     }
@@ -80,6 +81,8 @@ class _Contracts extends State<Contracts> {
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    bottomNavigationSelectService ??=
+        DependencyProvider.of(context)!.bottomNavigationSelectService;
     profileBloc!.getContracts();
     super.didChangeDependencies();
   }

@@ -70,7 +70,7 @@ class _MainPage extends State<MainPage> {
     ));
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.contracts],
-        rootPage: Contracts(canLogin: false, func: goToContract)));
+        rootPage: Contracts(func: goToContract)));
     navigatorList.add(TabNavigator(
         navigatorKey: _navKeys[TabItem.claims],
         rootPage: Claims(
@@ -143,6 +143,7 @@ class _MainPage extends State<MainPage> {
                   ],
                 ),
                 bottomNavigationBar: BottomNavigation(
+                  bottomNavigationSelectService: bottomNavigationSelectService!,
                   currentTab: _currentTab,
                   onSelectTab: _selectTab,
                   ticketCounter: ticketCounter,

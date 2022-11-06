@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../Services/bottom-navigation-select-service.dart';
 import '../../consts.dart';
 import '../tab-item.dart';
 
@@ -9,11 +10,13 @@ class BottomNavigation extends StatelessWidget {
       {required this.currentTab,
       required this.onSelectTab,
       required this.ticketCounter,
-      required this.claimCounter});
+      required this.claimCounter,
+      required this.bottomNavigationSelectService});
   TabItem currentTab;
   Function(TabItem tabItem) onSelectTab;
   int? ticketCounter;
   int? claimCounter;
+  BottomNavigationSelectService bottomNavigationSelectService;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,10 @@ class BottomNavigation extends StatelessWidget {
         _buildItem(TabItem.chats, true, ticketCounter),
         _buildItem(TabItem.more, false, null)
       ],
-      onTap: (index) => onSelectTab(TabItem.values[index]),
+      onTap: (index) {
+        bottomNavigationSelectService.canLogin = false;
+        onSelectTab(TabItem.values[index]);
+      },
       currentIndex: currentTab.index,
     );
   }

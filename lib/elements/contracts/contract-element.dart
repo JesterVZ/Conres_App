@@ -3,21 +3,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../Services/bottom-navigation-select-service.dart';
 import '../../consts.dart';
 
 class ContractElement extends StatelessWidget {
   final Contract contract;
-  bool canLogin;
   ValueChanged<Contract> func;
+  BottomNavigationSelectService bottomNavigationSelectService;
 
   ContractElement(
-      {required this.contract, required this.func, required this.canLogin});
+      {required this.contract,
+      required this.func,
+      required this.bottomNavigationSelectService});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          if (canLogin == true) {
+          if (bottomNavigationSelectService.canLogin == true) {
             func.call(contract);
           }
         },
