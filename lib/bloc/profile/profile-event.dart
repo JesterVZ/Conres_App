@@ -162,3 +162,18 @@ class SetCounters extends ProfileEvent {
   int claimCounter;
   SetCounters(this.ticketCounter, this.claimCounter);
 }
+
+class EditObject extends ProfileEvent {
+  String id;
+  String name;
+  String address;
+  EditObject(this.id, this.name, this.address);
+}
+
+class EditTu extends ProfileEvent {
+  String id;
+  String number;
+  String name;
+  String address;
+  EditTu(this.id, this.number, this.name, this.address);
+}

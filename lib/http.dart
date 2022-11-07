@@ -845,7 +845,7 @@ class HttpClient {
     });
     final result = await _apiClient.post(uri, data: formdata);
     if (result.statusCode == 200) {
-      return true;
+      return result.data['data']['edit'];
     } else {
       return false;
     }

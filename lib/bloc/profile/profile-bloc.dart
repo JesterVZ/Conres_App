@@ -81,6 +81,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleSendTestimony(event);
     } else if (event is SendMainClaim) {
       yield* _handleSendMainClaim(event);
+    } else if (event is EditObject) {
+      yield* _handleEditObject(event);
+    } else if (event is EditTu) {
+      yield* _handleEditTu(event);
     }
   }
 
@@ -195,6 +199,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   setCounters(int ticketCounter, int claimCounter) {
     add(SetCounters(ticketCounter, claimCounter));
+  }
+
+  editObject(String id, String name, String address) {
+    add(EditObject(id, name, address));
+  }
+
+  editTu(String id, String number, String name, String address) {
+    add(EditTu(id, number, name, address));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -527,6 +539,26 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           error: null,
           ticketCounter: event.ticketCounter,
           claimCounter: event.claimCounter);
+    } catch (e) {
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleEditObject(EditObject event) async* {
+    yield state.copyWith(loading: true, error: null);
+    try {
+      var result = await repo.editObject(event.id, event.name, event.address);
+      yield state.copyWith(loading: false, error: null);
+    } catch (e) {
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleEditTu(EditTu event) async* {
+    yield state.copyWith(loading: true, error: null);
+    try {
+      var result = await repo.editObject(event.id, event.name, event.address);
+      yield state.copyWith(loading: false, error: null);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }

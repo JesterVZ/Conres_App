@@ -108,10 +108,8 @@ class _PageTU extends State<PageTU> {
   void _edit() {
     showDialog(
         context: context,
-        builder: (BuildContext context) => EditTuDialog(
-              title: "Редактировать ТУ",
-              function: () {},
-            ));
+        builder: (BuildContext context) =>
+            EditTuDialog(title: "Редактировать ТУ"));
   }
 
   @override

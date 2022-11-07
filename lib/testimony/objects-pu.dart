@@ -22,7 +22,6 @@ class ObjectsPU extends StatefulWidget {
 
 class _ObjectsPU extends State<ObjectsPU> {
   Future<void> _refrash() async {}
-  void _editPU() {}
   ProfileBloc? profileBloc;
   List<Widget> objects = [];
   @override
@@ -43,53 +42,52 @@ class _ObjectsPU extends State<ObjectsPU> {
                       child: Column(
                         children: objects,
                       ))),
-              footer: Container(
-                child: Row(
-                  children: [
-                    Container(
-                        padding: EdgeInsets.only(
-                          left: defaultSidePadding,
-                        ),
-                        width: 160,
-                        height: 55,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    ObjectPuDialog(
-                                      title: "Новый объект",
-                                      function: _editPU,
-                                    ));
-                          },
-                          child: const Text("Новый объект",
-                              style: TextStyle(fontSize: 14)),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: colorMain,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8))),
-                        )),
-                    const Spacer(),
-                    Container(
-                        padding: EdgeInsets.only(right: defaultSidePadding),
-                        width: 160,
-                        height: 55,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LinkPUStep1()));
-                          },
-                          child: const Text("Новый ПУ",
-                              style: TextStyle(fontSize: 14)),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: colorMain,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8))),
-                        ))
-                  ],
-                ),
+              footer: Row(
+                children: [
+                  Container(
+                      padding: EdgeInsets.only(
+                        left: defaultSidePadding,
+                      ),
+                      width: 160,
+                      height: 55,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          /*
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  ObjectPuDialog(
+
+                                    title: "Новый объект",
+                                  ));*/
+                        },
+                        child: const Text("Новый объект",
+                            style: TextStyle(fontSize: 14)),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: colorMain,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8))),
+                      )),
+                  const Spacer(),
+                  Container(
+                      padding: EdgeInsets.only(right: defaultSidePadding),
+                      width: 160,
+                      height: 55,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LinkPUStep1()));
+                        },
+                        child: const Text("Новый ПУ",
+                            style: TextStyle(fontSize: 14)),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: colorMain,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8))),
+                      ))
+                ],
               ),
               onRefrash: _refrash);
         });

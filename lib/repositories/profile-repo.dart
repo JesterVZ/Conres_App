@@ -142,4 +142,11 @@ class ProfileRepo {
     var result = await httpClient.sendTestimony(dayValues, nightValues);
     return result;
   }
+
+  Future<dynamic> editObject(String id, String name, String address) async {
+    var result = await httpClient.editObjectPu(id, name, address);
+    return result;
+  }
+
+  Future<dynamic> editTu() async {}
 }

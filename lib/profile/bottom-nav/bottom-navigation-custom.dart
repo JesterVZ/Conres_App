@@ -53,8 +53,8 @@ class BottomNavigation extends StatelessWidget {
                       right: 0,
                       top: -3,
                       child: Container(
-                        padding: EdgeInsets.all(3),
-                        decoration: BoxDecoration(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
                             color: Colors.red, shape: BoxShape.circle),
                         constraints: const BoxConstraints(
                           minWidth: 12,

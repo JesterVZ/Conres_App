@@ -55,40 +55,38 @@ class _ObjectPU extends State<ObjectPU> {
               ],
             ),
           ),
-          Container(
-            child: Row(
-              children: [
-                Container(
-                  height: 50,
-                  width: 142,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => ObjectPuDialog(
-                                  title: "Редактировать объект",
-                                  function: () {},
-                                ));
-                      },
-                      style: ElevatedButton.styleFrom(primary: messageColor),
-                      child: Text("Редактировать",
-                          style: TextStyle(color: colorMain))),
-                ),
-                const Spacer(),
-                Container(
-                  height: 50,
-                  width: 142,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => PageTU()));
-                      },
-                      style: ElevatedButton.styleFrom(primary: messageColor),
-                      child: Text("Подробнее",
-                          style: TextStyle(color: colorMain))),
-                ),
-              ],
-            ),
+          Row(
+            children: [
+              Container(
+                height: 50,
+                width: 142,
+                child: ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) => ObjectPuDialog(
+                              id: widget.objectPuModel.object_id,
+                              title: "Редактировать объект"));
+                    },
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: messageColor),
+                    child: Text("Редактировать",
+                        style: TextStyle(color: colorMain))),
+              ),
+              const Spacer(),
+              Container(
+                height: 50,
+                width: 142,
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => PageTU()));
+                    },
+                    style: ElevatedButton.styleFrom(primary: messageColor),
+                    child:
+                        Text("Подробнее", style: TextStyle(color: colorMain))),
+              ),
+            ],
           )
         ],
       ),

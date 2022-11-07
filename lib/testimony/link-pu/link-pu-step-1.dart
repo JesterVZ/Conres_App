@@ -62,12 +62,12 @@ class _LinkPUStep1 extends State<LinkPUStep1> {
                 DefaultButton(
                     text: "Добавить новый объект",
                     onPressed: () {
+                      /*
                       showDialog(
                           context: context,
                           builder: (BuildContext context) => ObjectPuDialog(
                                 title: "Новый объект",
-                                function: _editPU,
-                              ));
+                              ));*/
                     },
                     isGetPadding: false)
               ],
