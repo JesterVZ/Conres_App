@@ -101,13 +101,14 @@ class _EditTuDialog extends State<EditTuDialog> {
                           child: DefaultButton(
                             isGetPadding: false,
                             onPressed: () {
-                              profileBloc!.editTu(id, number, name, address);
+                              //profileBloc!.editTu(id, number, name, address);
                             },
                             text: "Принять",
                           ))
                     ]),
                   );
                 })));
+  
   }
 
   _listener(BuildContext context, ProfileState state) {

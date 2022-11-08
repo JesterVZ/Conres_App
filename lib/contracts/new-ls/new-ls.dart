@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/UI/default-input.dart';
 import 'package:conres_app/UI/main-form.dart';
@@ -91,11 +92,17 @@ class _NewLS extends State<NewLS> {
       return;
     }
     if (state.bindLsData != null) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) =>
-              Alert(title: "Успешно!", text: state.bindLsData!));
-      Navigator.pop(context);
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.success,
+        animType: AnimType.bottomSlide,
+        headerAnimationLoop: false,
+        title: "Успешно!",
+        desc: "Запрос на привязку отправлен!",
+        btnOkOnPress: () {
+          Navigator.pop(context);
+        },
+        ).show();
     }
     if (state.error != null) {
       showDialog(

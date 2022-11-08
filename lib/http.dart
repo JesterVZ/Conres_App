@@ -465,6 +465,21 @@ class HttpClient {
     }
   }
 
+  Future<Object?> setReadClaimMessage(String claimId, String messageId) async {
+    String uri =
+        domain + 'lk/index.php?route=claims/claims/api_setReadMessage';
+    try {
+      var formData = FormData.fromMap({
+        'claim_id': claimId,
+        'message_id': messageId,
+      });
+      final result = await _apiClient.post(uri, data: formData);
+      if (result.statusCode == 200) {}
+    } catch (e) {
+      return e;
+    }
+  }
+
   Future<Object?> download(String uri, String fileName) async {
     try {
       final dir = await getExternalStorageDirectory();

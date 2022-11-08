@@ -96,7 +96,6 @@ class _PageTU extends State<PageTU> {
         for (int i = 0; i < state.TuPoints!.length; i++) {
           objects.add(TuElement(
             currentTu: state.TuPoints![i],
-            editFunc: _edit,
           ));
         }
       }

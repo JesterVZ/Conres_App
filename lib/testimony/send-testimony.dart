@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/Services/send-testimont-service.dart';
 import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/UI/main-form.dart';
@@ -108,10 +109,20 @@ class _SendTestimony extends State<SendTestimony> {
       }
     }
     if (state.loading! == false && state.isMeasureSent == true) {
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.success,
+        animType: AnimType.bottomSlide,
+        headerAnimationLoop: false,
+        title: "Успешно!",
+        desc: "Показания переданы!",
+        btnOkOnPress: () {},
+        ).show();
+        /*
       showDialog(
           context: context,
           builder: (BuildContext context) =>
-              Alert(title: "Успешно!", text: "Показания переданы!"));
+              Alert(title: "Успешно!", text: "Показания переданы!"));*/
     }
     if (state.error != null) {
       showDialog(

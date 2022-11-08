@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/UI/main-form.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../DI/dependency-provider.dart';
+import '../UI/default-button.dart';
 import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../elements/bloc/bloc-screen.dart';
@@ -52,14 +54,96 @@ class _ObjectsPU extends State<ObjectsPU> {
                       height: 55,
                       child: ElevatedButton(
                         onPressed: () {
-                          /*
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  ObjectPuDialog(
 
-                                    title: "Новый объект",
-                                  ));*/
+                          AwesomeDialog(
+                              context: context,
+                              animType: AnimType.bottomSlide,
+                              dialogType: DialogType.noHeader,
+                              body: Container(
+                                padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding, bottom: 17),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Column(children: [
+                                  Container(
+                                      margin: const EdgeInsets.fromLTRB(
+                                          0, 0, 0, 18),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text("Номер ТУ",
+                                              style: TextStyle(
+                                                  color: colorGray,
+                                                  fontSize: 16.0)),
+                                          TextField(
+                                            decoration: InputDecoration(
+                                                hintText: "Номер ТУ",
+                                                border: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: inputBorder))),
+                                          )
+                                        ],
+                                      )),
+                                  Container(
+                                      margin: const EdgeInsets.fromLTRB(
+                                          0, 0, 0, 18),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text("Наименование ТУ",
+                                              style: TextStyle(
+                                                  color: colorGray,
+                                                  fontSize: 16.0)),
+                                          TextField(
+                                            decoration: InputDecoration(
+                                                hintText: "Наименование",
+                                                border: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: inputBorder))),
+                                          )
+                                        ],
+                                      )),
+                                  Container(
+                                      margin: const EdgeInsets.fromLTRB(
+                                          0, 0, 0, 18),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text("Адрес ТУ",
+                                              style: TextStyle(
+                                                  color: colorGray,
+                                                  fontSize: 16.0)),
+                                          TextField(
+                                            decoration: InputDecoration(
+                                                hintText:
+                                                    "Город, Улица, Дом, Квартира",
+                                                border: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: inputBorder))),
+                                          )
+                                        ],
+                                      )),
+                                  Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 55,
+                                      child: DefaultButton(
+                                        isGetPadding: false,
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          //profileBloc!.editTu(id, number, name, address);
+                                        },
+                                        text: "Принять",
+                                      ))
+                                ]),
+                              )).show();
                         },
                         child: const Text("Новый объект",
                             style: TextStyle(fontSize: 14)),

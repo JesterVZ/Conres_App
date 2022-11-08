@@ -111,7 +111,7 @@ class ProfileState {
         numbers: numbers ?? this.numbers,
         claims: claims ?? this.claims,
         tickets: tickets ?? this.tickets,
-        claimMessages: claimMessages ?? this.claimMessages,
+        claimMessages: claimMessages,
         images: images,
         ticketCounter: ticketCounter,
         claimCounter: claimCounter,

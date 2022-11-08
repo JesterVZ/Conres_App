@@ -96,6 +96,12 @@ class ReadMessage extends ProfileEvent {
   ReadMessage(this.ticketId, this.messageId);
 }
 
+class ReadClaimMessage extends ProfileEvent{
+  String claimId;
+  String messageId;
+  ReadClaimMessage(this.claimId, this.messageId);
+}
+
 class DownloadFile extends ProfileEvent {
   String uri;
   String filename;

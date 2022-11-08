@@ -28,12 +28,15 @@ class MessageElement extends StatelessWidget {
               : ""));
     } else if (message.data != null && message.data is List<ClaimFile>?) {
       for (int i = 0; i < message.data.length; i++) {
-        previews.add(Preview(
+        previews.add(
+          Container(
+            margin: EdgeInsets.only(bottom: 5),
+            child: Preview(
             uri: message.data != null
                 ? (message.data[i]!.thumb != null
                     ? message.data[i]!.thumb!
                     : "")
-                : ""));
+                : ""),));
       }
     }
 
@@ -68,34 +71,7 @@ class MessageElement extends StatelessWidget {
                     },
                     child: SizedBox(
                         width: 150,
-                        height: 120,
-                        child: Flex(direction: Axis.vertical, children: [
-                          Expanded(
-                              child: Scrollbar(
-                            child: SingleChildScrollView(
-                                child: Wrap(
-                                    direction: Axis.horizontal,
-                                    children: previews)),
-                          )),
-                          /*
-                          Visibility(
-                            visible: ((message.data != null &&  message.data.length == 1) ? true : false),
-                            child: Flexible(
-                            flex: 1,
-                            child: Text(
-                                (message.data != null &&  message.data.length == 1)
-                                    ? message.data[0]!.document_name!
-                                    : "",
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    color: message.isOwn!
-                                        ? Colors.white
-                                        : Colors.black)),
-                          )
-                            )*/
-                          
-                        ])))),
+                        child: Column(children: previews)))),
             Text("${message.date!.hour}:${message.date!.minute}",
                 style: TextStyle(
                     color: message.isOwn! ? Colors.white : Colors.grey))

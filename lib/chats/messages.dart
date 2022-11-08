@@ -65,6 +65,7 @@ class _MessagesPage extends State<MessagesPage> {
   bool isLoadingMessages = true; //если идет загрузка сообщений
   bool isLoadingPage = true; //если идет подгрузка новой страницы
   bool isWaitForSend = false; // Ожидаем ли отправку сообщения
+  bool isRead = false; //прочитаны ли сообщения
   WebSocketChannel? webSocketChannel; //канал веб-сокета
   WebSocketListener? webSocketListener; // какая именно функция слушает сокет
   WebSocketData? webSocketData; //Структура данных сокета
@@ -323,6 +324,7 @@ class _MessagesPage extends State<MessagesPage> {
 
   _listener(BuildContext context, ProfileState state) {
     isLoading = state.loading!;
+    
     if (state.error != null) {
       showDialog(
           context: context,
@@ -335,7 +337,10 @@ class _MessagesPage extends State<MessagesPage> {
 
       if (page == 1) {
         messageList = state.ticketFullInfo!.messages!;
+        if(isRead == false) {
         readMessage(widget.genericId!, lastMessageId!);
+        isRead = true;
+      }
         for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
           messageList[i].isOwn =
               state.ticketFullInfo!.messages![i].user_id != widget.userId
@@ -363,6 +368,7 @@ class _MessagesPage extends State<MessagesPage> {
     if (state.claimMessages != null && mainLabel == "Заявление") {
       isLoadingMessages = false;
       messageList = state.claimMessages!;
+      lastMessageId = state.claimMessages!.last.claim_message_id!;
       for (int i = 0; i < state.claimMessages!.length; i++) {
         messageList[i].isOwn =
             state.claimMessages![i].user_id != widget.userId ? false : true;
@@ -371,6 +377,10 @@ class _MessagesPage extends State<MessagesPage> {
         return int.parse(b.claim_message_id!)
             .compareTo(int.parse(a.claim_message_id!));
       });
+      if(isRead == false) {
+        readMessage(widget.genericId!, lastMessageId!);
+        isRead = true;
+      }
     }
     if (state.sendMessageData != null) {
       //если пришел ответ api по отправке сообщения
@@ -568,19 +578,35 @@ class _MessagesPage extends State<MessagesPage> {
   }
 
   void readMessage(String genericId, String messageId) {
-    MessageRead messageRead = MessageRead(
-        cmd: 'publish',
-        event: 'ticket_msg_read',
-        subject: 'store-${store_id}',
-        to_id: int.parse(widget.userId),
-        data: MessageReadData(
+    var data;
+    if (widget.type == ChatTypes.Ticket) {
+      data = MessageReadData(
             message_id: messageId,
             ticket_id: int.parse(genericId),
             user_id: int.parse(widget.userId),
-            user_type: "lk"));
-    String data = jsonEncode(messageRead.toJson());
-    webSocketChannel!.sink.add(data);
-    profileBloc!.readMessage(genericId, messageId);
+            user_type: "lk");
+    } else if (widget.type == ChatTypes.Claim) {
+      data = ClaimMessageReadData(
+            message_id: messageId,
+            claim_id: int.parse(genericId),
+            user_id: int.parse(widget.userId),
+            user_type: "lk");
+    }
+    MessageRead messageRead = MessageRead(
+        cmd: 'publish',
+        event: widget.type == ChatTypes.Ticket ? 'ticket_msg_read' : 'claim_msg_read',
+        subject: 'store-${store_id}',
+        to_id: int.parse(widget.userId),
+        data: data);
+
+    String strdata = jsonEncode(messageRead.toJson());
+    webSocketChannel!.sink.add(strdata);
+    if (widget.type == ChatTypes.Ticket) {
+      profileBloc!.readMessage(genericId, messageId);
+    } else if (widget.type == ChatTypes.Claim) {
+      profileBloc!.readClaimMessage(genericId, messageId);
+    }
+    
   }
 
   void getData(dynamic event) async {

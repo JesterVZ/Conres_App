@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/model/TU.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,12 +6,12 @@ import 'package:flutter/material.dart';
 import '../../consts.dart';
 import '../../testimony/pu-info.dart';
 import '../full-profile/ExpansionTileElement.dart';
+import 'edit-tu-dialog.dart';
 
 class TuElement extends StatefulWidget {
   final TuModel? currentTu;
-  VoidCallback editFunc;
 
-  TuElement({required this.currentTu, required this.editFunc});
+  TuElement({required this.currentTu});
   @override
   State<StatefulWidget> createState() => _TuElement();
 }
@@ -115,7 +116,12 @@ class _TuElement extends State<TuElement> {
                     margin: EdgeInsets.only(bottom: 12, top: 12),
                     child: ElevatedButton(
                       onPressed: () {
-                        widget.editFunc.call();
+                        
+                        /*
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              EditTuDialog(title: "Редактировать ТУ"));*/
                       },
                       child: const Text("Редактировать",
                           style: TextStyle(color: Colors.white, fontSize: 18)),
