@@ -42,13 +42,14 @@ class _Contracts extends State<Contracts> {
         builder: (context, state) {
           return MainForm(
             header: HeaderNotification(text: "Договоры", canGoBack: false),
-            body: SingleChildScrollView(
-                child: Padding(
-                    padding: EdgeInsets.only(
-                        left: defaultSidePadding, right: defaultSidePadding),
-                    child: Column(
-                      children: contracts,
-                    ))),
+            body: ListView.builder(
+                  itemCount: claimsMap.length,
+                  itemBuilder: (context, int index) {
+                    return ContractElement(
+                      contract: contract, 
+                      func: widget.func, 
+                      bottomNavigationSelectService: bottomNavigationSelectService!);
+                  }),
             onRefrash: _refrash,
             footer: DefaultButton(
               onPressed: () {
