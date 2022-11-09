@@ -43,7 +43,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleLogout(event);
     } else if (event is BindNewLS) {
       yield* _handleBindNewLS(event);
-    } else if (event is GetContracts) {
+    } else if(event is HiddenAccountRequest){
+      yield* _handleHideAccount(event);
+    }else if (event is GetContracts) {
       yield* _handleGetContracts(event);
     } else if (event is GetClaims) {
       yield* _handleGetClaims(event);
@@ -217,6 +219,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   editTu(String id, String number, String name, String address) {
     add(EditTu(id, number, name, address));
+  }
+
+  hiddenAccout(String account_id){
+    add(HiddenAccountRequest(account_id));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -580,5 +586,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
+  }
+
+  Stream<ProfileState> _handleHideAccount(HiddenAccountRequest event) async*{
+      var result = await repo.editObject(event.id, event.name, event.address);
   }
 }
