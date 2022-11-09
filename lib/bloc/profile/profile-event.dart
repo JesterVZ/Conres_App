@@ -183,3 +183,8 @@ class EditTu extends ProfileEvent {
   String address;
   EditTu(this.id, this.number, this.name, this.address);
 }
+
+class HiddenAccountRequest extends ProfileEvent {
+  String account_id;
+  HiddenAccountRequest(this.account_id);
+}
