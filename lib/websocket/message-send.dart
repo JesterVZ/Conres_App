@@ -170,6 +170,16 @@ class AccountNew{
       };
 }
 
+class AccountHidden{
+  String? account_id;
+  AccountHidden({
+    required this.account_id
+  });
+  Map<String, dynamic> toJson() => {
+    'account_id': account_id
+  };
+}
+
 class Contacts {
   String? phone;
   String? email;

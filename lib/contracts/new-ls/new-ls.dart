@@ -21,7 +21,8 @@ import '../../elements/masks.dart';
 import '../../websocket/message-send.dart';
 import 'package:intl/intl.dart';
 class NewLS extends StatefulWidget {
-  const NewLS({Key? key}) : super(key: key);
+  VoidCallback? refrash;
+  NewLS({Key? key, required this.refrash}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _NewLS();
@@ -125,6 +126,7 @@ class _NewLS extends State<NewLS> {
         title: "Успешно!",
         desc: "Запрос на привязку отправлен!",
         btnOkOnPress: () {
+          widget.refrash!.call();
           Navigator.pop(context);
         },
         ).show();

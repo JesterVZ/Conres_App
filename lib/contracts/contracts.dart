@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/UI/main-form.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
@@ -17,6 +19,7 @@ import '../bloc/profile/profile-state.dart';
 import '../consts.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/contracts/contract-element.dart';
+import '../websocket/message-send.dart';
 import 'new-ls/new-ls.dart';
 
 class Contracts extends StatefulWidget {
@@ -32,7 +35,7 @@ class _Contracts extends State<Contracts> {
   Map<String, dynamic> contractsMap = {};
   BottomNavigationSelectService? bottomNavigationSelectService;
   UpdateAccountService? updateAccountService;
-  
+  WebSocketChannel? webSocketChannel;
 
   Future<void> _refrash() async {
     contracts.clear();
@@ -52,14 +55,15 @@ class _Contracts extends State<Contracts> {
                   itemBuilder: (context, int index) {
                     return ContractElement(
                       contract: contractsMap.values.elementAt(index), 
-                      func: widget.func, 
+                      func: widget.func,
+                      remove: removeContract,
                       bottomNavigationSelectService: bottomNavigationSelectService!);
                   }),
             onRefrash: _refrash,
             footer: DefaultButton(
               onPressed: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => NewLS()));
+                    context, MaterialPageRoute(builder: (context) => NewLS(refrash: _refrash)));
               },
               isGetPadding: true,
               text: "Новый лицевой счет",
@@ -72,23 +76,42 @@ class _Contracts extends State<Contracts> {
     if (state.loading == true) {
       return;
     }
-    if (state.contracts != null && state.contracts!.isNotEmpty) {
+    if (state.contracts != null && state.contracts!.isNotEmpty && contractsMap.isEmpty) {
       contractsMap = {for (var e in state.contracts!) e.account_id!: e};
     }
   }
 
-  void updateStatus(String id, String status){
+  void updateStatus(String id, String status, String? comment){
     Contract newContract = contractsMap[id];
     newContract.approve = status;
+    if(comment != null){
+      newContract.comments = comment;
+    }
     setState(() {
       contractsMap.update(id, (value) => newContract);
     });
   }
 
+  void removeContract(Contract contract){
+    dynamic message = MessageSend(
+                    cmd: "publish",
+                    subject: "store-${store_id}",
+                    event: "account_hidden",
+                    data: AccountHidden(account_id: contract.account_id),
+                    to_id: int.parse(user_id!)
+                  );
+      String data = jsonEncode(message.toJson());
+      webSocketChannel!.sink.add(data);
+    setState(() {
+      contractsMap.remove(contract.account_id);
+    });
+    
+  }
+
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
-    
+    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
     bottomNavigationSelectService ??=
         DependencyProvider.of(context)!.bottomNavigationSelectService;
     updateAccountService ??= DependencyProvider.of(context)!.updateAccountService;

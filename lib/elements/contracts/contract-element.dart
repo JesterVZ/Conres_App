@@ -8,12 +8,14 @@ import '../../consts.dart';
 
 class ContractElement extends StatelessWidget {
   final Contract contract;
+  Function remove;
   ValueChanged<Contract> func;
   BottomNavigationSelectService bottomNavigationSelectService;
 
   ContractElement(
       {required this.contract,
       required this.func,
+      required this.remove,
       required this.bottomNavigationSelectService});
 
   @override
@@ -44,10 +46,11 @@ class ContractElement extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(
                   defaultSidePadding, 14, defaultSidePadding, 14),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  Row(
+                    children: [
+                      Container(
                     margin: EdgeInsets.only(bottom: 16),
                     padding: const EdgeInsets.fromLTRB(11, 6, 11, 6),
                     decoration: BoxDecoration(
@@ -65,6 +68,21 @@ class ContractElement extends StatelessWidget {
                               : "Активный",
                       style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
+                  ),
+                  const Spacer(),
+                  Visibility(
+                    visible: contract.approve == "0" ? true : false,
+                  child: Material(
+                    child: InkWell(
+                      onTap: (){
+                        remove.call(contract);
+                      },
+                      child: SvgPicture.asset('assets/remove-file.svg', color: colorGrayClaim,),
+                    )
+                  ),
+                  )
+                  
+                    ],
                   ),
                   Container(
                       margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
@@ -121,6 +139,22 @@ class ContractElement extends StatelessWidget {
                                   color: Colors.black, fontSize: 18))
                         ],
                       )),
+                  Visibility(
+                    visible: contract.comments != "" ? true : false,
+                    child: Container(
+                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Комментарий",
+                              style: TextStyle(
+                                  color: profileLabelColor, fontSize: 15)),
+                          Text(contract.comments!,
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 18))
+                        ],
+                      )))
                 ],
               )),
         

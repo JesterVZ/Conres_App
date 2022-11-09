@@ -228,7 +228,7 @@ class _MainPage extends State<MainPage> {
             updateAccountService!.update!.call(
               webSocketData!.data['account_id'],
               "0", //Не прошёл проверку
-              webSocketData!.data.comment //комментарий, который написал челик из РСО
+              webSocketData!.data['comment'] //комментарий, который написал челик из РСО
             );
             break;
           }
