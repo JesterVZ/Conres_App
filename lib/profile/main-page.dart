@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:conres_app/Services/update-account-service.dart';
 import 'package:conres_app/Services/update-claim-service.dart';
 import 'package:conres_app/Services/update-ticket-service.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
@@ -42,6 +43,7 @@ class _MainPage extends State<MainPage> {
   WebSocketListener? webSocketListener;
   UpdateClaimService? updateClaimService;
   UpdateTicketService? updateTicketService;
+  UpdateAccountService? updateAccountService;
   BottomNavigationSelectService? bottomNavigationSelectService;
   int? ticketCounter;
   int? claimCounter;
@@ -204,17 +206,31 @@ class _MainPage extends State<MainPage> {
                 wsMap['data']['counters']['new_ticket_messages_count'],
                 wsMap['data']['counters']['new_claims_messages_count']);
           }
-          if (webSocketData!.event == "claim_status") {
+          switch (webSocketData!.event) {
+            case "claim_status":
             updateClaimService!.update!.call(
                 webSocketData!.data['claim_id'],
                 webSocketData!.data['status'],
                 webSocketData!.data['status_pay']);
-          }
-
-          if (webSocketData!.event == "ticket_msg") {
+              break;
+            case "ticket_msg":
             updateTicketService!.update!.call(
                 webSocketData!.data['ticket_info'][0]['ticket_id'],
                 webSocketData!.data['ticket_info'][0]['name']);
+            break;
+            case "account_accept":
+            updateAccountService!.update!.call(
+              webSocketData!.data['account_id'],
+              "2" //активный
+            );
+            break;
+            case "account_cancel":
+            updateAccountService!.update!.call(
+              webSocketData!.data['account_id'],
+              "0", //Не прошёл проверку
+              webSocketData!.data.comment //комментарий, который написал челик из РСО
+            );
+            break;
           }
         } catch (e) {
           print(e);
@@ -232,6 +248,7 @@ class _MainPage extends State<MainPage> {
     webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
     updateClaimService ??= DependencyProvider.of(context)!.updateClaimService;
     updateTicketService ??= DependencyProvider.of(context)!.updateTicketService;
+    updateAccountService ??= DependencyProvider.of(context)!.updateAccountService;
     bottomNavigationSelectService ??=
         DependencyProvider.of(context)!.bottomNavigationSelectService;
     bottomNavigationSelectService!.function = _selectTab;

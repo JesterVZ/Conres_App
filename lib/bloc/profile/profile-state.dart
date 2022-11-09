@@ -37,7 +37,7 @@ class ProfileState {
 
   final TicketFullInfo? ticketFullInfo;
   final dynamic webSocketData;
-  final String? bindLsData;
+  final Map<String, dynamic>? bindLsData;
   final Map<String, dynamic>? sendMessageData;
   final String? page;
   final UserInformation? userInformation;
@@ -79,7 +79,7 @@ class ProfileState {
       bool? loading,
       bool? isMeasureSent,
       List<dynamic>? loginData,
-      String? bindLsData,
+      Map<String, dynamic>? bindLsData,
       Map<String, dynamic>? sendMessageData,
       dynamic webSocketData,
       List<Contract>? contracts,

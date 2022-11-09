@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/UI/default-input.dart';
@@ -7,6 +9,7 @@ import 'package:conres_app/elements/header/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../DI/dependency-provider.dart';
 import '../../bloc/profile/profile-bloc.dart';
@@ -15,7 +18,8 @@ import '../../consts.dart';
 import '../../elements/alert.dart';
 import '../../elements/bloc/bloc-screen.dart';
 import '../../elements/masks.dart';
-
+import '../../websocket/message-send.dart';
+import 'package:intl/intl.dart';
 class NewLS extends StatefulWidget {
   const NewLS({Key? key}) : super(key: key);
 
@@ -27,6 +31,7 @@ class _NewLS extends State<NewLS> {
   ProfileBloc? profileBloc;
   TextEditingController lsController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  WebSocketChannel? webSocketChannel;
   final _formKey = GlobalKey<FormState>();
 
   Future<void> _refrash() async {}
@@ -77,6 +82,7 @@ class _NewLS extends State<NewLS> {
               isGetPadding: true,
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
+                  
                   profileBloc!
                       .bindNewLS(lsController.text, addressController.text);
                 }
@@ -92,6 +98,25 @@ class _NewLS extends State<NewLS> {
       return;
     }
     if (state.bindLsData != null) {
+      DateTime now = DateTime.now();
+      String formattedDate = DateFormat('dd.MM.yyyy kk:mm').format(now);
+
+      dynamic message = MessageSend(
+                    cmd: "publish",
+                    subject: "store-${store_id}",
+                    event: "account_new",
+                    data: AccountNew(
+                      account_id: state.bindLsData!['account_id_last'], 
+                      account_bind_number: lsController.text, 
+                      account_bind_address: addressController.text, 
+                      inn: user_inn, 
+                      user_lk_id: int.parse(user_id!), 
+                      date_add: formattedDate, 
+                      type: "new"),
+                    to_id: int.parse(user_id!)
+                  );
+      String data = jsonEncode(message.toJson());
+      webSocketChannel!.sink.add(data);
       AwesomeDialog(
         context: context,
         dialogType: DialogType.success,
@@ -114,7 +139,9 @@ class _NewLS extends State<NewLS> {
 
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
+    super.didChangeDependencies();
+   
   }
 }

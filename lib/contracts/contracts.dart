@@ -7,9 +7,11 @@ import 'package:conres_app/loading/loading-page.dart';
 import 'package:conres_app/model/contract.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../DI/dependency-provider.dart';
 import '../Services/bottom-navigation-select-service.dart';
+import '../Services/update-account-service.dart';
 import '../bloc/profile/profile-bloc.dart';
 import '../bloc/profile/profile-state.dart';
 import '../consts.dart';
@@ -26,8 +28,11 @@ class Contracts extends StatefulWidget {
 
 class _Contracts extends State<Contracts> {
   ProfileBloc? profileBloc;
-  List<Widget> contracts = [];
+  List<Contract> contracts = [];
+  Map<String, dynamic> contractsMap = {};
   BottomNavigationSelectService? bottomNavigationSelectService;
+  UpdateAccountService? updateAccountService;
+  
 
   Future<void> _refrash() async {
     contracts.clear();
@@ -43,10 +48,10 @@ class _Contracts extends State<Contracts> {
           return MainForm(
             header: HeaderNotification(text: "Договоры", canGoBack: false),
             body: ListView.builder(
-                  itemCount: claimsMap.length,
+                  itemCount: contractsMap.length,
                   itemBuilder: (context, int index) {
                     return ContractElement(
-                      contract: contract, 
+                      contract: contractsMap.values.elementAt(index), 
                       func: widget.func, 
                       bottomNavigationSelectService: bottomNavigationSelectService!);
                   }),
@@ -67,23 +72,27 @@ class _Contracts extends State<Contracts> {
     if (state.loading == true) {
       return;
     }
-    if (state.contracts != null) {
-      if (contracts.isEmpty) {
-        for (int i = 0; i < state.contracts!.length; i++) {
-          contracts.add(ContractElement(
-              bottomNavigationSelectService: bottomNavigationSelectService!,
-              contract: state.contracts![i],
-              func: widget.func));
-        }
-      }
+    if (state.contracts != null && state.contracts!.isNotEmpty) {
+      contractsMap = {for (var e in state.contracts!) e.account_id!: e};
     }
+  }
+
+  void updateStatus(String id, String status){
+    Contract newContract = contractsMap[id];
+    newContract.approve = status;
+    setState(() {
+      contractsMap.update(id, (value) => newContract);
+    });
   }
 
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    
     bottomNavigationSelectService ??=
         DependencyProvider.of(context)!.bottomNavigationSelectService;
+    updateAccountService ??= DependencyProvider.of(context)!.updateAccountService;
+    updateAccountService!.update = updateStatus;
     profileBloc!.getContracts();
     super.didChangeDependencies();
   }

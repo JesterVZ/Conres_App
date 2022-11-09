@@ -33,14 +33,13 @@ import '../websocket/message-read.dart';
 import '../websocket/websocket.dart';
 
 class MessagesPage<G, T> extends StatefulWidget {
-  String userId;
   G? genericId; //id тикета или заявления
   T? type; //тип чата (из enum)
   Function? mainListener;
   String? page;
   String? statusName; //Открыт/Закрыт/В обработке и т.д
   MessagesPage(
-      {required this.userId,
+      {
       required this.genericId,
       required this.page,
       required this.type,
@@ -343,7 +342,7 @@ class _MessagesPage extends State<MessagesPage> {
       }
         for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
           messageList[i].isOwn =
-              state.ticketFullInfo!.messages![i].user_id != widget.userId
+              state.ticketFullInfo!.messages![i].user_id != user_id
                   ? false
                   : true;
         }
@@ -355,7 +354,7 @@ class _MessagesPage extends State<MessagesPage> {
             (messageList as List<TicketMessage>);
         for (int i = 0; i < state.ticketFullInfo!.messages!.length; i++) {
           messageList[i].isOwn =
-              state.ticketFullInfo!.messages![i].user_id != widget.userId
+              state.ticketFullInfo!.messages![i].user_id != user_id
                   ? false
                   : true;
         }
@@ -371,7 +370,7 @@ class _MessagesPage extends State<MessagesPage> {
       lastMessageId = state.claimMessages!.last.claim_message_id!;
       for (int i = 0; i < state.claimMessages!.length; i++) {
         messageList[i].isOwn =
-            state.claimMessages![i].user_id != widget.userId ? false : true;
+            state.claimMessages![i].user_id != user_id ? false : true;
       }
       messageList.sort((a, b) {
         return int.parse(b.claim_message_id!)
@@ -393,7 +392,7 @@ class _MessagesPage extends State<MessagesPage> {
             event: "ticket_msg",
             data: MessageSendData(
                 user_type: "lk",
-                user_id: int.parse(widget.userId),
+                user_id: int.parse(user_id!),
                 files: state.sendMessageData!['ticket_message_files'],
                 ticket_id: int.parse(widget.genericId!),
                 ticket_info: [
@@ -437,7 +436,7 @@ class _MessagesPage extends State<MessagesPage> {
                     href: state.sendMessageData!['user_info']['href']),
                 date_group: state.sendMessageData!['date_group'],
                 date_group_name: state.sendMessageData!['date_group_name']),
-            to_id: int.parse(widget.userId));
+            to_id: int.parse(user_id!));
       } else if (widget.type == ChatTypes.Claim) {
         message = ClaimSend(
             cmd: "publish",
@@ -445,7 +444,7 @@ class _MessagesPage extends State<MessagesPage> {
             event: "claim_msg",
             data: ClaimSendData(
                 user_type: "lk",
-                user_id: int.parse(widget.userId),
+                user_id: int.parse(user_id!),
                 files: state.sendMessageData!['data']['claim_message_files'],
                 claim_id: int.parse(state.sendMessageData!['data']['claim_info']
                     [0]['claim_id']),
@@ -497,7 +496,7 @@ class _MessagesPage extends State<MessagesPage> {
                 date_group: state.sendMessageData!['data']['date_group'],
                 date_group_name: state.sendMessageData!['data']
                     ['date_group_name']),
-            to_id: int.parse(widget.userId));
+            to_id: int.parse(user_id!));
       }
 
       String data = jsonEncode(message.toJson());
@@ -583,20 +582,20 @@ class _MessagesPage extends State<MessagesPage> {
       data = MessageReadData(
             message_id: messageId,
             ticket_id: int.parse(genericId),
-            user_id: int.parse(widget.userId),
+            user_id: int.parse(user_id!),
             user_type: "lk");
     } else if (widget.type == ChatTypes.Claim) {
       data = ClaimMessageReadData(
             message_id: messageId,
             claim_id: int.parse(genericId),
-            user_id: int.parse(widget.userId),
+            user_id: int.parse(user_id!),
             user_type: "lk");
     }
     MessageRead messageRead = MessageRead(
         cmd: 'publish',
         event: widget.type == ChatTypes.Ticket ? 'ticket_msg_read' : 'claim_msg_read',
         subject: 'store-${store_id}',
-        to_id: int.parse(widget.userId),
+        to_id: int.parse(user_id!),
         data: data);
 
     String strdata = jsonEncode(messageRead.toJson());

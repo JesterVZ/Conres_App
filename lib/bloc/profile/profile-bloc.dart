@@ -5,6 +5,7 @@ import 'package:conres_app/Services/main-claim-send-service.dart';
 import 'package:conres_app/bloc/profile/profile-event.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/claims/claims.dart';
+import 'package:conres_app/consts.dart';
 import 'package:conres_app/model/claim-message.dart';
 import 'package:conres_app/model/contract.dart';
 import 'package:conres_app/model/message.dart';
@@ -12,10 +13,13 @@ import 'package:conres_app/model/result-data.dart';
 import 'package:conres_app/model/user-information.dart';
 import 'package:conres_app/websocket/websocket.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:path/path.dart';
 import 'package:photo_gallery/photo_gallery.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../DI/dependency-provider.dart';
 import '../../Services/base-claim-send-service.dart';
+import '../../Services/profile-service.dart';
 import '../../model/claim.dart';
 import '../../model/counter.dart';
 import '../../model/ticket.dart';
@@ -261,10 +265,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _handleBindNewLS(BindNewLS event) async* {
     yield state.copyWith(loading: true, error: null);
     try {
-      Object result = await repo.bindLs(event.number, event.address);
-      if (result is String) {
-        yield state.copyWith(loading: false, error: null, bindLsData: result);
-      }
+      Map<String, dynamic> result = await repo.bindLs(event.number, event.address);
+      yield state.copyWith(loading: false, error: null, bindLsData: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
@@ -329,7 +331,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       Object result = await repo.getAllInfo();
       if (result is Map<String, dynamic>) {
-        yield state.copyWith(loading: false, fullInfo: result);
+        user_id = result['user_id'];
+        yield state.copyWith(loading: false, fullInfo: result, );
       }
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());

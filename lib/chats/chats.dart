@@ -135,7 +135,6 @@ class _Chats extends State<Chats> {
         MaterialPageRoute(
             builder: (context) => MessagesPage(
                 mainListener: widget.mainListener,
-                userId: userId!,
                 genericId: ticket.ticket_id.toString(),
                 type: ChatTypes.Ticket,
                 page: '1',

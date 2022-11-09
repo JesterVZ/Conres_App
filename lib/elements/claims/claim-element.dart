@@ -11,14 +11,12 @@ import '../full-profile/ExpansionTileElement.dart';
 
 class ClaimElement extends StatefulWidget {
   final Claim currentClaim;
-  String? userId;
   ValueChanged<Claim> downloadFunction;
   Function? mainListener;
   ClaimElement(
       {Key? key,
       required this.currentClaim,
       required this.downloadFunction,
-      required this.userId,
       required this.mainListener})
       : super(key: key);
   @override
@@ -153,7 +151,6 @@ class _ClaimElement extends State<ClaimElement> {
                                         genericId:
                                             widget.currentClaim.claim_id!,
                                         type: ChatTypes.Claim,
-                                        userId: widget.userId!,
                                         page: '1',
                                         statusName:
                                             widget.currentClaim.status ?? "")));

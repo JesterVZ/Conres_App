@@ -15,6 +15,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import '../Services/base-claim-send-service.dart';
 import '../Services/main-claim-send-service.dart';
 import '../Services/send-testimont-service.dart';
+import '../Services/update-account-service.dart';
 import '../Services/update-claim-service.dart';
 import '../Services/update-ticket-service.dart';
 import '../repositories/profile-repo.dart';
@@ -35,6 +36,7 @@ class DependencyProvider extends InheritedWidget {
   BaseClaimSendService? _baseClaimSendService;
   SendTestimonyService? _sendTestimonyService;
   MainClaimSendService? _mainClaimSendService;
+  UpdateAccountService? _updateAccountService;
   BottomNavigationSelectService? _bottomNavigationSelectService;
   ProfileService? _profileService;
 
@@ -70,6 +72,11 @@ class DependencyProvider extends InheritedWidget {
   UpdateTicketService? get updateTicketService {
     _updateTicketService ??= UpdateTicketService();
     return _updateTicketService;
+  }
+
+  UpdateAccountService? get updateAccountService{
+    _updateAccountService ??= UpdateAccountService();
+    return _updateAccountService;
   }
 
   BaseClaimSendService? get baseClaimSendService {

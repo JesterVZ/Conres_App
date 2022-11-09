@@ -24,9 +24,11 @@ class ContractElement extends StatelessWidget {
             func.call(contract);
           }
         },
-        child: Container(
+        child: Padding(
+          padding:
+          EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
+          child: Container(
           margin: EdgeInsets.only(top: 14, bottom: 14),
-          width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: [
@@ -121,6 +123,9 @@ class ContractElement extends StatelessWidget {
                       )),
                 ],
               )),
-        ));
+        
+        ))
+        );
+          
   }
 }

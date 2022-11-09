@@ -2,7 +2,7 @@ class MessageRead {
   String? cmd;
   String? subject;
   String? event;
-  dynamic? data;
+  dynamic data;
   int? to_id;
 
   MessageRead(

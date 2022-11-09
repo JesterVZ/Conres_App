@@ -67,7 +67,6 @@ class _Claims extends State<Claims> {
                     return ClaimElement(
                         currentClaim: claimsMap.values.elementAt(index),
                         downloadFunction: downloadClaim,
-                        userId: userId,
                         mainListener: widget.mainListener);
                   }),
               footer: DefaultButton(

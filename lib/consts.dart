@@ -8,6 +8,8 @@ import 'package:flutter/widgets.dart';
 String loadLink = "${domain}lk/load_ticket_addit_file?link=";
 String claimLoadLink="${domain}lk/claim_load?t=1&link=";
 String? store_id;
+String? user_id;
+String? user_inn;
 
 String title = "тестовая компания";
 String lkTitle = "Личный кабинет потребителя";

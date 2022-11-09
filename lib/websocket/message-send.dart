@@ -4,7 +4,7 @@ class MessageSend {
   String? cmd;
   String? subject;
   String? event;
-  MessageSendData? data;
+  dynamic? data;
   int? to_id;
 
   MessageSend(
@@ -137,6 +137,36 @@ class UserInfo {
         'patronymic': patronymic,
         'contacts': contacts != null ? contacts!.toJson() : null,
         'href': href
+      };
+}
+
+class AccountNew{
+  int? account_id;
+  String? account_bind_number;
+  String? account_bind_address;
+  String? inn;
+  int? user_lk_id;
+  String? date_add;
+  String? type;
+
+  AccountNew({
+    required this.account_id,
+    required this.account_bind_number,
+    required this.account_bind_address,
+    required this.inn,
+    required this.user_lk_id,
+    required this.date_add,
+    required this.type
+  });
+
+  Map<String, dynamic> toJson() => {
+        'account_id': account_id,
+        'account_bind_number': account_bind_number,
+        'account_bind_address': account_bind_address,
+        'inn': inn,
+        'user_lk_id': user_lk_id,
+        'date_add': date_add,
+        'type': type
       };
 }
 

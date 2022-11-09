@@ -56,7 +56,7 @@ class HttpClient {
       });
       final result = await _apiClient.post(uri, data: formData);
       if (result.statusCode == 200) {
-        return result.data['code_msg']['msg'];
+        return result.data['data'];
       }
     } catch (e) {
       return e;
