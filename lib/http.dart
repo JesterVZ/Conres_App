@@ -287,6 +287,16 @@ class HttpClient {
     }
   }
 
+  Future<dynamic> hideAccount(String account_id) async {
+    String uri = domain + 'lk/index.php?route=contracts/contracts/api_hidden_acc_request';
+    var formData = FormData.fromMap({'account_id': account_id});
+    final result = await _apiClient.post(uri, data: formData);
+    if (result.statusCode == 200) {
+        return true;
+      }
+
+  }
+
   Future<Object?> getInfo() async {
     String uri = domain + 'lk/index.php?route=common/api/api_getInfo';
     try {

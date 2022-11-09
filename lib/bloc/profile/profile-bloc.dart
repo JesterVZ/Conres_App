@@ -589,6 +589,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Stream<ProfileState> _handleHideAccount(HiddenAccountRequest event) async*{
-      var result = await repo.editObject(event.id, event.name, event.address);
+      var result = await repo.hideAccount(event.account_id);
   }
 }

@@ -153,4 +153,9 @@ class ProfileRepo {
   }
 
   Future<dynamic> editTu() async {}
+
+  Future<dynamic> hideAccount(String account_id) async{
+    var result = await httpClient.hideAccount(account_id);
+    return result;
+  }
 }

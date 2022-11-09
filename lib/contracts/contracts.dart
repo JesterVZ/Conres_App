@@ -37,7 +37,10 @@ class _Contracts extends State<Contracts> {
   UpdateAccountService? updateAccountService;
   WebSocketChannel? webSocketChannel;
 
+  bool isLoaded = false;
+
   Future<void> _refrash() async {
+    isLoaded = false;
     contracts.clear();
     profileBloc!.getContracts();
   }
@@ -76,8 +79,9 @@ class _Contracts extends State<Contracts> {
     if (state.loading == true) {
       return;
     }
-    if (state.contracts != null && state.contracts!.isNotEmpty && contractsMap.isEmpty) {
+    if (state.contracts != null && state.contracts!.isNotEmpty && isLoaded == false) {
       contractsMap = {for (var e in state.contracts!) e.account_id!: e};
+      isLoaded = true;
     }
   }
 
@@ -93,6 +97,7 @@ class _Contracts extends State<Contracts> {
   }
 
   void removeContract(Contract contract){
+    profileBloc!.hiddenAccout(contract.account_id!);
     dynamic message = MessageSend(
                     cmd: "publish",
                     subject: "store-${store_id}",
