@@ -604,11 +604,12 @@ class HttpClient {
         'contact_email': contact_email,
         'contact_name': contact_name,
         'ticket_theme_id': ticket_theme_id,
-        'message': message
+        'message': message,
+        'isMobile': '1'
       });
       final result = await _apiClient.post(uri, data: formData);
       if (result.statusCode == 200) {
-        return result;
+        return result.data['data'];
       }
     } catch (e) {
       return e.toString();

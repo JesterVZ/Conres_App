@@ -180,6 +180,50 @@ class AccountHidden{
   };
 }
 
+class TicketNew{
+  String? ticket_theme_id;
+  String? contact_name;
+  String? contact_email;
+  String? user_lk_id;
+  int? ticket_id;
+  int? count_tm_sender;
+  int? responsible_id;
+  String? date_added;
+  String? status_id;
+  String? color_type_id;
+  String? name;
+  String? name_theme;
+
+  TicketNew({
+    required this.ticket_theme_id,
+    required this.contact_name,
+    required this.contact_email,
+    required this.user_lk_id,
+    required this.color_type_id,
+    required this.count_tm_sender,
+    required this.date_added,
+    required this.name,
+    required this.name_theme,
+    required this.responsible_id,
+    required this.status_id,
+    required this.ticket_id
+  });
+  Map<String, dynamic> toJson() => {
+    'ticket_theme_id': ticket_theme_id,
+    'contact_name': contact_name,
+    'contact_email': contact_email,
+    'user_lk_id': user_lk_id,
+    'ticket_id': ticket_id,
+    'count_tm_sender': count_tm_sender,
+    'responsible_id': responsible_id,
+    'date_added': date_added,
+    'status_id': status_id,
+    'color_type_id': color_type_id,
+    'name': name,
+    'name_theme': name_theme
+  };
+}
+
 class Contacts {
   String? phone;
   String? email;

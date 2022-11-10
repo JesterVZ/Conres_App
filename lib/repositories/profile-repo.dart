@@ -102,9 +102,10 @@ class ProfileRepo {
   }
 
   Future<dynamic> createNewTicket(String contact_email, String contact_name,
-      String ticket_theme_id, String message) async {
+    String ticket_theme_id, String message) async {
     var result = await httpClient.addTicket(
         contact_email, contact_name, ticket_theme_id, message);
+    return result;
   }
 
   Future<dynamic> getClaimMessages(String claim_id) async {

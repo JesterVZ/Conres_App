@@ -39,6 +39,7 @@ class ProfileState {
   final dynamic webSocketData;
   final Map<String, dynamic>? bindLsData;
   final Map<String, dynamic>? sendMessageData;
+  final Map<String, dynamic>? createTicketData;
   final String? page;
   final UserInformation? userInformation;
 
@@ -67,6 +68,7 @@ class ProfileState {
       this.objectsPU,
       this.ticketCounter,
       this.claimCounter,
+      this.createTicketData,
       this.TuPoints,
       this.privatePolicyString,
       this.isMeasureSent,
@@ -96,6 +98,7 @@ class ProfileState {
       List<ClaimMessage>? claimMessages,
       List<Medium>? images,
       TicketFullInfo? ticketFullInfo,
+      Map<String, dynamic>? createTicketData,
       List<Meter>? meters,
       String? page,
       bool? isClaimSent,
@@ -113,6 +116,7 @@ class ProfileState {
         tickets: tickets ?? this.tickets,
         claimMessages: claimMessages,
         images: images,
+        createTicketData: createTicketData,
         ticketCounter: ticketCounter,
         claimCounter: claimCounter,
         privatePolicyString: privatePolicyString,

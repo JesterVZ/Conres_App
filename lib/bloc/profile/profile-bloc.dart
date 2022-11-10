@@ -484,7 +484,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       var result = await repo.createNewTicket(event.contact_email,
           event.contact_name, event.ticket_theme_id, event.message);
-      yield state.copyWith(loading: false, error: null);
+      
+      yield state.copyWith(loading: false, error: null, createTicketData: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
