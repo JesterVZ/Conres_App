@@ -224,6 +224,42 @@ class TicketNew{
   };
 }
 
+class ClaimNew{
+  int? claim_id;
+  String? claim_shortname;
+  String? claim_name;
+  String? date_time;
+  String? date;
+  String? user_lk_id;
+  String? user_inn;
+  String? user_account_number;
+  String? claim_href;
+
+  ClaimNew({
+    required this.claim_id,
+    required this.claim_shortname,
+    required this.claim_name,
+    required this.date_time,
+    required this.date,
+    required this.user_lk_id,
+    required this.user_inn,
+    required this.user_account_number,
+    required this.claim_href
+  });
+
+  Map<String, dynamic> toJson() => {
+    'claim_id': claim_id,
+    'claim_shortname': claim_shortname,
+    'claim_name': claim_name,
+    'date_time': date_time,
+    'date': date,
+    'user_lk_id': user_lk_id,
+    'user_inn': user_inn,
+    'user_account_number': user_account_number,
+    'claim_href': claim_href
+  };
+}
+
 class Contacts {
   String? phone;
   String? email;

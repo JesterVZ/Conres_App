@@ -40,6 +40,7 @@ class ProfileState {
   final Map<String, dynamic>? bindLsData;
   final Map<String, dynamic>? sendMessageData;
   final Map<String, dynamic>? createTicketData;
+  final Map<String, dynamic>? createClaimData;
   final String? page;
   final UserInformation? userInformation;
 
@@ -69,6 +70,7 @@ class ProfileState {
       this.ticketCounter,
       this.claimCounter,
       this.createTicketData,
+      this.createClaimData,
       this.TuPoints,
       this.privatePolicyString,
       this.isMeasureSent,
@@ -97,6 +99,7 @@ class ProfileState {
       List<Ticket>? tickets,
       List<ClaimMessage>? claimMessages,
       List<Medium>? images,
+      Map<String, dynamic>? createClaimData,
       TicketFullInfo? ticketFullInfo,
       Map<String, dynamic>? createTicketData,
       List<Meter>? meters,
@@ -116,6 +119,7 @@ class ProfileState {
         tickets: tickets ?? this.tickets,
         claimMessages: claimMessages,
         images: images,
+        createClaimData: createClaimData,
         createTicketData: createTicketData,
         ticketCounter: ticketCounter,
         claimCounter: claimCounter,

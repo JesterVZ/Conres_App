@@ -714,13 +714,14 @@ class HttpClient {
         'field_header_address_2': baseClaimSendService.field_header_address_2,
         'field_header_egrul_date': baseClaimSendService.field_header_egrul_date,
         'field_content_main': baseClaimSendService.field_content_main,
+        'isMobile': '1',
         'contract_files[]': files,
         'contract_files_name[]': fileNames
       });
 
       final result = await _apiClient.post(uri, data: formdata);
       if (result.statusCode == 200) {
-        return true;
+        return result.data['data'];
       } else {
         return false;
       }

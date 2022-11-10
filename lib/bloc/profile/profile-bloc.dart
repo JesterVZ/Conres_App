@@ -520,7 +520,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null);
     try {
       var result = await repo.sendBaseClaim(event.baseClaimSendService);
-      yield state.copyWith(loading: false, error: null);
+      yield state.copyWith(loading: false, error: null, createClaimData: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
@@ -551,7 +551,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null);
     try {
       var result = await repo.sendMainClaim(event.mainClaimSendService);
-      yield state.copyWith(loading: false, error: null);
+      yield state.copyWith(loading: false, error: null, createClaimData: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }

@@ -147,28 +147,6 @@ class _NewChat extends State<NewChat> {
                                             FioController.text,
                                             type,
                                             TextController.text);
-                                        /*
-                                  dynamic message = MessageSend(
-                                              cmd: "publish",
-                                              subject: "store-${store_id}",
-                                              event: "ticket_new",
-                                              data: TicketNew(
-                                                ticket_theme_id: type, 
-                                                contact_name: FioController.text, 
-                                                contact_email: EmailController.text, 
-                                                user_lk_id: user_id, 
-                                                color_type_id: color_type_id, 
-                                                count_tm_sender: count_tm_sender, 
-                                                date_added: date_added, 
-                                                name: name, 
-                                                name_theme: name_theme, 
-                                                responsible_id: responsible_id, 
-                                                status_id: status_id, 
-                                                ticket_id: ticket_id),
-                                              to_id: int.parse(user_id!)
-                                            );
-                                String data = jsonEncode(message.toJson());
-                                webSocketChannel!.sink.add(data);*/
 
                                       }
                                     })
@@ -212,6 +190,7 @@ class _NewChat extends State<NewChat> {
         title: "Успешно!",
         desc: "Обращение успешно создано!",
         btnOkOnPress: () {
+          isSent = false;
           widget.refrash!.call();
           Navigator.pop(context);
         },
