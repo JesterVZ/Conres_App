@@ -74,7 +74,10 @@ class _SendTestimony extends State<SendTestimony> {
                         for (int i = 0; i < nightControllers!.length; i++) {
                           nightValues.add(nightControllers![i].text);
                         }
-                        profileBloc!.sendTestimony(dayValues, nightValues);
+                        if(dayValues.isEmpty && nightValues.isEmpty){
+                          profileBloc!.sendTestimony(dayValues, nightValues);
+                        }
+                        
                       },
                       text: "Передать показания"),
                   onRefrash: _refrash),
