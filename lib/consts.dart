@@ -11,7 +11,7 @@ String claimLoadLink = "${domain}lk/claim_load?t=1&link=";
 String? store_id;
 String? user_id;
 String? user_inn;
-List<String>? cookies;
+List? cookiesList;
 
 String title = "тестовая компания";
 String lkTitle = "Личный кабинет потребителя";

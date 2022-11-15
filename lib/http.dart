@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:conres_app/DI/dependency-provider.dart';
+import 'package:conres_app/DI/locator.dart';
 import 'package:conres_app/Services/main-claim-send-service.dart';
 import 'package:conres_app/model/claim-message.dart';
 import 'package:conres_app/model/object_pu.dart';
@@ -183,7 +185,8 @@ class HttpClient {
       final response = await _apiClient.post(uri, data: formData);
       if (response.statusCode == 200) {
         if (response.data["code_result"] == 200) {
-          final cookies = await _cookieJar.loadForRequest(Uri.parse(uri));
+          var cookies = locator.get<List>();
+          cookies = await _cookieJar.loadForRequest(Uri.parse(uri));
           return cookies;
         } else {
           return "Неправильный логин или пароль!";

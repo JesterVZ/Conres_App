@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:conres_app/Services/base-claim-send-service.dart';
 import 'package:conres_app/Services/bottom-navigation-select-service.dart';
 import 'package:conres_app/Services/profile-service.dart';
@@ -27,6 +29,7 @@ class DependencyProvider extends InheritedWidget {
   ProfileBloc? _profileBloc;
   AuthRepo? _authRepo;
   ProfileRepo? _profileRepo;
+  List<Cookie>? _cookies;
   SharedPreferences? _sharedPreferences;
   WebSocketChannel? _webSocketChannel;
   WebSocketData? _webSocketData;
@@ -52,6 +55,11 @@ class DependencyProvider extends InheritedWidget {
   WebSocketListener? get webSocketListener {
     _webSocketListener ??= WebSocketListener();
     return _webSocketListener;
+  }
+
+  List<Cookie>? get cookies {
+    _cookies ??= [];
+    return _cookies;
   }
 
   ProfileService? get profileService {

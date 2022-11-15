@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
+import 'package:conres_app/DI/locator.dart';
 import 'package:conres_app/Services/update-account-service.dart';
 import 'package:conres_app/Services/update-claim-service.dart';
 import 'package:conres_app/Services/update-ticket-service.dart';
+import 'package:conres_app/bloc/auth/auth-block.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/chats/chats.dart';
 import 'package:conres_app/loading/loading-page.dart';
@@ -53,6 +56,7 @@ class _MainPage extends State<MainPage> {
   };
   List<Widget> navigatorList = [];
   ProfileBloc? profileBloc;
+
 
   bool isConnected = false;
 
@@ -251,7 +255,7 @@ class _MainPage extends State<MainPage> {
     bottomNavigationSelectService!.function = _selectTab;
     webSocketListener?.webSocketChannel = webSocketChannel;
     webSocketListener?.function = getData;
-    profileBloc!.getCookies();
+    profileBloc!.getCookies(locator.get<List>());
     webSocketListener!.listen();
   }
 }
