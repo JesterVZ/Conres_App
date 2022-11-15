@@ -41,7 +41,8 @@ class _LoginEmail extends State<LoginEmail> {
                 resizeToAvoidBottomInset: false,
                 backgroundColor: Colors.white,
                 body: Padding(
-                    padding: EdgeInsets.fromLTRB(defaultSidePadding, 70, defaultSidePadding, 0),
+                    padding: EdgeInsets.fromLTRB(
+                        defaultSidePadding, 70, defaultSidePadding, 0),
                     child: Column(
                       children: [
                         Container(
@@ -120,12 +121,11 @@ class _LoginEmail extends State<LoginEmail> {
                           ],
                         ),
                         Visibility(
-                            visible: isLoading! ,
+                            visible: isLoading!,
                             child: Container(
-                              width: 50,
-                              height: 50,
-                              child: const CircularProgressIndicator()
-                            ))
+                                width: 50,
+                                height: 50,
+                                child: const CircularProgressIndicator()))
                       ],
                     ))),
           );
@@ -143,12 +143,10 @@ class _LoginEmail extends State<LoginEmail> {
           context: context,
           builder: (BuildContext context) =>
               Alert(title: "Ошибка", text: state.error.toString()));
-    } 
-    if(state.cookies != null){
-      Navigator.of(context).pushAndRemoveUntil(
-          DefaultPageRouter(
-              MainPage(loginData: state.loginData, cookies: state.cookies!)),
-          (route) => false);
+    }
+    if (state.cookies != null) {
+      Navigator.of(context)
+          .pushAndRemoveUntil(DefaultPageRouter(MainPage()), (route) => false);
     }
   }
 

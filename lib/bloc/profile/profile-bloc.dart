@@ -43,9 +43,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleLogout(event);
     } else if (event is BindNewLS) {
       yield* _handleBindNewLS(event);
-    } else if(event is HiddenAccountRequest){
+    } else if (event is HiddenAccountRequest) {
       yield* _handleHideAccount(event);
-    }else if (event is GetContracts) {
+    } else if (event is GetContracts) {
       yield* _handleGetContracts(event);
     } else if (event is GetClaims) {
       yield* _handleGetClaims(event);
@@ -63,9 +63,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleSendClaimMessage(event);
     } else if (event is ReadMessage) {
       yield* _handleReadMessage(event);
-    } else if(event is ReadClaimMessage){
+    } else if (event is ReadClaimMessage) {
       yield* _handleReadClaimMessage(event);
-    }else if (event is DownloadFile) {
+    } else if (event is DownloadFile) {
       yield* _handleDownloadFile(event);
     } else if (event is GetFullProfileInfo) {
       yield* _handleGetFullProfileInfo(event);
@@ -155,7 +155,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(ReadMessage(ticketId, messageId));
   }
 
-  readClaimMessage(String claimId, String messageId){
+  readClaimMessage(String claimId, String messageId) {
     add(ReadClaimMessage(claimId, messageId));
   }
 
@@ -221,7 +221,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(EditTu(id, number, name, address));
   }
 
-  hiddenAccout(String account_id){
+  hiddenAccout(String account_id) {
     add(HiddenAccountRequest(account_id));
   }
 
@@ -229,7 +229,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     //получение строки из cookie (нужно для отправки в сокет)
     yield state.copyWith(loading: true, error: null);
     try {
-      String result = await repo.getCookie(event.cookies);
+      String result = await repo.getCookie(state.cookies);
       yield state.copyWith(loading: false, error: result, cookieStr: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
@@ -260,9 +260,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await logoutFunc(preferences);
-      List<dynamic> emptyLoginData = [];
-      yield state.copyWith(
-          loading: false, loginData: emptyLoginData, error: null);
+      yield state.clear();
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
@@ -271,7 +269,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _handleBindNewLS(BindNewLS event) async* {
     yield state.copyWith(loading: true, error: null);
     try {
-      Map<String, dynamic> result = await repo.bindLs(event.number, event.address);
+      Map<String, dynamic> result =
+          await repo.bindLs(event.number, event.address);
       yield state.copyWith(loading: false, error: null, bindLsData: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
@@ -338,7 +337,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       Object result = await repo.getAllInfo();
       if (result is Map<String, dynamic>) {
         user_id = result['user_id'];
-        yield state.copyWith(loading: false, fullInfo: result, );
+        yield state.copyWith(
+          loading: false,
+          fullInfo: result,
+        );
       }
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
@@ -371,8 +373,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       Object result = await repo.editMessage(
           event.ticket_id, event.message, event.ticket_status_id, event.file);
       if (result is Map<String, dynamic>) {
-        yield state.copyWith(
-            loading: false, sendMessageData: result, ticketFullInfo: null);
+        yield state.clear();
       } else {
         yield state.copyWith(
             loading: false,
@@ -484,8 +485,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       var result = await repo.createNewTicket(event.contact_email,
           event.contact_name, event.ticket_theme_id, event.message);
-      
-      yield state.copyWith(loading: false, error: null, createTicketData: result);
+
+      yield state.copyWith(
+          loading: false, error: null, createTicketData: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
@@ -520,7 +522,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null);
     try {
       var result = await repo.sendBaseClaim(event.baseClaimSendService);
-      yield state.copyWith(loading: false, error: null, createClaimData: result);
+      yield state.copyWith(
+          loading: false, error: null, createClaimData: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
@@ -551,7 +554,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null);
     try {
       var result = await repo.sendMainClaim(event.mainClaimSendService);
-      yield state.copyWith(loading: false, error: null, createClaimData: result);
+      yield state.copyWith(
+          loading: false, error: null, createClaimData: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
@@ -589,7 +593,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
-  Stream<ProfileState> _handleHideAccount(HiddenAccountRequest event) async*{
-      var result = await repo.hideAccount(event.account_id);
+  Stream<ProfileState> _handleHideAccount(HiddenAccountRequest event) async* {
+    var result = await repo.hideAccount(event.account_id);
   }
 }
