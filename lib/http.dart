@@ -216,7 +216,7 @@ class HttpClient {
     return result;
   }
 
-  Future<Object?> login(List<dynamic> cookies) async {
+  Future<Object?> login() async {
     String uri = domain + 'lk/index.php?route=common/api/api_getInfo_old';
     try {
       final result = await _apiClient.post(uri);
@@ -288,13 +288,13 @@ class HttpClient {
   }
 
   Future<dynamic> hideAccount(String account_id) async {
-    String uri = domain + 'lk/index.php?route=contracts/contracts/api_hidden_acc_request';
+    String uri = domain +
+        'lk/index.php?route=contracts/contracts/api_hidden_acc_request';
     var formData = FormData.fromMap({'account_id': account_id});
     final result = await _apiClient.post(uri, data: formData);
     if (result.statusCode == 200) {
-        return true;
-      }
-
+      return true;
+    }
   }
 
   Future<Object?> getInfo() async {
@@ -476,8 +476,7 @@ class HttpClient {
   }
 
   Future<Object?> setReadClaimMessage(String claimId, String messageId) async {
-    String uri =
-        domain + 'lk/index.php?route=claims/claims/api_setReadMessage';
+    String uri = domain + 'lk/index.php?route=claims/claims/api_setReadMessage';
     try {
       var formData = FormData.fromMap({
         'claim_id': claimId,

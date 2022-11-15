@@ -4,12 +4,14 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
 //load link
 String loadLink = "${domain}lk/load_ticket_addit_file?link=";
-String claimLoadLink="${domain}lk/claim_load?t=1&link=";
+String claimLoadLink = "${domain}lk/claim_load?t=1&link=";
 String? store_id;
 String? user_id;
 String? user_inn;
+List<String>? cookies;
 
 String title = "тестовая компания";
 String lkTitle = "Личный кабинет потребителя";
@@ -93,18 +95,25 @@ String objectName = "Наименование объекта";
 String objectAddress = "Адрес объекта";
 String cadastrNumber = "Кадастровый номер (необязательно)";
 String addObject = "Добавить объект";
-String maxPowerWarning = "Максимальная мощность энергопринимающих устройств (присоединяемых и ранее присоединенных) составляет";
+String maxPowerWarning =
+    "Максимальная мощность энергопринимающих устройств (присоединяемых и ранее присоединенных) составляет";
 String maxPower = "Максимальная мощность (всего) на напряжении:";
 String kVT = "кВт";
 String vt = "Вт";
-String previouslyConnectedPower = "Ранее присоединенная мощность на напряжении:";
+String previouslyConnectedPower =
+    "Ранее присоединенная мощность на напряжении:";
 String repeatlyConnectedPower = "Вновь присоединяемая мощность на напряжении:";
-String terms = "Сроки проектирования и поэтапного введения в эксплуатацию объекта (в том числе по этапам и очередям), планируемое поэтапное распределение максимальной мощности:";
+String terms =
+    "Сроки проектирования и поэтапного введения в эксплуатацию объекта (в том числе по этапам и очередям), планируемое поэтапное распределение максимальной мощности:";
 String stage = "Этап (очередь) строительства";
-String desighTime = "Планируемый срок проектирования энергоприниюмающих устройств(месяц, год)";
-String inputTime = "Планируемый срок введения энергопринимающих устройств в эксплуатацию(месяц, год)";
-String maxPowerDevices = "Максимальная мощность энергопринимаю-щих устройств (кВт)";
-String reliabilityCategory = "Категория надежности энергопринимаю-щих устройств ";
+String desighTime =
+    "Планируемый срок проектирования энергоприниюмающих устройств(месяц, год)";
+String inputTime =
+    "Планируемый срок введения энергопринимающих устройств в эксплуатацию(месяц, год)";
+String maxPowerDevices =
+    "Максимальная мощность энергопринимаю-щих устройств (кВт)";
+String reliabilityCategory =
+    "Категория надежности энергопринимаю-щих устройств ";
 String guaranteeing = "Укажите гарантирующего поставщика и тип договора";
 String guaranteeingName = "Наименование Гарантирующего Поставщика";
 String contractType = "Тип договора:";
@@ -141,7 +150,8 @@ String addRequest = "Отправить запрос";
 String puInfo = "Информация о ПУ";
 String editPU = "Редактировать";
 String editPuTitle = "Редактировать ПУ";
-String testimonyNotFound = "По данному лицевому счёту не найдены приборы учёта, отправьте заявку на привязку ПУ и дождитесь подтверждения.";
+String testimonyNotFound =
+    "По данному лицевому счёту не найдены приборы учёта, отправьте заявку на привязку ПУ и дождитесь подтверждения.";
 
 Color colorMain = const Color(0xFF4574F7);
 Color colorGray = const Color(0xFF4F5A6E);
@@ -170,13 +180,17 @@ Color pageColor = const Color(0xFFF4F5FA);
 
 /* Стили */
 
-TextStyle claimTextStyle = TextStyle(color: colorMain, fontSize: 18.0, fontFamily: 'Bubicon-Bold');
+TextStyle claimTextStyle =
+    TextStyle(color: colorMain, fontSize: 18.0, fontFamily: 'Bubicon-Bold');
 TextStyle labelTextStyle = TextStyle(color: colorGrayText, fontSize: 16.0);
 TextStyle buttonTextStyle = const TextStyle(fontSize: 18.0);
-TextStyle profileHeaderTextStyle = const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold);
+TextStyle profileHeaderTextStyle =
+    const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold);
 TextStyle warningTextStyle = TextStyle(fontSize: 16.0, color: whiteGrayColor);
-TextStyle contractLabelTextStyle = const TextStyle(fontSize: 14.0, color: Colors.white);
-TextStyle claimLabelTextStyle = TextStyle(fontSize: 16.0, color: claimLabelColor);
+TextStyle contractLabelTextStyle =
+    const TextStyle(fontSize: 14.0, color: Colors.white);
+TextStyle claimLabelTextStyle =
+    TextStyle(fontSize: 16.0, color: claimLabelColor);
 TextStyle puTextStyle = TextStyle(fontSize: 13.0, color: whiteLabelColor);
 
 double defaultSidePadding = 17;

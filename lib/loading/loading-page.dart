@@ -67,11 +67,7 @@ class _LoadingPage extends State<LoadingPage> {
       if (state.cookies != null) {
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => MainPage(
-                      loginData: state.loginData,
-                      cookies: state.cookies!,
-                    )),
+            MaterialPageRoute(builder: (BuildContext context) => MainPage()),
             (route) => false);
       }
     } else {

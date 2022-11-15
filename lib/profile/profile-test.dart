@@ -17,13 +17,8 @@ import '../model/profile.dart';
 import '../testimony/send-testimony.dart';
 
 class ProfilePageTest extends StatefulWidget {
-  ProfilePageTest(
-      {Key? key, this.loginData, required this.func, required this.cookies})
-      : super(key: key);
+  ProfilePageTest({Key? key, required this.func}) : super(key: key);
   ValueChanged<Contract> func;
-
-  final List<dynamic>? loginData;
-  final List cookies;
 
   @override
   State<StatefulWidget> createState() => _ProfilePage();
@@ -37,7 +32,7 @@ class _ProfilePage extends State<ProfilePageTest> {
   BottomNavigationSelectService? bottomNavigationSelectService;
 
   Future<void> _refrash() async {
-    authBloc!.loginWithCookies(widget.cookies);
+    authBloc!.loginWithCookies(); //get info old
     setState(() {
       profile = null;
     });
@@ -420,6 +415,6 @@ class _ProfilePage extends State<ProfilePageTest> {
     profileService ??= DependencyProvider.of(context)!.profileService;
     bottomNavigationSelectService ??=
         DependencyProvider.of(context)!.bottomNavigationSelectService;
-    authBloc!.loginWithCookies(widget.cookies);
+    authBloc!.loginWithCookies();
   }
 }

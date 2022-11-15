@@ -78,6 +78,34 @@ class ProfileState {
       this.userInformation});
 
   static initial() => ProfileState(cookieStr: null, loading: null, error: null);
+  ProfileState clear() => ProfileState(
+      cookieStr: null,
+      loading: null,
+      error: null,
+      TuPoints: null,
+      bindLsData: null,
+      claimCounter: null,
+      claimMessages: null,
+      claims: null,
+      contracts: null,
+      createClaimData: null,
+      createTicketData: null,
+      fullInfo: null,
+      images: null,
+      isClaimSent: null,
+      isMeasureSent: null,
+      loginData: null,
+      meters: null,
+      numbers: null,
+      objectsPU: null,
+      page: null,
+      privatePolicyString: null,
+      sendMessageData: null,
+      ticketCounter: null,
+      ticketFullInfo: null,
+      tickets: null,
+      userInformation: null,
+      webSocketData: null);
   ProfileState copyWith(
       {String? cookieStr,
       bool? loading,

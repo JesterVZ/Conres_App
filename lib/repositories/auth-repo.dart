@@ -30,8 +30,8 @@ class AuthRepo {
     return result;
   }
 
-  Future<dynamic> login(List<dynamic> sender) async {
-    var result = await httpClient.login(sender);
+  Future<dynamic> login() async {
+    var result = await httpClient.login();
     if (result is Profile) {
       return result;
     }
@@ -49,9 +49,8 @@ class AuthRepo {
     }
   }
 
-  Future<Object?> getStores() async{
+  Future<Object?> getStores() async {
     var result = await httpClient.getStors();
     return result;
   }
-
 }

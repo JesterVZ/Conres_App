@@ -29,10 +29,6 @@ import 'bottom-nav/bottom-navigation-custom.dart';
 import 'navigators/tab-nav.dart';
 
 class MainPage extends StatefulWidget {
-  final List<dynamic>? loginData;
-  final List cookies;
-  MainPage({required this.cookies, this.loginData});
-
   @override
   State<StatefulWidget> createState() => _MainPage();
 }
@@ -65,9 +61,7 @@ class _MainPage extends State<MainPage> {
     navigatorList.add(TabNavigator(
       navigatorKey: _navKeys[TabItem.main],
       rootPage: ProfilePageTest(
-        loginData: widget.loginData,
         func: goToContract,
-        cookies: widget.cookies,
       ),
     ));
     navigatorList.add(TabNavigator(
@@ -170,6 +164,8 @@ class _MainPage extends State<MainPage> {
           isConnected = true;
         }
       }
+    } else {
+      webSocketChannel!.sink.close();
     }
     if (state.loginData != null) {
       if (state.loginData!.isEmpty) {
@@ -208,29 +204,29 @@ class _MainPage extends State<MainPage> {
           }
           switch (webSocketData!.event) {
             case "claim_status":
-            updateClaimService!.update!.call(
-                webSocketData!.data['claim_id'],
-                webSocketData!.data['status'],
-                webSocketData!.data['status_pay']);
+              updateClaimService!.update!.call(
+                  webSocketData!.data['claim_id'],
+                  webSocketData!.data['status'],
+                  webSocketData!.data['status_pay']);
               break;
             case "ticket_msg":
-            updateTicketService!.update!.call(
-                webSocketData!.data['ticket_info'][0]['ticket_id'],
-                webSocketData!.data['ticket_info'][0]['name']);
-            break;
+              updateTicketService!.update!.call(
+                  webSocketData!.data['ticket_info'][0]['ticket_id'],
+                  webSocketData!.data['ticket_info'][0]['name']);
+              break;
             case "account_accept":
-            updateAccountService!.update!.call(
-              webSocketData!.data['account_id'],
-              "2" //активный
-            );
-            break;
+              updateAccountService!.update!
+                  .call(webSocketData!.data['account_id'], "2" //активный
+                      );
+              break;
             case "account_cancel":
-            updateAccountService!.update!.call(
-              webSocketData!.data['account_id'],
-              "0", //Не прошёл проверку
-              webSocketData!.data['comment'] //комментарий, который написал челик из РСО
-            );
-            break;
+              updateAccountService!.update!.call(
+                  webSocketData!.data['account_id'],
+                  "0", //Не прошёл проверку
+                  webSocketData!.data[
+                      'comment'] //комментарий, который написал челик из РСО
+                  );
+              break;
           }
         } catch (e) {
           print(e);
@@ -248,13 +244,14 @@ class _MainPage extends State<MainPage> {
     webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
     updateClaimService ??= DependencyProvider.of(context)!.updateClaimService;
     updateTicketService ??= DependencyProvider.of(context)!.updateTicketService;
-    updateAccountService ??= DependencyProvider.of(context)!.updateAccountService;
+    updateAccountService ??=
+        DependencyProvider.of(context)!.updateAccountService;
     bottomNavigationSelectService ??=
         DependencyProvider.of(context)!.bottomNavigationSelectService;
     bottomNavigationSelectService!.function = _selectTab;
     webSocketListener?.webSocketChannel = webSocketChannel;
     webSocketListener?.function = getData;
-    profileBloc!.getCookies(widget.cookies);
+    profileBloc!.getCookies();
     webSocketListener!.listen();
   }
 }
