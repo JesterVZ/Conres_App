@@ -47,7 +47,10 @@ class DependencyProvider extends InheritedWidget {
       : assert(child != null),
         super(key: key, child: child!);
 
-  WebSocketChannel? get webSocketChannel {
+  WebSocketChannel? webSocketChannel(bool isReconnect) {
+    if(isReconnect){
+      _webSocketChannel = null;
+    }
     _webSocketChannel ??= IOWebSocketChannel.connect("${ws}:2450/");
     return _webSocketChannel;
   }

@@ -142,7 +142,7 @@ class _NewLS extends State<NewLS> {
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
-    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
+    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel(false);
     super.didChangeDependencies();
    
   }

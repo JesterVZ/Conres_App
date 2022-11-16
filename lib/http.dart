@@ -185,8 +185,9 @@ class HttpClient {
       final response = await _apiClient.post(uri, data: formData);
       if (response.statusCode == 200) {
         if (response.data["code_result"] == 200) {
-          var cookies = locator.get<List>();
+          var cookies = [];
           cookies = await _cookieJar.loadForRequest(Uri.parse(uri));
+          cookiesList = cookies;
           return cookies;
         } else {
           return "Неправильный логин или пароль!";

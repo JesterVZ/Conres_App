@@ -116,7 +116,7 @@ class _Contracts extends State<Contracts> {
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
-    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
+    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel(false);
     bottomNavigationSelectService ??=
         DependencyProvider.of(context)!.bottomNavigationSelectService;
     updateAccountService ??= DependencyProvider.of(context)!.updateAccountService;

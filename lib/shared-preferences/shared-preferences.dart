@@ -1,4 +1,5 @@
 
+import 'package:conres_app/consts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,4 +40,5 @@ Future logoutFunc(SharedPreferences preferences) async{
   await preferences.remove('password');
   await preferences.remove('type');
   await preferences.remove('isLogin');
+  cookiesList!.clear();
 }

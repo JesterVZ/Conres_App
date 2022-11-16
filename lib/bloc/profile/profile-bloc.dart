@@ -229,8 +229,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     //получение строки из cookie (нужно для отправки в сокет)
     yield state.copyWith(loading: true, error: null);
     try {
-      //String result = await repo.getCookie(state.cookies);
-      //yield state.copyWith(loading: false, error: result, cookieStr: result);
+      String result = await repo.getCookie(event.cookies);
+      yield state.copyWith(loading: false, error: result, cookieStr: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }

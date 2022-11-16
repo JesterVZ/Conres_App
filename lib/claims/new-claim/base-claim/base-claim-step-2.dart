@@ -201,7 +201,7 @@ class _BaseClaimStep2 extends State<BaseClaimStep2> {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     baseClaimSendService ??=
         DependencyProvider.of(context)!.baseClaimSendService;
-    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
+    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel(false);
     super.didChangeDependencies();
   }
 }

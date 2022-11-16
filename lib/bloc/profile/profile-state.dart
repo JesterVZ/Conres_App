@@ -80,7 +80,7 @@ class ProfileState {
   static initial() => ProfileState(cookieStr: null, loading: null, error: null);
   ProfileState clear() => ProfileState(
       cookieStr: null,
-      loading: null,
+      loading: false,
       error: null,
       TuPoints: null,
       bindLsData: null,
@@ -94,7 +94,7 @@ class ProfileState {
       images: null,
       isClaimSent: null,
       isMeasureSent: null,
-      loginData: null,
+      loginData: [],
       meters: null,
       numbers: null,
       objectsPU: null,
@@ -106,6 +106,7 @@ class ProfileState {
       tickets: null,
       userInformation: null,
       webSocketData: null);
+
   ProfileState copyWith(
       {String? cookieStr,
       bool? loading,

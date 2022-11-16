@@ -84,7 +84,10 @@ class _Chats extends State<Chats> {
   }
 
   _listener(BuildContext context, ProfileState state) {
-    isLoading = state.loading!;
+    if(state.loading != null) {
+      isLoading = state.loading!;
+    }
+    
     if (state.loading == true) {
       return;
     }

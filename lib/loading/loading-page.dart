@@ -83,7 +83,7 @@ class _LoadingPage extends State<LoadingPage> {
   void didChangeDependencies() async {
     super.didChangeDependencies();
     authBloc ??= DependencyProvider.of(context)!.authBloc;
-    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
+    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel(false);
     profileService ??= DependencyProvider.of(context)!.profileService;
     sharedPreferences = await SharedPreferences.getInstance();
     authBloc!.getLogin();

@@ -20,6 +20,7 @@ import '../Services/bottom-navigation-select-service.dart';
 import '../bloc/profile/profile-state.dart';
 import '../chats/messages.dart';
 import '../claims/claims.dart';
+import '../consts.dart';
 import '../contracts/contracts.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/route/def-page-router.dart';
@@ -243,7 +244,7 @@ class _MainPage extends State<MainPage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
-    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
+    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel(true);
     webSocketData ??= DependencyProvider.of(context)!.webSocketData;
     webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
     updateClaimService ??= DependencyProvider.of(context)!.updateClaimService;
@@ -255,7 +256,7 @@ class _MainPage extends State<MainPage> {
     bottomNavigationSelectService!.function = _selectTab;
     webSocketListener?.webSocketChannel = webSocketChannel;
     webSocketListener?.function = getData;
-    profileBloc!.getCookies(locator.get<List>());
+    profileBloc!.getCookies(cookiesList!);
     webSocketListener!.listen();
   }
 }

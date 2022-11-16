@@ -639,7 +639,7 @@ class _MessagesPage extends State<MessagesPage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
-    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel;
+    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel(false);
     webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
     webSocketData ??= DependencyProvider.of(context)!.webSocketData;
     webSocketListener?.webSocketChannel = webSocketChannel;

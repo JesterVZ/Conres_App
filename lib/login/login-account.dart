@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -139,10 +140,16 @@ class _LoginEmail extends State<LoginEmail> {
   _listener(BuildContext context, AuthState state) {
     isLoading = state.loading!;
     if (state.error != null) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) =>
-              Alert(title: "Ошибка", text: state.error.toString()));
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.bottomSlide,
+        headerAnimationLoop: false,
+        title: "Ошибка!",
+        desc: state.error.toString(),
+        btnOkOnPress: () {
+        },
+        ).show();
     }
     if (state.cookies != null) {
       Navigator.of(context)
