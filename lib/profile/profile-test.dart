@@ -114,7 +114,9 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                         Text(
                                                             (profile != null &&
                                                                     profile!.personal !=
-                                                                        null)
+                                                                        null &&
+                                                                    profile!.personal !=
+                                                                        "")
                                                                 ? profile!
                                                                     .personal!
                                                                 : "Заключите договор",

@@ -7,6 +7,7 @@ import 'package:conres_app/UI/main-form.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/elements/testimony/testimony-not-found.dart';
+import 'package:conres_app/model/meter.dart';
 import 'package:conres_app/testimony/link-pu.dart';
 import 'package:conres_app/testimony/objects-pu.dart';
 import 'package:dotted_decoration/dotted_decoration.dart';
@@ -36,8 +37,9 @@ class _SendTestimony extends State<SendTestimony> {
   ProfileBloc? profileBloc;
   bool getPU = false;
   bool isLoading = true;
-  List<Widget> meters = [];
+  List<Meter> meters = [];
   SendTestimonyService? sendTestimonyService;
+  ScrollController scrollController = ScrollController();
 
   List<TextEditingController>? dayControllers = [];
   List<TextEditingController>? nightControllers = [];
@@ -55,14 +57,15 @@ class _SendTestimony extends State<SendTestimony> {
               MainForm(
                   header: HeaderNotification(
                       text: "Передача показаний", canGoBack: true),
-                  body: SingleChildScrollView(
-                      child: Padding(
-                          padding: EdgeInsets.only(
-                              left: defaultSidePadding,
-                              right: defaultSidePadding),
-                          child: Column(
-                            children: meters,
-                          ))),
+                  body: ListView.builder(
+                      controller: scrollController,
+                      itemCount: meters.length,
+                      itemBuilder: (context, int index) {
+                        return Testimony(
+                            meter: meters[index],
+                            dayController: dayControllers![index],
+                            nightController: nightControllers![index]);
+                      }),
                   footer: DefaultButton(
                       isGetPadding: true,
                       onPressed: () {
@@ -74,10 +77,9 @@ class _SendTestimony extends State<SendTestimony> {
                         for (int i = 0; i < nightControllers!.length; i++) {
                           nightValues.add(nightControllers![i].text);
                         }
-                        if(dayValues.isEmpty && nightValues.isEmpty){
+                        if (dayValues.isEmpty && nightValues.isEmpty) {
                           profileBloc!.sendTestimony(dayValues, nightValues);
                         }
-                        
                       },
                       text: "Передать показания"),
                   onRefrash: _refrash),
@@ -88,7 +90,11 @@ class _SendTestimony extends State<SendTestimony> {
                     height: 50,
                     child: CircularProgressIndicator(color: colorMain),
                   )),
-                  visible: (isLoading == true) ? true : false)
+                  visible: (isLoading == true) ? true : false),
+              Visibility(
+                child: Text("нету нихуя"),
+                visible: (getPU == true && meters.isEmpty) ? true : false,
+              )
             ],
           );
         });
@@ -102,13 +108,11 @@ class _SendTestimony extends State<SendTestimony> {
     }
     if (state.meters != null) {
       getPU = true;
+      meters = state.meters!;
+
       for (int i = 0; i < state.meters!.length; i++) {
         dayControllers!.add(TextEditingController());
         nightControllers!.add(TextEditingController());
-        meters.add(Testimony(
-            meter: state.meters![i],
-            dayController: dayControllers![i],
-            nightController: nightControllers![i]));
       }
     }
     if (state.loading! == false && state.isMeasureSent == true) {
@@ -120,8 +124,8 @@ class _SendTestimony extends State<SendTestimony> {
         title: "Успешно!",
         desc: "Показания переданы!",
         btnOkOnPress: () {},
-        ).show();
-        /*
+      ).show();
+      /*
       showDialog(
           context: context,
           builder: (BuildContext context) =>
