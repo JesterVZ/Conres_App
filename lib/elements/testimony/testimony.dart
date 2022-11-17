@@ -22,7 +22,8 @@ class Testimony extends StatefulWidget {
 class _Testimony extends State<Testimony> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
+    child: Container(
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
@@ -194,6 +195,9 @@ class _Testimony extends State<Testimony> {
                       ],
                     )))
           ],
-        ));
-  }
+        ))
+  );
+    
+  
+}
 }

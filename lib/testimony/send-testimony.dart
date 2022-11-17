@@ -77,9 +77,7 @@ class _SendTestimony extends State<SendTestimony> {
                         for (int i = 0; i < nightControllers!.length; i++) {
                           nightValues.add(nightControllers![i].text);
                         }
-                        if (dayValues.isEmpty && nightValues.isEmpty) {
-                          profileBloc!.sendTestimony(dayValues, nightValues);
-                        }
+                        profileBloc!.sendTestimony(dayValues, nightValues);
                       },
                       text: "Передать показания"),
                   onRefrash: _refrash),
@@ -125,11 +123,7 @@ class _SendTestimony extends State<SendTestimony> {
         desc: "Показания переданы!",
         btnOkOnPress: () {},
       ).show();
-      /*
-      showDialog(
-          context: context,
-          builder: (BuildContext context) =>
-              Alert(title: "Успешно!", text: "Показания переданы!"));*/
+
     }
     if (state.error != null) {
       showDialog(
