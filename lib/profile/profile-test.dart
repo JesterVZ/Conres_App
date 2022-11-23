@@ -1,4 +1,5 @@
 import 'package:conres_app/Services/profile-service.dart';
+import 'package:conres_app/UI/skeleton.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/contracts/contracts.dart';
 import 'package:conres_app/profile/tab-item.dart';
@@ -30,6 +31,8 @@ class _ProfilePage extends State<ProfilePageTest> {
   Profile? profile;
   ProfileService? profileService;
   BottomNavigationSelectService? bottomNavigationSelectService;
+
+  bool? isLoading = true;
 
   Future<void> _refrash() async {
     authBloc!.loginWithCookies(); //get info old
@@ -111,6 +114,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                                         .white,
                                                                     fontSize:
                                                                         15)),
+                                                        isLoading == true ? Skeleton() :
                                                         Text(
                                                             (profile != null &&
                                                                     profile!.personal !=
@@ -192,6 +196,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                               color:
                                                                   profileLabelColor,
                                                               fontSize: 15)),
+                                                      isLoading == true ? Skeleton() :
                                                       Text(
                                                           (profile != null &&
                                                                   profile!.inn !=
@@ -236,6 +241,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                             profileLabelColor,
                                                         fontSize: 15,
                                                       )),
+                                                  isLoading == true ? Skeleton() :
                                                   Text(
                                                       (profile != null)
                                                           ? profile!.personalGP ==
@@ -263,6 +269,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                           color:
                                                               profileLabelColor,
                                                           fontSize: 15)),
+                                                  isLoading == true ? Skeleton() :
                                                   Text(
                                                       (profile != null &&
                                                               profile!.email !=
@@ -288,6 +295,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                           color:
                                                               profileLabelColor,
                                                           fontSize: 15)),
+                                                  isLoading == true ? Skeleton() :
                                                   Text(
                                                       (profile != null &&
                                                               profile!.address !=
@@ -398,9 +406,11 @@ class _ProfilePage extends State<ProfilePageTest> {
   }
 
   _listener(BuildContext context, AuthState state) {
+   isLoading = state.loading!;
     if (state.loading == true) {
       return;
     }
+
     if (state.profile != null) {
       setState(() {
         profile = state.profile!;

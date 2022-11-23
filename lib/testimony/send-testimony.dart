@@ -71,13 +71,34 @@ class _SendTestimony extends State<SendTestimony> {
                       onPressed: () {
                         List<String> dayValues = [];
                         List<String> nightValues = [];
+                        bool isEmpty = true;
                         for (int i = 0; i < dayControllers!.length; i++) {
+                          if(dayControllers![i].text != ""){
+                            isEmpty = false;
+                          }
                           dayValues.add(dayControllers![i].text);
                         }
                         for (int i = 0; i < nightControllers!.length; i++) {
+                          if(nightControllers![i].text != ""){
+                            isEmpty = false;
+                          }
                           nightValues.add(nightControllers![i].text);
                         }
-                        profileBloc!.sendTestimony(dayValues, nightValues);
+                        if(isEmpty == false){
+                          profileBloc!.sendTestimony(dayValues, nightValues);
+                        } else {
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.info,
+                            animType: AnimType.bottomSlide,
+                            headerAnimationLoop: false,
+                            title: "Внимание!",
+                            desc: "Введите показания!",
+                            btnOkColor: Colors.blue,
+                            btnOkOnPress: () {},
+                          ).show();
+                        }
+                        
                       },
                       text: "Передать показания"),
                   onRefrash: _refrash),
@@ -90,7 +111,11 @@ class _SendTestimony extends State<SendTestimony> {
                   )),
                   visible: (isLoading == true) ? true : false),
               Visibility(
-                child: Text("нету нихуя"),
+                child: Container(
+                  decoration: BoxDecoration(
+                    
+                  ),
+                ),
                 visible: (getPU == true && meters.isEmpty) ? true : false,
               )
             ],

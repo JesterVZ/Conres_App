@@ -16,8 +16,9 @@ class ObjectPU extends StatefulWidget {
 class _ObjectPU extends State<ObjectPU> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding), child: Container(
       padding: EdgeInsets.all(17),
+      margin: EdgeInsets.only(top: 14, bottom: 14),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -90,6 +91,8 @@ class _ObjectPU extends State<ObjectPU> {
           )
         ],
       ),
-    );
+    )
+  );
+    
   }
 }

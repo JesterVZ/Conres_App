@@ -1,12 +1,10 @@
 import 'package:conres_app/Services/profile-service.dart';
+import 'package:conres_app/UI/main-form.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/consts.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/model/user-information.dart';
-import 'package:conres_app/profile/tabs/confidant-tab.dart';
-import 'package:conres_app/profile/tabs/contacts-tab.dart';
-import 'package:conres_app/profile/tabs/info-tab.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,7 +22,7 @@ class FullProfile extends StatefulWidget {
 class _FullProfile extends State<FullProfile>
     with SingleTickerProviderStateMixin {
   ProfileBloc? profileBloc;
-  UserInformation? userInformation;
+  ProfileService? profileService;
 
   TabController? tabController;
   List<Tab> tabs = [
@@ -47,11 +45,17 @@ class _FullProfile extends State<FullProfile>
     super.initState();
   }
 
+  Future<void> _refrash() async{
+
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-        length: 3,
-        child: BlocScreen<ProfileBloc, ProfileState>(
+    return MainForm(
+      header: HeaderNotification(text: "Информация", canGoBack: true), 
+      body: BlocScreen<ProfileBloc, ProfileState>(
             bloc: profileBloc,
             listener: (context, state) => _listener(context, state),
             builder: (context, state) {
@@ -59,11 +63,6 @@ class _FullProfile extends State<FullProfile>
                   backgroundColor: defaultBackground,
                   body: Column(
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                        margin: const EdgeInsets.only(bottom: 14),
-                        child: HeaderNotification(text: "Информация"),
-                      ),
                       Container(
                         padding: EdgeInsets.all(20),
                         child: TabBar(
@@ -118,15 +117,15 @@ class _FullProfile extends State<FullProfile>
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Text("ФИО",
+                                                      Text(profileService!.userType == "fl" ? "ФИО" : "Полное название организации",
                                                           style: TextStyle(
                                                               color:
                                                                   colorGrayClaim)),
                                                       Text(
-                                                          userInformation !=
+                                                          profileService!.userInformation !=
                                                                   null
-                                                              ? userInformation!
-                                                                  .firstname!
+                                                              ? profileService!.userInformation!
+                                                                  .company_full!
                                                               : "",
                                                           style: TextStyle(
                                                               color: Colors
@@ -148,12 +147,12 @@ class _FullProfile extends State<FullProfile>
                                                               color:
                                                                   colorGrayClaim)),
                                                       Text(
-                                                          userInformation !=
+                                                          profileService!.userInformation !=
                                                                       null &&
-                                                                  userInformation!
+                                                                  profileService!.userInformation!
                                                                           .legal_address !=
                                                                       null
-                                                              ? userInformation!
+                                                              ? profileService!.userInformation!
                                                                   .legal_address!
                                                               : "",
                                                           style: TextStyle(
@@ -176,9 +175,9 @@ class _FullProfile extends State<FullProfile>
                                                               color:
                                                                   colorGrayClaim)),
                                                       Text(
-                                                          userInformation !=
+                                                          profileService!.userInformation !=
                                                                   null
-                                                              ? userInformation!
+                                                              ? profileService!.userInformation!
                                                                   .inn!
                                                               : "",
                                                           style: TextStyle(
@@ -201,9 +200,9 @@ class _FullProfile extends State<FullProfile>
                                                               color:
                                                                   colorGrayClaim)),
                                                       Text(
-                                                          userInformation !=
+                                                          profileService!.userInformation !=
                                                                   null
-                                                              ? userInformation!
+                                                              ? profileService!.userInformation!
                                                                   .ogrn!
                                                               : "",
                                                           style: TextStyle(
@@ -211,26 +210,7 @@ class _FullProfile extends State<FullProfile>
                                                                   .black)),
                                                     ],
                                                   )),
-                                              Container(
-                                                  margin: EdgeInsets.only(
-                                                      bottom: 16),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text("Пароль",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  colorGrayClaim)),
-                                                      const Text("************",
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .black)),
-                                                    ],
-                                                  ))
+                                              
                                             ],
                                           ),
                                         )),
@@ -249,222 +229,7 @@ class _FullProfile extends State<FullProfile>
                                                 borderRadius:
                                                     BorderRadius.circular(8)))),
                                   ),
-                                  Container(
-                                    child: Column(children: [
-                                      const Text("Быстрая авторизация",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 24)),
-                                      Padding(
-                                          padding: EdgeInsets.all(20),
-                                          child: Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              height: 264,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: Colors.white,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.grey
-                                                          .withOpacity(0.5),
-                                                      spreadRadius: 5,
-                                                      blurRadius: 7,
-                                                      offset: Offset(0, 3),
-                                                    ),
-                                                  ]),
-                                              child: Padding(
-                                                padding: EdgeInsets.all(20),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      child: Row(
-                                                        children: [
-                                                          SvgPicture.asset(
-                                                              'assets/vk-svg.svg'),
-                                                          Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    left: 21),
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: const [
-                                                                Text(
-                                                                    "Вконтакте",
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            18)),
-                                                                Text(
-                                                                    "Запрещенно")
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          const Spacer(),
-                                                          Container(
-                                                            width: 20,
-                                                            height: 20,
-                                                            decoration: BoxDecoration(
-                                                                color: Color(
-                                                                    0xFFC8D8FF),
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                border: Border.all(
-                                                                    width: 5,
-                                                                    color: const Color(
-                                                                        0xFFF2F6FF))),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    const Spacer(),
-                                                    Container(
-                                                      child: Row(
-                                                        children: [
-                                                          SvgPicture.asset(
-                                                              'assets/Google-svg.svg'),
-                                                          Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    left: 21),
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: const [
-                                                                Text("Google",
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            18)),
-                                                                Text(
-                                                                    "Запрещенно")
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          const Spacer(),
-                                                          Container(
-                                                            width: 20,
-                                                            height: 20,
-                                                            decoration: BoxDecoration(
-                                                                color: Color(
-                                                                    0xFFC8D8FF),
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                border: Border.all(
-                                                                    width: 5,
-                                                                    color: const Color(
-                                                                        0xFFF2F6FF))),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    const Spacer(),
-                                                    Container(
-                                                      child: Row(
-                                                        children: [
-                                                          SvgPicture.asset(
-                                                              'assets/Yandex-svg.svg'),
-                                                          Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    left: 21),
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: const [
-                                                                Text("Yandex",
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            18)),
-                                                                Text(
-                                                                    "Запрещенно")
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          const Spacer(),
-                                                          Container(
-                                                            width: 20,
-                                                            height: 20,
-                                                            decoration: BoxDecoration(
-                                                                color: Color(
-                                                                    0xFFC8D8FF),
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                border: Border.all(
-                                                                    width: 5,
-                                                                    color: const Color(
-                                                                        0xFFF2F6FF))),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    const Spacer(),
-                                                    Container(
-                                                      child: Row(
-                                                        children: [
-                                                          SvgPicture.asset(
-                                                              'assets/OK-svg.svg'),
-                                                          Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    left: 21),
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: const [
-                                                                Text(
-                                                                    "Одноклассники",
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            18)),
-                                                                Text(
-                                                                    "Запрещенно")
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          const Spacer(),
-                                                          Container(
-                                                            width: 20,
-                                                            height: 20,
-                                                            decoration: BoxDecoration(
-                                                                color: Color(
-                                                                    0xFFC8D8FF),
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                border: Border.all(
-                                                                    width: 5,
-                                                                    color: const Color(
-                                                                        0xFFF2F6FF))),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              )))
-                                    ]),
-                                  )
+                                  
                                 ],
                               ),
                             ),
@@ -496,16 +261,6 @@ class _FullProfile extends State<FullProfile>
                                                 fontSize: 24,
                                                 fontWeight: FontWeight.bold)),
                                         ExpansionTileElement(),
-                                        /*
-                    const Text("E-mail",
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold)),
-                    ContactBlock(),
-                    const Text("Мессенджеры",
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold)),
-                    ContactBlock(),
-                    */
                                       ],
                                     ),
                                   )
@@ -636,17 +391,13 @@ class _FullProfile extends State<FullProfile>
                       )
                     ],
                   ));
-            }));
+            }), 
+      onRefrash: _refrash);
   }
 
   _listener(BuildContext context, ProfileState state) {
     if (state.loading == true) {
       return;
-    }
-    if (state.userInformation != null) {
-      setState(() {
-        userInformation = state.userInformation;
-      });
     }
   }
 
@@ -654,6 +405,7 @@ class _FullProfile extends State<FullProfile>
   void didChangeDependencies() {
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    profileService ??= DependencyProvider.of(context)!.profileService;
     profileBloc!.getFullProfileInfo();
   }
 }

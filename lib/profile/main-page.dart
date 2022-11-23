@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:conres_app/DI/locator.dart';
+import 'package:conres_app/Services/profile-service.dart';
 import 'package:conres_app/Services/update-account-service.dart';
 import 'package:conres_app/Services/update-claim-service.dart';
 import 'package:conres_app/Services/update-ticket-service.dart';
@@ -45,6 +46,7 @@ class _MainPage extends State<MainPage> {
   UpdateTicketService? updateTicketService;
   UpdateAccountService? updateAccountService;
   BottomNavigationSelectService? bottomNavigationSelectService;
+  ProfileService? profileService;
   int? ticketCounter;
   int? claimCounter;
   var _currentTab = TabItem.main;
@@ -162,6 +164,9 @@ class _MainPage extends State<MainPage> {
     if (state.loading == true) {
       return;
     }
+    if (state.userInformation != null) {
+      profileService!.userInformation = state.userInformation;
+    }
     if (state.cookieStr != null) {
       if (webSocketChannel != null) {
         if (isConnected == false) {
@@ -249,6 +254,7 @@ class _MainPage extends State<MainPage> {
     webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
     updateClaimService ??= DependencyProvider.of(context)!.updateClaimService;
     updateTicketService ??= DependencyProvider.of(context)!.updateTicketService;
+    profileService ??= DependencyProvider.of(context)!.profileService;
     updateAccountService ??=
         DependencyProvider.of(context)!.updateAccountService;
     bottomNavigationSelectService ??=
@@ -257,6 +263,8 @@ class _MainPage extends State<MainPage> {
     webSocketListener?.webSocketChannel = webSocketChannel;
     webSocketListener?.function = getData;
     profileBloc!.getCookies(cookiesList!);
+    profileBloc!.getFullProfileInfo();
     webSocketListener!.listen();
+    
   }
 }

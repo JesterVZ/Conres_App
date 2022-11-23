@@ -25,7 +25,9 @@ class ObjectsPU extends StatefulWidget {
 class _ObjectsPU extends State<ObjectsPU> {
   Future<void> _refrash() async {}
   ProfileBloc? profileBloc;
-  List<Widget> objects = [];
+  List<ObjectPuModel> objects = [];
+  ScrollController scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(
@@ -37,13 +39,12 @@ class _ObjectsPU extends State<ObjectsPU> {
                 text: "Ваши объекты",
                 canGoBack: true,
               ),
-              body: SingleChildScrollView(
-                  child: Padding(
-                      padding: EdgeInsets.only(
-                          left: defaultSidePadding, right: defaultSidePadding),
-                      child: Column(
-                        children: objects,
-                      ))),
+              body: ListView.builder(
+                      controller: scrollController,
+                      itemCount: objects.length,
+                      itemBuilder: (context, int index) {
+                        return ObjectPU(objectPuModel: objects[index]);
+                      }),
               footer: Row(
                 children: [
                   Container(
@@ -182,13 +183,7 @@ class _ObjectsPU extends State<ObjectsPU> {
       return;
     }
     if (state.objectsPU != null) {
-      if (objects.isEmpty) {
-        for (int i = 0; i < state.objectsPU!.length; i++) {
-          objects.add(ObjectPU(
-            objectPuModel: state.objectsPU![i],
-          ));
-        }
-      }
+      objects = state.objectsPU!;
     }
   }
 
