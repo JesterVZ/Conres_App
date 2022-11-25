@@ -44,6 +44,9 @@ class _SendTestimony extends State<SendTestimony> {
   List<TextEditingController>? dayControllers = [];
   List<TextEditingController>? nightControllers = [];
 
+  Widget? body = Container();
+  Widget? footer = Container();
+
   Future<void> _refrash() async {}
 
   @override
@@ -57,50 +60,8 @@ class _SendTestimony extends State<SendTestimony> {
               MainForm(
                   header: HeaderNotification(
                       text: "Передача показаний", canGoBack: true),
-                  body: ListView.builder(
-                      controller: scrollController,
-                      itemCount: meters.length,
-                      itemBuilder: (context, int index) {
-                        return Testimony(
-                            meter: meters[index],
-                            dayController: dayControllers![index],
-                            nightController: nightControllers![index]);
-                      }),
-                  footer: DefaultButton(
-                      isGetPadding: true,
-                      onPressed: () {
-                        List<String> dayValues = [];
-                        List<String> nightValues = [];
-                        bool isEmpty = true;
-                        for (int i = 0; i < dayControllers!.length; i++) {
-                          if(dayControllers![i].text != ""){
-                            isEmpty = false;
-                          }
-                          dayValues.add(dayControllers![i].text);
-                        }
-                        for (int i = 0; i < nightControllers!.length; i++) {
-                          if(nightControllers![i].text != ""){
-                            isEmpty = false;
-                          }
-                          nightValues.add(nightControllers![i].text);
-                        }
-                        if(isEmpty == false){
-                          profileBloc!.sendTestimony(dayValues, nightValues);
-                        } else {
-                          AwesomeDialog(
-                            context: context,
-                            dialogType: DialogType.info,
-                            animType: AnimType.bottomSlide,
-                            headerAnimationLoop: false,
-                            title: "Внимание!",
-                            desc: "Введите показания!",
-                            btnOkColor: Colors.blue,
-                            btnOkOnPress: () {},
-                          ).show();
-                        }
-                        
-                      },
-                      text: "Передать показания"),
+                  body: body!,
+                  footer: footer,
                   onRefrash: _refrash),
               Visibility(
                   child: Center(
@@ -110,14 +71,6 @@ class _SendTestimony extends State<SendTestimony> {
                     child: CircularProgressIndicator(color: colorMain),
                   )),
                   visible: (isLoading == true) ? true : false),
-              Visibility(
-                child: Container(
-                  decoration: BoxDecoration(
-                    
-                  ),
-                ),
-                visible: (getPU == true && meters.isEmpty) ? true : false,
-              )
             ],
           );
         });
@@ -132,7 +85,95 @@ class _SendTestimony extends State<SendTestimony> {
     if (state.meters != null) {
       getPU = true;
       meters = state.meters!;
-
+      if (state.meters!.isEmpty) {
+        body = Padding(
+            padding: EdgeInsets.only(
+                left: defaultSidePadding, right: defaultSidePadding),
+            child: Container(
+              padding: EdgeInsets.all(16),
+              width: MediaQuery.of(context).size.width,
+              height: 175,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 3,
+                      blurRadius: 4,
+                      offset: Offset(0, 2),
+                    ),
+                  ]),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Text("Приборы учёта",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold)),
+                      const Spacer(),
+                      SvgPicture.asset('assets/search.svg')
+                    ],
+                  ),
+                  Text(
+                    "По данному лицевому счёту не найдены приборы учёта, отправьте заявку на привязку ПУ и дождитесь подтверждения.",
+                    style: TextStyle(color: colorGrayClaim, fontSize: 16),
+                  )
+                ],
+              ),
+            ));
+        footer = DefaultButton(
+            isGetPadding: true,
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ObjectsPU()));
+            },
+            text: "Привязать новый ПУ");
+      } else {
+        body = ListView.builder(
+            controller: scrollController,
+            itemCount: meters.length,
+            itemBuilder: (context, int index) {
+              return Testimony(
+                  meter: meters[index],
+                  dayController: dayControllers![index],
+                  nightController: nightControllers![index]);
+            });
+        footer = DefaultButton(
+            isGetPadding: true,
+            onPressed: () {
+              List<String> dayValues = [];
+              List<String> nightValues = [];
+              bool isEmpty = true;
+              for (int i = 0; i < dayControllers!.length; i++) {
+                if (dayControllers![i].text != "") {
+                  isEmpty = false;
+                }
+                dayValues.add(dayControllers![i].text);
+              }
+              for (int i = 0; i < nightControllers!.length; i++) {
+                if (nightControllers![i].text != "") {
+                  isEmpty = false;
+                }
+                nightValues.add(nightControllers![i].text);
+              }
+              if (isEmpty == false) {
+                profileBloc!.sendTestimony(dayValues, nightValues);
+              } else {
+                AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.info,
+                  animType: AnimType.bottomSlide,
+                  headerAnimationLoop: false,
+                  title: "Внимание!",
+                  desc: "Введите показания!",
+                  btnOkColor: Colors.blue,
+                  btnOkOnPress: () {},
+                ).show();
+              }
+            },
+            text: "Передать показания");
+      }
       for (int i = 0; i < state.meters!.length; i++) {
         dayControllers!.add(TextEditingController());
         nightControllers!.add(TextEditingController());
@@ -148,7 +189,6 @@ class _SendTestimony extends State<SendTestimony> {
         desc: "Показания переданы!",
         btnOkOnPress: () {},
       ).show();
-
     }
     if (state.error != null) {
       showDialog(

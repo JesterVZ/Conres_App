@@ -562,14 +562,15 @@ class HttpClient {
       final result = await _apiClient.post(uri);
       if (result.statusCode == 200) {
         List<ObjectPuModel> objects = [];
-
-        if (result.data['data']['objects'].length > 0) {
-          for (int i = 0; i < result.data['data']['objects'].length; i++) {
-            objects
-                .add(ObjectPuModel.fromMap(result.data['data']['objects'][i]));
+        if (result.data['data']['objects'] != null) {
+          if (result.data['data']['objects'].length > 0) {
+            for (int i = 0; i < result.data['data']['objects'].length; i++) {
+              objects.add(
+                  ObjectPuModel.fromMap(result.data['data']['objects'][i]));
+            }
           }
-          return objects;
         }
+        return objects;
       }
     } catch (e) {
       return (e);

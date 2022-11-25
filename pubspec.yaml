@@ -121,7 +121,6 @@ flutter:
     - assets/main.svg
     - assets/confidant.svg
     - assets/contacts.svg
-    - assets/search.png
     - assets/scroll-to-bottom.svg
     - assets/Google-svg.svg
     - assets/Yandex-svg.svg
@@ -135,6 +134,7 @@ flutter:
     - assets/copy.svg
     - assets/delete.svg
     - assets/edit.svg
+    - assets/search.svg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
