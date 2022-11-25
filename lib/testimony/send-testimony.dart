@@ -22,6 +22,7 @@ import '../consts.dart';
 import '../elements/alert.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/header/header-notification.dart';
+import '../elements/not-found.dart';
 import '../elements/testimony/testimony.dart';
 
 class SendTestimony extends StatefulWidget {
@@ -86,42 +87,7 @@ class _SendTestimony extends State<SendTestimony> {
       getPU = true;
       meters = state.meters!;
       if (state.meters!.isEmpty) {
-        body = Padding(
-            padding: EdgeInsets.only(
-                left: defaultSidePadding, right: defaultSidePadding),
-            child: Container(
-              padding: EdgeInsets.all(16),
-              width: MediaQuery.of(context).size.width,
-              height: 175,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 3,
-                      blurRadius: 4,
-                      offset: Offset(0, 2),
-                    ),
-                  ]),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Text("Приборы учёта",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
-                      const Spacer(),
-                      SvgPicture.asset('assets/search.svg')
-                    ],
-                  ),
-                  Text(
-                    "По данному лицевому счёту не найдены приборы учёта, отправьте заявку на привязку ПУ и дождитесь подтверждения.",
-                    style: TextStyle(color: colorGrayClaim, fontSize: 16),
-                  )
-                ],
-              ),
-            ));
+        body = NotFound(title: "Приборы учеты", text: "По данному лицевому счёту не найдены приборы учёта, отправьте заявку на привязку ПУ и дождитесь подтверждения.");
         footer = DefaultButton(
             isGetPadding: true,
             onPressed: () {

@@ -8,6 +8,7 @@ import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/claims/new-claim/new-claim-documant.dart';
 import 'package:conres_app/claims/new-claim/new-claim-step-1.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
+import 'package:conres_app/elements/not-found.dart';
 import 'package:conres_app/model/claim.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,8 @@ class _Claims extends State<Claims> {
   BaseClaimSendService? baseClaimSendService;
   MainClaimSendService? mainClaimSendService;
 
+  Widget body = Container();
+
   @override
   void initState() {
     controller.addListener(pagination);
@@ -61,14 +64,7 @@ class _Claims extends State<Claims> {
         builder: (context, state) {
           return MainForm(
               header: HeaderNotification(text: "Заявления"),
-              body: ListView.builder(
-                  itemCount: claimsMap.length,
-                  itemBuilder: (context, int index) {
-                    return ClaimElement(
-                        currentClaim: claimsMap.values.elementAt(index),
-                        downloadFunction: downloadClaim,
-                        mainListener: widget.mainListener);
-                  }),
+              body: body,
               footer: DefaultButton(
                 isGetPadding: true,
                 onPressed: () {
@@ -93,7 +89,18 @@ class _Claims extends State<Claims> {
         if (claims.isEmpty) {
           setState(() {
             claimsMap = {for (var e in state.claims!) e.claim_id!: e};
+            body = ListView.builder(
+                  itemCount: claimsMap.length,
+                  itemBuilder: (context, int index) {
+                    return ClaimElement(
+                        currentClaim: claimsMap.values.elementAt(index),
+                        downloadFunction: downloadClaim,
+                        mainListener: widget.mainListener);
+                  });
           });
+        }
+        if(state.claims!.isEmpty){
+          body = NotFound(title: "Заявления", text: "По данному лицевому счету не найдены заявления");
         }
       }
     }

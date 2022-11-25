@@ -4,6 +4,7 @@ import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/UI/main-form.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/elements/header/header.dart';
+import 'package:conres_app/elements/not-found.dart';
 import 'package:conres_app/elements/route/def-page-router.dart';
 import 'package:conres_app/loading/loading-page.dart';
 import 'package:conres_app/model/contract.dart';
@@ -37,6 +38,8 @@ class _Contracts extends State<Contracts> {
   UpdateAccountService? updateAccountService;
   WebSocketChannel? webSocketChannel;
 
+  Widget body = Container();
+
   bool isLoaded = false;
 
   Future<void> _refrash() async {
@@ -53,15 +56,7 @@ class _Contracts extends State<Contracts> {
         builder: (context, state) {
           return MainForm(
             header: HeaderNotification(text: "Договоры", canGoBack: false),
-            body: ListView.builder(
-                  itemCount: contractsMap.length,
-                  itemBuilder: (context, int index) {
-                    return ContractElement(
-                      contract: contractsMap.values.elementAt(index), 
-                      func: widget.func,
-                      remove: removeContract,
-                      bottomNavigationSelectService: bottomNavigationSelectService!);
-                  }),
+            body: body,
             onRefrash: _refrash,
             footer: DefaultButton(
               onPressed: () {
@@ -82,6 +77,18 @@ class _Contracts extends State<Contracts> {
     if (state.contracts != null && state.contracts!.isNotEmpty && isLoaded == false) {
       contractsMap = {for (var e in state.contracts!) e.account_id!: e};
       isLoaded = true;
+      body = ListView.builder(
+                  itemCount: contractsMap.length,
+                  itemBuilder: (context, int index) {
+                    return ContractElement(
+                      contract: contractsMap.values.elementAt(index), 
+                      func: widget.func,
+                      remove: removeContract,
+                      bottomNavigationSelectService: bottomNavigationSelectService!);
+                  });
+    }
+    if(state.contracts != null && state.contracts!.isEmpty){
+      body = NotFound(title: "Договоры", text: "По данному лицевому счету не найдены договоры");
     }
   }
 

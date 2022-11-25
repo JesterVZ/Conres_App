@@ -5,6 +5,7 @@ import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/chats/new-chat.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
+import 'package:conres_app/elements/not-found.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../DI/dependency-provider.dart';
@@ -34,6 +35,8 @@ class _Chats extends State<Chats> {
   String? userId;
   int page = 1;
   bool isLoading = true;
+
+  Widget body = Container();
   @override
   void initState() {
     scrollController.addListener(_pagination);
@@ -58,17 +61,7 @@ class _Chats extends State<Chats> {
         builder: (context, state) {
           return MainForm(
               header: HeaderNotification(text: "Обращения"),
-              body: ListView.builder(
-                  controller: scrollController,
-                  itemCount: ticketsMap.length,
-                  itemBuilder: (context, int index) {
-                    return TicketRow(
-                        ticket: ticketsMap.values.elementAt(index),
-                        openChat: _openChat,
-                        counter: ticketsMap.values
-                            .elementAt(index)
-                            .count_tm_resiver);
-                  }),
+              body: body,
               footer: DefaultButton(
                   text: "Новое обращение",
                   isGetPadding: true,
@@ -103,13 +96,28 @@ class _Chats extends State<Chats> {
               page == 1)) {
         tickets = state.tickets!;
         ticketsMap = {for (var e in state.tickets!) e.ticket_id!: e};
+        body = ListView.builder(
+                  controller: scrollController,
+                  itemCount: ticketsMap.length,
+                  itemBuilder: (context, int index) {
+                    return TicketRow(
+                        ticket: ticketsMap.values.elementAt(index),
+                        openChat: _openChat,
+                        counter: ticketsMap.values
+                            .elementAt(index)
+                            .count_tm_resiver);
+                  });
       }
 
       if ((int.parse(state.page!) == page) && page > 1) {
         tickets = tickets + state.tickets!;
         ticketsMap = {for (var e in tickets) e.ticket_id!: e};
       }
+
     }
+    if(state.tickets != null && state.tickets!.isEmpty){
+        body = NotFound(title: "Обращения", text: "У вас возникли вопросы или появилась проблема?Создайте обращение и мы ответим вам в ближайщее время.");
+      }
   }
 
   void _pagination() {

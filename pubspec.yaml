@@ -106,6 +106,7 @@ flutter:
     - assets/ls-right-arrow.svg
     - assets/meters-data.svg
     - assets/fire.svg
+    - assets/search.png
     - assets/notification.svg
     - assets/more-actions.svg
     - assets/profile-ls.svg
