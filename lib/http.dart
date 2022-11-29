@@ -518,7 +518,12 @@ class HttpClient {
     String uri = domain + 'lk/index.php?route=catalog/user_information/api_get';
     final result = await _apiClient.post(uri);
     if (result.statusCode == 200) {
-      return UserInformation.fromMap(result.data['data']);
+      UserInformation userInformation = UserInformation.fromMap(result.data['data']);
+      userInformation.user_info_contacts = [];
+      for(int i = 0; i < result.data['data']['user_info_contacts'].length; i++){
+        userInformation.user_info_contacts!.add(Contact.fromMap(result.data['data']['user_info_contacts'][i]));
+      }
+      return userInformation;
     } else {
       throw Exception();
     }
