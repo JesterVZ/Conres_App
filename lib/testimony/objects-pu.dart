@@ -13,6 +13,7 @@ import '../UI/default-button.dart';
 import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../elements/bloc/bloc-screen.dart';
+import '../elements/not-found.dart';
 import '../elements/testimony/object-pu-dialog.dart';
 import '../elements/testimony/object-pu.dart';
 import 'link-pu/link-pu-step-1.dart';
@@ -27,6 +28,7 @@ class _ObjectsPU extends State<ObjectsPU> {
   ProfileBloc? profileBloc;
   List<ObjectPuModel> objects = [];
   ScrollController scrollController = ScrollController();
+  Widget body = Container();
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +41,7 @@ class _ObjectsPU extends State<ObjectsPU> {
                 text: "Ваши объекты",
                 canGoBack: true,
               ),
-              body: ListView.builder(
-                      controller: scrollController,
-                      itemCount: objects.length,
-                      itemBuilder: (context, int index) {
-                        return ObjectPU(objectPuModel: objects[index]);
-                      }),
+              body: body,
               footer: Row(
                 children: [
                   Container(
@@ -184,6 +181,15 @@ class _ObjectsPU extends State<ObjectsPU> {
     }
     if (state.objectsPU != null) {
       objects = state.objectsPU!;
+      body = ListView.builder(
+                      controller: scrollController,
+                      itemCount: objects.length,
+                      itemBuilder: (context, int index) {
+                        return ObjectPU(objectPuModel: objects[index]);
+                      });
+    }
+    if(state.objectsPU != null && state.objectsPU!.isEmpty){
+      body = NotFound(title: "Объекты", text: "По данному лицевому счету не найдены объекты.");
     }
   }
 
