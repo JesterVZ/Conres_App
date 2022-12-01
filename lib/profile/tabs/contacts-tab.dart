@@ -8,6 +8,7 @@ import '../../bloc/profile/profile-bloc.dart';
 import '../../bloc/profile/profile-state.dart';
 import '../../elements/bloc/bloc-screen.dart';
 import '../../elements/full-profile/ExpansionTileElement.dart';
+import '../../elements/profile/contact-controls.dart';
 
 class ContactTab extends StatefulWidget{
   @override
@@ -75,15 +76,20 @@ class _ContactTab extends State<ContactTab>{
     profileService ??= DependencyProvider.of(context)!.profileService;
     for(int i = 0; i < profileService!.userInformation!.user_info_contacts!.length; i++){
       if(profileService!.userInformation!.user_info_contacts![i].contact_type_group_id == "1"){
-        phones.add(ExpansionTileElement(header: Text(profileService!.userInformation!.user_info_contacts![i].value_contact!, style: TextStyle(fontSize: 18)), tileText: Text("Настройки", style: TextStyle(color: colorGrayClaim),),));
+        phones.add(ExpansionTileElement(
+          header: Text(profileService!.userInformation!.user_info_contacts![i].value_contact!, style: TextStyle(fontSize: 18)), 
+          tileText: Text("Настройки", style: TextStyle(color: colorGrayClaim)),
+          body: ColtactColtrols(),));
       }
 
       if(profileService!.userInformation!.user_info_contacts![i].contact_type_group_id == "2"){
-        emails.add(ExpansionTileElement(header: Text(profileService!.userInformation!.user_info_contacts![i].value_contact!, style: TextStyle(fontSize: 18)), tileText: Text("Настройки", style: TextStyle(color: colorGrayClaim))));
+        emails.add(ExpansionTileElement(header: Text(profileService!.userInformation!.user_info_contacts![i].value_contact!, style: TextStyle(fontSize: 18)), body: ColtactColtrols(),
+         tileText: Text("Настройки", style: TextStyle(color: colorGrayClaim))));
       }
 
       if(profileService!.userInformation!.user_info_contacts![i].contact_type_group_id == "3"){
-        messangers.add(ExpansionTileElement(header: Text(profileService!.userInformation!.user_info_contacts![i].value_contact!, style: TextStyle(fontSize: 18)), tileText: Text("Настройки", style: TextStyle(color: colorGrayClaim))));
+        messangers.add(ExpansionTileElement(header: Text(profileService!.userInformation!.user_info_contacts![i].value_contact!, style: TextStyle(fontSize: 18)), body: ColtactColtrols(),
+         tileText: Text("Настройки", style: TextStyle(color: colorGrayClaim))));
       }
     }
     super.didChangeDependencies();

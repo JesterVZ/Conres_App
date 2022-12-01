@@ -144,7 +144,7 @@ class _ObjectsPU extends State<ObjectsPU> {
                               )).show();
                         },
                         child: const Text("Новый объект",
-                            style: TextStyle(fontSize: 14)),
+                            style: TextStyle(fontSize: 18)),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: colorMain,
                             shape: RoundedRectangleBorder(
@@ -163,7 +163,7 @@ class _ObjectsPU extends State<ObjectsPU> {
                                   builder: (context) => LinkPUStep1()));
                         },
                         child: const Text("Новый ПУ",
-                            style: TextStyle(fontSize: 14)),
+                            style: TextStyle(fontSize: 18)),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: colorMain,
                             shape: RoundedRectangleBorder(
