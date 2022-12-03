@@ -137,6 +137,7 @@ flutter:
     - assets/edit.svg
     - assets/search.svg
     - assets/lock_profile.svg
+    - assets/list-close.svg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -52,13 +52,15 @@ class _ObjectsPU extends State<ObjectsPU> {
                       height: 55,
                       child: ElevatedButton(
                         onPressed: () {
-
                           AwesomeDialog(
                               context: context,
                               animType: AnimType.bottomSlide,
                               dialogType: DialogType.noHeader,
                               body: Container(
-                                padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding, bottom: 17),
+                                padding: EdgeInsets.only(
+                                    left: defaultSidePadding,
+                                    right: defaultSidePadding,
+                                    bottom: 17),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8)),
                                 child: Column(children: [
@@ -182,15 +184,36 @@ class _ObjectsPU extends State<ObjectsPU> {
     if (state.objectsPU != null) {
       objects = state.objectsPU!;
       body = ListView.builder(
-                      controller: scrollController,
-                      itemCount: objects.length,
-                      itemBuilder: (context, int index) {
-                        return ObjectPU(objectPuModel: objects[index]);
-                      });
+          controller: scrollController,
+          itemCount: objects.length,
+          itemBuilder: (context, int index) {
+            return ObjectPU(
+                objectPuModel: objects[index], remove: removeObject);
+          });
     }
-    if(state.objectsPU != null && state.objectsPU!.isEmpty){
-      body = NotFound(title: "Объекты", text: "По данному лицевому счету не найдены объекты.");
+    if (state.objectsPU != null && state.objectsPU!.isEmpty) {
+      body = NotFound(
+          title: "Объекты",
+          text: "По данному лицевому счету не найдены объекты.");
     }
+  }
+
+  void removeObject(ObjectPuModel objectPuModel) {
+    /*
+    profileBloc!.hiddenAccout(contract.account_id!);
+    dynamic message = MessageSend(
+                    cmd: "publish",
+                    subject: "store-${store_id}",
+                    event: "account_hidden",
+                    data: AccountHidden(account_id: contract.account_id),
+                    to_id: int.parse(user_id!)
+                  );
+      String data = jsonEncode(message.toJson());
+      webSocketChannel!.sink.add(data);
+    setState(() {
+      contractsMap.remove(contract.account_id);
+    });
+    */
   }
 
   @override
