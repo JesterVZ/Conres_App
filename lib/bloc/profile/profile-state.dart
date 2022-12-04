@@ -153,7 +153,7 @@ class ProfileState {
         ticketCounter: ticketCounter,
         claimCounter: claimCounter,
         privatePolicyString: privatePolicyString,
-        TuPoints: TuPoints,
+        TuPoints: TuPoints ?? this.TuPoints,
         ticketFullInfo: ticketFullInfo,
         sendMessageData: sendMessageData,
         webSocketData: webSocketData,

@@ -37,10 +37,7 @@ class _RegFL extends State<RegFL> {
   final _formKey = GlobalKey<FormState>();
 
   void _push() {
-    Navigator.push(
-        context,
-        DefaultPageRouter(
-             const ChangeType(isReg: false)));
+    Navigator.push(context, DefaultPageRouter(const ChangeType(isReg: false)));
   }
 
   @override
@@ -66,7 +63,11 @@ class _RegFL extends State<RegFL> {
                           Column(
                             children: [
                               Padding(
-                                  padding: EdgeInsets.fromLTRB(defaultSidePadding, 74, defaultSidePadding, 54),
+                                  padding: EdgeInsets.fromLTRB(
+                                      defaultSidePadding,
+                                      74,
+                                      defaultSidePadding,
+                                      54),
                                   child: Form(
                                       key: _formKey,
                                       child: Column(
@@ -319,7 +320,11 @@ class _RegFL extends State<RegFL> {
                                                                     ? Colors
                                                                         .green
                                                                     : Colors
-                                                                        .red))),
+                                                                        .red),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10))),
                                                     onChanged: (value) {
                                                       setState(() {
                                                         _isEmailValidation =
@@ -375,6 +380,8 @@ class _RegFL extends State<RegFL> {
                                               margin: const EdgeInsets.fromLTRB(
                                                   0, 0, 0, 18),
                                               child: CheckboxListTile(
+                                                activeColor: colorMain,
+                                                controlAffinity: ListTileControlAffinity.leading,
                                                   title: RichText(
                                                       text: TextSpan(children: [
                                                     TextSpan(

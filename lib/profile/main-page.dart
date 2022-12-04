@@ -226,7 +226,7 @@ class _MainPage extends State<MainPage> {
               break;
             case "account_accept":
               updateAccountService!.update!
-                  .call(webSocketData!.data['account_id'], "2" //активный
+                  .call(webSocketData!.data['account_id'], "2", null
                       );
               break;
             case "account_cancel":

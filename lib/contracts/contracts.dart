@@ -100,6 +100,15 @@ class _Contracts extends State<Contracts> {
     }
     setState(() {
       contractsMap.update(id, (value) => newContract);
+      body = ListView.builder(
+          itemCount: contractsMap.length,
+          itemBuilder: (context, int index) {
+            return ContractElement(
+                contract: contractsMap.values.elementAt(index),
+                func: widget.func,
+                remove: removeContract,
+                bottomNavigationSelectService: bottomNavigationSelectService!);
+          });
     });
   }
 
@@ -116,6 +125,15 @@ class _Contracts extends State<Contracts> {
       webSocketChannel!.sink.add(data);
     setState(() {
       contractsMap.remove(contract.account_id);
+      body = ListView.builder(
+          itemCount: contractsMap.length,
+          itemBuilder: (context, int index) {
+            return ContractElement(
+                contract: contractsMap.values.elementAt(index),
+                func: widget.func,
+                remove: removeContract,
+                bottomNavigationSelectService: bottomNavigationSelectService!);
+          });
     });
     
   }

@@ -62,7 +62,8 @@ class _MaskInput extends State<MaskInput> {
                   borderRadius: BorderRadius.circular(10)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: _isPhoneValidate ? Colors.green : Colors.red))),
+                      color: _isPhoneValidate ? Colors.green : Colors.red),
+                  borderRadius: BorderRadius.circular(10))),
           onChanged: (value) {
             setState(() {
               _isPhoneValidate = isPhoneValidate(value);
@@ -91,7 +92,8 @@ class _MaskInput extends State<MaskInput> {
                   borderRadius: BorderRadius.circular(10)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: _isInnValidate ? Colors.green : Colors.red))),
+                      color: _isInnValidate ? Colors.green : Colors.red),
+                  borderRadius: BorderRadius.circular(10))),
           onChanged: (value) {
             setState(() {
               _isInnValidate = isInnValidate(value);
@@ -120,7 +122,8 @@ class _MaskInput extends State<MaskInput> {
                   borderRadius: BorderRadius.circular(10)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: _isInnValidate ? Colors.green : Colors.red))),
+                      color: _isInnValidate ? Colors.green : Colors.red),
+                  borderRadius: BorderRadius.circular(10))),
           onChanged: (value) {
             setState(() {
               _isInnValidate = isInnIpValidate(value);
@@ -149,7 +152,8 @@ class _MaskInput extends State<MaskInput> {
                   borderRadius: BorderRadius.circular(10)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: _isSnilsValidate ? Colors.green : Colors.red))),
+                      color: _isSnilsValidate ? Colors.green : Colors.red),
+                  borderRadius: BorderRadius.circular(10))),
           onChanged: (value) {
             setState(() {
               _isSnilsValidate = isSnilsValidate(value);
@@ -178,7 +182,8 @@ class _MaskInput extends State<MaskInput> {
                   borderRadius: BorderRadius.circular(10)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: _isOgrnValidate ? Colors.green : Colors.red))),
+                      color: _isOgrnValidate ? Colors.green : Colors.red),
+                  borderRadius: BorderRadius.circular(10))),
           onChanged: (value) {
             setState(() {
               _isOgrnValidate = isOgrnValidate(value);
@@ -208,7 +213,8 @@ class _MaskInput extends State<MaskInput> {
                   borderRadius: BorderRadius.circular(10)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: _isOfrnipValidate ? Colors.green : Colors.red))),
+                      color: _isOfrnipValidate ? Colors.green : Colors.red),
+                  borderRadius: BorderRadius.circular(10))),
           onChanged: (value) {
             setState(() {
               _isOfrnipValidate = isOgrnipValidate(value);
@@ -238,7 +244,8 @@ class _MaskInput extends State<MaskInput> {
                   borderRadius: BorderRadius.circular(10)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: _isOfrnipValidate ? Colors.green : Colors.red))),
+                      color: _isOfrnipValidate ? Colors.green : Colors.red),
+                  borderRadius: BorderRadius.circular(10))),
           onChanged: (value) {
             setState(() {
               _isOfrnipValidate = isOgrnipUlValidate(value);
@@ -267,7 +274,8 @@ class _MaskInput extends State<MaskInput> {
                   borderRadius: BorderRadius.circular(10)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: _isEmailValidate ? Colors.green : Colors.red))),
+                      color: _isEmailValidate ? Colors.green : Colors.red),
+                  borderRadius: BorderRadius.circular(10))),
           onChanged: (value) {
             setState(() {
               _isEmailValidate = isEmailValidate(value);
@@ -296,7 +304,8 @@ class _MaskInput extends State<MaskInput> {
                   borderRadius: BorderRadius.circular(10)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: _isKppValidate ? Colors.green : Colors.red))),
+                      color: _isKppValidate ? Colors.green : Colors.red),
+                  borderRadius: BorderRadius.circular(10))),
           onChanged: (value) {
             setState(() {
               _isKppValidate = isKppValidate(value);
@@ -325,7 +334,8 @@ class _MaskInput extends State<MaskInput> {
                   borderRadius: BorderRadius.circular(10)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: _islsValidate ? Colors.green : Colors.red))),
+                      color: _islsValidate ? Colors.green : Colors.red),
+                  borderRadius: BorderRadius.circular(10))),
           onChanged: (value) {
             setState(() {
               _islsValidate = isLsvalidate(value);
