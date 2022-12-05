@@ -169,4 +169,9 @@ class ProfileRepo {
     var result = await httpClient.bindNewObject(objectName, objectAddress);
     return result;
   }
+
+  Future<dynamic> bindNewTU(String object_id, String new_tu_number, String new_tu_name, String new_tu_address) async{
+    var result = await httpClient.bindNewTU(object_id, new_tu_number, new_tu_name, new_tu_address);
+    return result;
+  }
 }

@@ -304,3 +304,4 @@ class ObjectHidden{
     'object_id': object_id
   };
 }
+

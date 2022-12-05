@@ -97,6 +97,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleHideObject(event);
     } else if(event is BindNewObject){
       yield* _handleBindNewObject(event);
+    } else if(event is BindNewTU){
+      yield* _handleBindTU(event);
     }
   }
 
@@ -235,6 +237,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   bindNewObject(String objectName, String objectAddress){
     add(BindNewObject(objectName, objectAddress));
+  }
+
+  bindNewTU(String object_id, String new_tu_number, String new_tu_name, String new_tu_address){
+    add(BindNewTU(object_id, new_tu_number, new_tu_name, new_tu_address));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -621,5 +627,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield state.copyWith(loading: false, error: e.toString());
     }
     
+  }
+
+  Stream<ProfileState> _handleBindTU(BindNewTU event) async*{
+    try{
+      var result = await repo.bindNewTU(event.object_id, event.new_tu_number, event.new_tu_name, event.new_tu_address);
+      yield state.copyWith(loading: false, error: null, bindTuData: result);
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
   }
 }

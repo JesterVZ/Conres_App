@@ -82,6 +82,25 @@ class HttpClient {
     }
   }
 
+  Future<dynamic> bindNewTU(String object_id, String new_tu_number, String new_tu_name, String new_tu_address) async {
+    String uri = domain + 'lk/index.php?route=catalog/pu_info/api_bind_request_tu';
+    try {
+      var formData = FormData.fromMap({
+        'object_id': object_id,
+        'new_tu_number': new_tu_number,
+        'new_tu_name': new_tu_name,
+        'new_tu_address': new_tu_address,
+        'isMobile': '1'
+      });
+      final result = await _apiClient.post(uri, data: formData);
+      if (result.statusCode == 200) {
+        return result.data['data'];
+      }
+    } catch (e) {
+      return e;
+    }
+  }
+
   Future<dynamic> register(Object sender) async {
     String url = domain + 'lk/index.php?route=common/registration/api';
     if (sender is Fl) {

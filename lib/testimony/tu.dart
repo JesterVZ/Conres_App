@@ -1,4 +1,5 @@
 import 'package:conres_app/model/TU.dart';
+import 'package:conres_app/model/object_pu.dart';
 import 'package:conres_app/profile/main-page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,9 @@ import 'link-pu/link-pu-step-1.dart';
 import 'link-tu/link-tu.dart';
 
 class PageTU extends StatefulWidget {
+  ObjectPuModel currentPU;
+
+  PageTU({required this.currentPU});
   @override
   State<StatefulWidget> createState() => _PageTU();
 }
@@ -25,8 +29,12 @@ class PageTU extends StatefulWidget {
 class _PageTU extends State<PageTU> {
   ProfileBloc? profileBloc;
   List<TuModel> objects = []; // ТУ
+  Map<String, dynamic> objectsTuMap = {};
   Widget body = Container();
   ScrollController scrollController = ScrollController();
+
+  bool isLoaded = false;
+  bool? isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +45,29 @@ class _PageTU extends State<PageTU> {
           return MainForm(
               onRefrash: _refrash,
               header: HeaderNotification(canGoBack: true, text: "Точки учета"),
-              body: body,
+              body: Stack(
+              children: [
+                ListView.builder(
+                  itemCount: objectsTuMap.length,
+                  itemBuilder: (context, int index) {
+                    return TuElement(currentTu: objectsTuMap.values.elementAt(index));
+                  }),
+                Visibility(
+                  visible: objectsTuMap.isEmpty && isLoading == false ? true : false,
+                  child: NotFound(
+                    title: "Точки учета",
+                    text: "По данному объекту не найдены точки учета."),
+                ),
+                Visibility(
+                          child: Center(
+                              child: Container(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator(color: colorMain),
+                          )),
+                          visible: (isLoading == true) ? true : false)
+              ],
+            ),
               footer: Container(
                 child: Row(
                   children: [
@@ -52,7 +82,7 @@ class _PageTU extends State<PageTU> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => LinkTu()));
+                                    builder: (context) => LinkTu(currentPU: widget.currentPU)));
                           },
                           child: const Text("Новый ТУ",
                               style: TextStyle(fontSize: 18)),
@@ -90,22 +120,16 @@ class _PageTU extends State<PageTU> {
     if (state.loading == true) {
       return;
     }
-    if (state.TuPoints != null) {
-      objects = state.TuPoints!;
-      body = ListView.builder(
-          controller: scrollController,
-          itemCount: objects.length,
-          itemBuilder: (context, int index) {
-            return TuElement(currentTu: objects[index]);
-          });
-    } else {
-      body = NotFound(
-          title: "Точки учета",
-          text: "По данному объекту счету не найдены точки учета.");
+    if (state.TuPoints != null && isLoaded == false) {
+      objectsTuMap = {for (var e in state.TuPoints!) e.point_id!: e};
+      isLoaded = true;
     }
   }
 
-  Future<void> _refrash() async {}
+  Future<void> _refrash() async {
+    isLoaded = false;
+    profileBloc!.getTuPoints();
+  }
 
   void _edit() {
     showDialog(

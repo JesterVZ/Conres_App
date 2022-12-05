@@ -199,3 +199,11 @@ class BindNewObject extends ProfileEvent{
   String objectAddress;
   BindNewObject(this.objectName, this.objectAddress);
 }
+
+class BindNewTU extends ProfileEvent{
+  String object_id;
+  String new_tu_number;
+  String new_tu_name;
+  String new_tu_address;
+  BindNewTU(this.object_id, this.new_tu_number, this.new_tu_name, this.new_tu_address);
+}

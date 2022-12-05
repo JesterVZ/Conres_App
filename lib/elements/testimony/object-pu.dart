@@ -149,9 +149,9 @@ class _ObjectPU extends State<ObjectPU> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PageTU()));
+                                  builder: (context) => PageTU(currentPU: widget.objectPuModel,)));
                         },
-                        style: ElevatedButton.styleFrom(primary: messageColor),
+                        style: ElevatedButton.styleFrom(backgroundColor: messageColor),
                         child: Text("Подробнее",
                             style: TextStyle(color: colorMain))),
                   ),

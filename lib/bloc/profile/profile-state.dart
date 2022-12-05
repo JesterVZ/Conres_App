@@ -39,6 +39,7 @@ class ProfileState {
   final dynamic webSocketData;
   final Map<String, dynamic>? bindLsData;
   final Map<String, dynamic>? bindObjectData;
+  final Map<String, dynamic>? bindTuData;
   final Map<String, dynamic>? sendMessageData;
   final Map<String, dynamic>? createTicketData;
   final Map<String, dynamic>? createClaimData;
@@ -57,6 +58,7 @@ class ProfileState {
       this.webSocketData,
       this.bindLsData,
       this.bindObjectData,
+      this.bindTuData,
       this.fullInfo,
       this.contracts,
       this.numbers,
@@ -87,6 +89,7 @@ class ProfileState {
       TuPoints: null,
       bindLsData: null,
       bindObjectData: null,
+      bindTuData: null,
       claimCounter: null,
       claimMessages: null,
       claims: null,
@@ -118,6 +121,7 @@ class ProfileState {
       Map<String, dynamic>? bindLsData,
       Map<String, dynamic>? bindObjectData,
       Map<String, dynamic>? sendMessageData,
+      Map<String, dynamic>? bindTuData,
       dynamic webSocketData,
       List<Contract>? contracts,
       List<String>? numbers,
@@ -147,6 +151,7 @@ class ProfileState {
         isMeasureSent: isMeasureSent,
         bindLsData: bindLsData,
         bindObjectData: bindObjectData,
+        bindTuData: bindTuData,
         contracts: contracts ?? this.contracts,
         numbers: numbers ?? this.numbers,
         claims: claims ?? this.claims,
