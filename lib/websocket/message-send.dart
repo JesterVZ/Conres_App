@@ -266,3 +266,41 @@ class Contacts {
   Contacts({required this.phone, required this.email});
   Map<String, dynamic> toJson() => {'2': phone, '3': email};
 }
+
+class ObjectNew{
+  int? object_id;
+  String? user_lk_id;
+  String? account_id;
+  String? account_number;
+  String? date_added;
+  String? object_name;
+  String? object_address;
+
+  ObjectNew({
+    required this.object_id,
+    required this.user_lk_id,
+    required this.account_id,
+    required this.account_number,
+    required this.date_added,
+    required this.object_name,
+    required this.object_address
+  });
+
+  Map<String, dynamic> toJson() => {
+        'object_id': object_id,
+        'user_lk_id': user_lk_id,
+        'account_id': account_id,
+        'account_number': account_number,
+        'date_added': date_added,
+        'object_name': object_name,
+        'object_address': object_address
+      };
+}
+
+class ObjectHidden{
+  int? object_id;
+  ObjectHidden({required this.object_id});
+  Map<String, dynamic> toJson() => {
+    'object_id': object_id
+  };
+}

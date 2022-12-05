@@ -38,7 +38,8 @@ class _Claims extends State<Claims> {
   BaseClaimSendService? baseClaimSendService;
   MainClaimSendService? mainClaimSendService;
 
-  Widget body = Container();
+  bool isLoaded = false;
+  bool? isLoading;
 
   @override
   void initState() {
@@ -47,11 +48,13 @@ class _Claims extends State<Claims> {
   }
 
   void refrashDelegate() {
+    isLoaded = false;
     claims.clear();
     profileBloc!.getClaims();
   }
 
   Future<void> _refrash() async {
+    isLoaded = false;
     claims.clear();
     profileBloc!.getClaims();
   }
@@ -64,7 +67,32 @@ class _Claims extends State<Claims> {
         builder: (context, state) {
           return MainForm(
               header: HeaderNotification(text: "Заявления"),
-              body: body,
+              body: Stack(
+              children: [
+                ListView.builder(
+                  itemCount: claimsMap.length,
+                  itemBuilder: (context, int index) {
+                    return ClaimElement(
+                        currentClaim: claimsMap.values.elementAt(index),
+                        downloadFunction: downloadClaim,
+                        mainListener: widget.mainListener);
+                  }),
+                Visibility(
+                  visible: claimsMap.isEmpty && isLoading == false ? true : false,
+                  child: NotFound(
+                    title: "Заявления",
+                    text: "По данному лицевому счету не найдены заявления"),
+                ),
+                Visibility(
+                          child: Center(
+                              child: Container(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator(color: colorMain),
+                          )),
+                          visible: (isLoading == true) ? true : false)
+              ],
+            ),
               footer: DefaultButton(
                 isGetPadding: true,
                 onPressed: () {
@@ -81,26 +109,17 @@ class _Claims extends State<Claims> {
 
   _listener(BuildContext context, ProfileState state) {
     if (state.loading == true) {
+      isLoading = true;
       return;
+    } else {
+      isLoading = false;
     }
     if (state.fullInfo != null) {
       userId = state.fullInfo!['user_id'];
-      if (state.claims != null) {
+      if (state.claims != null && state.claims!.isNotEmpty && isLoaded == false) {
         if (claims.isEmpty) {
-          setState(() {
-            claimsMap = {for (var e in state.claims!) e.claim_id!: e};
-            body = ListView.builder(
-                  itemCount: claimsMap.length,
-                  itemBuilder: (context, int index) {
-                    return ClaimElement(
-                        currentClaim: claimsMap.values.elementAt(index),
-                        downloadFunction: downloadClaim,
-                        mainListener: widget.mainListener);
-                  });
-          });
-        }
-        if(state.claims!.isEmpty){
-          body = NotFound(title: "Заявления", text: "По данному лицевому счету не найдены заявления");
+          claimsMap = {for (var e in state.claims!) e.claim_id!: e};
+          isLoaded = true;
         }
       }
     }

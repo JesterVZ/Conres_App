@@ -1,0 +1,3 @@
+class UpdateObjectService{
+  Function? update;
+}

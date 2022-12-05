@@ -159,4 +159,14 @@ class ProfileRepo {
     var result = await httpClient.hideAccount(account_id);
     return result;
   }
+
+  Future<dynamic> hideObject(String object_id) async{
+    var result = await httpClient.hideObject(object_id);
+    return result;
+  }
+
+  Future<dynamic> bindNewObject(String objectName, String objectAddress) async{
+    var result = await httpClient.bindNewObject(objectName, objectAddress);
+    return result;
+  }
 }

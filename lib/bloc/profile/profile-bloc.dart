@@ -93,6 +93,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleEditObject(event);
     } else if (event is EditTu) {
       yield* _handleEditTu(event);
+    } else if(event is HiddenObjectRequest){
+      yield* _handleHideObject(event);
+    } else if(event is BindNewObject){
+      yield* _handleBindNewObject(event);
     }
   }
 
@@ -223,6 +227,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   hiddenAccout(String account_id) {
     add(HiddenAccountRequest(account_id));
+  }
+
+  hiddenObject(String object_id){
+    add(HiddenObjectRequest(object_id));
+  }
+
+  bindNewObject(String objectName, String objectAddress){
+    add(BindNewObject(objectName, objectAddress));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -595,5 +607,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   Stream<ProfileState> _handleHideAccount(HiddenAccountRequest event) async* {
     var result = await repo.hideAccount(event.account_id);
+  }
+
+  Stream<ProfileState> _handleHideObject(HiddenObjectRequest event) async* {
+    var result = await repo.hideObject(event.object_id);
+  }
+
+  Stream<ProfileState> _handleBindNewObject(BindNewObject event) async* {
+    try{
+      var result = await repo.bindNewObject(event.objectName, event.objectAddress);
+      yield state.copyWith(loading: false, error: null, bindObjectData: result);
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+    
   }
 }

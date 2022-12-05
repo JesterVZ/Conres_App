@@ -148,16 +148,21 @@ class _NewClaimStep1 extends State<NewClaimStep1> {
                                               validatorText:
                                                   "Введите место выдачи"),
                                         ),
+                                        
                                         Container(
                                           margin: const EdgeInsets.fromLTRB(
                                               0, 12, 0, 18),
-                                          child: DefaultInput(
-                                              controller: phoneController,
-                                              keyboardType:
-                                                  TextInputType.number,
-                                              labelText: "Телефон",
-                                              hintText: "+7 (999)-000-00-00",
-                                              validatorText: "Введите телефон"),
+                                          child: MaskInput(
+                                                    textController:
+                                                        phoneController,
+                                                    formatter:
+                                                        MaskTextInputFormatter(
+                                                            mask:
+                                                                "+7 (###) ###-##-##"),
+                                                    hint:
+                                                        "+7 (___) - ___ - __ - __",
+                                                    type: "phone",
+                                                  ),
                                         ),
                                         Container(
                                             margin: const EdgeInsets.fromLTRB(

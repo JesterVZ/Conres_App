@@ -5,6 +5,7 @@ import 'package:conres_app/DI/locator.dart';
 import 'package:conres_app/Services/profile-service.dart';
 import 'package:conres_app/Services/update-account-service.dart';
 import 'package:conres_app/Services/update-claim-service.dart';
+import 'package:conres_app/Services/update-object-service.dart';
 import 'package:conres_app/Services/update-ticket-service.dart';
 import 'package:conres_app/bloc/auth/auth-block.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
@@ -45,6 +46,7 @@ class _MainPage extends State<MainPage> {
   UpdateClaimService? updateClaimService;
   UpdateTicketService? updateTicketService;
   UpdateAccountService? updateAccountService;
+  UpdateObjectService? updateObjectService;
   BottomNavigationSelectService? bottomNavigationSelectService;
   ProfileService? profileService;
   int? ticketCounter;
@@ -213,17 +215,20 @@ class _MainPage extends State<MainPage> {
                 wsMap['data']['counters']['new_claims_messages_count']);
           }
           switch (webSocketData!.event) {
+            //claim events
             case "claim_status":
               updateClaimService!.update!.call(
                   webSocketData!.data['claim_id'],
                   webSocketData!.data['status'],
                   webSocketData!.data['status_pay']);
               break;
+            //ticket events
             case "ticket_msg":
               updateTicketService!.update!.call(
                   webSocketData!.data['ticket_info'][0]['ticket_id'],
                   webSocketData!.data['ticket_info'][0]['name']);
               break;
+              //account events
             case "account_accept":
               updateAccountService!.update!
                   .call(webSocketData!.data['account_id'], "2", null
@@ -237,6 +242,14 @@ class _MainPage extends State<MainPage> {
                       'comment'] //комментарий, который написал челик из РСО
                   );
               break;
+            case "object_binding_cancel":
+            updateObjectService!.update!.call(webSocketData!.data['object_id'], "0", webSocketData!.data[
+                      'comment']);
+            break;
+            case "object_binding_accept":
+            updateObjectService!.update!.call(webSocketData!.data['object_id'], "2", webSocketData!.data[
+                      'comment']);
+            break;
           }
         } catch (e) {
           print(e);
@@ -254,6 +267,7 @@ class _MainPage extends State<MainPage> {
     webSocketListener ??= DependencyProvider.of(context)!.webSocketListener;
     updateClaimService ??= DependencyProvider.of(context)!.updateClaimService;
     updateTicketService ??= DependencyProvider.of(context)!.updateTicketService;
+    updateObjectService ??= DependencyProvider.of(context)!.updateObjectService;
     profileService ??= DependencyProvider.of(context)!.profileService;
     updateAccountService ??=
         DependencyProvider.of(context)!.updateAccountService;

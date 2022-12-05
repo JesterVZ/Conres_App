@@ -9,6 +9,7 @@ import 'package:conres_app/elements/not-found.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../DI/dependency-provider.dart';
+import '../consts.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/chat/ticket-row.dart';
 import '../enums/chat-types.dart';
@@ -34,9 +35,9 @@ class _Chats extends State<Chats> {
 
   String? userId;
   int page = 1;
+  bool isLoaded = false;
   bool isLoading = true;
 
-  Widget body = Container();
   @override
   void initState() {
     scrollController.addListener(_pagination);
@@ -44,15 +45,18 @@ class _Chats extends State<Chats> {
   }
 
   void refrashDelegate() {
+    isLoaded = false;
     tickets.clear();
     profileBloc!.getTickets(page.toString());
   }
 
   Future<void> _refrash() async {
+    isLoaded = false;
     tickets.clear();
     profileBloc!.getTickets(page.toString());
   }
 
+/*
   @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(
@@ -61,7 +65,35 @@ class _Chats extends State<Chats> {
         builder: (context, state) {
           return MainForm(
               header: HeaderNotification(text: "Обращения"),
-              body: body,
+              body: Stack(
+              children: [
+                ListView.builder(
+                  controller: scrollController,
+                  itemCount: ticketsMap.length,
+                  itemBuilder: (context, int index) {
+                    return TicketRow(
+                        ticket: ticketsMap.values.elementAt(index),
+                        openChat: _openChat,
+                        counter: ticketsMap.values
+                            .elementAt(index)
+                            .count_tm_resiver);
+                  }),
+                Visibility(
+                  visible: ticketsMap.isEmpty && isLoading == false ? true : false,
+                  child: NotFound(
+                    title: "Обращения",
+                    text: "У вас возникли вопросы или появилась проблема?Создайте обращение и мы ответим вам в ближайщее время."),
+                ),
+                Visibility(
+                          child: Center(
+                              child: Container(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator(color: colorMain),
+                          )),
+                          visible: (isLoading == true) ? true : false)
+              ],
+            ),
               footer: DefaultButton(
                   text: "Новое обращение",
                   isGetPadding: true,
@@ -75,14 +107,62 @@ class _Chats extends State<Chats> {
               onRefrash: _refrash);
         });
   }
-
+*/
+@override
+  Widget build(BuildContext context) {
+    return BlocScreen<ProfileBloc, ProfileState>(
+        bloc: profileBloc,
+        listener: (context, state) => _listener(context, state),
+        builder: (context, state) {
+          return MainForm(
+              header: HeaderNotification(text: "Заявления"),
+              body: Stack(
+              children: [
+                ListView.builder(
+                  itemCount: ticketsMap.length,
+                  itemBuilder: (context, int index) {
+                    return TicketRow(
+                        ticket: ticketsMap.values.elementAt(index),
+                        openChat: _openChat,
+                        counter: ticketsMap.values
+                            .elementAt(index)
+                            .count_tm_resiver);
+                  }),
+                Visibility(
+                  visible: ticketsMap.isEmpty && isLoading == false ? true : false,
+                  child: NotFound(
+                    title: "Обращения",
+                    text: "У вас возникли вопросы или появилась проблема?Создайте обращение и мы ответим вам в ближайщее время."),
+                ),
+                Visibility(
+                          child: Center(
+                              child: Container(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator(color: colorMain),
+                          )),
+                          visible: (isLoading == true) ? true : false)
+              ],
+            ),
+              footer: DefaultButton(
+                isGetPadding: true,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewChat(refrash: refrashDelegate)));
+                },
+                text: "Новое заявление",
+              ),
+              onRefrash: _refrash);
+        });
+  }
   _listener(BuildContext context, ProfileState state) {
-    if(state.loading != null) {
-      isLoading = state.loading!;
-    }
-    
     if (state.loading == true) {
+      isLoading = true;
       return;
+    } else {
+      isLoading = false;
     }
     if (state.fullInfo != null) {
       userId = state.fullInfo!['user_id'];
@@ -96,17 +176,7 @@ class _Chats extends State<Chats> {
               page == 1)) {
         tickets = state.tickets!;
         ticketsMap = {for (var e in state.tickets!) e.ticket_id!: e};
-        body = ListView.builder(
-                  controller: scrollController,
-                  itemCount: ticketsMap.length,
-                  itemBuilder: (context, int index) {
-                    return TicketRow(
-                        ticket: ticketsMap.values.elementAt(index),
-                        openChat: _openChat,
-                        counter: ticketsMap.values
-                            .elementAt(index)
-                            .count_tm_resiver);
-                  });
+
       }
 
       if ((int.parse(state.page!) == page) && page > 1) {
@@ -115,9 +185,6 @@ class _Chats extends State<Chats> {
       }
 
     }
-    if(state.tickets != null && state.tickets!.isEmpty){
-        body = NotFound(title: "Обращения", text: "У вас возникли вопросы или появилась проблема?Создайте обращение и мы ответим вам в ближайщее время.");
-      }
   }
 
   void _pagination() {

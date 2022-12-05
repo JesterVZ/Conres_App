@@ -188,3 +188,14 @@ class HiddenAccountRequest extends ProfileEvent {
   String account_id;
   HiddenAccountRequest(this.account_id);
 }
+
+class HiddenObjectRequest extends ProfileEvent{
+  String object_id;
+  HiddenObjectRequest(this.object_id);
+}
+
+class BindNewObject extends ProfileEvent{
+  String objectName; 
+  String objectAddress;
+  BindNewObject(this.objectName, this.objectAddress);
+}

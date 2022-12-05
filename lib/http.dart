@@ -65,6 +65,23 @@ class HttpClient {
     }
   }
 
+  Future<dynamic> bindNewObject(String objectName, String objectAddress) async {
+    String uri = domain + 'lk/index.php?route=catalog/objects/api_bind_request';
+    try {
+      var formData = FormData.fromMap({
+        'new_object_name': objectName,
+        'new_object_address': objectAddress,
+        'isMobile': '1'
+      });
+      final result = await _apiClient.post(uri, data: formData);
+      if (result.statusCode == 200) {
+        return result.data['data'];
+      }
+    } catch (e) {
+      return e;
+    }
+  }
+
   Future<dynamic> register(Object sender) async {
     String url = domain + 'lk/index.php?route=common/registration/api';
     if (sender is Fl) {
@@ -295,6 +312,16 @@ class HttpClient {
     String uri = domain +
         'lk/index.php?route=contracts/contracts/api_hidden_acc_request';
     var formData = FormData.fromMap({'account_id': account_id});
+    final result = await _apiClient.post(uri, data: formData);
+    if (result.statusCode == 200) {
+      return true;
+    }
+  }
+
+  Future<dynamic> hideObject(String object_id) async {
+    String uri = domain +
+        'lk/index.php?route=catalog/objects/api_deleteObject';
+    var formData = FormData.fromMap({'object_id': object_id, 'isMobile': '1'});
     final result = await _apiClient.post(uri, data: formData);
     if (result.statusCode == 200) {
       return true;

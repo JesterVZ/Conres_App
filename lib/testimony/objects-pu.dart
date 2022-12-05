@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:conres_app/Services/update-object-service.dart';
 import 'package:conres_app/UI/main-form.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
@@ -7,6 +10,7 @@ import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/model/object_pu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../DI/dependency-provider.dart';
 import '../UI/default-button.dart';
@@ -16,7 +20,9 @@ import '../elements/bloc/bloc-screen.dart';
 import '../elements/not-found.dart';
 import '../elements/testimony/object-pu-dialog.dart';
 import '../elements/testimony/object-pu.dart';
+import '../websocket/message-send.dart';
 import 'link-pu/link-pu-step-1.dart';
+import 'new-object/new-object.dart';
 
 class ObjectsPU extends StatefulWidget {
   @override
@@ -24,11 +30,19 @@ class ObjectsPU extends StatefulWidget {
 }
 
 class _ObjectsPU extends State<ObjectsPU> {
-  Future<void> _refrash() async {}
+  Future<void> _refrash() async {
+    isLoaded = false;
+    profileBloc!.getObjectsPU();
+  }
+
   ProfileBloc? profileBloc;
-  List<ObjectPuModel> objects = [];
+  Map<String, dynamic> objectsMap = {};
   ScrollController scrollController = ScrollController();
-  Widget body = Container();
+  UpdateObjectService? updateObjectService;
+  WebSocketChannel? webSocketChannel;
+
+  bool isLoaded = false;
+  bool? isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +55,30 @@ class _ObjectsPU extends State<ObjectsPU> {
                 text: "Ваши объекты",
                 canGoBack: true,
               ),
-              body: body,
+              body: Stack(
+              children: [
+                ListView.builder(
+                  itemCount: objectsMap.length,
+                  itemBuilder: (context, int index) {
+                    return ObjectPU(
+                      objectPuModel: objectsMap.values.elementAt(index), remove: removeObject);
+                  }),
+                Visibility(
+                  visible: objectsMap.isEmpty && isLoading == false ? true : false,
+                  child: NotFound(
+                    title: "Объекты",
+                    text: "По данному лицевому счету не найдены объекты."),
+                ),
+                Visibility(
+                          child: Center(
+                              child: Container(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator(color: colorMain),
+                          )),
+                          visible: (isLoading == true) ? true : false)
+              ],
+            ),
               footer: Row(
                 children: [
                   Container(
@@ -52,98 +89,7 @@ class _ObjectsPU extends State<ObjectsPU> {
                       height: 55,
                       child: ElevatedButton(
                         onPressed: () {
-                          AwesomeDialog(
-                              context: context,
-                              animType: AnimType.bottomSlide,
-                              dialogType: DialogType.noHeader,
-                              body: Container(
-                                padding: EdgeInsets.only(
-                                    left: defaultSidePadding,
-                                    right: defaultSidePadding,
-                                    bottom: 17),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Column(children: [
-                                  Container(
-                                      margin: const EdgeInsets.fromLTRB(
-                                          0, 0, 0, 18),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text("Номер ТУ",
-                                              style: TextStyle(
-                                                  color: colorGray,
-                                                  fontSize: 16.0)),
-                                          TextField(
-                                            decoration: InputDecoration(
-                                                hintText: "Номер ТУ",
-                                                border: OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: inputBorder))),
-                                          )
-                                        ],
-                                      )),
-                                  Container(
-                                      margin: const EdgeInsets.fromLTRB(
-                                          0, 0, 0, 18),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text("Наименование ТУ",
-                                              style: TextStyle(
-                                                  color: colorGray,
-                                                  fontSize: 16.0)),
-                                          TextField(
-                                            decoration: InputDecoration(
-                                                hintText: "Наименование",
-                                                border: OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: inputBorder))),
-                                          )
-                                        ],
-                                      )),
-                                  Container(
-                                      margin: const EdgeInsets.fromLTRB(
-                                          0, 0, 0, 18),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text("Адрес ТУ",
-                                              style: TextStyle(
-                                                  color: colorGray,
-                                                  fontSize: 16.0)),
-                                          TextField(
-                                            decoration: InputDecoration(
-                                                hintText:
-                                                    "Город, Улица, Дом, Квартира",
-                                                border: OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: inputBorder))),
-                                          )
-                                        ],
-                                      )),
-                                  Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 55,
-                                      child: DefaultButton(
-                                        isGetPadding: false,
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          //profileBloc!.editTu(id, number, name, address);
-                                        },
-                                        text: "Принять",
-                                      ))
-                                ]),
-                              )).show();
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => NewObject(refrash: _refrash,)));
                         },
                         child: const Text("Новый объект",
                             style: TextStyle(fontSize: 18)),
@@ -181,44 +127,46 @@ class _ObjectsPU extends State<ObjectsPU> {
     if (state.loading == true) {
       return;
     }
-    if (state.objectsPU != null) {
-      objects = state.objectsPU!;
-      body = ListView.builder(
-          controller: scrollController,
-          itemCount: objects.length,
-          itemBuilder: (context, int index) {
-            return ObjectPU(
-                objectPuModel: objects[index], remove: removeObject);
-          });
-    }
-    if (state.objectsPU != null && state.objectsPU!.isEmpty) {
-      body = NotFound(
-          title: "Объекты",
-          text: "По данному лицевому счету не найдены объекты.");
+    if (state.objectsPU != null &&
+        isLoaded == false) {
+      objectsMap = {for (var e in state.objectsPU!) e.object_id!: e};
+      isLoaded = true;
     }
   }
 
+  void updateStatus(String id, String status, String? comment) {
+    ObjectPuModel newContract = objectsMap[id];
+    newContract.status = status;
+    if (comment != null) {
+      newContract.comments = comment;
+    }
+    setState(() {
+      objectsMap.update(id, (value) => newContract);
+    });
+  }
   void removeObject(ObjectPuModel objectPuModel) {
-    /*
-    profileBloc!.hiddenAccout(contract.account_id!);
+    profileBloc!.hiddenObject(objectPuModel.object_id!);
     dynamic message = MessageSend(
                     cmd: "publish",
                     subject: "store-${store_id}",
-                    event: "account_hidden",
-                    data: AccountHidden(account_id: contract.account_id),
+                    event: "object_binding_delete",
+                    data: ObjectHidden(object_id: int.parse(objectPuModel.object_id!)),
                     to_id: int.parse(user_id!)
                   );
       String data = jsonEncode(message.toJson());
       webSocketChannel!.sink.add(data);
     setState(() {
-      contractsMap.remove(contract.account_id);
+      objectsMap.remove(objectPuModel.object_id);
     });
-    */
   }
 
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    updateObjectService ??= DependencyProvider.of(context)!.updateObjectService;
+    webSocketChannel ??=
+        DependencyProvider.of(context)!.webSocketChannel(false);
+    updateObjectService!.update = updateStatus;
     profileBloc!.getObjectsPU();
     super.didChangeDependencies();
   }

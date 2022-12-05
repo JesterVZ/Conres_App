@@ -32,7 +32,6 @@ class Contracts extends StatefulWidget {
 
 class _Contracts extends State<Contracts> {
   ProfileBloc? profileBloc;
-  List<Contract> contracts = [];
   Map<String, dynamic> contractsMap = {};
   BottomNavigationSelectService? bottomNavigationSelectService;
   UpdateAccountService? updateAccountService;
@@ -41,10 +40,10 @@ class _Contracts extends State<Contracts> {
   Widget body = Container();
 
   bool isLoaded = false;
+  bool? isLoading;
 
   Future<void> _refrash() async {
     isLoaded = false;
-    contracts.clear();
     profileBloc!.getContracts();
   }
 
@@ -56,12 +55,41 @@ class _Contracts extends State<Contracts> {
         builder: (context, state) {
           return MainForm(
             header: HeaderNotification(text: "Договоры", canGoBack: false),
-            body: body,
+            body: Stack(
+              children: [
+                ListView.builder(
+                    itemCount: contractsMap.length,
+                    itemBuilder: (context, int index) {
+                      return ContractElement(
+                          contract: contractsMap.values.elementAt(index),
+                          func: widget.func,
+                          remove: removeContract,
+                          bottomNavigationSelectService:
+                              bottomNavigationSelectService!);
+                    }),
+                Visibility(
+                  visible: contractsMap.isEmpty && isLoading == false ? true : false,
+                  child: NotFound(
+          title: "Договоры",
+          text: "По данному лицевому счету не найдены договоры"),
+                ),
+                Visibility(
+                          child: Center(
+                              child: Container(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator(color: colorMain),
+                          )),
+                          visible: (isLoading == true) ? true : false)
+              ],
+            ),
             onRefrash: _refrash,
             footer: DefaultButton(
               onPressed: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => NewLS(refrash: _refrash)));
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NewLS(refrash: _refrash)));
               },
               isGetPadding: true,
               text: "Новый лицевой счет",
@@ -72,79 +100,54 @@ class _Contracts extends State<Contracts> {
 
   _listener(BuildContext context, ProfileState state) {
     if (state.loading == true) {
+      isLoading = true;
       return;
+    } else {
+      isLoading = false;
     }
-    if (state.contracts != null && state.contracts!.isNotEmpty && isLoaded == false) {
+    if (state.contracts != null &&
+        state.contracts!.isNotEmpty &&
+        isLoaded == false) {
       contractsMap = {for (var e in state.contracts!) e.account_id!: e};
       isLoaded = true;
-      body = ListView.builder(
-                  itemCount: contractsMap.length,
-                  itemBuilder: (context, int index) {
-                    return ContractElement(
-                      contract: contractsMap.values.elementAt(index), 
-                      func: widget.func,
-                      remove: removeContract,
-                      bottomNavigationSelectService: bottomNavigationSelectService!);
-                  });
-    }
-    if(state.contracts != null && state.contracts!.isEmpty){
-      body = NotFound(title: "Договоры", text: "По данному лицевому счету не найдены договоры");
     }
   }
 
-  void updateStatus(String id, String status, String? comment){
+  void updateStatus(String id, String status, String? comment) {
     Contract newContract = contractsMap[id];
     newContract.approve = status;
-    if(comment != null){
+    if (comment != null) {
       newContract.comments = comment;
     }
     setState(() {
       contractsMap.update(id, (value) => newContract);
-      body = ListView.builder(
-          itemCount: contractsMap.length,
-          itemBuilder: (context, int index) {
-            return ContractElement(
-                contract: contractsMap.values.elementAt(index),
-                func: widget.func,
-                remove: removeContract,
-                bottomNavigationSelectService: bottomNavigationSelectService!);
-          });
     });
   }
 
-  void removeContract(Contract contract){
+  void removeContract(Contract contract) {
     profileBloc!.hiddenAccout(contract.account_id!);
     dynamic message = MessageSend(
-                    cmd: "publish",
-                    subject: "store-${store_id}",
-                    event: "account_hidden",
-                    data: AccountHidden(account_id: contract.account_id),
-                    to_id: int.parse(user_id!)
-                  );
-      String data = jsonEncode(message.toJson());
-      webSocketChannel!.sink.add(data);
+        cmd: "publish",
+        subject: "store-${store_id}",
+        event: "account_hidden",
+        data: AccountHidden(account_id: contract.account_id),
+        to_id: int.parse(user_id!));
+    String data = jsonEncode(message.toJson());
+    webSocketChannel!.sink.add(data);
     setState(() {
       contractsMap.remove(contract.account_id);
-      body = ListView.builder(
-          itemCount: contractsMap.length,
-          itemBuilder: (context, int index) {
-            return ContractElement(
-                contract: contractsMap.values.elementAt(index),
-                func: widget.func,
-                remove: removeContract,
-                bottomNavigationSelectService: bottomNavigationSelectService!);
-          });
     });
-    
   }
 
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
-    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel(false);
+    webSocketChannel ??=
+        DependencyProvider.of(context)!.webSocketChannel(false);
     bottomNavigationSelectService ??=
         DependencyProvider.of(context)!.bottomNavigationSelectService;
-    updateAccountService ??= DependencyProvider.of(context)!.updateAccountService;
+    updateAccountService ??=
+        DependencyProvider.of(context)!.updateAccountService;
     updateAccountService!.update = updateStatus;
     profileBloc!.getContracts();
     super.didChangeDependencies();
