@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/UI/default-input.dart';
@@ -12,10 +14,12 @@ import '../../bloc/profile/profile-state.dart';
 import '../../consts.dart';
 import '../../elements/bloc/bloc-screen.dart';
 import '../../model/object_pu.dart';
+import '../../websocket/message-send.dart';
 
 class LinkTu extends StatefulWidget {
+  VoidCallback? refrash;
   ObjectPuModel currentPU;
-  LinkTu({required this.currentPU});
+  LinkTu({required this.currentPU, required this.refrash});
   @override
   State<StatefulWidget> createState() => _LinkTu();
 }
@@ -51,6 +55,7 @@ class _LinkTu extends State<LinkTu> {
                             child: DefaultInput(
                                 labelText: "Номер ТУ",
                                 hintText: "Номер ТУ",
+                                validatorText: "Введите номер ТУ",
                                 keyboardType: TextInputType.number,
                                 controller: numberTuColtroller),
                           ),
@@ -59,6 +64,7 @@ class _LinkTu extends State<LinkTu> {
                             child: DefaultInput(
                                 labelText: "Наименование ТУ",
                                 hintText: "Наименование ТУ",
+                                validatorText: "Введите наименование ТУ",
                                 keyboardType: TextInputType.text,
                                 controller: nameTuColtroller),
                           ),
@@ -67,6 +73,7 @@ class _LinkTu extends State<LinkTu> {
                             child: DefaultInput(
                                 labelText: "Адрес ТУ",
                                 hintText: "Адрес ТУ",
+                                validatorText: "Введите адрус ТУ",
                                 keyboardType: TextInputType.text,
                                 controller: addressTuColtroller),
                           ),
@@ -81,7 +88,7 @@ class _LinkTu extends State<LinkTu> {
                   profileBloc!.bindNewTU(widget.currentPU.object_id!, numberTuColtroller.text, nameTuColtroller.text, addressTuColtroller.text);
                 }
                 },
-                text: "Отправить запрос",
+                text: "Привязать ТУ",
               ),
               onRefrash: _refrash);
         });
@@ -93,15 +100,38 @@ class _LinkTu extends State<LinkTu> {
     }
 
     if(state.bindTuData != null){
+      dynamic message = MessageSend(
+                    cmd: "publish",
+                    subject: "store-${store_id}",
+                    event: "point_binding_new",
+                    data: TuNew(
+                      objectId: state.bindTuData!['object_id'],
+                      newObjectName: state.bindTuData!['new_object_name'],
+                      newObjectAddress: state.bindTuData!['new_object_address'],
+                      code: state.bindTuData!['code'],
+                      msg: state.bindTuData!['msg'],
+                      pointId: state.bindTuData!['point_id'],
+                      accountId: state.bindTuData!['account_id'],
+                      accountNumber: state.bindTuData!['account_number'],
+                      userLkId: state.bindTuData!['user_lk_id'],
+                      dateAdded: state.bindTuData!['date_added'],
+                      newPointNumber: numberTuColtroller.text,
+                      newPointName: nameTuColtroller.text,
+                      newPointAddress: addressTuColtroller.text
+                    ),
+                    to_id: int.parse(user_id!)
+                  );
+      String data = jsonEncode(message.toJson());
+      webSocketChannel!.sink.add(data);
       AwesomeDialog(
         context: context,
         dialogType: DialogType.success,
         animType: AnimType.bottomSlide,
         headerAnimationLoop: false,
         title: "Успешно!",
-        desc: "Запрос на привязку отправлен!",
+        desc: "Запрос на привязку ТУ отправлен!",
         btnOkOnPress: () {
-          //widget.refrash!.call();
+          widget.refrash!.call();
           Navigator.pop(context);
         },
         ).show();

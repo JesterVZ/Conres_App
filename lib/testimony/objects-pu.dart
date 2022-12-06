@@ -61,7 +61,7 @@ class _ObjectsPU extends State<ObjectsPU> {
                   itemCount: objectsMap.length,
                   itemBuilder: (context, int index) {
                     return ObjectPU(
-                      objectPuModel: objectsMap.values.elementAt(index), remove: removeObject);
+                      objectPuModel: objectsMap.values.elementAt(index), remove: removeObject, refrash: _refrash);
                   }),
                 Visibility(
                   visible: objectsMap.isEmpty && isLoading == false ? true : false,
@@ -125,7 +125,10 @@ class _ObjectsPU extends State<ObjectsPU> {
 
   _listener(BuildContext context, ProfileState state) {
     if (state.loading == true) {
+      isLoading = true;
       return;
+    } else {
+      isLoading = false;
     }
     if (state.objectsPU != null &&
         isLoaded == false) {

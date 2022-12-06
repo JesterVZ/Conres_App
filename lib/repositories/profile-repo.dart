@@ -165,6 +165,11 @@ class ProfileRepo {
     return result;
   }
 
+  Future<dynamic> hideTu(String point_id) async{
+    var result = await httpClient.hideTu(point_id);
+    return result;
+  }
+
   Future<dynamic> bindNewObject(String objectName, String objectAddress) async{
     var result = await httpClient.bindNewObject(objectName, objectAddress);
     return result;
@@ -172,6 +177,11 @@ class ProfileRepo {
 
   Future<dynamic> bindNewTU(String object_id, String new_tu_number, String new_tu_name, String new_tu_address) async{
     var result = await httpClient.bindNewTU(object_id, new_tu_number, new_tu_name, new_tu_address);
+    return result;
+  }
+
+  Future<dynamic> getMetersFromTu(String point_id) async{
+    var result = await httpClient.getMetersFromPoint(point_id);
     return result;
   }
 }

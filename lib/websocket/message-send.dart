@@ -305,3 +305,75 @@ class ObjectHidden{
   };
 }
 
+class TuNew {
+  String? objectId;
+  String? newObjectName;
+  String? newObjectAddress;
+  String? code;
+  String? msg;
+  int? pointId;
+  String? accountId;
+  String? accountNumber;
+  String? userLkId;
+  String? dateAdded;
+  String? newPointName;
+  String? newPointNumber;
+  String? newPointAddress;
+
+  TuNew(
+      {this.objectId,
+      this.newObjectName,
+      this.newObjectAddress,
+      this.code,
+      this.msg,
+      this.pointId,
+      this.accountId,
+      this.accountNumber,
+      this.userLkId,
+      this.dateAdded,
+      this.newPointName,
+      this.newPointNumber,
+      this.newPointAddress});
+
+  TuNew.fromJson(Map<String, dynamic> json) {
+    objectId = json['object_id'];
+    newObjectName = json['new_object_name'];
+    newObjectAddress = json['new_object_address'];
+    code = json['code'];
+    msg = json['msg'];
+    pointId = json['point_id'];
+    accountId = json['account_id'];
+    accountNumber = json['account_number'];
+    userLkId = json['user_lk_id'];
+    dateAdded = json['date_added'];
+    newPointName = json['new_point_name'];
+    newPointNumber = json['new_point_number'];
+    newPointAddress = json['new_point_address'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['object_id'] = this.objectId;
+    data['new_object_name'] = this.newObjectName;
+    data['new_object_address'] = this.newObjectAddress;
+    data['code'] = this.code;
+    data['msg'] = this.msg;
+    data['point_id'] = this.pointId;
+    data['account_id'] = this.accountId;
+    data['account_number'] = this.accountNumber;
+    data['user_lk_id'] = this.userLkId;
+    data['date_added'] = this.dateAdded;
+    data['new_point_name'] = this.newPointName;
+    data['new_point_number'] = this.newPointNumber;
+    data['new_point_address'] = this.newPointAddress;
+    return data;
+  }
+}
+
+class TuHidden{
+  int? point_id;
+  TuHidden({required this.point_id});
+  Map<String, dynamic> toJson() => {
+    'point_id': point_id
+  };
+}

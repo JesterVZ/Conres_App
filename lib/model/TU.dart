@@ -7,6 +7,7 @@ class TuModel{
   String? date_added;
   String? status;
   String? hidden;
+  String? comments;
 
   TuModel({
     required this.point_id,
@@ -16,7 +17,8 @@ class TuModel{
     required this.address,
     required this.date_added,
     required this.hidden,
-    required this.status
+    required this.status,
+    required this.comments
   });
 
   factory TuModel.fromMap(Map<String, dynamic> map){
@@ -28,7 +30,8 @@ class TuModel{
       address: map['address'],
       date_added: map['date_added'],
       status: map['status'],
-      hidden: map['hidden']
+      hidden: map['hidden'],
+      comments: map['comments']
     );
   }
 }

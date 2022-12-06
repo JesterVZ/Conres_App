@@ -347,6 +347,16 @@ class HttpClient {
     }
   }
 
+  Future<dynamic> hideTu(String point_id) async {
+    String uri = domain +
+        'lk/index.php?route=catalog/pu_info/api_deletePointMeter';
+    var formData = FormData.fromMap({'type': 'point', 'id': point_id});
+    final result = await _apiClient.post(uri, data: formData);
+    if (result.statusCode == 200) {
+      return true;
+    }
+  }
+
   Future<Object?> getInfo() async {
     String uri = domain + 'lk/index.php?route=common/api/api_getInfo';
     try {
@@ -639,6 +649,30 @@ class HttpClient {
             Meter thisMeter = Meter.fromMap(result.data['data']['meters'][i]);
             thisMeter.lastReadings = await GetLastReadings(
                 result.data['data']['lastReadings'], thisMeter);
+            meters.add(thisMeter);
+          }
+        }
+
+        return meters;
+      }
+    } catch (e) {
+      return e.toString();
+    }
+    return null;
+  }
+
+  Future<Object?> getMetersFromPoint(String point_id) async {
+    String uri = domain + 'lk/index.php?route=catalog/measures/api_getMeterInfo';
+    try {
+      var formData = FormData.fromMap({
+        'point_id': point_id,
+      });
+      final result = await _apiClient.post(uri, data: formData);
+      List<Meter> meters = [];
+      if (result.statusCode == 200) {
+        if (result.data['data'].length > 0) {
+          for (int i = 0; i < result.data['data'].length; i++) {
+            Meter thisMeter = Meter.fromMap(result.data['data'][i]);
             meters.add(thisMeter);
           }
         }

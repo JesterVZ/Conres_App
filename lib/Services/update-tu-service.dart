@@ -1,0 +1,3 @@
+class UpdateTuService{
+  Function? update;
+}

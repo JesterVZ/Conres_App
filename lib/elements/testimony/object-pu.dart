@@ -1,3 +1,5 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:conres_app/UI/default-input.dart';
 import 'package:conres_app/consts.dart';
 import 'package:conres_app/model/object_pu.dart';
 import 'package:conres_app/testimony/tu.dart';
@@ -5,17 +7,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../UI/default-button.dart';
 import 'object-pu-dialog.dart';
 
 class ObjectPU extends StatefulWidget {
   ObjectPuModel objectPuModel;
   Function remove;
-  ObjectPU({required this.objectPuModel, required this.remove});
+  Function refrash;
+  ObjectPU(
+      {required this.objectPuModel,
+      required this.remove,
+      required this.refrash});
   @override
   State<StatefulWidget> createState() => _ObjectPU();
 }
 
 class _ObjectPU extends State<ObjectPU> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -129,11 +140,55 @@ class _ObjectPU extends State<ObjectPU> {
                     width: 142,
                     child: ElevatedButton(
                         onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) => ObjectPuDialog(
-                                  id: widget.objectPuModel.object_id,
-                                  title: "Редактировать объект"));
+                          nameController.text = widget.objectPuModel.name!;
+                          addressController.text = widget.objectPuModel.address!;
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.noHeader,
+                            animType: AnimType.bottomSlide,
+                            headerAnimationLoop: false,
+                            btnOk: DefaultButton(
+                                      isGetPadding: false,
+                                      onPressed: () {
+                                        if (_formKey.currentState!.validate()) {
+                                          Navigator.pop(context);
+                                        }
+                                        
+                                      },
+                                      text: "Принять",
+                                    ),
+                            body: Container(
+                              padding: EdgeInsets.only(left: defaultSidePadding, top: 5, right: defaultSidePadding),
+                              height: 280,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Form(
+                                key: _formKey,
+                                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 11),
+                                  child: const Text("Редактировать объект", style: TextStyle(fontSize: 20)),
+                                ),
+                                
+                                DefaultInput(
+                                  labelText: "Наименование объекта", 
+                                  keyboardType: TextInputType.text,
+                                  hintText: "Дом",
+                                  validatorText: "Введите наименование",
+                                  controller: nameController),
+
+                                DefaultInput(
+                                  labelText: "Адрес объекта", 
+                                  keyboardType: TextInputType.text,
+                                  hintText: "Город, Улица, Дом, Квартира",
+                                  validatorText: "Введите адрес",
+                                  controller: nameController),
+                              ]),
+                            
+                              )
+                              
+                            ),
+                          ).show();
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: messageColor),
@@ -149,9 +204,12 @@ class _ObjectPU extends State<ObjectPU> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PageTU(currentPU: widget.objectPuModel,)));
+                                  builder: (context) => PageTU(
+                                        currentPU: widget.objectPuModel,
+                                      )));
                         },
-                        style: ElevatedButton.styleFrom(backgroundColor: messageColor),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: messageColor),
                         child: Text("Подробнее",
                             style: TextStyle(color: colorMain))),
                   ),
@@ -160,5 +218,10 @@ class _ObjectPU extends State<ObjectPU> {
             ],
           ),
         ));
+  }
+  @override
+  void didChangeDependencies() {
+    
+    super.didChangeDependencies();
   }
 }

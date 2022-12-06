@@ -194,6 +194,11 @@ class HiddenObjectRequest extends ProfileEvent{
   HiddenObjectRequest(this.object_id);
 }
 
+class HidenTuRequest extends ProfileEvent{
+  String point_id;
+  HidenTuRequest(this.point_id);
+}
+
 class BindNewObject extends ProfileEvent{
   String objectName; 
   String objectAddress;
@@ -206,4 +211,9 @@ class BindNewTU extends ProfileEvent{
   String new_tu_name;
   String new_tu_address;
   BindNewTU(this.object_id, this.new_tu_number, this.new_tu_name, this.new_tu_address);
+}
+
+class GetMetersFromTU extends ProfileEvent{
+  String point_id;
+  GetMetersFromTU(this.point_id);
 }

@@ -99,6 +99,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleBindNewObject(event);
     } else if(event is BindNewTU){
       yield* _handleBindTU(event);
+    } else if(event is HidenTuRequest){
+      yield* _handleHideTu(event);
+    } else if(event is GetMetersFromTU){
+      yield* _handleGetMetersFromTU(event);
     }
   }
 
@@ -235,12 +239,20 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(HiddenObjectRequest(object_id));
   }
 
+  hiddenTU(String point_id){
+    add(HidenTuRequest(point_id));
+  }
+
   bindNewObject(String objectName, String objectAddress){
     add(BindNewObject(objectName, objectAddress));
   }
 
   bindNewTU(String object_id, String new_tu_number, String new_tu_name, String new_tu_address){
     add(BindNewTU(object_id, new_tu_number, new_tu_name, new_tu_address));
+  }
+
+  getMetersFromTU(String point_id){
+    add(GetMetersFromTU(point_id));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -619,6 +631,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     var result = await repo.hideObject(event.object_id);
   }
 
+  Stream<ProfileState> _handleHideTu(HidenTuRequest event) async* {
+    var result = await repo.hideTu(event.point_id);
+  }
+
   Stream<ProfileState> _handleBindNewObject(BindNewObject event) async* {
     try{
       var result = await repo.bindNewObject(event.objectName, event.objectAddress);
@@ -633,6 +649,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try{
       var result = await repo.bindNewTU(event.object_id, event.new_tu_number, event.new_tu_name, event.new_tu_address);
       yield state.copyWith(loading: false, error: null, bindTuData: result);
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleGetMetersFromTU(GetMetersFromTU event) async*{
+    try{
+      yield state.copyWith(loading: true, error: null);
+      var result = await repo.getMetersFromTu(event.point_id);
+      yield state.copyWith(loading: false, error: null, TuMeters: result);
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }

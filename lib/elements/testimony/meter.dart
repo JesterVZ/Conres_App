@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/model/TU.dart';
+import 'package:conres_app/model/meter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,18 +8,18 @@ import 'package:flutter_svg/svg.dart';
 import '../../consts.dart';
 import '../../testimony/tu-info.dart';
 import '../full-profile/ExpansionTileElement.dart';
-import 'edit-tu-dialog.dart';
 
-class TuElement extends StatefulWidget {
+class MeterElement extends StatefulWidget {
+  final Meter? currentMeter;
   final TuModel? currentTu;
-  ValueChanged<TuModel> remove;
+  ValueChanged<Meter> remove;
 
-  TuElement({required this.currentTu, required this.remove});
+  MeterElement({required this.currentMeter, required this.remove, required this.currentTu});
   @override
-  State<StatefulWidget> createState() => _TuElement();
+  State<StatefulWidget> createState() => _MeterElement();
 }
 
-class _TuElement extends State<TuElement> {
+class _MeterElement extends State<MeterElement> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,7 +28,7 @@ class _TuElement extends State<TuElement> {
         child: Container(
             margin: const EdgeInsets.only(top: 14, bottom: 14),
             child: ExpansionTileElement(
-                tileText: const Text("Подробнее"),
+                tileText: const Text("Параметры"),
                 header: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -37,16 +38,16 @@ class _TuElement extends State<TuElement> {
                           margin: EdgeInsets.only(bottom: 16),
                           padding: const EdgeInsets.fromLTRB(11, 6, 11, 6),
                           decoration: BoxDecoration(
-                              color: widget.currentTu!.status == "0"
+                              color: widget.currentMeter!.status == "0"
                                   ? redColor
-                                  : widget.currentTu!.status == "1"
+                                  : widget.currentMeter!.status == "1"
                                       ? yellowColor
                                       : greenColor,
                               borderRadius: BorderRadius.circular(8)),
                           child: Text(
-                            widget.currentTu!.status == "0"
+                            widget.currentMeter!.status == "0"
                                 ? "Заявка на привязку ПУ отклонена"
-                                : widget.currentTu!.status == "1"
+                                : widget.currentMeter!.status == "1"
                                     ? "Проходит проверку"
                                     : "Активный",
                             style: TextStyle(color: Colors.white, fontSize: 14),
@@ -55,11 +56,11 @@ class _TuElement extends State<TuElement> {
                         const Spacer(),
                         Visibility(
                           visible:
-                              widget.currentTu!.status == "0" ? true : false,
+                              widget.currentMeter!.status == "0" ? true : false,
                           child: Material(
                               child: InkWell(
                             onTap: () {
-                              widget.remove.call(widget.currentTu!);
+                              widget.remove.call(widget.currentMeter!);
                             },
                             child: SvgPicture.asset(
                               'assets/remove-file.svg',
@@ -70,92 +71,95 @@ class _TuElement extends State<TuElement> {
                       ],
                     ),
                     Container(
-                      margin: EdgeInsets.only(bottom: 22),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                    margin: const EdgeInsets.only(bottom: 3),
-                                    child: Text("№ точки учёта:",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            color: colorGrayClaim))),
-                                Text(widget.currentTu!.number!,
+                      child: Text(widget.currentMeter!.name!,
                                     style: const TextStyle(fontSize: 18))
-                              ],
-                            ),
-                          ),
-
-                          //StatusElement(status: widget.currentClaim.status!),
-                        ],
-                      ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 22),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                    margin: const EdgeInsets.only(bottom: 3),
-                                    child: Text("Наименование ТУ:",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            color: colorGrayClaim))),
-                                Text(widget.currentTu!.name!,
-                                    style: const TextStyle(fontSize: 18))
-                              ],
-                            ),
-                          ),
-
-                          //StatusElement(status: widget.currentClaim.status!),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 22),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                    margin: const EdgeInsets.only(bottom: 3),
-                                    child: Text("Адрес ТУ:",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            color: colorGrayClaim))),
-                                Text(widget.currentTu!.address!,
-                                    style: const TextStyle(fontSize: 18))
-                              ],
-                            ),
-                          ),
-
-                          //StatusElement(status: widget.currentClaim.status!),
-                        ],
-                      ),
-                    ),
+                    
                   ],
                 ),
                 body: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 22),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(bottom: 17),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                    margin: const EdgeInsets.only(bottom: 3),
+                                    child: Text("№ прибора учёта:",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color: colorGrayClaim))),
+                                Text(widget.currentMeter!.pu_number!,
+                                    style: const TextStyle(fontSize: 18))
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 17),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                    margin: const EdgeInsets.only(bottom: 3),
+                                    child: Text("Тарифная зона ПУ:",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color: colorGrayClaim))),
+                                Text(widget.currentMeter!.pu_number!,
+                                    style: const TextStyle(fontSize: 18))
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 17),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                    margin: const EdgeInsets.only(bottom: 3),
+                                    child: Text("Тип ПУ:",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color: colorGrayClaim))),
+                                Text(widget.currentMeter!.pu_type_id!,
+                                    style: const TextStyle(fontSize: 18))
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 17),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                    margin: const EdgeInsets.only(bottom: 3),
+                                    child: Text("Тип ПУ:",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color: colorGrayClaim))),
+                                Text(widget.currentMeter!.measure_multipler!,
+                                    style: const TextStyle(fontSize: 18))
+                              ],
+                            ),
+                          ),
+
+                          //StatusElement(status: widget.currentClaim.status!),
+                        ],
+                      ),
+                    ),
                     Container(
                         width: MediaQuery.of(context).size.width,
                         height: 55,
@@ -182,12 +186,8 @@ class _TuElement extends State<TuElement> {
                         margin: EdgeInsets.only(bottom: 12, top: 12),
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TuFullInfo(currentTu: widget.currentTu,)));
                           },
-                          child: Text("Подробнее",
+                          child: Text("Cвернуть",
                               style: TextStyle(color: colorMain, fontSize: 18)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: messageColor,

@@ -7,6 +7,7 @@ import 'package:conres_app/Services/update-account-service.dart';
 import 'package:conres_app/Services/update-claim-service.dart';
 import 'package:conres_app/Services/update-object-service.dart';
 import 'package:conres_app/Services/update-ticket-service.dart';
+import 'package:conres_app/Services/update-tu-service.dart';
 import 'package:conres_app/bloc/auth/auth-block.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/chats/chats.dart';
@@ -47,6 +48,7 @@ class _MainPage extends State<MainPage> {
   UpdateTicketService? updateTicketService;
   UpdateAccountService? updateAccountService;
   UpdateObjectService? updateObjectService;
+  UpdateTuService? updateTuService;
   BottomNavigationSelectService? bottomNavigationSelectService;
   ProfileService? profileService;
   int? ticketCounter;
@@ -241,7 +243,8 @@ class _MainPage extends State<MainPage> {
                   webSocketData!.data[
                       'comment'] //комментарий, который написал челик из РСО
                   );
-              break;
+            break;
+            //object events
             case "object_binding_cancel":
             updateObjectService!.update!.call(webSocketData!.data['object_id'], "0", webSocketData!.data[
                       'comment']);
@@ -250,6 +253,12 @@ class _MainPage extends State<MainPage> {
             updateObjectService!.update!.call(webSocketData!.data['object_id'], "2", webSocketData!.data[
                       'comment']);
             break;
+            //tu events
+            case "point_binding_cancel":
+            updateTuService!.update!.call(webSocketData!.data['point_id'], "0", webSocketData!.data[
+                      'comment']);
+            break;
+            
           }
         } catch (e) {
           print(e);
@@ -268,6 +277,7 @@ class _MainPage extends State<MainPage> {
     updateClaimService ??= DependencyProvider.of(context)!.updateClaimService;
     updateTicketService ??= DependencyProvider.of(context)!.updateTicketService;
     updateObjectService ??= DependencyProvider.of(context)!.updateObjectService;
+    updateTuService ??= DependencyProvider.of(context)!.updateTuService;
     profileService ??= DependencyProvider.of(context)!.profileService;
     updateAccountService ??=
         DependencyProvider.of(context)!.updateAccountService;

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:conres_app/Services/base-claim-send-service.dart';
 import 'package:conres_app/Services/bottom-navigation-select-service.dart';
 import 'package:conres_app/Services/profile-service.dart';
+import 'package:conres_app/Services/update-tu-service.dart';
 import 'package:conres_app/bloc/auth/auth-block.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/consts.dart';
@@ -42,6 +43,7 @@ class DependencyProvider extends InheritedWidget {
   MainClaimSendService? _mainClaimSendService;
   UpdateAccountService? _updateAccountService;
   UpdateObjectService? _updateObjectService;
+  UpdateTuService? _updateTuService;
   BottomNavigationSelectService? _bottomNavigationSelectService;
   ProfileService? _profileService;
 
@@ -95,6 +97,11 @@ class DependencyProvider extends InheritedWidget {
   UpdateObjectService? get updateObjectService{
     _updateObjectService ??= UpdateObjectService();
     return _updateObjectService;
+  }
+
+  UpdateTuService? get updateTuService{
+    _updateTuService ??= UpdateTuService();
+    return _updateTuService;
   }
 
   BaseClaimSendService? get baseClaimSendService {

@@ -32,6 +32,8 @@ class ProfileState {
   final List<ObjectPuModel>? objectsPU;
   final List<TuModel>? TuPoints;
   final List<Meter>? meters;
+  final List<Meter>? TuMeters;
+
   final List<ClaimMessage>? claimMessages;
   final List<Medium>? images;
 
@@ -69,6 +71,7 @@ class ProfileState {
       this.sendMessageData,
       this.page,
       this.meters,
+      this.TuMeters,
       this.claimMessages,
       this.objectsPU,
       this.ticketCounter,
@@ -102,6 +105,7 @@ class ProfileState {
       isMeasureSent: null,
       loginData: [],
       meters: null,
+      TuMeters: null,
       numbers: null,
       objectsPU: null,
       page: null,
@@ -140,6 +144,7 @@ class ProfileState {
       TicketFullInfo? ticketFullInfo,
       Map<String, dynamic>? createTicketData,
       List<Meter>? meters,
+      List<Meter>? TuMeters,
       String? page,
       bool? isClaimSent,
       UserInformation? userInformation}) {
@@ -170,6 +175,7 @@ class ProfileState {
         fullInfo: fullInfo ?? this.fullInfo,
         objectsPU: objectsPU,
         meters: meters,
+        TuMeters: TuMeters,
         userInformation: userInformation,
         isClaimSent: isClaimSent,
         page: page ?? this.page);
