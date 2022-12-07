@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import '../consts.dart';
 
 class CustomDropDown extends StatefulWidget {
-  const CustomDropDown(
-      {Key? key, required this.title, required this.items, this.selectedItem})
+   CustomDropDown(
+      {Key? key, required this.title, required this.items, this.selectedItem, this.onClick})
       : super(key: key);
 
   final String title;
   final List items;
   final TextEditingController? selectedItem;
+  Function? onClick;
 
   @override
   State<StatefulWidget> createState() => _CustomDropDown();
@@ -42,6 +43,10 @@ class _CustomDropDown extends State<CustomDropDown> {
               setState(() {
                 valueChoose = value.toString();
                 widget.selectedItem!.text = valueChoose;
+                
+                if(widget.onClick != null){
+                  widget.onClick!.call(valueChoose);
+                }
               });
             },
             items: widget.items.map((valueItem) {

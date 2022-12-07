@@ -21,6 +21,11 @@ class _EditPuPage extends State<EditPuPage>{
   List<Widget> tu = [];
   final _formKey = GlobalKey<FormState>();
   Future<void> _refrash() async {}
+
+  void select(String value){
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     return  GestureDetector(
@@ -44,6 +49,7 @@ class _EditPuPage extends State<EditPuPage>{
                                       width: MediaQuery.of(context).size.width,
                                       child: CustomDropDown(
                                         selectedItem: objectController,
+                                        onClick: select,
                                         title: "Выберите точку учета",
                                         items: const [
                                           "увеличением объема максимальной мощности",
