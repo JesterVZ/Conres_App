@@ -305,6 +305,67 @@ class ObjectHidden{
   };
 }
 
+class ObjectEdited {
+  String? objectId;
+  String? newObjectName;
+  String? newObjectAddress;
+  String? accountId;
+  String? accountNumber;
+  String? userLkId;
+  String? dateAdded;
+  bool? edit;
+  bool? approve;
+  int? requestId;
+  String? objectAddress;
+  String? objectName;
+
+  ObjectEdited(
+      {this.objectId,
+      this.newObjectName,
+      this.newObjectAddress,
+      this.accountId,
+      this.accountNumber,
+      this.userLkId,
+      this.dateAdded,
+      this.edit,
+      this.approve,
+      this.requestId,
+      this.objectAddress,
+      this.objectName});
+
+  ObjectEdited.fromJson(Map<String, dynamic> json) {
+    objectId = json['object_id'];
+    newObjectName = json['new_object_name'];
+    newObjectAddress = json['new_object_address'];
+    accountId = json['account_id'];
+    accountNumber = json['account_number'];
+    userLkId = json['user_lk_id'];
+    dateAdded = json['date_added'];
+    edit = json['edit'];
+    approve = json['approve'];
+    requestId = json['request_id'];
+    objectAddress = json['object_address'];
+    objectName = json['object_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['object_id'] = this.objectId;
+    data['new_object_name'] = this.newObjectName;
+    data['new_object_address'] = this.newObjectAddress;
+    data['account_id'] = this.accountId;
+    data['account_number'] = this.accountNumber;
+    data['user_lk_id'] = this.userLkId;
+    data['date_added'] = this.dateAdded;
+    data['edit'] = this.edit;
+    data['approve'] = this.approve;
+    data['request_id'] = this.requestId;
+    data['object_address'] = this.objectAddress;
+    data['object_name'] = this.objectName;
+    return data;
+  }
+}
+
 class TuNew {
   String? objectId;
   String? newObjectName;
@@ -376,4 +437,93 @@ class TuHidden{
   Map<String, dynamic> toJson() => {
     'point_id': point_id
   };
+}
+
+class TuEdited {
+  bool? edit;
+  bool? editPush;
+  bool? approve;
+  int? requestId;
+  String? pointId;
+  String? newPointName;
+  String? newPointNumber;
+  String? newPointAddress;
+  String? pointName;
+  String? pointNumber;
+  String? pointAddress;
+  String? objectName;
+  String? objectAddress;
+  String? newObjectName;
+  String? newObjectAddress;
+  String? accountId;
+  String? accountNumber;
+  String? userLkId;
+  String? dateAdded;
+
+  TuEdited(
+      {this.edit,
+      this.editPush,
+      this.approve,
+      this.requestId,
+      this.pointId,
+      this.newPointName,
+      this.newPointNumber,
+      this.newPointAddress,
+      this.pointName,
+      this.pointNumber,
+      this.pointAddress,
+      this.objectName,
+      this.objectAddress,
+      this.newObjectName,
+      this.newObjectAddress,
+      this.accountId,
+      this.accountNumber,
+      this.userLkId,
+      this.dateAdded});
+
+  TuEdited.fromJson(Map<String, dynamic> json) {
+    edit = json['edit'];
+    editPush = json['edit_push'];
+    approve = json['approve'];
+    requestId = json['request_id'];
+    pointId = json['point_id'];
+    newPointName = json['new_point_name'];
+    newPointNumber = json['new_point_number'];
+    newPointAddress = json['new_point_address'];
+    pointName = json['point_name'];
+    pointNumber = json['point_number'];
+    pointAddress = json['point_address'];
+    objectName = json['object_name'];
+    objectAddress = json['object_address'];
+    newObjectName = json['new_object_name'];
+    newObjectAddress = json['new_object_address'];
+    accountId = json['account_id'];
+    accountNumber = json['account_number'];
+    userLkId = json['user_lk_id'];
+    dateAdded = json['date_added'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['edit'] = this.edit;
+    data['edit_push'] = this.editPush;
+    data['approve'] = this.approve;
+    data['request_id'] = this.requestId;
+    data['point_id'] = this.pointId;
+    data['new_point_name'] = this.newPointName;
+    data['new_point_number'] = this.newPointNumber;
+    data['new_point_address'] = this.newPointAddress;
+    data['point_name'] = this.pointName;
+    data['point_number'] = this.pointNumber;
+    data['point_address'] = this.pointAddress;
+    data['object_name'] = this.objectName;
+    data['object_address'] = this.objectAddress;
+    data['new_object_name'] = this.newObjectName;
+    data['new_object_address'] = this.newObjectAddress;
+    data['account_id'] = this.accountId;
+    data['account_number'] = this.accountNumber;
+    data['user_lk_id'] = this.userLkId;
+    data['date_added'] = this.dateAdded;
+    return data;
+  }
 }

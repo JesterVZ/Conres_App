@@ -132,8 +132,8 @@ class ProfileRepo {
     return result;
   }
 
-  Future<dynamic> getTU() async {
-    var result = await httpClient.getTU();
+  Future<dynamic> getTU(String object_id) async {
+    var result = await httpClient.getTU(object_id);
     return result;
   }
 
@@ -153,7 +153,10 @@ class ProfileRepo {
     return result;
   }
 
-  Future<dynamic> editTu() async {}
+  Future<dynamic> editTu(String id, String number, String name, String address) async {
+    var result = await httpClient.editObjectTu(id, number, name, address);
+    return result;
+  }
 
   Future<dynamic> hideAccount(String account_id) async{
     var result = await httpClient.hideAccount(account_id);
@@ -184,4 +187,21 @@ class ProfileRepo {
     var result = await httpClient.getMetersFromPoint(point_id);
     return result;
   }
+
+  Future<dynamic> editPuFromTu(
+    String object_id, 
+    String meter_id, 
+    String account_number, 
+    String new_tu_id, 
+    String new_tu_number, 
+    String new_tu_name, 
+    String new_pu_address,
+    String new_pu_name,
+    String new_pu_number,
+    String new_pu_type,
+    String new_pu_zone,
+    String new_pu_ratio) async{
+      var result = await httpClient.editPuFromTu(object_id, meter_id, account_number, new_tu_id, new_tu_number, new_tu_name, new_pu_address, new_pu_name, new_pu_number, new_pu_type, new_pu_zone, new_pu_ratio);
+      return result;
+    }
 }

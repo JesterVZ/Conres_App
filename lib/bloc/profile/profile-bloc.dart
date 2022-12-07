@@ -185,8 +185,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(const GetTU());
   }
 
-  getTuPoints() {
-    add(const GetTuPoints());
+  getTuPoints(String object_id) {
+    add(GetTuPoints(object_id));
   }
 
   createNewTicket(String contact_email, String contact_name,
@@ -492,7 +492,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _handleGetTuPoints(GetTuPoints event) async* {
     yield state.copyWith(loading: true, error: null);
     try {
-      var result = await repo.getTU();
+      var result = await repo.getTU(event.object_id);
       yield state.copyWith(loading: false, error: null, TuPoints: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
@@ -607,7 +607,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null);
     try {
       var result = await repo.editObject(event.id, event.name, event.address);
-      yield state.copyWith(loading: false, error: null);
+      yield state.copyWith(loading: false, error: null, editObjectData: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
@@ -616,8 +616,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _handleEditTu(EditTu event) async* {
     yield state.copyWith(loading: true, error: null);
     try {
-      var result = await repo.editObject(event.id, event.name, event.address);
-      yield state.copyWith(loading: false, error: null);
+      var result = await repo.editTu(event.id, event.number, event.name, event.address);
+      yield state.copyWith(loading: false, error: null, editTuData: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }

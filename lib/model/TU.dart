@@ -11,14 +11,14 @@ class TuModel{
 
   TuModel({
     required this.point_id,
-    required this.object_id,
-    required this.name,
-    required this.number,
-    required this.address,
-    required this.date_added,
-    required this.hidden,
-    required this.status,
-    required this.comments
+    this.object_id,
+    this.name,
+    this.number,
+    this.address,
+    this.date_added,
+    this.hidden,
+    this.status,
+    this.comments
   });
 
   factory TuModel.fromMap(Map<String, dynamic> map){

@@ -258,7 +258,18 @@ class _MainPage extends State<MainPage> {
             updateTuService!.update!.call(webSocketData!.data['point_id'], "0", webSocketData!.data[
                       'comment']);
             break;
-            
+            case "point_binding_accept":
+            updateTuService!.update!.call(webSocketData!.data['point_id'], "2", webSocketData!.data[
+                      'comment']);
+            break;
+            case "point_binding_delete":
+            updateTuService!.remove!.call(webSocketData!.data['point_id']);
+            break;
+            //pu events
+            case "meter_binding_edit_new":
+            updateTuService!.remove!.call(webSocketData!.data['point_id']);
+            break;
+
           }
         } catch (e) {
           print(e);

@@ -45,6 +45,8 @@ class ProfileState {
   final Map<String, dynamic>? sendMessageData;
   final Map<String, dynamic>? createTicketData;
   final Map<String, dynamic>? createClaimData;
+  final Map<String, dynamic>? editObjectData;
+  final Map<String, dynamic>? editTuData;
   final String? page;
   final UserInformation? userInformation;
 
@@ -65,10 +67,12 @@ class ProfileState {
       this.contracts,
       this.numbers,
       this.claims,
+      this.editTuData,
       this.images,
       this.tickets,
       this.ticketFullInfo,
       this.sendMessageData,
+      this.editObjectData,
       this.page,
       this.meters,
       this.TuMeters,
@@ -100,7 +104,9 @@ class ProfileState {
       createClaimData: null,
       createTicketData: null,
       fullInfo: null,
+      editObjectData: null,
       images: null,
+      editTuData: null,
       isClaimSent: null,
       isMeasureSent: null,
       loginData: [],
@@ -126,13 +132,15 @@ class ProfileState {
       Map<String, dynamic>? bindObjectData,
       Map<String, dynamic>? sendMessageData,
       Map<String, dynamic>? bindTuData,
+      Map<String, dynamic>? editObjectData,
+      Map<String, dynamic>? editTuData,
       dynamic webSocketData,
       List<Contract>? contracts,
       List<String>? numbers,
       List<ObjectPuModel>? objectsPU,
       String? error,
       Map<String, dynamic>? fullInfo,
-      final List<TuModel>? TuPoints,
+      List<TuModel>? TuPoints,
       int? ticketCounter,
       int? claimCounter,
       String? privatePolicyString,
@@ -157,6 +165,8 @@ class ProfileState {
         bindLsData: bindLsData,
         bindObjectData: bindObjectData,
         bindTuData: bindTuData,
+        editObjectData: editObjectData,
+        editTuData: editTuData,
         contracts: contracts ?? this.contracts,
         numbers: numbers ?? this.numbers,
         claims: claims ?? this.claims,

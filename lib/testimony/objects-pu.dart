@@ -61,7 +61,7 @@ class _ObjectsPU extends State<ObjectsPU> {
                   itemCount: objectsMap.length,
                   itemBuilder: (context, int index) {
                     return ObjectPU(
-                      objectPuModel: objectsMap.values.elementAt(index), remove: removeObject, refrash: _refrash);
+                      objectPuModel: objectsMap.values.elementAt(index), remove: removeObject, refrash: _refrash, edit: editObject);
                   }),
                 Visibility(
                   visible: objectsMap.isEmpty && isLoading == false ? true : false,
@@ -135,6 +135,43 @@ class _ObjectsPU extends State<ObjectsPU> {
       objectsMap = {for (var e in state.objectsPU!) e.object_id!: e};
       isLoaded = true;
     }
+    if(state.editObjectData != null){
+      dynamic message = MessageSend(
+                    cmd: "publish",
+                    subject: "store-${store_id}",
+                    event: "object_binding_edit_new",
+                    data: ObjectEdited(
+                      objectId: state.editObjectData!['object_id'],
+                      newObjectName: state.editObjectData!['new_object_name'],
+                      newObjectAddress: state.editObjectData!['new_object_address'],
+                      accountId: state.editObjectData!['account_id'],
+                      accountNumber: state.editObjectData!['account_number'],
+                      userLkId: state.editObjectData!['user_lk_id'],
+                      dateAdded: state.editObjectData!['date_added'],
+                      edit: state.editObjectData!['edit'],
+                      approve: state.editObjectData!['approve'],
+                      requestId: state.editObjectData!['request_id'],
+                      objectAddress: state.editObjectData!['object_address'],
+                      objectName: state.editObjectData!['object_name'],
+                    ),
+                    to_id: int.parse(user_id!)
+                  );
+      String data = jsonEncode(message.toJson());
+      webSocketChannel!.sink.add(data);
+      _refrash();
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.success,
+        animType: AnimType.bottomSlide,
+        headerAnimationLoop: false,
+        title: "Успешно!",
+        desc: "Данные объекта успешно изменены!",
+        btnOkOnPress: () {
+          
+        },
+        ).show();
+
+    }
   }
 
   void updateStatus(String id, String status, String? comment) {
@@ -147,6 +184,12 @@ class _ObjectsPU extends State<ObjectsPU> {
       objectsMap.update(id, (value) => newContract);
     });
   }
+
+  void editObject(ObjectPuModel object){
+    profileBloc!.editObject(object.object_id!, object.name!, object.address!);
+    
+  }
+
   void removeObject(ObjectPuModel objectPuModel) {
     profileBloc!.hiddenObject(objectPuModel.object_id!);
     dynamic message = MessageSend(

@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../UI/default-button.dart';
+import '../../UI/default-input.dart';
 import '../../consts.dart';
 import '../../testimony/tu-info.dart';
 import '../full-profile/ExpansionTileElement.dart';
@@ -12,13 +14,18 @@ import 'edit-tu-dialog.dart';
 class TuElement extends StatefulWidget {
   final TuModel? currentTu;
   ValueChanged<TuModel> remove;
+  Function edit;
 
-  TuElement({required this.currentTu, required this.remove});
+  TuElement({required this.currentTu, required this.remove, required this.edit});
   @override
   State<StatefulWidget> createState() => _TuElement();
 }
 
 class _TuElement extends State<TuElement> {
+  TextEditingController numberController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,16 +46,19 @@ class _TuElement extends State<TuElement> {
                           decoration: BoxDecoration(
                               color: widget.currentTu!.status == "0"
                                   ? redColor
-                                  : widget.currentTu!.status == "1"
-                                      ? yellowColor
-                                      : greenColor,
+                            : (widget.currentTu!.status == "1" || widget.currentTu!.status == "3")
+                                ? yellowColor
+                                : greenColor,
                               borderRadius: BorderRadius.circular(8)),
                           child: Text(
                             widget.currentTu!.status == "0"
-                                ? "Заявка на привязку ПУ отклонена"
-                                : widget.currentTu!.status == "1"
-                                    ? "Проходит проверку"
-                                    : "Активный",
+                          ? "Заявка на привязку ПУ отклонена"
+                          : widget.currentTu!.status == "1"
+                              ? "Проходит проверку на добавление"
+                          : widget.currentTu!.status == "2"
+                              ? "Активный"
+                          : 
+                               "Проходит проверку на изменение",
                             style: TextStyle(color: Colors.white, fontSize: 14),
                           ),
                         ),
@@ -162,11 +172,80 @@ class _TuElement extends State<TuElement> {
                         margin: EdgeInsets.only(bottom: 12, top: 12),
                         child: ElevatedButton(
                           onPressed: () {
-                            /*
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              EditTuDialog(title: "Редактировать ТУ"));*/
+                            numberController.text = widget.currentTu!.number!;
+                            nameController.text = widget.currentTu!.name!;
+                            addressController.text = widget.currentTu!.address!;
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.noHeader,
+                            animType: AnimType.bottomSlide,
+                            headerAnimationLoop: false,
+                            btnOk: DefaultButton(
+                                      isGetPadding: false,
+                                      onPressed: () {
+                                        if (_formKey.currentState!.validate()) {
+                                          TuModel newTu = TuModel(
+                                            point_id: widget.currentTu!.point_id, 
+                                            object_id: widget.currentTu!.object_id, 
+                                            name: nameController.text, 
+                                            number: numberController.text, 
+                                            address: addressController.text, 
+                                            date_added: widget.currentTu!.date_added, 
+                                            hidden: widget.currentTu!.hidden, 
+                                            status: widget.currentTu!.status, 
+                                            comments: widget.currentTu!.comments);
+                                          widget.edit.call(newTu);
+                                          Navigator.pop(context);
+                                        }
+                                        
+                                      },
+                                      text: "Принять",
+                                    ),
+                            body: Container(
+                              padding: EdgeInsets.only(left: defaultSidePadding, top: 5, right: defaultSidePadding),
+                              height: 350,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Form(
+                                key: _formKey,
+                                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 15),
+                                  child: const Text("Редактировать ТУ", style: TextStyle(fontSize: 20)),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 15),
+                                  child: DefaultInput(
+                                  labelText: "Номер ТУ", 
+                                  keyboardType: TextInputType.text,
+                                  hintText: "Номер ТУ",
+                                  validatorText: "Введите номер ТУ",
+                                  controller: numberController),
+                                ),
+
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 15),
+                                  child: DefaultInput(
+                                  labelText: "Наименование ТУ", 
+                                  keyboardType: TextInputType.text,
+                                  hintText: "Наименование ТУ",
+                                  validatorText: "Введите наименование ТУ",
+                                  controller: nameController),
+                                ),
+                                
+
+                                DefaultInput(
+                                  labelText: "Адрес ТУ", 
+                                  keyboardType: TextInputType.text,
+                                  hintText: "Город, Улица, Дом, Квартира",
+                                  validatorText: "Введите адрес",
+                                  controller: addressController),
+                              ]),
+                            
+                              )
+                              
+                            ),
+                          ).show();
                           },
                           child: const Text("Редактировать",
                               style:

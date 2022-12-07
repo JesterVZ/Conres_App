@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/Services/update-tu-service.dart';
 import 'package:conres_app/model/TU.dart';
 import 'package:conres_app/model/object_pu.dart';
@@ -57,7 +58,7 @@ class _PageTU extends State<PageTU> {
                 ListView.builder(
                   itemCount: objectsTuMap.length,
                   itemBuilder: (context, int index) {
-                    return TuElement(currentTu: objectsTuMap.values.elementAt(index), remove: removeTu);
+                    return TuElement(currentTu: objectsTuMap.values.elementAt(index), remove: removeTu, edit: editTu);
                   }),
                 Visibility(
                   visible: objectsTuMap.isEmpty && isLoading == false ? true : false,
@@ -134,6 +135,55 @@ class _PageTU extends State<PageTU> {
       objectsTuMap = {for (var e in state.TuPoints!) e.point_id!: e};
       isLoaded = true;
     }
+
+    if(state.editTuData != null){
+      dynamic message = MessageSend(
+                    cmd: "publish",
+                    subject: "store-${store_id}",
+                    event: "point_binding_edit_new",
+                    data: TuEdited(
+                      edit: state.editTuData!['edit'],
+                      editPush: state.editTuData!['edit_push'],
+                      approve: state.editTuData!['approve'],
+                      requestId: state.editTuData!['request_id'],
+                      pointId: state.editTuData!['point_id'],
+                      newPointName: state.editTuData!['new_point_name'],
+                      newPointNumber: state.editTuData!['new_point_number'],
+                      newPointAddress: state.editTuData!['new_point_address'],
+                      pointName: state.editTuData!['point_name'],
+                      pointNumber: state.editTuData!['point_number'],
+                      pointAddress: state.editTuData!['point_address'],
+                      objectName: state.editTuData!['object_name'],
+                      objectAddress: state.editTuData!['object_address'],
+                      newObjectName: state.editTuData!['new_object_name'],
+                      newObjectAddress: state.editTuData!['new_object_address'],
+                      accountId: state.editTuData!['account_id'],
+                      accountNumber: state.editTuData!['account_number'],
+                      userLkId: state.editTuData!['user_lk_id'],
+                      dateAdded: state.editTuData!['date_added'],
+                    ),
+                    to_id: int.parse(user_id!)
+                  );
+      String data = jsonEncode(message.toJson());
+      webSocketChannel!.sink.add(data);
+      _refrash();
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.success,
+        animType: AnimType.bottomSlide,
+        headerAnimationLoop: false,
+        title: "Успешно!",
+        desc: "Данные точки учета успешно изменены!",
+        btnOkOnPress: () {
+          
+        },
+        ).show();
+    }
+  }
+
+  void editTu(TuModel object){
+    profileBloc!.editTu(object.object_id!, object.number!, object.name!, object.address!);
+    
   }
 
   void updateStatus(String id, String status, String? comment) {
@@ -163,26 +213,28 @@ class _PageTU extends State<PageTU> {
     });
   }
 
-  Future<void> _refrash() async {
-    isLoaded = false;
-    profileBloc!.getTuPoints();
+  void removeWs(int point_id) {
+    profileBloc!.hiddenTU(point_id.toString());
+    setState(() {
+      objectsTuMap.remove(point_id.toString());
+    });
   }
 
-  void _edit() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) =>
-            EditTuDialog(title: "Редактировать ТУ"));
+  Future<void> _refrash() async {
+    isLoaded = false;
+    profileBloc!.getTuPoints(widget.currentPU.object_id!);
   }
+
 
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     updateTuService ??= DependencyProvider.of(context)!.updateTuService;
     updateTuService!.update = updateStatus;
+    updateTuService!.remove = removeWs;
     webSocketChannel ??=
         DependencyProvider.of(context)!.webSocketChannel(false);
-    profileBloc!.getTuPoints();
+    profileBloc!.getTuPoints(widget.currentPU.object_id!);
     super.didChangeDependencies();
   }
 }

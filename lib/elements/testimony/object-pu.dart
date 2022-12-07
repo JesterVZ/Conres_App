@@ -14,10 +14,12 @@ class ObjectPU extends StatefulWidget {
   ObjectPuModel objectPuModel;
   Function remove;
   Function refrash;
+  Function edit;
   ObjectPU(
       {required this.objectPuModel,
       required this.remove,
-      required this.refrash});
+      required this.refrash,
+      required this.edit});
   @override
   State<StatefulWidget> createState() => _ObjectPU();
 }
@@ -58,7 +60,7 @@ class _ObjectPU extends State<ObjectPU> {
                     decoration: BoxDecoration(
                         color: widget.objectPuModel.status == "0"
                             ? redColor
-                            : widget.objectPuModel.status == "1"
+                            : (widget.objectPuModel.status == "1" || widget.objectPuModel.status == "3")
                                 ? yellowColor
                                 : greenColor,
                         borderRadius: BorderRadius.circular(8)),
@@ -66,8 +68,11 @@ class _ObjectPU extends State<ObjectPU> {
                       widget.objectPuModel.status == "0"
                           ? "Заявка на привязку ПУ отклонена"
                           : widget.objectPuModel.status == "1"
-                              ? "Проходит проверку"
-                              : "Активный",
+                              ? "Проходит проверку на добавление"
+                          : widget.objectPuModel.status == "2"
+                              ? "Активный"
+                          : 
+                               "Проходит проверку на изменение",
                       style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
                   ),
@@ -151,6 +156,16 @@ class _ObjectPU extends State<ObjectPU> {
                                       isGetPadding: false,
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
+                                          ObjectPuModel newObject = ObjectPuModel(
+                                            object_id: widget.objectPuModel.object_id, 
+                                            name: nameController.text, 
+                                            address: addressController.text, 
+                                            account_id: widget.objectPuModel.account_id, 
+                                            date_added: widget.objectPuModel.date_added, 
+                                            hidden: widget.objectPuModel.hidden, 
+                                            status: widget.objectPuModel.status, 
+                                            comments: widget.objectPuModel.comments);
+                                          widget.edit.call(newObject);
                                           Navigator.pop(context);
                                         }
                                         
@@ -166,23 +181,26 @@ class _ObjectPU extends State<ObjectPU> {
                                 key: _formKey,
                                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                 Container(
-                                  margin: EdgeInsets.only(bottom: 11),
+                                  margin: EdgeInsets.only(bottom: 15),
                                   child: const Text("Редактировать объект", style: TextStyle(fontSize: 20)),
                                 ),
-                                
-                                DefaultInput(
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 15),
+                                  child: DefaultInput(
                                   labelText: "Наименование объекта", 
                                   keyboardType: TextInputType.text,
                                   hintText: "Дом",
                                   validatorText: "Введите наименование",
                                   controller: nameController),
+                                ),
+                                
 
                                 DefaultInput(
                                   labelText: "Адрес объекта", 
                                   keyboardType: TextInputType.text,
                                   hintText: "Город, Улица, Дом, Квартира",
                                   validatorText: "Введите адрес",
-                                  controller: nameController),
+                                  controller: addressController),
                               ]),
                             
                               )

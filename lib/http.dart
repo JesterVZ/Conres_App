@@ -585,10 +585,14 @@ class HttpClient {
     }
   }
 
-  Future<Object?> getTU() async {
-    String uri = domain + 'lk/index.php?route=catalog/objects/api_list';
+  Future<Object?> getTU(String object_id) async {
+    String uri = domain + 'lk/index.php?route=catalog/objects/api_getPointsFromObject';
     try {
-      final result = await _apiClient.post(uri);
+      var formData = FormData.fromMap({
+        'object_id': object_id,
+      });
+
+      final result = await _apiClient.post(uri, data: formData);
       if (result.statusCode == 200) {
         List<TuModel> objects = [];
 
@@ -596,8 +600,9 @@ class HttpClient {
           for (int i = 0; i < result.data['data']['list_tu'].length; i++) {
             objects.add(TuModel.fromMap(result.data['data']['list_tu'][i]));
           }
-          return objects;
+          
         }
+        return objects;
       }
     } catch (e) {
       return (e);
@@ -961,24 +966,60 @@ class HttpClient {
     });
     final result = await _apiClient.post(uri, data: formdata);
     if (result.statusCode == 200) {
-      return result.data['data']['edit'];
+      return result.data['data'];
     } else {
       return false;
     }
   }
 
-  Future<Object?> editObjectTu(String point_id, String new_tu_number,
-      String new_tu_name, String new_tu_address) async {
+  Future<Object?> editObjectTu(String id, String number, String name, String address) async {
     String uri = domain + 'lk/index.php?route=catalog/pu_info/api_editTuInfo';
     var formdata = FormData.fromMap({
-      'point_id': point_id,
-      'new_tu_number': new_tu_number,
-      'new_tu_name': new_tu_name,
-      'new_tu_address': new_tu_address
+      'point_id': id,
+      'new_tu_number': number,
+      'new_tu_name': name,
+      'new_tu_address': address,
+      'isMobile': '1'
     });
     final result = await _apiClient.post(uri, data: formdata);
     if (result.statusCode == 200) {
-      return true;
+      return result.data['data'];
+    } else {
+      return false;
+    }
+  }
+
+  Future<Object?> editPuFromTu(
+    String object_id, 
+    String meter_id, 
+    String account_number, 
+    String new_tu_id, 
+    String new_tu_number, 
+    String new_tu_name, 
+    String new_pu_address,
+    String new_pu_name,
+    String new_pu_number,
+    String new_pu_type,
+    String new_pu_zone,
+    String new_pu_ratio) async {
+    String uri = domain + 'lk/index.php?route=catalog/pu_info/api_editPuInfoMob';
+    var formdata = FormData.fromMap({
+      'object_id': object_id,
+      'meter_id': meter_id,
+      'new_tu_id[]': new_tu_id,
+      'new_tu_number': new_tu_number,
+      'new_tu_name': new_tu_name,
+      'new_pu_address': new_pu_address,
+      'new_pu_name': new_pu_name,
+      'new_pu_number': new_pu_number,
+      'new_pu_type': new_pu_type,
+      'new_pu_zone': new_pu_zone,
+      'new_pu_ratio': new_pu_ratio,
+      'isMobile': '1'
+    });
+    final result = await _apiClient.post(uri, data: formdata);
+    if (result.statusCode == 200) {
+      return result.data['data'];
     } else {
       return false;
     }
