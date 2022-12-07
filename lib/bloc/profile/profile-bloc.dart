@@ -103,6 +103,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleHideTu(event);
     } else if(event is GetMetersFromTU){
       yield* _handleGetMetersFromTU(event);
+    } else if(event is EditpuFromTu){
+      yield* _handleEditPuFromTU(event);
     }
   }
 
@@ -253,6 +255,21 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   getMetersFromTU(String point_id){
     add(GetMetersFromTU(point_id));
+  }
+
+  editPuFromTu(String object_id, 
+    String meter_id, 
+    String account_number, 
+    String new_tu_id, 
+    String new_tu_number, 
+    String new_tu_name, 
+    String new_pu_address,
+    String new_pu_name,
+    String new_pu_number,
+    String new_pu_type,
+    String new_pu_zone,
+    String new_pu_ratio){
+    add(EditpuFromTu(object_id, meter_id, account_number, new_tu_id, new_tu_number, new_tu_name, new_pu_address, new_pu_name, new_pu_number, new_pu_type, new_pu_zone, new_pu_ratio));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -659,6 +676,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield state.copyWith(loading: true, error: null);
       var result = await repo.getMetersFromTu(event.point_id);
       yield state.copyWith(loading: false, error: null, TuMeters: result);
+    }catch(e){
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleEditPuFromTU(EditpuFromTu event) async*{
+    try{
+      yield state.copyWith(loading: true, error: null);
+      var result = await repo.editPuFromTu(event.object_id, event.meter_id, event.account_number, event.new_tu_id, event.new_tu_number, event.new_tu_name, event.new_pu_address, event.new_pu_name, event.new_pu_number, event.new_pu_type, event.new_pu_zone, event.new_pu_ratio);
+      yield state.copyWith(loading: false, error: null, editPuFromTuData: result);
     }catch(e){
       yield state.copyWith(loading: false, error: e.toString());
     }

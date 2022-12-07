@@ -42,7 +42,7 @@ class _TuFullInfo extends State<TuFullInfo> {
                 ListView.builder(
                   itemCount: objectsMap.length,
                   itemBuilder: (context, int index) {
-                    return MeterElement(currentMeter: objectsMap.values.elementAt(index), currentTu: widget.currentTu, remove: removeObject,);
+                    return MeterElement(currentMeter: objectsMap.values.elementAt(index), currentTu: widget.currentTu, remove: removeObject, edit: editMeter);
                   }),
                 Visibility(
                   visible: objectsMap.isEmpty && isLoading == false ? true : false,
@@ -66,6 +66,10 @@ class _TuFullInfo extends State<TuFullInfo> {
   }
 
   void removeObject(Meter meter) {
+
+  }
+
+  void editMeter(Meter meter){
 
   }
 

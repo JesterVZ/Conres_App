@@ -7,14 +7,16 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../consts.dart';
 import '../../testimony/tu-info.dart';
+import '../TU/edit-tu.dart';
 import '../full-profile/ExpansionTileElement.dart';
 
 class MeterElement extends StatefulWidget {
   final Meter? currentMeter;
   final TuModel? currentTu;
   ValueChanged<Meter> remove;
+  Function edit;
 
-  MeterElement({required this.currentMeter, required this.remove, required this.currentTu});
+  MeterElement({required this.currentMeter, required this.remove, required this.currentTu, required this.edit});
   @override
   State<StatefulWidget> createState() => _MeterElement();
 }
@@ -166,11 +168,7 @@ class _MeterElement extends State<MeterElement> {
                         margin: EdgeInsets.only(bottom: 12, top: 12),
                         child: ElevatedButton(
                           onPressed: () {
-                            /*
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              EditTuDialog(title: "Редактировать ТУ"));*/
+                           Navigator.push(context, MaterialPageRoute(builder: (context) => EditPuPage()));
                           },
                           child: const Text("Редактировать",
                               style:
