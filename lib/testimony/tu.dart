@@ -5,6 +5,7 @@ import 'package:conres_app/Services/update-tu-service.dart';
 import 'package:conres_app/model/TU.dart';
 import 'package:conres_app/model/object_pu.dart';
 import 'package:conres_app/profile/main-page.dart';
+import 'package:conres_app/testimony/link-pu/link-pu-step-2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -119,7 +120,7 @@ class _PageTU extends State<PageTU> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => LinkPUStep1()));
+                                    builder: (context) => LinkPUStep2()));
                           },
                           child: const Text("Новый ПУ",
                               style: TextStyle(fontSize: 18)),

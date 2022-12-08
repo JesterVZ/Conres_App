@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../Services/base-claim-send-service.dart';
+import '../Services/link-pu-service.dart';
 import '../Services/main-claim-send-service.dart';
 import '../Services/send-testimont-service.dart';
 import '../Services/update-account-service.dart';
@@ -43,6 +44,7 @@ class DependencyProvider extends InheritedWidget {
   MainClaimSendService? _mainClaimSendService;
   UpdateAccountService? _updateAccountService;
   UpdateObjectService? _updateObjectService;
+  LinkPuService? _linkPuService;
   UpdateTuService? _updateTuService;
   BottomNavigationSelectService? _bottomNavigationSelectService;
   ProfileService? _profileService;
@@ -72,6 +74,11 @@ class DependencyProvider extends InheritedWidget {
   ProfileService? get profileService {
     _profileService ??= ProfileService();
     return _profileService;
+  }
+
+  LinkPuService? get linkPuService {
+    _linkPuService ??= LinkPuService();
+    return _linkPuService;
   }
 
   UpdateClaimService? get updateClaimService {

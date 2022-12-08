@@ -65,7 +65,6 @@ class _EditPuPage extends State<EditPuPage> {
       });
       
     }
-    print(value);
   }
 
   @override

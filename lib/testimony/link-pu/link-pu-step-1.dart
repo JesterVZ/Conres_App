@@ -1,26 +1,55 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:conres_app/DI/dependency-provider.dart';
 import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/UI/main-form.dart';
 import 'package:conres_app/consts.dart';
 import 'package:conres_app/testimony/link-pu.dart';
 import 'package:conres_app/testimony/link-pu/link-pu-step-2.dart';
+import 'package:cool_dropdown/cool_dropdown.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../Services/link-pu-service.dart';
 import '../../elements/header/header-notification.dart';
 import '../../elements/testimony/object-pu-dialog.dart';
 import '../../elements/testimony/select-object-doalog.dart';
+import '../../model/object_pu.dart';
 
 class LinkPUStep1 extends StatefulWidget {
-  const LinkPUStep1({Key? key}) : super(key: key);
+  List<ObjectPuModel> objects;
+  LinkPUStep1({Key? key, required this.objects}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _LinkPUStep1();
 }
 
 class _LinkPUStep1 extends State<LinkPUStep1> {
+  List dropdownObjectsList = [];
+  LinkPuService? linkPuService;
+  
+  Map selectedObjects = {}; // выбранные объекты
+
   Future<void> _refrash() async {}
-  void _editPU() {}
+
+  void selectPoint(value) {
+    if(selectedObjects.containsKey(value['id']) == false){
+      setState(() {
+        final point = {value['id']: value['label']};
+        selectedObjects.addEntries(point.entries);
+      });
+      
+    }
+  }
+
+  @override
+  void initState() {
+    for (int i = 0; i < widget.objects.length; i++) {
+      dropdownObjectsList.add(
+          {'id': widget.objects[i].object_id, 'label': widget.objects[i].name, 'value': widget.objects[i].name});
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MainForm(
@@ -41,26 +70,53 @@ class _LinkPUStep1 extends State<LinkPUStep1> {
                         fontWeight: FontWeight.bold),
                   ),
                 ),
-                Text("Объект"),
-                Container(
-                  margin: EdgeInsets.only(bottom: 17),
-                  width: MediaQuery.of(context).size.width,
-                  height: 55,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              SelectObjectDialog());
-                    },
-                    child: Text("Выберите объект",
-                        style: TextStyle(color: colorMain, fontSize: 18)),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: messageColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                  ),
-                ),
+                Text("Объект", style: labelTextStyle),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5, bottom: 15),
+                                    child: CoolDropdown(
+                                      resultHeight: 55,
+                                      resultTS: TextStyle(
+                                          fontSize: 20,
+                                          color: colorMain,
+                                        ),
+                                      resultBD: BoxDecoration(
+                                          color: messageColor,
+                                          borderRadius: BorderRadius.circular(10),
+                                          
+                                        ),
+                                      selectedItemBD: BoxDecoration(
+                                          color: messageColor,
+                                          borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      selectedItemTS: TextStyle(
+                                          fontSize: 20,
+                                          color: colorMain,
+                                        ),
+                                      dropdownBD: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Color.fromARGB(255, 49, 49, 49).withOpacity(0.5),
+                                              spreadRadius: 1,
+                                              blurRadius: 10,
+                                              offset: Offset(0, 1),
+                                            ),
+                                          ]
+                                        ),
+                                      dropdownWidth:
+                                          MediaQuery.of(context).size.width -
+                                              50,
+                                      resultWidth:
+                                          MediaQuery.of(context).size.width,
+                                      dropdownList: dropdownObjectsList,
+                                      onChange: (value) {
+                                        selectPoint(value);
+                                      },
+                                      defaultValue: dropdownObjectsList[0],
+                                      
+                                    ),
+                                  ),
                 DefaultButton(
                     text: "Добавить новый объект",
                     onPressed: () {
@@ -195,5 +251,10 @@ class _LinkPUStep1 extends State<LinkPUStep1> {
           ],
         ),
         onRefrash: _refrash);
+  }
+  @override
+  void didChangeDependencies() {
+    linkPuService ??= DependencyProvider.of(context)!.linkPuService;
+    super.didChangeDependencies();
   }
 }

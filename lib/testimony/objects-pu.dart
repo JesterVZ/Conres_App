@@ -40,6 +40,7 @@ class _ObjectsPU extends State<ObjectsPU> {
   ScrollController scrollController = ScrollController();
   UpdateObjectService? updateObjectService;
   WebSocketChannel? webSocketChannel;
+  List<ObjectPuModel> objects = [];
 
   bool isLoaded = false;
   bool? isLoading;
@@ -108,7 +109,7 @@ class _ObjectsPU extends State<ObjectsPU> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => LinkPUStep1()));
+                                  builder: (context) => LinkPUStep1(objects: objects)));
                         },
                         child: const Text("Новый ПУ",
                             style: TextStyle(fontSize: 18)),
@@ -132,6 +133,7 @@ class _ObjectsPU extends State<ObjectsPU> {
     }
     if (state.objectsPU != null &&
         isLoaded == false) {
+          objects = state.objectsPU!;
       objectsMap = {for (var e in state.objectsPU!) e.object_id!: e};
       isLoaded = true;
     }
