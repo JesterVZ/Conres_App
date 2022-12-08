@@ -45,6 +45,7 @@ class _EditPuPage extends State<EditPuPage> {
   ProfileBloc? profileBloc;
   ProfileService? profileService;
   WebSocketChannel? webSocketChannel;
+  bool isLoading = false;
 
   Map selectedPoints = {}; // выбранные точки учета
   List dropdownPointsList = [];
@@ -94,7 +95,9 @@ class _EditPuPage extends State<EditPuPage> {
               return MainForm(
                   header: HeaderNotification(
                       text: "Редактировать ПУ", canGoBack: true),
-                  body: SingleChildScrollView(
+                  body: Stack(
+                    children: [
+                    SingleChildScrollView(
                       child: Padding(
                           padding: EdgeInsets.only(
                               left: defaultSidePadding,
@@ -430,11 +433,27 @@ class _EditPuPage extends State<EditPuPage> {
                                   ),
                                 ],
                               )))),
+                              Visibility(
+                          child: Center(
+                              child: Container(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator(color: colorMain),
+                          )),
+                          visible: (isLoading == true) ? true : false)
+                  ]),
+                                  
                   onRefrash: _refrash);
             }));
   }
 
   _listener(BuildContext context, ProfileState state) {
+    if (state.loading == true) {
+      isLoading = true;
+      return;
+    } else {
+      isLoading = false;
+    }
     if (state.TuPoints != null && isLoaded == false) {
       //points = {for (var e in state.TuPoints!) e.point_id!: e};
       isLoaded = true;
@@ -442,6 +461,7 @@ class _EditPuPage extends State<EditPuPage> {
     if(state.editPuFromTuData != null){
       List<Points> points = [];
       List<PointsCur> pointsCur = [];
+      List<String> newTuId = [];
       for(int i = 0; i < state.editPuFromTuData!['points'].length; i++){
         points.add(
           Points(
@@ -460,6 +480,9 @@ class _EditPuPage extends State<EditPuPage> {
           number: state.editPuFromTuData!['points_cur'][i]['number'],
           address: state.editPuFromTuData!['points_cur'][i]['address'],
         ));
+      }
+      for(int i = 0; i < state.editPuFromTuData!['pu_info']['new_tu_id'].length; i++){
+        newTuId.add(state.editPuFromTuData!['pu_info']['new_tu_id'][i]);
       }
       dynamic message = MessageSend(
                     cmd: "publish",
@@ -487,7 +510,28 @@ class _EditPuPage extends State<EditPuPage> {
                       newObjectAddress: state.editPuFromTuData!['new_object_address'],
                       points: points,
                       pointsCur: pointsCur,
-                      
+                      puInfo: PuInfo(
+                        objectId: state.editPuFromTuData!['pu_info']['object_id'],
+                        meterId: state.editPuFromTuData!['pu_info']['meter_id'],
+                        accountNumber: state.editPuFromTuData!['pu_info']['account_number'],
+                        newTuId: newTuId,
+                        newTuNumber: state.editPuFromTuData!['pu_info']['new_tu_number'],
+                        newTuName: state.editPuFromTuData!['pu_info']['new_tu_name'],
+                        newPuAddress: state.editPuFromTuData!['pu_info']['new_pu_address'],
+                        newPuName: state.editPuFromTuData!['pu_info']['new_pu_name'],
+                        newPuNumber: state.editPuFromTuData!['pu_info']['new_pu_number'],
+                        newPuType: state.editPuFromTuData!['pu_info']['new_pu_type'],
+                        newPuZone: state.editPuFromTuData!['pu_info']['new_pu_zone'],
+                        newPuRatio: state.editPuFromTuData!['pu_info']['new_pu_ratio'],
+                        tariffName: state.editPuFromTuData!['pu_info']['tariff_name'],
+                        readingsQuantity: state.editPuFromTuData!['pu_info']['readings_quantity'],
+                        typeName: state.editPuFromTuData!['pu_info']['type_name'],
+                        ),
+                      meterId: state.editPuFromTuData!['meter_id'],
+                      accountId: state.editPuFromTuData!['account_id'],
+                      accountNumber: state.editPuFromTuData!['account_number'],
+                      userLkId: state.editPuFromTuData!['user_lk_id'],
+                      dateAdded: state.editPuFromTuData!['date_added'],
                     ),
                     to_id: int.parse(user_id!)
                   );
