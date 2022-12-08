@@ -9,14 +9,14 @@ class ObjectPuModel {
   String? comments;
 
   ObjectPuModel(
-      {required this.object_id,
-      required this.name,
-      required this.address,
-      required this.account_id,
-      required this.date_added,
-      required this.hidden,
-      required this.status,
-      required this.comments});
+      {this.object_id,
+      this.name,
+      this.address,
+      this.account_id,
+      this.date_added,
+      this.hidden,
+      this.status,
+      this.comments});
 
   factory ObjectPuModel.fromMap(Map<String, dynamic> map) {
     return ObjectPuModel(
