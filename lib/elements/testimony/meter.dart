@@ -16,7 +16,14 @@ class MeterElement extends StatefulWidget {
   ValueChanged<Meter> remove;
   Function edit;
 
-  MeterElement({required this.currentMeter, required this.remove, required this.currentTu, required this.edit});
+  List<TuModel> TuPoints;
+
+  MeterElement(
+      {required this.currentMeter,
+      required this.remove,
+      required this.currentTu,
+      required this.edit,
+      required this.TuPoints});
   @override
   State<StatefulWidget> createState() => _MeterElement();
 }
@@ -73,10 +80,8 @@ class _MeterElement extends State<MeterElement> {
                       ],
                     ),
                     Container(
-                      child: Text(widget.currentMeter!.name!,
-                                    style: const TextStyle(fontSize: 18))
-                    ),
-                    
+                        child: Text(widget.currentMeter!.name!,
+                            style: const TextStyle(fontSize: 18))),
                   ],
                 ),
                 body: Column(
@@ -168,7 +173,12 @@ class _MeterElement extends State<MeterElement> {
                         margin: EdgeInsets.only(bottom: 12, top: 12),
                         child: ElevatedButton(
                           onPressed: () {
-                           Navigator.push(context, MaterialPageRoute(builder: (context) => EditPuPage()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditPuPage(
+                                          TuPoints: widget.TuPoints,
+                                        )));
                           },
                           child: const Text("Редактировать",
                               style:
@@ -183,8 +193,7 @@ class _MeterElement extends State<MeterElement> {
                         height: 55,
                         margin: EdgeInsets.only(bottom: 12, top: 12),
                         child: ElevatedButton(
-                          onPressed: () {
-                          },
+                          onPressed: () {},
                           child: Text("Cвернуть",
                               style: TextStyle(color: colorMain, fontSize: 18)),
                           style: ElevatedButton.styleFrom(

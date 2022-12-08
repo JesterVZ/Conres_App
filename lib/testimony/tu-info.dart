@@ -14,8 +14,9 @@ import '../model/TU.dart';
 import '../model/meter.dart';
 
 class TuFullInfo extends StatefulWidget {
+  List<TuModel> TuPoints;
   final TuModel? currentTu;
-  TuFullInfo({required this.currentTu});
+  TuFullInfo({required this.currentTu, required this.TuPoints});
   @override
   State<StatefulWidget> createState() => _TuFullInfo();
 }
@@ -40,24 +41,30 @@ class _TuFullInfo extends State<TuFullInfo> {
             body: Stack(
               children: [
                 ListView.builder(
-                  itemCount: objectsMap.length,
-                  itemBuilder: (context, int index) {
-                    return MeterElement(currentMeter: objectsMap.values.elementAt(index), currentTu: widget.currentTu, remove: removeObject, edit: editMeter);
-                  }),
+                    itemCount: objectsMap.length,
+                    itemBuilder: (context, int index) {
+                      return MeterElement(
+                          currentMeter: objectsMap.values.elementAt(index),
+                          currentTu: widget.currentTu,
+                          remove: removeObject,
+                          edit: editMeter,
+                          TuPoints: widget.TuPoints);
+                    }),
                 Visibility(
-                  visible: objectsMap.isEmpty && isLoading == false ? true : false,
+                  visible:
+                      objectsMap.isEmpty && isLoading == false ? true : false,
                   child: NotFound(
-                    title: "Счетчики",
-                    text: "По данной точке учета не найдены счетчики."),
+                      title: "Счетчики",
+                      text: "По данной точке учета не найдены счетчики."),
                 ),
                 Visibility(
-                          child: Center(
-                              child: Container(
-                            width: 50,
-                            height: 50,
-                            child: CircularProgressIndicator(color: colorMain),
-                          )),
-                          visible: (isLoading == true) ? true : false)
+                    child: Center(
+                        child: Container(
+                      width: 50,
+                      height: 50,
+                      child: CircularProgressIndicator(color: colorMain),
+                    )),
+                    visible: (isLoading == true) ? true : false)
               ],
             ),
             onRefrash: _refrash,
@@ -65,13 +72,9 @@ class _TuFullInfo extends State<TuFullInfo> {
         });
   }
 
-  void removeObject(Meter meter) {
+  void removeObject(Meter meter) {}
 
-  }
-
-  void editMeter(Meter meter){
-
-  }
+  void editMeter(Meter meter) {}
 
   _listener(BuildContext context, ProfileState state) {
     if (state.loading == true) {
@@ -80,8 +83,7 @@ class _TuFullInfo extends State<TuFullInfo> {
     } else {
       isLoading = false;
     }
-    if (state.TuMeters != null &&
-        isLoaded == false) {
+    if (state.TuMeters != null && isLoaded == false) {
       objectsMap = {for (var e in state.TuMeters!) e.meter_id!: e};
       isLoaded = true;
     }

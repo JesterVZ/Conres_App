@@ -41,6 +41,8 @@ class _PageTU extends State<PageTU> {
   WebSocketChannel? webSocketChannel;
   UpdateTuService? updateTuService;
 
+  List<TuModel> TuPoints = [];
+
   bool isLoaded = false;
   bool? isLoading;
 
@@ -54,28 +56,34 @@ class _PageTU extends State<PageTU> {
               onRefrash: _refrash,
               header: HeaderNotification(canGoBack: true, text: "Точки учета"),
               body: Stack(
-              children: [
-                ListView.builder(
-                  itemCount: objectsTuMap.length,
-                  itemBuilder: (context, int index) {
-                    return TuElement(currentTu: objectsTuMap.values.elementAt(index), remove: removeTu, edit: editTu);
-                  }),
-                Visibility(
-                  visible: objectsTuMap.isEmpty && isLoading == false ? true : false,
-                  child: NotFound(
-                    title: "Точки учета",
-                    text: "По данному объекту не найдены точки учета."),
-                ),
-                Visibility(
-                          child: Center(
-                              child: Container(
-                            width: 50,
-                            height: 50,
-                            child: CircularProgressIndicator(color: colorMain),
-                          )),
-                          visible: (isLoading == true) ? true : false)
-              ],
-            ),
+                children: [
+                  ListView.builder(
+                      itemCount: objectsTuMap.length,
+                      itemBuilder: (context, int index) {
+                        return TuElement(
+                            currentTu: objectsTuMap.values.elementAt(index),
+                            remove: removeTu,
+                            edit: editTu,
+                            TuPoints: TuPoints);
+                      }),
+                  Visibility(
+                    visible: objectsTuMap.isEmpty && isLoading == false
+                        ? true
+                        : false,
+                    child: NotFound(
+                        title: "Точки учета",
+                        text: "По данному объекту не найдены точки учета."),
+                  ),
+                  Visibility(
+                      child: Center(
+                          child: Container(
+                        width: 50,
+                        height: 50,
+                        child: CircularProgressIndicator(color: colorMain),
+                      )),
+                      visible: (isLoading == true) ? true : false)
+                ],
+              ),
               footer: Container(
                 child: Row(
                   children: [
@@ -90,7 +98,9 @@ class _PageTU extends State<PageTU> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => LinkTu(currentPU: widget.currentPU, refrash: _refrash)));
+                                    builder: (context) => LinkTu(
+                                        currentPU: widget.currentPU,
+                                        refrash: _refrash)));
                           },
                           child: const Text("Новый ТУ",
                               style: TextStyle(fontSize: 18)),
@@ -133,37 +143,37 @@ class _PageTU extends State<PageTU> {
     }
     if (state.TuPoints != null && isLoaded == false) {
       objectsTuMap = {for (var e in state.TuPoints!) e.point_id!: e};
+      TuPoints = state.TuPoints!;
       isLoaded = true;
     }
 
-    if(state.editTuData != null){
+    if (state.editTuData != null) {
       dynamic message = MessageSend(
-                    cmd: "publish",
-                    subject: "store-${store_id}",
-                    event: "point_binding_edit_new",
-                    data: TuEdited(
-                      edit: state.editTuData!['edit'],
-                      editPush: state.editTuData!['edit_push'],
-                      approve: state.editTuData!['approve'],
-                      requestId: state.editTuData!['request_id'],
-                      pointId: state.editTuData!['point_id'],
-                      newPointName: state.editTuData!['new_point_name'],
-                      newPointNumber: state.editTuData!['new_point_number'],
-                      newPointAddress: state.editTuData!['new_point_address'],
-                      pointName: state.editTuData!['point_name'],
-                      pointNumber: state.editTuData!['point_number'],
-                      pointAddress: state.editTuData!['point_address'],
-                      objectName: state.editTuData!['object_name'],
-                      objectAddress: state.editTuData!['object_address'],
-                      newObjectName: state.editTuData!['new_object_name'],
-                      newObjectAddress: state.editTuData!['new_object_address'],
-                      accountId: state.editTuData!['account_id'],
-                      accountNumber: state.editTuData!['account_number'],
-                      userLkId: state.editTuData!['user_lk_id'],
-                      dateAdded: state.editTuData!['date_added'],
-                    ),
-                    to_id: int.parse(user_id!)
-                  );
+          cmd: "publish",
+          subject: "store-${store_id}",
+          event: "point_binding_edit_new",
+          data: TuEdited(
+            edit: state.editTuData!['edit'],
+            editPush: state.editTuData!['edit_push'],
+            approve: state.editTuData!['approve'],
+            requestId: state.editTuData!['request_id'],
+            pointId: state.editTuData!['point_id'],
+            newPointName: state.editTuData!['new_point_name'],
+            newPointNumber: state.editTuData!['new_point_number'],
+            newPointAddress: state.editTuData!['new_point_address'],
+            pointName: state.editTuData!['point_name'],
+            pointNumber: state.editTuData!['point_number'],
+            pointAddress: state.editTuData!['point_address'],
+            objectName: state.editTuData!['object_name'],
+            objectAddress: state.editTuData!['object_address'],
+            newObjectName: state.editTuData!['new_object_name'],
+            newObjectAddress: state.editTuData!['new_object_address'],
+            accountId: state.editTuData!['account_id'],
+            accountNumber: state.editTuData!['account_number'],
+            userLkId: state.editTuData!['user_lk_id'],
+            dateAdded: state.editTuData!['date_added'],
+          ),
+          to_id: int.parse(user_id!));
       String data = jsonEncode(message.toJson());
       webSocketChannel!.sink.add(data);
       _refrash();
@@ -174,16 +184,14 @@ class _PageTU extends State<PageTU> {
         headerAnimationLoop: false,
         title: "Успешно!",
         desc: "Данные точки учета успешно изменены!",
-        btnOkOnPress: () {
-          
-        },
-        ).show();
+        btnOkOnPress: () {},
+      ).show();
     }
   }
 
-  void editTu(TuModel object){
-    profileBloc!.editTu(object.object_id!, object.number!, object.name!, object.address!);
-    
+  void editTu(TuModel object) {
+    profileBloc!.editTu(
+        object.object_id!, object.number!, object.name!, object.address!);
   }
 
   void updateStatus(String id, String status, String? comment) {
@@ -200,14 +208,13 @@ class _PageTU extends State<PageTU> {
   void removeTu(TuModel tuModel) {
     profileBloc!.hiddenTU(tuModel.point_id!);
     dynamic message = MessageSend(
-                    cmd: "publish",
-                    subject: "store-${store_id}",
-                    event: "point_binding_delete",
-                    data: TuHidden(point_id: int.parse(tuModel.point_id!)),
-                    to_id: int.parse(user_id!)
-                  );
-      String data = jsonEncode(message.toJson());
-      webSocketChannel!.sink.add(data);
+        cmd: "publish",
+        subject: "store-${store_id}",
+        event: "point_binding_delete",
+        data: TuHidden(point_id: int.parse(tuModel.point_id!)),
+        to_id: int.parse(user_id!));
+    String data = jsonEncode(message.toJson());
+    webSocketChannel!.sink.add(data);
     setState(() {
       objectsTuMap.remove(tuModel.point_id);
     });
@@ -224,7 +231,6 @@ class _PageTU extends State<PageTU> {
     isLoaded = false;
     profileBloc!.getTuPoints(widget.currentPU.object_id!);
   }
-
 
   @override
   void didChangeDependencies() {

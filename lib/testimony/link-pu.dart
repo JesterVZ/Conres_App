@@ -126,7 +126,7 @@ class _LinkPU extends State<LinkPU> {
                           Text(typePU,
                               style:
                                   TextStyle(color: colorGray, fontSize: 16.0)),
-                          const CustomDropDown(
+                          CustomDropDown(
                             title: "Выберите тип",
                             items: [
                               "Электроэнергия",
@@ -145,7 +145,7 @@ class _LinkPU extends State<LinkPU> {
                           Text(tarifPU,
                               style:
                                   TextStyle(color: colorGray, fontSize: 16.0)),
-                          const CustomDropDown(
+                          CustomDropDown(
                             title: "Выберите вид",
                             items: ["Однофазный", "Двухфазный", "Трехфазный"],
                           )
