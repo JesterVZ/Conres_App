@@ -223,7 +223,7 @@ class EditpuFromTu extends ProfileEvent{
     String object_id;
     String meter_id;
     String account_number; 
-    String new_tu_id;
+    List<String> new_tu_id;
     String new_tu_number;
     String new_tu_name;
     String new_pu_address;

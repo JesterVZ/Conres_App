@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:conres_app/DI/dependency-provider.dart';
 import 'package:conres_app/UI/default-input.dart';
 import 'package:conres_app/consts.dart';
 import 'package:conres_app/model/object_pu.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../Services/profile-service.dart';
 import '../../UI/default-button.dart';
 import 'object-pu-dialog.dart';
 
@@ -27,6 +29,7 @@ class ObjectPU extends StatefulWidget {
 class _ObjectPU extends State<ObjectPU> {
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  ProfileService? profileService;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -219,6 +222,7 @@ class _ObjectPU extends State<ObjectPU> {
                     width: 142,
                     child: ElevatedButton(
                         onPressed: () {
+                          profileService!.object_id = widget.objectPuModel.object_id;
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -239,7 +243,7 @@ class _ObjectPU extends State<ObjectPU> {
   }
   @override
   void didChangeDependencies() {
-    
+    profileService ??= DependencyProvider.of(context)!.profileService;
     super.didChangeDependencies();
   }
 }

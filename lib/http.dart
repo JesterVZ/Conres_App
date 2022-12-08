@@ -993,7 +993,7 @@ class HttpClient {
     String object_id, 
     String meter_id, 
     String account_number, 
-    String new_tu_id, 
+    List<String> new_tu_id, 
     String new_tu_number, 
     String new_tu_name, 
     String new_pu_address,
@@ -1003,9 +1003,18 @@ class HttpClient {
     String new_pu_zone,
     String new_pu_ratio) async {
     String uri = domain + 'lk/index.php?route=catalog/pu_info/api_editPuInfoMob';
-    var formdata = FormData.fromMap({
+     Map<String, dynamic> newTuMap = Map<String, dynamic>();
+
+     for (int i = 0; i < new_tu_id.length; i++) {
+      var object = {
+        'new_tu_id[]': new_tu_id[i],
+      };
+      newTuMap.addEntries(object.entries);
+    }
+    Map<String, dynamic> formDataMap = <String, dynamic>{
       'object_id': object_id,
       'meter_id': meter_id,
+      'account_number': account_number,
       'new_tu_id[]': new_tu_id,
       'new_tu_number': new_tu_number,
       'new_tu_name': new_tu_name,
@@ -1016,7 +1025,9 @@ class HttpClient {
       'new_pu_zone': new_pu_zone,
       'new_pu_ratio': new_pu_ratio,
       'isMobile': '1'
-    });
+    };
+    formDataMap.addEntries(newTuMap.entries);
+    var formdata = FormData.fromMap(formDataMap);
     final result = await _apiClient.post(uri, data: formdata);
     if (result.statusCode == 200) {
       return result.data['data'];

@@ -412,10 +412,9 @@ class _ProfilePage extends State<ProfilePageTest> {
     }
 
     if (state.profile != null) {
-      setState(() {
-        profile = state.profile!;
-        user_inn = state.profile!.personal;
-      });
+      profile = state.profile!;
+      user_inn = state.profile!.personal;
+      profileService!.accountNumber = state.profile!.personal;
     }
   }
 

@@ -258,6 +258,7 @@ class _TuElement extends State<TuElement> {
                                         ]),
                                   )),
                             ).show();
+                          
                           },
                           child: const Text("Редактировать",
                               style:

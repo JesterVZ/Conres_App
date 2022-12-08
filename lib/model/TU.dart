@@ -10,7 +10,7 @@ class TuModel{
   String? comments;
 
   TuModel({
-    required this.point_id,
+    this.point_id,
     this.object_id,
     this.name,
     this.number,

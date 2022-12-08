@@ -153,7 +153,7 @@ class _MeterElement extends State<MeterElement> {
                               children: [
                                 Container(
                                     margin: const EdgeInsets.only(bottom: 3),
-                                    child: Text("Тип ПУ:",
+                                    child: Text("Множитель показаний:",
                                         style: TextStyle(
                                             fontSize: 15,
                                             color: colorGrayClaim))),
@@ -178,6 +178,7 @@ class _MeterElement extends State<MeterElement> {
                                 MaterialPageRoute(
                                     builder: (context) => EditPuPage(
                                           TuPoints: widget.TuPoints,
+                                          currentMeter: widget.currentMeter!,
                                         )));
                           },
                           child: const Text("Редактировать",
