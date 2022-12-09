@@ -1,10 +1,15 @@
+import 'dart:convert';
+
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/DI/dependency-provider.dart';
 import 'package:conres_app/UI/default-input.dart';
 import 'package:conres_app/elements/dropdown.dart';
 import 'package:cool_dropdown/cool_dropdown.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
+import '../../Services/link-pu-service.dart';
 import '../../UI/default-button.dart';
 import '../../UI/main-form.dart';
 import '../../bloc/profile/profile-bloc.dart';
@@ -14,6 +19,8 @@ import '../../elements/PU/list-element.dart';
 import '../../elements/bloc/bloc-screen.dart';
 import '../../elements/header/header-notification.dart';
 import '../../elements/testimony/select-object-doalog.dart';
+import '../../websocket/message-send.dart';
+import '../../websocket/meter-bind-new.dart';
 
 class LinkPUStep3 extends StatefulWidget {
   const LinkPUStep3({Key? key}) : super(key: key);
@@ -24,21 +31,26 @@ class LinkPUStep3 extends StatefulWidget {
 
 class _LinkPUStep3 extends State<LinkPUStep3> {
   ProfileBloc? profileBloc;
+  WebSocketChannel? webSocketChannel;
   TextEditingController nameController = TextEditingController();
   TextEditingController numberController = TextEditingController();
   TextEditingController typeController = TextEditingController();
   TextEditingController tariffController = TextEditingController();
   TextEditingController multipler = TextEditingController();
+  LinkPuService? linkPuService;
+  final _formKey = GlobalKey<FormState>();
 
   bool? isLoading;
 
   List dropdownTypeList = [
     {'label': 'Электроэнергия', 'value': '1'}
   ];
+  String selectedType = '1';
   List dropdownTariffList = [
     {'label': 'Двухтарифный', 'value': '2'},
     {'label': 'Однотарифный', 'value': '3'}
   ];
+  String selectedTariff = '2';
 
   Future<void> _refrash() async {}
   @override
@@ -52,6 +64,8 @@ class _LinkPUStep3 extends State<LinkPUStep3> {
               body: Stack(
                 children: [
                   SingleChildScrollView(
+                      child: Form(
+                    key: _formKey,
                     child: Padding(
                         padding: EdgeInsets.only(
                             left: defaultSidePadding,
@@ -75,6 +89,7 @@ class _LinkPUStep3 extends State<LinkPUStep3> {
                                     labelText: "Наименование ПУ",
                                     keyboardType: TextInputType.text,
                                     hintText: "Наименование ПУ",
+                                    validatorText: "Введитие наименование ПУ",
                                     controller: nameController)),
                             Container(
                               margin: EdgeInsets.only(bottom: 12),
@@ -82,6 +97,7 @@ class _LinkPUStep3 extends State<LinkPUStep3> {
                                   labelText: "Номер ПУ",
                                   keyboardType: TextInputType.text,
                                   hintText: "Номер ПУ",
+                                  validatorText: "Введитие номер ПУ",
                                   controller: numberController),
                             ),
                             Container(
@@ -138,7 +154,9 @@ class _LinkPUStep3 extends State<LinkPUStep3> {
                                                 .size
                                                 .width,
                                             dropdownList: dropdownTypeList,
-                                            onChange: (_) {},
+                                            onChange: (value) {
+                                              selectedType = value['value'];
+                                            },
                                             defaultValue: dropdownTypeList[0],
                                           )),
                                     ])),
@@ -148,7 +166,8 @@ class _LinkPUStep3 extends State<LinkPUStep3> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text("Тип ПУ", style: labelTextStyle),
+                                      Text("Тарифная зона ПУ",
+                                          style: labelTextStyle),
                                       SizedBox(
                                           width:
                                               MediaQuery.of(context).size.width,
@@ -196,7 +215,9 @@ class _LinkPUStep3 extends State<LinkPUStep3> {
                                                 .size
                                                 .width,
                                             dropdownList: dropdownTariffList,
-                                            onChange: (_) {},
+                                            onChange: (value) {
+                                              selectedTariff = value['value'];
+                                            },
                                             defaultValue: dropdownTariffList[0],
                                           )),
                                     ])),
@@ -204,10 +225,11 @@ class _LinkPUStep3 extends State<LinkPUStep3> {
                                 labelText: "Множитель показаний",
                                 keyboardType: TextInputType.text,
                                 hintText: "Множитель показаний",
+                                validatorText: "Введитие множитель показателей",
                                 controller: multipler),
                           ],
                         )),
-                  ),
+                  )),
                   Visibility(
                       child: Center(
                           child: Container(
@@ -243,7 +265,17 @@ class _LinkPUStep3 extends State<LinkPUStep3> {
                       width: 160,
                       height: 55,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            linkPuService!.new_pu_name = nameController.text;
+                            linkPuService!.new_pu_number =
+                                numberController.text;
+                            linkPuService!.new_pu_type = selectedType;
+                            linkPuService!.new_pu_zone = selectedTariff;
+                            linkPuService!.new_pu_ratio = multipler.text;
+                            profileBloc!.bindPu(linkPuService!);
+                          }
+                        },
                         child: const Text("Отправить",
                             style: TextStyle(fontSize: 18)),
                         style: ElevatedButton.styleFrom(
@@ -264,11 +296,81 @@ class _LinkPUStep3 extends State<LinkPUStep3> {
     } else {
       isLoading = false;
     }
+    if (state.bindPuData != null) {
+      List<PointsMeter> points = [];
+      List<String> newTuId = [];
+      for (int i = 0; i < state.bindPuData!['points'].length; i++) {
+        points.add(PointsMeter(
+            pointId: state.bindPuData!['points'][i]['point_id'],
+            newName: state.bindPuData!['points'][i]['new_name'],
+            newNumber: state.bindPuData!['points'][i]['new_number'],
+            newAddress: state.bindPuData!['points'][i]['new_address']));
+      }
+      for (int i = 0;
+          i < state.bindPuData!['pu_info']['new_tu_id'].length;
+          i++) {
+        newTuId.add(state.bindPuData!['pu_info']['new_tu_id'][i]);
+      }
+      dynamic message = MessageSend(
+          cmd: "publish",
+          subject: "store-${store_id}",
+          event: "account_new",
+          data: BindTuNew(
+              newObjectName: state.bindPuData!['new_object_name'],
+              newObjectAddress: state.bindPuData!['new_object_address'],
+              objectId: state.bindPuData!['object_id'],
+              points: points,
+              meterId: state.bindPuData!['meter_id'],
+              code: state.bindPuData!['code'],
+              msg: state.bindPuData!['msg'],
+              dateRevise: state.bindPuData!['date_revise'],
+              accountId: state.bindPuData!['account_id'],
+              accountNumber: state.bindPuData!['account_number'],
+              userLkId: state.bindPuData!['user_lk_id'],
+              dateAdded: state.bindPuData!['date_added'],
+              puInfo: PuInfo(
+                newObjectId: state.bindPuData!['pu_info']['new_object_id'],
+                newObjectName: state.bindPuData!['pu_info']['new_object_name'],
+                newObjectAddress: state.bindPuData!['pu_info']
+                    ['new_object_address'],
+                newTuId: newTuId,
+                newTuNumber: state.bindPuData!['pu_info']['new_tu_number'],
+                newTuName: state.bindPuData!['pu_info']['new_tu_name'],
+                newPuAddress: state.bindPuData!['pu_info']['new_pu_address'],
+                newPuName: state.bindPuData!['pu_info']['new_pu_name'],
+                newPuNumber: state.bindPuData!['pu_info']['new_pu_number'],
+                newPuType: state.bindPuData!['pu_info']['new_pu_type'],
+                newPuZone: state.bindPuData!['pu_info']['new_pu_zone'],
+                newPuRatio: state.bindPuData!['pu_info']['new_pu_ratio'],
+                userLkId: state.bindPuData!['pu_info']['user_lk_id'],
+                newDateRevise: state.bindPuData!['pu_info']['new_date_revise'],
+                tariffName: state.bindPuData!['pu_info']['tariff_name'],
+                typeName: state.bindPuData!['pu_info']['tarifftype_name_name'],
+              )),
+          to_id: int.parse(user_id!));
+      String data = jsonEncode(message.toJson());
+      webSocketChannel!.sink.add(data);
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.success,
+        animType: AnimType.bottomSlide,
+        headerAnimationLoop: false,
+        title: "Успешно!",
+        desc: "Запрос на привязку отправлен!",
+        btnOkOnPress: () {
+          //widget.refrash!.call();
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        },
+      ).show();
+    }
   }
 
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    linkPuService ??= DependencyProvider.of(context)!.linkPuService;
+    webSocketChannel ??=
+        DependencyProvider.of(context)!.webSocketChannel(false);
     super.didChangeDependencies();
   }
 }

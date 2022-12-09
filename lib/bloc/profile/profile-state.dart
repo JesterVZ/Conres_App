@@ -48,6 +48,8 @@ class ProfileState {
   final Map<String, dynamic>? editObjectData;
   final Map<String, dynamic>? editTuData;
   final Map<String, dynamic>? editPuFromTuData;
+  final Map<String, dynamic>? bindPuData;
+
   final String? page;
   final UserInformation? userInformation;
 
@@ -68,6 +70,7 @@ class ProfileState {
       this.contracts,
       this.numbers,
       this.claims,
+      this.bindPuData,
       this.editTuData,
       this.editPuFromTuData,
       this.images,
@@ -101,6 +104,7 @@ class ProfileState {
       bindTuData: null,
       claimCounter: null,
       claimMessages: null,
+      bindPuData: null,
       claims: null,
       contracts: null,
       createClaimData: null,
@@ -138,6 +142,7 @@ class ProfileState {
       Map<String, dynamic>? editObjectData,
       Map<String, dynamic>? editTuData,
       Map<String, dynamic>? editPuFromTuData,
+      Map<String, dynamic>? bindPuData,
       dynamic webSocketData,
       List<Contract>? contracts,
       List<String>? numbers,
@@ -171,6 +176,7 @@ class ProfileState {
         bindTuData: bindTuData,
         editObjectData: editObjectData,
         editTuData: editTuData,
+        bindPuData: bindPuData,
         contracts: contracts ?? this.contracts,
         editPuFromTuData: editPuFromTuData,
         numbers: numbers ?? this.numbers,

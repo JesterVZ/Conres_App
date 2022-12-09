@@ -234,6 +234,16 @@ class _LinkPUStep1 extends State<LinkPUStep1> {
                 child: ElevatedButton(
                   onPressed: (selectedObject != null || isAddNewObject == true)
                       ? () {
+                          if (isAddNewObject == false) {
+                            linkPuService!.new_object_id =
+                                selectedObject!.object_id;
+                          } else {
+                            linkPuService!.new_object_id = '0';
+                            linkPuService!.new_object_name =
+                                nameController.text;
+                            linkPuService!.new_object_address =
+                                addressController.text;
+                          }
                           Navigator.push(
                               context,
                               MaterialPageRoute(

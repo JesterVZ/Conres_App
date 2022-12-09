@@ -733,7 +733,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       yield state.copyWith(loading: true, error: null);
       var result = await repo.bindPu(event.linkPuService);
-      yield state.copyWith(loading: false, error: null, TuMeters: result);
+      yield state.copyWith(loading: false, error: null, bindPuData: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }

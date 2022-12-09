@@ -1010,7 +1010,24 @@ class HttpClient {
   Future<Object?> bindPuEvent(LinkPuService linkPuService) async {
     String uri =
         domain + 'lk/index.php?route=catalog/objects/api_bind_request_pu';
-    var formdata = FormData.fromMap({
+    List<Map<String, dynamic>> listMaps = [
+      {'new_object_id': linkPuService.new_object_id},
+      {
+        'new_object_name': linkPuService.new_object_name,
+      },
+      {'new_object_address': linkPuService.new_object_address},
+      {'new_tu_number': linkPuService.new_tu_number},
+      {'new_tu_name': linkPuService.new_tu_name},
+      {'new_pu_address': linkPuService.new_pu_address},
+      {'new_pu_name': linkPuService.new_pu_name},
+      {'new_pu_number': linkPuService.new_pu_number},
+      {'new_pu_type': linkPuService.new_pu_type},
+      {'new_pu_zone': linkPuService.new_pu_zone},
+      {'new_pu_ratio': linkPuService.new_pu_ratio},
+      {'isMobile': '1'}
+    ];
+
+    Map<String, dynamic> formDataMap = <String, dynamic>{
       'new_object_id': linkPuService.new_object_id,
       'new_object_name': linkPuService.new_object_name,
       'new_object_address': linkPuService.new_object_address,
@@ -1019,14 +1036,26 @@ class HttpClient {
       'new_pu_address': linkPuService.new_pu_address,
       'new_pu_name': linkPuService.new_pu_name,
       'new_pu_number': linkPuService.new_pu_number,
-      'new_pu_type': linkPuService,
+      'new_pu_type': linkPuService.new_pu_type,
       'new_pu_zone': linkPuService.new_pu_zone,
       'new_pu_ratio': linkPuService.new_pu_ratio,
       'isMobile': '1'
-    });
+    };
+    for (int i = 0; i < linkPuService.tuIdList!.length; i++) {
+      listMaps.add({'new_tu_id[]:': linkPuService.tuIdList![i]});
+    }
+
+    if (linkPuService.tuIdList != null && linkPuService.tuIdList!.isNotEmpty) {
+      final tuArray = <String, dynamic>{
+        'new_tu_id[]:': linkPuService.tuIdList!
+      };
+      formDataMap.addEntries(tuArray.entries);
+    }
+    var formdata = FormData.fromMap(formDataMap);
     final result = await _apiClient.post(uri, data: formdata);
+    final Map<String, dynamic> data = json.decode(result.data);
     if (result.statusCode == 200) {
-      return result.data['data'];
+      return data;
     } else {
       throw Exception("Ошибка при добавлении прибора учета, повторите попытку");
     }

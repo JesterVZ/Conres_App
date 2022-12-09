@@ -5,7 +5,9 @@ import '../../consts.dart';
 
 class ListElement extends StatelessWidget {
   String text;
-  ListElement({required this.text});
+  String id;
+  Function remove;
+  ListElement({required this.text, required this.id, required this.remove});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,6 +21,7 @@ class ListElement extends StatelessWidget {
           Text(text),
           const Spacer(),
           GestureDetector(
+            onTap: () => remove.call(id),
             child: SvgPicture.asset("assets/list-close.svg"),
           )
         ],

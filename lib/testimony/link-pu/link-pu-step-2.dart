@@ -4,6 +4,8 @@ import 'package:cool_dropdown/cool_dropdown.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../DI/dependency-provider.dart';
+import '../../Services/link-pu-service.dart';
 import '../../UI/default-button.dart';
 import '../../UI/main-form.dart';
 import '../../consts.dart';
@@ -24,9 +26,11 @@ class _LinkPUStep2 extends State<LinkPUStep2> {
   List dropdownTuList = [];
   Map selectedTu = {};
   bool isGotTu = false;
+  LinkPuService? linkPuService;
   TextEditingController numberController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   Future<void> _refrash() async {}
 
@@ -37,6 +41,12 @@ class _LinkPUStep2 extends State<LinkPUStep2> {
         selectedTu.addEntries(point.entries);
       });
     }
+  }
+
+  void remove(String id) {
+    setState(() {
+      selectedTu.remove(id);
+    });
   }
 
   @override
@@ -53,6 +63,12 @@ class _LinkPUStep2 extends State<LinkPUStep2> {
     }
     if (dropdownTuList.isEmpty) {
       dropdownTuList.add({'label': '', 'value': ''});
+    } else {
+      selectPoint({
+        'id': tuFullList![0].point_id,
+        'label': tuFullList![0].name,
+        'value': tuFullList![0].name
+      });
     }
 
     super.initState();
@@ -137,8 +153,12 @@ class _LinkPUStep2 extends State<LinkPUStep2> {
                                         itemCount: selectedTu.length,
                                         itemBuilder: (context, int index) {
                                           return ListElement(
-                                              text: selectedTu.values
-                                                  .elementAt(index));
+                                            text: selectedTu.values
+                                                .elementAt(index),
+                                            id: selectedTu.keys
+                                                .elementAt(index),
+                                            remove: remove,
+                                          );
                                         }))
                               ],
                             )),
@@ -150,29 +170,31 @@ class _LinkPUStep2 extends State<LinkPUStep2> {
                     )),
                 Visibility(
                     visible: !isGotTu,
-                    child: Column(children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: 12, top: 15),
-                        child: DefaultInput(
-                            labelText: "Номер ТУ",
-                            hintText: "Номер ТУ",
-                            keyboardType: TextInputType.text,
-                            controller: numberController),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(bottom: 12),
-                        child: DefaultInput(
-                            labelText: "Наименование ТУ",
-                            hintText: "Наименование ТУ",
-                            keyboardType: TextInputType.text,
-                            controller: nameController),
-                      ),
-                      DefaultInput(
-                          labelText: "Адрес ТУ",
-                          hintText: "Адрес ТУ",
-                          keyboardType: TextInputType.text,
-                          controller: addressController)
-                    ]))
+                    child: Form(
+                        key: _formKey,
+                        child: Column(children: [
+                          Container(
+                            margin: EdgeInsets.only(bottom: 12, top: 15),
+                            child: DefaultInput(
+                                labelText: "Номер ТУ",
+                                hintText: "Номер ТУ",
+                                keyboardType: TextInputType.text,
+                                controller: numberController),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 12),
+                            child: DefaultInput(
+                                labelText: "Наименование ТУ",
+                                hintText: "Наименование ТУ",
+                                keyboardType: TextInputType.text,
+                                controller: nameController),
+                          ),
+                          DefaultInput(
+                              labelText: "Адрес ТУ",
+                              hintText: "Адрес ТУ",
+                              keyboardType: TextInputType.text,
+                              controller: addressController)
+                        ])))
               ],
             )),
         footer: Row(
@@ -200,10 +222,32 @@ class _LinkPUStep2 extends State<LinkPUStep2> {
                 width: 160,
                 height: 55,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LinkPUStep3()));
-                  },
+                  onPressed: selectedTu.isNotEmpty
+                      ? () {
+                          if (isGotTu) {
+                            linkPuService!.tuIdList = [];
+                            selectedTu.forEach((key, value) {
+                              linkPuService!.tuIdList!.add(key);
+                            });
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LinkPUStep3()));
+                          } else {
+                            if (_formKey.currentState!.validate()) {
+                              linkPuService!.new_tu_number =
+                                  numberController.text;
+                              linkPuService!.new_tu_name = nameController.text;
+                              linkPuService!.new_pu_address =
+                                  addressController.text;
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LinkPUStep3()));
+                            }
+                          }
+                        }
+                      : null,
                   child: const Text("Далее", style: TextStyle(fontSize: 18)),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: colorMain,
@@ -213,5 +257,11 @@ class _LinkPUStep2 extends State<LinkPUStep2> {
           ],
         ),
         onRefrash: _refrash);
+  }
+
+  @override
+  void didChangeDependencies() {
+    linkPuService ??= DependencyProvider.of(context)!.linkPuService;
+    super.didChangeDependencies();
   }
 }
