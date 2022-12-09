@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:conres_app/DI/dependency-provider.dart';
 import 'package:conres_app/DI/locator.dart';
+import 'package:conres_app/Services/link-pu-service.dart';
 import 'package:conres_app/Services/main-claim-send-service.dart';
 import 'package:conres_app/model/claim-message.dart';
 import 'package:conres_app/model/object_pu.dart';
@@ -82,8 +83,10 @@ class HttpClient {
     }
   }
 
-  Future<dynamic> bindNewTU(String object_id, String new_tu_number, String new_tu_name, String new_tu_address) async {
-    String uri = domain + 'lk/index.php?route=catalog/pu_info/api_bind_request_tu';
+  Future<dynamic> bindNewTU(String object_id, String new_tu_number,
+      String new_tu_name, String new_tu_address) async {
+    String uri =
+        domain + 'lk/index.php?route=catalog/pu_info/api_bind_request_tu';
     try {
       var formData = FormData.fromMap({
         'object_id': object_id,
@@ -338,8 +341,7 @@ class HttpClient {
   }
 
   Future<dynamic> hideObject(String object_id) async {
-    String uri = domain +
-        'lk/index.php?route=catalog/objects/api_deleteObject';
+    String uri = domain + 'lk/index.php?route=catalog/objects/api_deleteObject';
     var formData = FormData.fromMap({'object_id': object_id, 'isMobile': '1'});
     final result = await _apiClient.post(uri, data: formData);
     if (result.statusCode == 200) {
@@ -348,8 +350,8 @@ class HttpClient {
   }
 
   Future<dynamic> hideTu(String point_id) async {
-    String uri = domain +
-        'lk/index.php?route=catalog/pu_info/api_deletePointMeter';
+    String uri =
+        domain + 'lk/index.php?route=catalog/pu_info/api_deletePointMeter';
     var formData = FormData.fromMap({'type': 'point', 'id': point_id});
     final result = await _apiClient.post(uri, data: formData);
     if (result.statusCode == 200) {
@@ -574,10 +576,14 @@ class HttpClient {
     String uri = domain + 'lk/index.php?route=catalog/user_information/api_get';
     final result = await _apiClient.post(uri);
     if (result.statusCode == 200) {
-      UserInformation userInformation = UserInformation.fromMap(result.data['data']);
+      UserInformation userInformation =
+          UserInformation.fromMap(result.data['data']);
       userInformation.user_info_contacts = [];
-      for(int i = 0; i < result.data['data']['user_info_contacts'].length; i++){
-        userInformation.user_info_contacts!.add(Contact.fromMap(result.data['data']['user_info_contacts'][i]));
+      for (int i = 0;
+          i < result.data['data']['user_info_contacts'].length;
+          i++) {
+        userInformation.user_info_contacts!
+            .add(Contact.fromMap(result.data['data']['user_info_contacts'][i]));
       }
       return userInformation;
     } else {
@@ -586,7 +592,8 @@ class HttpClient {
   }
 
   Future<Object?> getTU(String object_id) async {
-    String uri = domain + 'lk/index.php?route=catalog/objects/api_getPointsFromObject';
+    String uri =
+        domain + 'lk/index.php?route=catalog/objects/api_getPointsFromObject';
     try {
       var formData = FormData.fromMap({
         'object_id': object_id,
@@ -600,7 +607,6 @@ class HttpClient {
           for (int i = 0; i < result.data['data']['list_tu'].length; i++) {
             objects.add(TuModel.fromMap(result.data['data']['list_tu'][i]));
           }
-          
         }
         return objects;
       }
@@ -619,6 +625,16 @@ class HttpClient {
       }
     } catch (e) {
       return (e);
+    }
+  }
+
+  Future<Object?> getFullObjectInfo() async {
+    String uri = domain + 'lk/index.php?route=catalog/objects/api_list';
+    final result = await _apiClient.get(uri);
+    if (result.statusCode == 200) {
+      return result.data['data'];
+    } else {
+      throw Exception("Не удалось получить данные об объектах, Ту и ПУ");
     }
   }
 
@@ -667,7 +683,8 @@ class HttpClient {
   }
 
   Future<Object?> getMetersFromPoint(String point_id) async {
-    String uri = domain + 'lk/index.php?route=catalog/measures/api_getMeterInfo';
+    String uri =
+        domain + 'lk/index.php?route=catalog/measures/api_getMeterInfo';
     try {
       var formData = FormData.fromMap({
         'point_id': point_id,
@@ -972,7 +989,8 @@ class HttpClient {
     }
   }
 
-  Future<Object?> editObjectTu(String id, String number, String name, String address) async {
+  Future<Object?> editObjectTu(
+      String id, String number, String name, String address) async {
     String uri = domain + 'lk/index.php?route=catalog/pu_info/api_editTuInfo';
     var formdata = FormData.fromMap({
       'point_id': id,
@@ -989,23 +1007,49 @@ class HttpClient {
     }
   }
 
-  Future<Object?> editPuFromTu(
-    String object_id, 
-    String meter_id, 
-    String account_number, 
-    List<String> new_tu_id, 
-    String new_tu_number, 
-    String new_tu_name, 
-    String new_pu_address,
-    String new_pu_name,
-    String new_pu_number,
-    String new_pu_type,
-    String new_pu_zone,
-    String new_pu_ratio) async {
-    String uri = domain + 'lk/index.php?route=catalog/pu_info/api_editPuInfoMob';
-     Map<String, dynamic> newTuMap = Map<String, dynamic>();
+  Future<Object?> bindPuEvent(LinkPuService linkPuService) async {
+    String uri =
+        domain + 'lk/index.php?route=catalog/objects/api_bind_request_pu';
+    var formdata = FormData.fromMap({
+      'new_object_id': linkPuService.new_object_id,
+      'new_object_name': linkPuService.new_object_name,
+      'new_object_address': linkPuService.new_object_address,
+      'new_tu_number': linkPuService.new_tu_number,
+      'new_tu_name': linkPuService.new_tu_name,
+      'new_pu_address': linkPuService.new_pu_address,
+      'new_pu_name': linkPuService.new_pu_name,
+      'new_pu_number': linkPuService.new_pu_number,
+      'new_pu_type': linkPuService,
+      'new_pu_zone': linkPuService.new_pu_zone,
+      'new_pu_ratio': linkPuService.new_pu_ratio,
+      'isMobile': '1'
+    });
+    final result = await _apiClient.post(uri, data: formdata);
+    if (result.statusCode == 200) {
+      return result.data['data'];
+    } else {
+      throw Exception("Ошибка при добавлении прибора учета, повторите попытку");
+    }
+  }
 
-     for (int i = 0; i < new_tu_id.length; i++) {
+  Future<Object?> editPuFromTu(
+      String object_id,
+      String meter_id,
+      String account_number,
+      List<String> new_tu_id,
+      String new_tu_number,
+      String new_tu_name,
+      String new_pu_address,
+      String new_pu_name,
+      String new_pu_number,
+      String new_pu_type,
+      String new_pu_zone,
+      String new_pu_ratio) async {
+    String uri =
+        domain + 'lk/index.php?route=catalog/pu_info/api_editPuInfoMob';
+    Map<String, dynamic> newTuMap = Map<String, dynamic>();
+
+    for (int i = 0; i < new_tu_id.length; i++) {
       var object = {
         'new_tu_id[]': new_tu_id[i],
       };

@@ -2,6 +2,8 @@ library conres_app.consts;
 
 import 'dart:ui';
 
+import 'package:conres_app/model/TU.dart';
+import 'package:conres_app/model/object_pu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -12,6 +14,9 @@ String? store_id;
 String? user_id;
 String? user_inn;
 List? cookiesList;
+List<ObjectPuModel>? objectsList = []; // полный список объектов
+List<TuModel>? tuFullList = []; // полный список точек учета
+List<TuModel>? tuFromObjectList = []; // список точке учета от объекта
 
 String title = "тестовая компания";
 String lkTitle = "Личный кабинет потребителя";

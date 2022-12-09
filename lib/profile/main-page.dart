@@ -64,7 +64,6 @@ class _MainPage extends State<MainPage> {
   List<Widget> navigatorList = [];
   ProfileBloc? profileBloc;
 
-
   bool isConnected = false;
 
   @override
@@ -230,11 +229,10 @@ class _MainPage extends State<MainPage> {
                   webSocketData!.data['ticket_info'][0]['ticket_id'],
                   webSocketData!.data['ticket_info'][0]['name']);
               break;
-              //account events
+            //account events
             case "account_accept":
               updateAccountService!.update!
-                  .call(webSocketData!.data['account_id'], "2", null
-                      );
+                  .call(webSocketData!.data['account_id'], "2", null);
               break;
             case "account_cancel":
               updateAccountService!.update!.call(
@@ -243,33 +241,36 @@ class _MainPage extends State<MainPage> {
                   webSocketData!.data[
                       'comment'] //комментарий, который написал челик из РСО
                   );
-            break;
+              break;
             //object events
             case "object_binding_cancel":
-            updateObjectService!.update!.call(webSocketData!.data['object_id'], "0", webSocketData!.data[
-                      'comment']);
-            break;
+              updateObjectService!.update!.call(
+                  webSocketData!.data['object_id'],
+                  "0",
+                  webSocketData!.data['comment']);
+              break;
             case "object_binding_accept":
-            updateObjectService!.update!.call(webSocketData!.data['object_id'], "2", webSocketData!.data[
-                      'comment']);
-            break;
+              updateObjectService!.update!.call(
+                  webSocketData!.data['object_id'],
+                  "2",
+                  webSocketData!.data['comment']);
+              break;
             //tu events
             case "point_binding_cancel":
-            updateTuService!.update!.call(webSocketData!.data['point_id'], "0", webSocketData!.data[
-                      'comment']);
-            break;
+              updateTuService!.update!.call(webSocketData!.data['point_id'],
+                  "0", webSocketData!.data['comment']);
+              break;
             case "point_binding_accept":
-            updateTuService!.update!.call(webSocketData!.data['point_id'], "2", webSocketData!.data[
-                      'comment']);
-            break;
+              updateTuService!.update!.call(webSocketData!.data['point_id'],
+                  "2", webSocketData!.data['comment']);
+              break;
             case "point_binding_delete":
-            updateTuService!.remove!.call(webSocketData!.data['point_id']);
-            break;
+              updateTuService!.remove!.call(webSocketData!.data['point_id']);
+              break;
             //pu events
             case "meter_binding_edit_new":
-            updateTuService!.remove!.call(webSocketData!.data['point_id']);
-            break;
-
+              updateTuService!.remove!.call(webSocketData!.data['point_id']);
+              break;
           }
         } catch (e) {
           print(e);
@@ -299,7 +300,7 @@ class _MainPage extends State<MainPage> {
     webSocketListener?.function = getData;
     profileBloc!.getCookies(cookiesList!);
     profileBloc!.getFullProfileInfo();
+    profileBloc!.getFullObjectsInfo();
     webSocketListener!.listen();
-    
   }
 }

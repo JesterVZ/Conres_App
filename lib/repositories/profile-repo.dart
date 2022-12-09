@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:conres_app/Services/link-pu-service.dart';
 import 'package:conres_app/Services/main-claim-send-service.dart';
 import 'package:conres_app/http.dart';
 import 'package:file_picker/file_picker.dart';
@@ -102,7 +103,7 @@ class ProfileRepo {
   }
 
   Future<dynamic> createNewTicket(String contact_email, String contact_name,
-    String ticket_theme_id, String message) async {
+      String ticket_theme_id, String message) async {
     var result = await httpClient.addTicket(
         contact_email, contact_name, ticket_theme_id, message);
     return result;
@@ -153,55 +154,80 @@ class ProfileRepo {
     return result;
   }
 
-  Future<dynamic> editTu(String id, String number, String name, String address) async {
+  Future<dynamic> editTu(
+      String id, String number, String name, String address) async {
     var result = await httpClient.editObjectTu(id, number, name, address);
     return result;
   }
 
-  Future<dynamic> hideAccount(String account_id) async{
+  Future<dynamic> hideAccount(String account_id) async {
     var result = await httpClient.hideAccount(account_id);
     return result;
   }
 
-  Future<dynamic> hideObject(String object_id) async{
+  Future<dynamic> hideObject(String object_id) async {
     var result = await httpClient.hideObject(object_id);
     return result;
   }
 
-  Future<dynamic> hideTu(String point_id) async{
+  Future<dynamic> hideTu(String point_id) async {
     var result = await httpClient.hideTu(point_id);
     return result;
   }
 
-  Future<dynamic> bindNewObject(String objectName, String objectAddress) async{
+  Future<dynamic> bindNewObject(String objectName, String objectAddress) async {
     var result = await httpClient.bindNewObject(objectName, objectAddress);
     return result;
   }
 
-  Future<dynamic> bindNewTU(String object_id, String new_tu_number, String new_tu_name, String new_tu_address) async{
-    var result = await httpClient.bindNewTU(object_id, new_tu_number, new_tu_name, new_tu_address);
+  Future<dynamic> bindNewTU(String object_id, String new_tu_number,
+      String new_tu_name, String new_tu_address) async {
+    var result = await httpClient.bindNewTU(
+        object_id, new_tu_number, new_tu_name, new_tu_address);
     return result;
   }
 
-  Future<dynamic> getMetersFromTu(String point_id) async{
+  Future<dynamic> getMetersFromTu(String point_id) async {
     var result = await httpClient.getMetersFromPoint(point_id);
     return result;
   }
 
+  Future<dynamic> getFullObjectInfo() async {
+    var result = await httpClient.getFullObjectInfo();
+    return result;
+  }
+
+  Future<dynamic> bindPu(LinkPuService linkPuService) async {
+    var result = httpClient.bindPuEvent(linkPuService);
+    return result;
+  }
+
   Future<dynamic> editPuFromTu(
-    String object_id, 
-    String meter_id, 
-    String account_number, 
-    List<String> new_tu_id, 
-    String new_tu_number, 
-    String new_tu_name, 
-    String new_pu_address,
-    String new_pu_name,
-    String new_pu_number,
-    String new_pu_type,
-    String new_pu_zone,
-    String new_pu_ratio) async{
-      var result = await httpClient.editPuFromTu(object_id, meter_id, account_number, new_tu_id, new_tu_number, new_tu_name, new_pu_address, new_pu_name, new_pu_number, new_pu_type, new_pu_zone, new_pu_ratio);
-      return result;
-    }
+      String object_id,
+      String meter_id,
+      String account_number,
+      List<String> new_tu_id,
+      String new_tu_number,
+      String new_tu_name,
+      String new_pu_address,
+      String new_pu_name,
+      String new_pu_number,
+      String new_pu_type,
+      String new_pu_zone,
+      String new_pu_ratio) async {
+    var result = await httpClient.editPuFromTu(
+        object_id,
+        meter_id,
+        account_number,
+        new_tu_id,
+        new_tu_number,
+        new_tu_name,
+        new_pu_address,
+        new_pu_name,
+        new_pu_number,
+        new_pu_type,
+        new_pu_zone,
+        new_pu_ratio);
+    return result;
+  }
 }

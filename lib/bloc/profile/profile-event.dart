@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:photo_gallery/photo_gallery.dart';
 
 import '../../Services/base-claim-send-service.dart';
+import '../../Services/link-pu-service.dart';
 import '../../websocket/websocket.dart';
 
 abstract class ProfileEvent extends Equatable {
@@ -96,7 +97,7 @@ class ReadMessage extends ProfileEvent {
   ReadMessage(this.ticketId, this.messageId);
 }
 
-class ReadClaimMessage extends ProfileEvent{
+class ReadClaimMessage extends ProfileEvent {
   String claimId;
   String messageId;
   ReadClaimMessage(this.claimId, this.messageId);
@@ -190,55 +191,65 @@ class HiddenAccountRequest extends ProfileEvent {
   HiddenAccountRequest(this.account_id);
 }
 
-class HiddenObjectRequest extends ProfileEvent{
+class HiddenObjectRequest extends ProfileEvent {
   String object_id;
   HiddenObjectRequest(this.object_id);
 }
 
-class HidenTuRequest extends ProfileEvent{
+class HidenTuRequest extends ProfileEvent {
   String point_id;
   HidenTuRequest(this.point_id);
 }
 
-class BindNewObject extends ProfileEvent{
-  String objectName; 
+class BindNewObject extends ProfileEvent {
+  String objectName;
   String objectAddress;
   BindNewObject(this.objectName, this.objectAddress);
 }
 
-class BindNewTU extends ProfileEvent{
+class BindNewTU extends ProfileEvent {
   String object_id;
   String new_tu_number;
   String new_tu_name;
   String new_tu_address;
-  BindNewTU(this.object_id, this.new_tu_number, this.new_tu_name, this.new_tu_address);
+  BindNewTU(this.object_id, this.new_tu_number, this.new_tu_name,
+      this.new_tu_address);
 }
 
-class GetMetersFromTU extends ProfileEvent{
+class GetMetersFromTU extends ProfileEvent {
   String point_id;
   GetMetersFromTU(this.point_id);
 }
 
-class EditpuFromTu extends ProfileEvent{
-    String object_id;
-    String meter_id;
-    String account_number; 
-    List<String> new_tu_id;
-    String new_tu_number;
-    String new_tu_name;
-    String new_pu_address;
-    String new_pu_name;
-    String new_pu_number;
-    String new_pu_type;
-    String new_pu_zone;
-    String new_pu_ratio;
-    EditpuFromTu(
-      this.object_id, 
-      this.meter_id, 
-      this.account_number, 
-      this.new_tu_id, 
-      this.new_tu_number, 
-      this.new_tu_name, 
+class GetFullObjectsInfo extends ProfileEvent {
+  GetFullObjectsInfo();
+}
+
+class BindPuEvent extends ProfileEvent {
+  LinkPuService linkPuService;
+  BindPuEvent(this.linkPuService);
+}
+
+class EditpuFromTu extends ProfileEvent {
+  String object_id;
+  String meter_id;
+  String account_number;
+  List<String> new_tu_id;
+  String new_tu_number;
+  String new_tu_name;
+  String new_pu_address;
+  String new_pu_name;
+  String new_pu_number;
+  String new_pu_type;
+  String new_pu_zone;
+  String new_pu_ratio;
+  EditpuFromTu(
+      this.object_id,
+      this.meter_id,
+      this.account_number,
+      this.new_tu_id,
+      this.new_tu_number,
+      this.new_tu_name,
       this.new_pu_address,
       this.new_pu_name,
       this.new_pu_number,

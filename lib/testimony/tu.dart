@@ -120,7 +120,9 @@ class _PageTU extends State<PageTU> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => LinkPUStep2()));
+                                    builder: (context) => LinkPUStep2(
+                                          crrentPu: widget.currentPU,
+                                        )));
                           },
                           child: const Text("Новый ПУ",
                               style: TextStyle(fontSize: 18)),

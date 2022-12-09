@@ -57,29 +57,33 @@ class _ObjectsPU extends State<ObjectsPU> {
                 canGoBack: true,
               ),
               body: Stack(
-              children: [
-                ListView.builder(
-                  itemCount: objectsMap.length,
-                  itemBuilder: (context, int index) {
-                    return ObjectPU(
-                      objectPuModel: objectsMap.values.elementAt(index), remove: removeObject, refrash: _refrash, edit: editObject);
-                  }),
-                Visibility(
-                  visible: objectsMap.isEmpty && isLoading == false ? true : false,
-                  child: NotFound(
-                    title: "Объекты",
-                    text: "По данному лицевому счету не найдены объекты."),
-                ),
-                Visibility(
-                          child: Center(
-                              child: Container(
-                            width: 50,
-                            height: 50,
-                            child: CircularProgressIndicator(color: colorMain),
-                          )),
-                          visible: (isLoading == true) ? true : false)
-              ],
-            ),
+                children: [
+                  ListView.builder(
+                      itemCount: objectsMap.length,
+                      itemBuilder: (context, int index) {
+                        return ObjectPU(
+                            objectPuModel: objectsMap.values.elementAt(index),
+                            remove: removeObject,
+                            refrash: _refrash,
+                            edit: editObject);
+                      }),
+                  Visibility(
+                    visible:
+                        objectsMap.isEmpty && isLoading == false ? true : false,
+                    child: NotFound(
+                        title: "Объекты",
+                        text: "По данному лицевому счету не найдены объекты."),
+                  ),
+                  Visibility(
+                      child: Center(
+                          child: Container(
+                        width: 50,
+                        height: 50,
+                        child: CircularProgressIndicator(color: colorMain),
+                      )),
+                      visible: (isLoading == true) ? true : false)
+                ],
+              ),
               footer: Row(
                 children: [
                   Container(
@@ -90,7 +94,12 @@ class _ObjectsPU extends State<ObjectsPU> {
                       height: 55,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => NewObject(refrash: _refrash,)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NewObject(
+                                        refrash: _refrash,
+                                      )));
                         },
                         child: const Text("Новый объект",
                             style: TextStyle(fontSize: 18)),
@@ -109,7 +118,7 @@ class _ObjectsPU extends State<ObjectsPU> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => LinkPUStep1(objects: objects)));
+                                  builder: (context) => LinkPUStep1()));
                         },
                         child: const Text("Новый ПУ",
                             style: TextStyle(fontSize: 18)),
@@ -131,33 +140,32 @@ class _ObjectsPU extends State<ObjectsPU> {
     } else {
       isLoading = false;
     }
-    if (state.objectsPU != null &&
-        isLoaded == false) {
-          objects = state.objectsPU!;
+    if (state.objectsPU != null && isLoaded == false) {
+      objects = state.objectsPU!;
       objectsMap = {for (var e in state.objectsPU!) e.object_id!: e};
+      objectsList = state.objectsPU;
       isLoaded = true;
     }
-    if(state.editObjectData != null){
+    if (state.editObjectData != null) {
       dynamic message = MessageSend(
-                    cmd: "publish",
-                    subject: "store-${store_id}",
-                    event: "object_binding_edit_new",
-                    data: ObjectEdited(
-                      objectId: state.editObjectData!['object_id'],
-                      newObjectName: state.editObjectData!['new_object_name'],
-                      newObjectAddress: state.editObjectData!['new_object_address'],
-                      accountId: state.editObjectData!['account_id'],
-                      accountNumber: state.editObjectData!['account_number'],
-                      userLkId: state.editObjectData!['user_lk_id'],
-                      dateAdded: state.editObjectData!['date_added'],
-                      edit: state.editObjectData!['edit'],
-                      approve: state.editObjectData!['approve'],
-                      requestId: state.editObjectData!['request_id'],
-                      objectAddress: state.editObjectData!['object_address'],
-                      objectName: state.editObjectData!['object_name'],
-                    ),
-                    to_id: int.parse(user_id!)
-                  );
+          cmd: "publish",
+          subject: "store-${store_id}",
+          event: "object_binding_edit_new",
+          data: ObjectEdited(
+            objectId: state.editObjectData!['object_id'],
+            newObjectName: state.editObjectData!['new_object_name'],
+            newObjectAddress: state.editObjectData!['new_object_address'],
+            accountId: state.editObjectData!['account_id'],
+            accountNumber: state.editObjectData!['account_number'],
+            userLkId: state.editObjectData!['user_lk_id'],
+            dateAdded: state.editObjectData!['date_added'],
+            edit: state.editObjectData!['edit'],
+            approve: state.editObjectData!['approve'],
+            requestId: state.editObjectData!['request_id'],
+            objectAddress: state.editObjectData!['object_address'],
+            objectName: state.editObjectData!['object_name'],
+          ),
+          to_id: int.parse(user_id!));
       String data = jsonEncode(message.toJson());
       webSocketChannel!.sink.add(data);
       _refrash();
@@ -168,11 +176,8 @@ class _ObjectsPU extends State<ObjectsPU> {
         headerAnimationLoop: false,
         title: "Успешно!",
         desc: "Данные объекта успешно изменены!",
-        btnOkOnPress: () {
-          
-        },
-        ).show();
-
+        btnOkOnPress: () {},
+      ).show();
     }
   }
 
@@ -187,22 +192,20 @@ class _ObjectsPU extends State<ObjectsPU> {
     });
   }
 
-  void editObject(ObjectPuModel object){
+  void editObject(ObjectPuModel object) {
     profileBloc!.editObject(object.object_id!, object.name!, object.address!);
-    
   }
 
   void removeObject(ObjectPuModel objectPuModel) {
     profileBloc!.hiddenObject(objectPuModel.object_id!);
     dynamic message = MessageSend(
-                    cmd: "publish",
-                    subject: "store-${store_id}",
-                    event: "object_binding_delete",
-                    data: ObjectHidden(object_id: int.parse(objectPuModel.object_id!)),
-                    to_id: int.parse(user_id!)
-                  );
-      String data = jsonEncode(message.toJson());
-      webSocketChannel!.sink.add(data);
+        cmd: "publish",
+        subject: "store-${store_id}",
+        event: "object_binding_delete",
+        data: ObjectHidden(object_id: int.parse(objectPuModel.object_id!)),
+        to_id: int.parse(user_id!));
+    String data = jsonEncode(message.toJson());
+    webSocketChannel!.sink.add(data);
     setState(() {
       objectsMap.remove(objectPuModel.object_id);
     });

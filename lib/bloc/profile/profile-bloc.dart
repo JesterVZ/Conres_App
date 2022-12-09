@@ -6,6 +6,7 @@ import 'package:conres_app/bloc/profile/profile-event.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
 import 'package:conres_app/claims/claims.dart';
 import 'package:conres_app/consts.dart';
+import 'package:conres_app/model/TU.dart';
 import 'package:conres_app/model/claim-message.dart';
 import 'package:conres_app/model/contract.dart';
 import 'package:conres_app/model/message.dart';
@@ -19,9 +20,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../DI/dependency-provider.dart';
 import '../../Services/base-claim-send-service.dart';
+import '../../Services/link-pu-service.dart';
 import '../../Services/profile-service.dart';
 import '../../model/claim.dart';
 import '../../model/counter.dart';
+import '../../model/object_pu.dart';
 import '../../model/ticket.dart';
 import '../../repositories/profile-repo.dart';
 import '../../shared-preferences/shared-preferences.dart';
@@ -37,6 +40,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleGetCookies(event);
     } else if (event is GetLoginData) {
       yield* _handleGetData(event);
+    } else if (event is GetFullObjectsInfo) {
+      yield* _handleGetFullObjectInfo(event);
     } else if (event is GetWebSocketData) {
       yield* _handleGetWebSocketData(event);
     } else if (event is LogoutEvent) {
@@ -93,18 +98,20 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleEditObject(event);
     } else if (event is EditTu) {
       yield* _handleEditTu(event);
-    } else if(event is HiddenObjectRequest){
+    } else if (event is HiddenObjectRequest) {
       yield* _handleHideObject(event);
-    } else if(event is BindNewObject){
+    } else if (event is BindNewObject) {
       yield* _handleBindNewObject(event);
-    } else if(event is BindNewTU){
+    } else if (event is BindNewTU) {
       yield* _handleBindTU(event);
-    } else if(event is HidenTuRequest){
+    } else if (event is HidenTuRequest) {
       yield* _handleHideTu(event);
-    } else if(event is GetMetersFromTU){
+    } else if (event is GetMetersFromTU) {
       yield* _handleGetMetersFromTU(event);
-    } else if(event is EditpuFromTu){
+    } else if (event is EditpuFromTu) {
       yield* _handleEditPuFromTU(event);
+    } else if (event is BindPuEvent) {
+      yield* _handleBindPu(event);
     }
   }
 
@@ -237,39 +244,61 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(HiddenAccountRequest(account_id));
   }
 
-  hiddenObject(String object_id){
+  hiddenObject(String object_id) {
     add(HiddenObjectRequest(object_id));
   }
 
-  hiddenTU(String point_id){
+  hiddenTU(String point_id) {
     add(HidenTuRequest(point_id));
   }
 
-  bindNewObject(String objectName, String objectAddress){
+  bindNewObject(String objectName, String objectAddress) {
     add(BindNewObject(objectName, objectAddress));
   }
 
-  bindNewTU(String object_id, String new_tu_number, String new_tu_name, String new_tu_address){
+  bindNewTU(String object_id, String new_tu_number, String new_tu_name,
+      String new_tu_address) {
     add(BindNewTU(object_id, new_tu_number, new_tu_name, new_tu_address));
   }
 
-  getMetersFromTU(String point_id){
+  getMetersFromTU(String point_id) {
     add(GetMetersFromTU(point_id));
   }
 
-  editPuFromTu(String object_id, 
-    String meter_id, 
-    String account_number, 
-    List<String> new_tu_id, 
-    String new_tu_number, 
-    String new_tu_name, 
-    String new_pu_address,
-    String new_pu_name,
-    String new_pu_number,
-    String new_pu_type,
-    String new_pu_zone,
-    String new_pu_ratio){
-    add(EditpuFromTu(object_id, meter_id, account_number, new_tu_id, new_tu_number, new_tu_name, new_pu_address, new_pu_name, new_pu_number, new_pu_type, new_pu_zone, new_pu_ratio));
+  getFullObjectsInfo() {
+    add(GetFullObjectsInfo());
+  }
+
+  editPuFromTu(
+      String object_id,
+      String meter_id,
+      String account_number,
+      List<String> new_tu_id,
+      String new_tu_number,
+      String new_tu_name,
+      String new_pu_address,
+      String new_pu_name,
+      String new_pu_number,
+      String new_pu_type,
+      String new_pu_zone,
+      String new_pu_ratio) {
+    add(EditpuFromTu(
+        object_id,
+        meter_id,
+        account_number,
+        new_tu_id,
+        new_tu_number,
+        new_tu_name,
+        new_pu_address,
+        new_pu_name,
+        new_pu_number,
+        new_pu_type,
+        new_pu_zone,
+        new_pu_ratio));
+  }
+
+  bindPu(LinkPuService linkPuService) {
+    add(BindPuEvent(linkPuService));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -633,7 +662,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _handleEditTu(EditTu event) async* {
     yield state.copyWith(loading: true, error: null);
     try {
-      var result = await repo.editTu(event.id, event.number, event.name, event.address);
+      var result =
+          await repo.editTu(event.id, event.number, event.name, event.address);
       yield state.copyWith(loading: false, error: null, editTuData: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
@@ -653,40 +683,81 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Stream<ProfileState> _handleBindNewObject(BindNewObject event) async* {
-    try{
-      var result = await repo.bindNewObject(event.objectName, event.objectAddress);
+    try {
+      var result =
+          await repo.bindNewObject(event.objectName, event.objectAddress);
       yield state.copyWith(loading: false, error: null, bindObjectData: result);
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
-    
   }
 
-  Stream<ProfileState> _handleBindTU(BindNewTU event) async*{
-    try{
-      var result = await repo.bindNewTU(event.object_id, event.new_tu_number, event.new_tu_name, event.new_tu_address);
+  Stream<ProfileState> _handleBindTU(BindNewTU event) async* {
+    try {
+      var result = await repo.bindNewTU(event.object_id, event.new_tu_number,
+          event.new_tu_name, event.new_tu_address);
       yield state.copyWith(loading: false, error: null, bindTuData: result);
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleGetMetersFromTU(GetMetersFromTU event) async*{
-    try{
+  Stream<ProfileState> _handleGetMetersFromTU(GetMetersFromTU event) async* {
+    try {
       yield state.copyWith(loading: true, error: null);
       var result = await repo.getMetersFromTu(event.point_id);
       yield state.copyWith(loading: false, error: null, TuMeters: result);
-    }catch(e){
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Stream<ProfileState> _handleEditPuFromTU(EditpuFromTu event) async*{
-    try{
+  Stream<ProfileState> _handleGetFullObjectInfo(
+      GetFullObjectsInfo event) async* {
+    try {
       yield state.copyWith(loading: true, error: null);
-      var result = await repo.editPuFromTu(event.object_id, event.meter_id, event.account_number, event.new_tu_id, event.new_tu_number, event.new_tu_name, event.new_pu_address, event.new_pu_name, event.new_pu_number, event.new_pu_type, event.new_pu_zone, event.new_pu_ratio);
-      yield state.copyWith(loading: false, error: null, editPuFromTuData: result);
-    }catch(e){
+      var result = await repo.getFullObjectInfo();
+      for (int i = 0; i < result['objects'].length; i++) {
+        objectsList!.add(ObjectPuModel.fromMap(result['objects'][i]));
+      }
+      for (int i = 0; i < result['list_tu'].length; i++) {
+        tuFullList!.add(TuModel.fromMap(result['list_tu'][i]));
+      }
+      yield state.copyWith(loading: false, error: null);
+    } catch (e) {
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleBindPu(BindPuEvent event) async* {
+    try {
+      yield state.copyWith(loading: true, error: null);
+      var result = await repo.bindPu(event.linkPuService);
+      yield state.copyWith(loading: false, error: null, TuMeters: result);
+    } catch (e) {
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleEditPuFromTU(EditpuFromTu event) async* {
+    try {
+      yield state.copyWith(loading: true, error: null);
+      var result = await repo.editPuFromTu(
+          event.object_id,
+          event.meter_id,
+          event.account_number,
+          event.new_tu_id,
+          event.new_tu_number,
+          event.new_tu_name,
+          event.new_pu_address,
+          event.new_pu_name,
+          event.new_pu_number,
+          event.new_pu_type,
+          event.new_pu_zone,
+          event.new_pu_ratio);
+      yield state.copyWith(
+          loading: false, error: null, editPuFromTuData: result);
+    } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }
   }
