@@ -1,5 +1,3 @@
-
-
 import 'package:conres_app/consts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +13,6 @@ class ExpansionTileElement extends StatefulWidget {
 }
 
 class _ExpansionTileElement extends State<ExpansionTileElement> {
-  bool canLogin = false;
-  bool claimNotification = false;
-  bool ticketNotification = false;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,18 +34,14 @@ class _ExpansionTileElement extends State<ExpansionTileElement> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-              padding: EdgeInsets.all(20),
-              child: widget.header),
+          Padding(padding: EdgeInsets.all(20), child: widget.header),
           ExpansionTile(
             maintainState: true,
-            
             title: widget.tileText ?? const Text(""),
             children: [
               Padding(
-              padding: EdgeInsets.all(20),
-              child: widget.body ?? const Text("")),
-              
+                  padding: EdgeInsets.all(20),
+                  child: widget.body ?? const Text("")),
             ],
           )
         ],

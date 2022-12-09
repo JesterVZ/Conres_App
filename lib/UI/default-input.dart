@@ -8,9 +8,15 @@ class DefaultInput extends StatefulWidget {
   String? hintText;
   String? validatorText;
   TextInputType? keyboardType;
+  bool obscureText;
   TextEditingController controller;
   DefaultInput(
-      {required this.labelText, required this.keyboardType, this.hintText, this.validatorText, required this.controller});
+      {required this.labelText,
+      required this.keyboardType,
+      this.hintText,
+      this.validatorText,
+      this.obscureText = false,
+      required this.controller});
   @override
   State<StatefulWidget> createState() => _DefaultInput();
 }
@@ -22,7 +28,8 @@ class _DefaultInput extends State<DefaultInput> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.labelText!, style: TextStyle(color: colorGray, fontSize: 16.0)),
+        Text(widget.labelText!,
+            style: TextStyle(color: colorGray, fontSize: 16.0)),
         TextFormField(
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -31,6 +38,7 @@ class _DefaultInput extends State<DefaultInput> {
             return null;
           },
           textCapitalization: TextCapitalization.sentences,
+          obscureText: widget.obscureText,
           controller: widget.controller,
           keyboardType: widget.keyboardType,
           decoration: InputDecoration(

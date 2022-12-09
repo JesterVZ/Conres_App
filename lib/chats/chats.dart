@@ -108,55 +108,59 @@ class _Chats extends State<Chats> {
         });
   }
 */
-@override
+  @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(
         bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
           return MainForm(
-              header: HeaderNotification(text: "Заявления"),
+              header: HeaderNotification(text: "Обращения"),
               body: Stack(
-              children: [
-                ListView.builder(
-                  itemCount: ticketsMap.length,
-                  itemBuilder: (context, int index) {
-                    return TicketRow(
-                        ticket: ticketsMap.values.elementAt(index),
-                        openChat: _openChat,
-                        counter: ticketsMap.values
-                            .elementAt(index)
-                            .count_tm_resiver);
-                  }),
-                Visibility(
-                  visible: ticketsMap.isEmpty && isLoading == false ? true : false,
-                  child: NotFound(
-                    title: "Обращения",
-                    text: "У вас возникли вопросы или появилась проблема?Создайте обращение и мы ответим вам в ближайщее время."),
-                ),
-                Visibility(
-                          child: Center(
-                              child: Container(
-                            width: 50,
-                            height: 50,
-                            child: CircularProgressIndicator(color: colorMain),
-                          )),
-                          visible: (isLoading == true) ? true : false)
-              ],
-            ),
+                children: [
+                  ListView.builder(
+                      itemCount: ticketsMap.length,
+                      itemBuilder: (context, int index) {
+                        return TicketRow(
+                            ticket: ticketsMap.values.elementAt(index),
+                            openChat: _openChat,
+                            counter: ticketsMap.values
+                                .elementAt(index)
+                                .count_tm_resiver);
+                      }),
+                  Visibility(
+                    visible:
+                        ticketsMap.isEmpty && isLoading == false ? true : false,
+                    child: NotFound(
+                        title: "Обращения",
+                        text:
+                            "У вас возникли вопросы или появилась проблема?Создайте обращение и мы ответим вам в ближайщее время."),
+                  ),
+                  Visibility(
+                      child: Center(
+                          child: Container(
+                        width: 50,
+                        height: 50,
+                        child: CircularProgressIndicator(color: colorMain),
+                      )),
+                      visible: (isLoading == true) ? true : false)
+                ],
+              ),
               footer: DefaultButton(
                 isGetPadding: true,
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => NewChat(refrash: refrashDelegate)));
+                          builder: (context) =>
+                              NewChat(refrash: refrashDelegate)));
                 },
-                text: "Новое заявление",
+                text: "Новое обращение",
               ),
               onRefrash: _refrash);
         });
   }
+
   _listener(BuildContext context, ProfileState state) {
     if (state.loading == true) {
       isLoading = true;
@@ -176,14 +180,12 @@ class _Chats extends State<Chats> {
               page == 1)) {
         tickets = state.tickets!;
         ticketsMap = {for (var e in state.tickets!) e.ticket_id!: e};
-
       }
 
       if ((int.parse(state.page!) == page) && page > 1) {
         tickets = tickets + state.tickets!;
         ticketsMap = {for (var e in tickets) e.ticket_id!: e};
       }
-
     }
   }
 

@@ -8,6 +8,9 @@ class BaseClaimSendService {
   String? claim_name;
   String? field_header_whom_1;
   String? field_phone;
+  String? field_pass_serial;
+  String? field_pass_number;
+  String? field_pass_giver;
   String? field_email;
   String? field_content_date;
   String? field_header_who;

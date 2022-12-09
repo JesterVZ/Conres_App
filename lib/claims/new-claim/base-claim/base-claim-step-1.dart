@@ -7,6 +7,8 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../DI/dependency-provider.dart';
 import '../../../Services/base-claim-send-service.dart';
+import '../../../Services/profile-service.dart';
+import '../../../UI/default-button.dart';
 import '../../../UI/default-input.dart';
 import '../../../UI/main-form.dart';
 import '../../../consts.dart';
@@ -19,9 +21,23 @@ class BaseClaimStep1 extends StatefulWidget {
 
 class _BaseClaimStep1 extends State<BaseClaimStep1> {
   BaseClaimSendService? baseClaimSendService;
-
-  final controllerList = List<TextEditingController>.generate(
-      9, (index) => TextEditingController());
+  ProfileService? profileService;
+  TextEditingController nameController =
+      TextEditingController(); //фио или наименование организации
+  TextEditingController ogrnController =
+      TextEditingController(); //ОГРН или ОГРНИП
+  TextEditingController factAddressController =
+      TextEditingController(); //фактический адрес
+  TextEditingController urAddressController =
+      TextEditingController(); //юридический адрес
+  TextEditingController dateController =
+      TextEditingController(); //Дата внесения в реестр
+  TextEditingController phoneController = TextEditingController(); //телефон
+  TextEditingController seriesController =
+      TextEditingController(); //серия паспорта
+  TextEditingController numberController =
+      TextEditingController(); //номер паспорта
+  TextEditingController placeController = TextEditingController(); //кем выдан
   final _formKey = GlobalKey<FormState>();
 
   Future<void> _refrash() async {}
@@ -48,108 +64,454 @@ class _BaseClaimStep1 extends State<BaseClaimStep1> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(0, 25, 0, 10),
-                                    child:
-                                        Text(claimInfo, style: claimTextStyle)),
-                                DefaultInput(
-                                    controller: controllerList[0],
-                                    keyboardType: TextInputType.text,
-                                    labelText:
-                                        "Полное наименование организации",
-                                    hintText: "ООО Потребитель",
-                                    validatorText:
-                                        "Введите наименование организации"),
-                                DefaultInput(
-                                    controller: controllerList[1],
-                                    keyboardType: TextInputType.text,
-                                    labelText: "Фактический адрес",
-                                    hintText: "Город, Улица, Дом, Квартира",
-                                    validatorText: "Введите адрес"),
-                                DefaultInput(
-                                    controller: controllerList[2],
-                                    keyboardType: TextInputType.text,
-                                    labelText: "Юридические адрес",
-                                    hintText: "Город, Улица, Дом, Квартира",
-                                    validatorText: "Введите адрес"),
-                                Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text("ОГРН",
-                                          style: TextStyle(
-                                              color: colorGray,
-                                              fontSize: 16.0)),
-                                      MaskInput(
-                                          textController: controllerList[3],
-                                          type: "ogrn",
-                                          formatter: MaskTextInputFormatter(
-                                              mask: "#############"),
-                                          hint: "0000000000000")
-                                    ]),
-                                DefaultInput(
-                                    controller: controllerList[4],
-                                    keyboardType: TextInputType.text,
-                                    labelText: "Телефон",
-                                    hintText: "+7 (999)-000-00-00",
-                                    validatorText: "Введите огрн"),
-                                Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                                //форма для ФЛ
+                                Visibility(
+                                    visible: profileService!.userType == "fl"
+                                        ? true
+                                        : false,
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
                                       children: [
-                                        Text("Дата внесения в реестр",
-                                            style: TextStyle(
-                                                color: colorGray,
-                                                fontSize: 16.0)),
-                                        BasicDateField(
-                                            controller: controllerList[5],
-                                            format: DateFormat("dd.MM.yyyy"))
+                                        SizedBox(
+                                            child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 25, 0, 10),
+                                                child: Text(
+                                                    "Информация о заявителе",
+                                                    style: claimTextStyle)),
+                                            DefaultInput(
+                                                controller: nameController,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                labelText: "ФИО",
+                                                hintText:
+                                                    "Иванов Иван Иванович",
+                                                validatorText: "Введите ФИО"),
+                                            DefaultInput(
+                                                controller:
+                                                    factAddressController,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                labelText: "Фактический адрес",
+                                                hintText:
+                                                    "Город, Улица, Дом, Квартира",
+                                                validatorText: "Введите адрес"),
+                                          ],
+                                        )),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  0, 25, 0, 10),
+                                              child: Text("Паспортные данные",
+                                                  style: claimTextStyle),
+                                            ),
+                                            Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: 158,
+                                                  child: DefaultInput(
+                                                      controller:
+                                                          seriesController,
+                                                      keyboardType:
+                                                          TextInputType.number,
+                                                      labelText: "Серия",
+                                                      hintText: "0000",
+                                                      validatorText:
+                                                          "Введите серию"),
+                                                ),
+                                                const Spacer(),
+                                                SizedBox(
+                                                  width: 158,
+                                                  child: DefaultInput(
+                                                      controller:
+                                                          numberController,
+                                                      keyboardType:
+                                                          TextInputType.number,
+                                                      labelText: "Номер",
+                                                      hintText: "000000",
+                                                      validatorText:
+                                                          "Введите номер"),
+                                                )
+                                              ],
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  0, 12, 0, 18),
+                                              child: DefaultInput(
+                                                  controller: placeController,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  labelText: "Кем выдан",
+                                                  hintText: "Место выдачи",
+                                                  validatorText:
+                                                      "Введите место выдачи"),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  0, 12, 0, 18),
+                                              child: MaskInput(
+                                                textController: phoneController,
+                                                formatter: MaskTextInputFormatter(
+                                                    mask: "+7 (###) ###-##-##"),
+                                                hint:
+                                                    "+7 (___) - ___ - __ - __",
+                                                type: "phone",
+                                              ),
+                                            ),
+                                            Container(
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 18),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text("Дата выдачи",
+                                                        style: TextStyle(
+                                                            color: colorGray,
+                                                            fontSize: 16.0)),
+                                                    BasicDateField(
+                                                        controller:
+                                                            dateController,
+                                                        format: DateFormat(
+                                                            "dd.MM.yyyy"))
+                                                  ],
+                                                )),
+                                            SizedBox(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: 55.0,
+                                                child: ElevatedButton(
+                                                    onPressed: () {
+                                                      if (_formKey.currentState!
+                                                          .validate()) {
+                                                        baseClaimSendService!
+                                                                .field_header_who =
+                                                            nameController
+                                                                .text; // фио либо полное название организации
+                                                        baseClaimSendService!
+                                                                .field_header_address_2 =
+                                                            factAddressController
+                                                                .text; // фактический адрес
+                                                        baseClaimSendService!
+                                                                .field_pass_serial =
+                                                            seriesController
+                                                                .text; //серия паспорта
+                                                        baseClaimSendService!
+                                                                .field_pass_number =
+                                                            numberController
+                                                                .text; //номер паспорта
+                                                        baseClaimSendService!
+                                                                .field_pass_giver =
+                                                            placeController
+                                                                .text; //кем выдан
+                                                        baseClaimSendService!
+                                                                .field_header_egrul_date =
+                                                            dateController
+                                                                .text; //дата выдачи
+                                                        baseClaimSendService!
+                                                                .field_phone =
+                                                            phoneController
+                                                                .text; //телефон
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        BaseClaimStep2()));
+                                                      }
+                                                    },
+                                                    child: Text(
+                                                      next,
+                                                      style: buttonTextStyle,
+                                                    ),
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                            backgroundColor:
+                                                                colorMain))),
+                                          ],
+                                        ),
                                       ],
                                     )),
-                                SizedBox(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 55.0,
-                                    child: ElevatedButton(
-                                        onPressed: () {
-                                          if (_formKey.currentState!
-                                              .validate()) {
-                                            baseClaimSendService!
-                                                    .field_header_who =
-                                                controllerList[0].text;
-                                            baseClaimSendService!
-                                                    .field_header_egrul =
-                                                controllerList[3].text;
-                                            baseClaimSendService!
-                                                    .field_header_address_1 =
-                                                controllerList[1].text;
-                                            baseClaimSendService!
-                                                    .field_header_address_2 =
-                                                controllerList[2].text;
-                                            baseClaimSendService!
-                                                    .field_header_egrul_date =
-                                                controllerList[5].text;
-                                            baseClaimSendService!.field_phone =
-                                                controllerList[4].text;
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        BaseClaimStep2()));
-                                          }
-                                        },
-                                        child: Text(
-                                          next,
-                                          style: buttonTextStyle,
-                                        ),
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: colorMain))),
+                                //форма для ИП
+                                Visibility(
+                                    visible: profileService!.userType == "ip"
+                                        ? true
+                                        : false,
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                            child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 25, 0, 10),
+                                                child: Text(
+                                                    "Информация о заявителе",
+                                                    style: claimTextStyle)),
+                                            DefaultInput(
+                                                controller: nameController,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                labelText: "ФИО",
+                                                hintText:
+                                                    "Иванов Иван Иванович",
+                                                validatorText: "Введите ФИО"),
+                                            DefaultInput(
+                                                controller: ogrnController,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                labelText: "ОГРНИП",
+                                                hintText: "ОГРНИП",
+                                                validatorText:
+                                                    "Введите ОГРНИП"),
+                                            DefaultInput(
+                                                controller:
+                                                    factAddressController,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                labelText: "Фактический адрес",
+                                                hintText:
+                                                    "Город, Улица, Дом, Квартира",
+                                                validatorText:
+                                                    "Введите фактический адрес"),
+                                            DefaultInput(
+                                                controller: urAddressController,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                labelText: "Юридический адрес",
+                                                hintText:
+                                                    "Город, Улица, Дом, Квартира",
+                                                validatorText:
+                                                    "Введите юридический адрес"),
+                                            DefaultInput(
+                                                controller: phoneController,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                labelText: "Телефон",
+                                                hintText:
+                                                    "Город, Улица, Дом, Квартира",
+                                                validatorText:
+                                                    "Введите юридический адрес"),
+                                            Container(
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 18),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(date,
+                                                        style: TextStyle(
+                                                            color: colorGray,
+                                                            fontSize: 16.0)),
+                                                    BasicDateField(
+                                                        controller:
+                                                            dateController,
+                                                        format: DateFormat(
+                                                            "dd.MM.yyyy"))
+                                                  ],
+                                                )),
+                                            DefaultButton(
+                                              isGetPadding: false,
+                                              onPressed: () {
+                                                if (_formKey.currentState!
+                                                    .validate()) {
+                                                  baseClaimSendService!
+                                                          .field_header_who =
+                                                      nameController
+                                                          .text; // фио либо полное название организации
+                                                  baseClaimSendService!
+                                                          .field_header_egrul =
+                                                      ogrnController
+                                                          .text; //ОГРНИП
+                                                  baseClaimSendService!
+                                                          .field_header_address_1 =
+                                                      factAddressController
+                                                          .text; // фактический адрес
+                                                  baseClaimSendService!
+                                                          .field_header_address_2 =
+                                                      urAddressController
+                                                          .text; // юридический адрес
+                                                  baseClaimSendService!
+                                                          .field_header_address_2 =
+                                                      urAddressController
+                                                          .text; // юридический адрес
+                                                  baseClaimSendService!
+                                                          .field_header_egrul_date =
+                                                      dateController
+                                                          .text; //дата внесения в реестр
+                                                  baseClaimSendService!
+                                                          .field_phone =
+                                                      phoneController
+                                                          .text; //телефон
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              BaseClaimStep2()));
+                                                }
+                                              },
+                                              text: "Далее",
+                                            )
+                                          ],
+                                        )),
+                                      ],
+                                    )),
+                                //форма для ЮЛ
+                                Visibility(
+                                    visible: profileService!.userType == "ul"
+                                        ? true
+                                        : false,
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                            child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 25, 0, 10),
+                                                child: Text(
+                                                    "Информация о заявителе",
+                                                    style: claimTextStyle)),
+                                            DefaultInput(
+                                                controller: nameController,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                labelText:
+                                                    "Наименованое организации",
+                                                hintText:
+                                                    "Наименованое организации",
+                                                validatorText:
+                                                    "Введите наименованое организации"),
+                                            DefaultInput(
+                                                controller: ogrnController,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                labelText: "ОГРН",
+                                                hintText: "ОГРН",
+                                                validatorText: "Введите ОГРН"),
+                                            DefaultInput(
+                                                controller:
+                                                    factAddressController,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                labelText: "Фактический адрес",
+                                                hintText:
+                                                    "Город, Улица, Дом, Квартира",
+                                                validatorText:
+                                                    "Введите фактический адрес"),
+                                            DefaultInput(
+                                                controller: urAddressController,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                labelText: "Юридический адрес",
+                                                hintText:
+                                                    "Город, Улица, Дом, Квартира",
+                                                validatorText:
+                                                    "Введите юридический адрес"),
+                                            DefaultInput(
+                                                controller: phoneController,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                labelText: "Телефон",
+                                                hintText:
+                                                    "Город, Улица, Дом, Квартира",
+                                                validatorText:
+                                                    "Введите юридический адрес"),
+                                            Container(
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 18),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(date,
+                                                        style: TextStyle(
+                                                            color: colorGray,
+                                                            fontSize: 16.0)),
+                                                    BasicDateField(
+                                                        controller:
+                                                            dateController,
+                                                        format: DateFormat(
+                                                            "dd.MM.yyyy"))
+                                                  ],
+                                                )),
+                                            DefaultButton(
+                                              isGetPadding: false,
+                                              onPressed: () {
+                                                if (_formKey.currentState!
+                                                    .validate()) {
+                                                  baseClaimSendService!
+                                                          .field_header_who =
+                                                      nameController
+                                                          .text; // фио либо полное название организации
+                                                  baseClaimSendService!
+                                                          .field_header_egrul =
+                                                      ogrnController
+                                                          .text; //ОГРНИП
+                                                  baseClaimSendService!
+                                                          .field_header_address_1 =
+                                                      factAddressController
+                                                          .text; // фактический адрес
+                                                  baseClaimSendService!
+                                                          .field_header_address_2 =
+                                                      urAddressController
+                                                          .text; // юридический адрес
+                                                  baseClaimSendService!
+                                                          .field_header_address_2 =
+                                                      urAddressController
+                                                          .text; // юридический адрес
+                                                  baseClaimSendService!
+                                                          .field_header_egrul_date =
+                                                      dateController
+                                                          .text; //дата внесения в реестр
+                                                  baseClaimSendService!
+                                                          .field_phone =
+                                                      phoneController
+                                                          .text; //телефон
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              BaseClaimStep2()));
+                                                }
+                                              },
+                                              text: "Далее",
+                                            )
+                                          ],
+                                        )),
+                                      ],
+                                    )),
                               ],
                             )),
                           ],
@@ -160,6 +522,7 @@ class _BaseClaimStep1 extends State<BaseClaimStep1> {
   void didChangeDependencies() {
     baseClaimSendService ??=
         DependencyProvider.of(context)!.baseClaimSendService;
+    profileService ??= DependencyProvider.of(context)!.profileService;
     super.didChangeDependencies();
   }
 }

@@ -1,8 +1,13 @@
 import 'package:conres_app/claims/new-claim/new-claim-documant.dart';
+import 'package:conres_app/claims/new-claim/new-claim-step-6.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../DI/dependency-provider.dart';
+import '../Services/main-claim-send-service.dart';
+import '../Services/profile-service.dart';
 import '../UI/default-button.dart';
+import '../claims/new-claim/new-claim-step-1.dart';
 import '../consts.dart';
 import '../elements/header/header-notification.dart';
 import '../elements/header/header.dart';
@@ -18,6 +23,8 @@ class MoreScreen extends StatefulWidget {
 }
 
 class _MoreScreen extends State<MoreScreen> {
+  MainClaimSendService? mainClaimSendService;
+  ProfileService? profileService;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,16 +68,13 @@ class _MoreScreen extends State<MoreScreen> {
                   isGetPadding: true,
                   text: "Заявление на тех. присоединение",
                   onPressed: () {
+                    mainClaimSendService!.claim_template =
+                        "claims/claim_techconn";
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NewClaimDicument()));
+                            builder: (context) => NewClaimStep1()));
                   },
-                  margin: EdgeInsets.only(bottom: 12)),
-              DefaultButton(
-                  isGetPadding: true,
-                  text: "Информация",
-                  onPressed: () {},
                   margin: EdgeInsets.only(bottom: 12)),
               DefaultButton(
                 isGetPadding: true,
@@ -84,5 +88,14 @@ class _MoreScreen extends State<MoreScreen> {
         )),
       ],
     ));
+  }
+
+  @override
+  void didChangeDependencies() {
+    mainClaimSendService ??=
+        DependencyProvider.of(context)!.mainClaimSendService;
+    profileService ??= DependencyProvider.of(context)!.profileService;
+    mainClaimSendService!.claim_type = profileService!.userType;
+    super.didChangeDependencies();
   }
 }
