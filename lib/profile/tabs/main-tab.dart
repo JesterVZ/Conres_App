@@ -1,14 +1,16 @@
 import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/consts.dart';
+import 'package:conres_app/profile/edit-profile-info/change-password-screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../DI/dependency-provider.dart';
 import '../../Services/profile-service.dart';
 import '../../bloc/profile/profile-bloc.dart';
+import '../../bloc/profile/profile-event.dart';
 import '../../bloc/profile/profile-state.dart';
 import '../../elements/bloc/bloc-screen.dart';
-import '../change-password/change-password-screen.dart';
+import '../edit-profile-info/edit-user-info.dart';
 
 class MainTab extends StatefulWidget {
   @override
@@ -51,7 +53,8 @@ class _MainTab extends State<MainTab> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             ProfileText(
-                                visibility: profileService!.userType == "fl"
+                                visibility: (profileService!.userType == "fl" ||
+                                        profileService!.userType == "ip")
                                     ? true
                                     : false,
                                 label: "ФИО",
@@ -109,8 +112,7 @@ class _MainTab extends State<MainTab> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               ChangePasswordScreen(
-                                                refrash: () {},
-                                              )));
+                                                  refrash: () {})));
                                 },
                                 isGetPadding: false),
                           ],
@@ -119,7 +121,12 @@ class _MainTab extends State<MainTab> {
                     ),
                     DefaultButton(
                         text: "Редактировать",
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditUserInfoPage()));
+                        },
                         isGetPadding: false),
                   ],
                 )),

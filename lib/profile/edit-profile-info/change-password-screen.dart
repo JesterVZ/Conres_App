@@ -59,7 +59,7 @@ class _ChangePasswordScreen extends State<ChangePasswordScreen> {
                               margin: EdgeInsets.only(bottom: 25),
                               child: DefaultInput(
                                   labelText: "Текущий пароль",
-                                  hintText: "Город, Улица, Дом, Квартира",
+                                  hintText: "*******",
                                   validatorText: "Введите адрес объекта",
                                   keyboardType: TextInputType.text,
                                   obscureText: true,
@@ -68,17 +68,17 @@ class _ChangePasswordScreen extends State<ChangePasswordScreen> {
                               margin: EdgeInsets.only(bottom: 15),
                               child: DefaultInput(
                                   labelText: "Пароль",
-                                  hintText: "Город, Улица, Дом, Квартира",
-                                  validatorText: "Введите адрес объекта",
+                                  hintText: "*******",
+                                  validatorText: "Введите пароль",
                                   keyboardType: TextInputType.text,
                                   obscureText: true,
                                   controller: addressController)),
                           Container(
                               margin: EdgeInsets.only(bottom: 15),
                               child: DefaultInput(
-                                  labelText: "Пароль",
-                                  hintText: "Город, Улица, Дом, Квартира",
-                                  validatorText: "Введите адрес объекта",
+                                  labelText: "Повторите пароль",
+                                  hintText: "*******",
+                                  validatorText: "Введите пароль",
                                   keyboardType: TextInputType.text,
                                   obscureText: true,
                                   controller: addressController))

@@ -306,11 +306,14 @@ class _LinkPUStep3 extends State<LinkPUStep3> {
             newNumber: state.bindPuData!['points'][i]['new_number'],
             newAddress: state.bindPuData!['points'][i]['new_address']));
       }
-      for (int i = 0;
-          i < state.bindPuData!['pu_info']['new_tu_id'].length;
-          i++) {
-        newTuId.add(state.bindPuData!['pu_info']['new_tu_id'][i]);
+      if (state.bindPuData!['pu_info']['new_tu_id'] != null) {
+        for (int i = 0;
+            i < state.bindPuData!['pu_info']['new_tu_id'].length;
+            i++) {
+          newTuId.add(state.bindPuData!['pu_info']['new_tu_id'][i]);
+        }
       }
+
       dynamic message = MessageSend(
           cmd: "publish",
           subject: "store-${store_id}",
@@ -318,7 +321,7 @@ class _LinkPUStep3 extends State<LinkPUStep3> {
           data: BindTuNew(
               newObjectName: state.bindPuData!['new_object_name'],
               newObjectAddress: state.bindPuData!['new_object_address'],
-              objectId: state.bindPuData!['object_id'],
+              objectId: state.bindPuData!['object_id'].toString(),
               points: points,
               meterId: state.bindPuData!['meter_id'],
               code: state.bindPuData!['code'],

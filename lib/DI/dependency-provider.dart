@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../Services/base-claim-send-service.dart';
+import '../Services/edit-userinfo-service.dart';
 import '../Services/link-pu-service.dart';
 import '../Services/main-claim-send-service.dart';
 import '../Services/send-testimont-service.dart';
@@ -44,6 +45,7 @@ class DependencyProvider extends InheritedWidget {
   MainClaimSendService? _mainClaimSendService;
   UpdateAccountService? _updateAccountService;
   UpdateObjectService? _updateObjectService;
+  EdutUserinfoService? _edutUserinfoService;
   LinkPuService? _linkPuService;
   UpdateTuService? _updateTuService;
   BottomNavigationSelectService? _bottomNavigationSelectService;
@@ -54,7 +56,7 @@ class DependencyProvider extends InheritedWidget {
         super(key: key, child: child!);
 
   WebSocketChannel? webSocketChannel(bool isReconnect) {
-    if(isReconnect){
+    if (isReconnect) {
       _webSocketChannel = null;
     }
     _webSocketChannel ??= IOWebSocketChannel.connect("${ws}:2450/");
@@ -96,17 +98,17 @@ class DependencyProvider extends InheritedWidget {
     return _updateTicketService;
   }
 
-  UpdateAccountService? get updateAccountService{
+  UpdateAccountService? get updateAccountService {
     _updateAccountService ??= UpdateAccountService();
     return _updateAccountService;
   }
 
-  UpdateObjectService? get updateObjectService{
+  UpdateObjectService? get updateObjectService {
     _updateObjectService ??= UpdateObjectService();
     return _updateObjectService;
   }
 
-  UpdateTuService? get updateTuService{
+  UpdateTuService? get updateTuService {
     _updateTuService ??= UpdateTuService();
     return _updateTuService;
   }
@@ -114,6 +116,11 @@ class DependencyProvider extends InheritedWidget {
   BaseClaimSendService? get baseClaimSendService {
     _baseClaimSendService ??= BaseClaimSendService();
     return _baseClaimSendService;
+  }
+
+  EdutUserinfoService? get edutUserinfoService {
+    _edutUserinfoService ??= EdutUserinfoService();
+    return _edutUserinfoService;
   }
 
   SendTestimonyService? get sendTestimonyService {

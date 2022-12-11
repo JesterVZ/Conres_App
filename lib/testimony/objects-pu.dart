@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:conres_app/Services/profile-service.dart';
 import 'package:conres_app/Services/update-object-service.dart';
 import 'package:conres_app/UI/main-form.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../DI/dependency-provider.dart';
+import '../Services/bottom-navigation-select-service.dart';
 import '../UI/default-button.dart';
 import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
@@ -20,6 +22,7 @@ import '../elements/bloc/bloc-screen.dart';
 import '../elements/not-found.dart';
 import '../elements/testimony/object-pu-dialog.dart';
 import '../elements/testimony/object-pu.dart';
+import '../profile/tab-item.dart';
 import '../websocket/message-send.dart';
 import 'link-pu/link-pu-step-1.dart';
 import 'new-object/new-object.dart';
@@ -36,11 +39,12 @@ class _ObjectsPU extends State<ObjectsPU> {
   }
 
   ProfileBloc? profileBloc;
+  ProfileService? profileService;
+  BottomNavigationSelectService? bottomNavigationSelectService;
   Map<String, dynamic> objectsMap = {};
   ScrollController scrollController = ScrollController();
   UpdateObjectService? updateObjectService;
   WebSocketChannel? webSocketChannel;
-  List<ObjectPuModel> objects = [];
 
   bool isLoaded = false;
   bool? isLoading;
@@ -68,12 +72,20 @@ class _ObjectsPU extends State<ObjectsPU> {
                             edit: editObject);
                       }),
                   Visibility(
-                    visible:
-                        objectsMap.isEmpty && isLoading == false ? true : false,
-                    child: NotFound(
-                        title: "Объекты",
-                        text: "По данному лицевому счету не найдены объекты."),
-                  ),
+                      visible: objectsMap.isEmpty && isLoading == false
+                          ? true
+                          : false,
+                      child: NotFound(
+                          title: profileService!.accountNumber == ""
+                              ? "Заключите договор"
+                              : objectsMap.isEmpty
+                                  ? "Приборы учета"
+                                  : "",
+                          text: profileService!.accountNumber == ""
+                              ? "У вас нет активного Лицевого cчёта, отправьте запрос на привязку лицевого счета (договора) и дождитесь его подтверждения!"
+                              : objectsMap.isEmpty
+                                  ? "По данному лицевому счёту не найдены приборы учёта, отправьте заявку на привязку ПУ и дождитесь подтверждения."
+                                  : "")),
                   Visibility(
                       child: Center(
                           child: Container(
@@ -84,51 +96,60 @@ class _ObjectsPU extends State<ObjectsPU> {
                       visible: (isLoading == true) ? true : false)
                 ],
               ),
-              footer: Row(
-                children: [
-                  Container(
-                      padding: EdgeInsets.only(
-                        left: defaultSidePadding,
-                      ),
-                      width: 160,
-                      height: 55,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => NewObject(
-                                        refrash: _refrash,
-                                      )));
-                        },
-                        child: const Text("Новый объект",
-                            style: TextStyle(fontSize: 18)),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: colorMain,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8))),
-                      )),
-                  const Spacer(),
-                  Container(
-                      padding: EdgeInsets.only(right: defaultSidePadding),
-                      width: 160,
-                      height: 55,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LinkPUStep1()));
-                        },
-                        child: const Text("Новый ПУ",
-                            style: TextStyle(fontSize: 18)),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: colorMain,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8))),
-                      ))
-                ],
-              ),
+              footer: profileService!.accountNumber == ""
+                  ? DefaultButton(
+                      isGetPadding: true,
+                      onPressed: () {
+                        bottomNavigationSelectService!.canLogin = false;
+                        bottomNavigationSelectService!.function!
+                            .call(TabItem.contracts);
+                      },
+                      text: "Отправить запрос")
+                  : Row(
+                      children: [
+                        Container(
+                            padding: EdgeInsets.only(
+                              left: defaultSidePadding,
+                            ),
+                            width: 160,
+                            height: 55,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NewObject(
+                                              refrash: _refrash,
+                                            )));
+                              },
+                              child: const Text("Новый объект",
+                                  style: TextStyle(fontSize: 18)),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: colorMain,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8))),
+                            )),
+                        const Spacer(),
+                        Container(
+                            padding: EdgeInsets.only(right: defaultSidePadding),
+                            width: 160,
+                            height: 55,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LinkPUStep1()));
+                              },
+                              child: const Text("Новый ПУ",
+                                  style: TextStyle(fontSize: 18)),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: colorMain,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8))),
+                            ))
+                      ],
+                    ),
               onRefrash: _refrash);
         });
   }
@@ -141,7 +162,6 @@ class _ObjectsPU extends State<ObjectsPU> {
       isLoading = false;
     }
     if (state.objectsPU != null && isLoaded == false) {
-      objects = state.objectsPU!;
       objectsMap = {for (var e in state.objectsPU!) e.object_id!: e};
       objectsList = state.objectsPU;
       isLoaded = true;
@@ -214,6 +234,9 @@ class _ObjectsPU extends State<ObjectsPU> {
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    profileService ??= DependencyProvider.of(context)!.profileService;
+    bottomNavigationSelectService ??=
+        DependencyProvider.of(context)!.bottomNavigationSelectService;
     updateObjectService ??= DependencyProvider.of(context)!.updateObjectService;
     webSocketChannel ??=
         DependencyProvider.of(context)!.webSocketChannel(false);

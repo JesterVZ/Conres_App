@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:photo_gallery/photo_gallery.dart';
 
 import '../../Services/base-claim-send-service.dart';
+import '../../Services/edit-userinfo-service.dart';
 import '../../Services/link-pu-service.dart';
 import '../../websocket/websocket.dart';
 
@@ -256,4 +257,9 @@ class EditpuFromTu extends ProfileEvent {
       this.new_pu_type,
       this.new_pu_zone,
       this.new_pu_ratio);
+}
+
+class EditUserInfo extends ProfileEvent {
+  EdutUserinfoService edutUserinfoService;
+  EditUserInfo(this.edutUserinfoService);
 }

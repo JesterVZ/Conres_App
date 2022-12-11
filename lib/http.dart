@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:conres_app/DI/dependency-provider.dart';
 import 'package:conres_app/DI/locator.dart';
+import 'package:conres_app/Services/edit-userinfo-service.dart';
 import 'package:conres_app/Services/link-pu-service.dart';
 import 'package:conres_app/Services/main-claim-send-service.dart';
 import 'package:conres_app/model/claim-message.dart';
@@ -1010,22 +1011,6 @@ class HttpClient {
   Future<Object?> bindPuEvent(LinkPuService linkPuService) async {
     String uri =
         domain + 'lk/index.php?route=catalog/objects/api_bind_request_pu';
-    List<Map<String, dynamic>> listMaps = [
-      {'new_object_id': linkPuService.new_object_id},
-      {
-        'new_object_name': linkPuService.new_object_name,
-      },
-      {'new_object_address': linkPuService.new_object_address},
-      {'new_tu_number': linkPuService.new_tu_number},
-      {'new_tu_name': linkPuService.new_tu_name},
-      {'new_pu_address': linkPuService.new_pu_address},
-      {'new_pu_name': linkPuService.new_pu_name},
-      {'new_pu_number': linkPuService.new_pu_number},
-      {'new_pu_type': linkPuService.new_pu_type},
-      {'new_pu_zone': linkPuService.new_pu_zone},
-      {'new_pu_ratio': linkPuService.new_pu_ratio},
-      {'isMobile': '1'}
-    ];
 
     Map<String, dynamic> formDataMap = <String, dynamic>{
       'new_object_id': linkPuService.new_object_id,
@@ -1041,9 +1026,6 @@ class HttpClient {
       'new_pu_ratio': linkPuService.new_pu_ratio,
       'isMobile': '1'
     };
-    for (int i = 0; i < linkPuService.tuIdList!.length; i++) {
-      listMaps.add({'new_tu_id[]:': linkPuService.tuIdList![i]});
-    }
 
     if (linkPuService.tuIdList != null && linkPuService.tuIdList!.isNotEmpty) {
       final tuArray = <String, dynamic>{
@@ -1088,7 +1070,7 @@ class HttpClient {
       'object_id': object_id,
       'meter_id': meter_id,
       'account_number': account_number,
-      'new_tu_id[]': new_tu_id,
+      'new_tu_id[]': new_tu_id, //cделать как в бинлинге
       'new_tu_number': new_tu_number,
       'new_tu_name': new_tu_name,
       'new_pu_address': new_pu_address,
@@ -1105,7 +1087,21 @@ class HttpClient {
     if (result.statusCode == 200) {
       return result.data['data'];
     } else {
-      return false;
+      throw Exception(result.statusCode);
+    }
+  }
+
+  Future<Object?> editUserInfo(EdutUserinfoService edutUserinfoService) async {
+    String uri = domain +
+        'lk/index.php?route=catalog/user_information/api_edit&tab=general&' +
+        edutUserinfoService.tab!;
+    Map<String, dynamic> formDataMap = <String, dynamic>{};
+    var formdata = FormData.fromMap(formDataMap);
+    final result = await _apiClient.post(uri, data: formdata);
+    if (result.statusCode == 200) {
+      return result.data['data'];
+    } else {
+      throw Exception(result.statusCode);
     }
   }
 }

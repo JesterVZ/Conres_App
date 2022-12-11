@@ -74,12 +74,15 @@ class _ContactTab extends State<ContactTab> {
               .userInformation!.user_info_contacts![i].contact_type_group_id ==
           "1") {
         phones.add(ExpansionTileElement(
-          header: Text(
-              profileService!
-                  .userInformation!.user_info_contacts![i].value_contact!,
-              //.replaceAllMapped(
-              //    RegExp(r'[0-9\-\+]{9,15}$'), (Match m) => ""),
-              style: TextStyle(fontSize: 18)),
+          header: Column(children: [
+            Text("Номер телефона", style: labelTextStyle),
+            Text(
+                profileService!
+                    .userInformation!.user_info_contacts![i].value_contact!,
+                //.replaceAllMapped(
+                //    RegExp(r'[0-9\-\+]{9,15}$'), (Match m) => ""),
+                style: TextStyle(fontSize: 18)),
+          ]),
           tileText: Text("Настройки", style: TextStyle(color: colorGrayClaim)),
           body: ColtactColtrols(),
         ));

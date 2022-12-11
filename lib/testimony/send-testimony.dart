@@ -1,6 +1,7 @@
 import 'dart:core';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:conres_app/Services/profile-service.dart';
 import 'package:conres_app/Services/send-testimont-service.dart';
 import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/UI/main-form.dart';
@@ -16,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../DI/dependency-provider.dart';
+import '../Services/bottom-navigation-select-service.dart';
 import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../consts.dart';
@@ -24,6 +26,7 @@ import '../elements/bloc/bloc-screen.dart';
 import '../elements/header/header-notification.dart';
 import '../elements/not-found.dart';
 import '../elements/testimony/testimony.dart';
+import '../profile/tab-item.dart';
 
 class SendTestimony extends StatefulWidget {
   final String? personal;
@@ -36,6 +39,9 @@ class SendTestimony extends StatefulWidget {
 
 class _SendTestimony extends State<SendTestimony> {
   ProfileBloc? profileBloc;
+  ProfileService? profileService;
+  BottomNavigationSelectService? bottomNavigationSelectService;
+
   bool getPU = false;
   bool isLoading = true;
   List<Meter> meters = [];
@@ -45,7 +51,6 @@ class _SendTestimony extends State<SendTestimony> {
   List<TextEditingController>? dayControllers = [];
   List<TextEditingController>? nightControllers = [];
 
-  Widget? body = Container();
   Widget? footer = Container();
 
   Future<void> _refrash() async {}
@@ -61,8 +66,103 @@ class _SendTestimony extends State<SendTestimony> {
               MainForm(
                   header: HeaderNotification(
                       text: "Передача показаний", canGoBack: true),
-                  body: body!,
-                  footer: footer,
+                  body: Stack(
+                    children: [
+                      ListView.builder(
+                          controller: scrollController,
+                          itemCount: meters.length,
+                          itemBuilder: (context, int index) {
+                            return Testimony(
+                                meter: meters[index],
+                                dayController: dayControllers![index],
+                                nightController: nightControllers![index]);
+                          }),
+                      Visibility(
+                        visible: (meters.isEmpty ||
+                                    profileService!.accountNumber == "") &&
+                                isLoading == false
+                            ? true
+                            : false,
+                        child: NotFound(
+                            title: profileService!.accountNumber == ""
+                                ? "Заключите договор"
+                                : meters.isEmpty
+                                    ? "Приборы учета"
+                                    : "",
+                            text: profileService!.accountNumber == ""
+                                ? "У вас нет активного Лицевого cчёта, отправьте запрос на привязку лицевого счета (договора) и дождитесь его подтверждения!"
+                                : meters.isEmpty
+                                    ? "По данному лицевому счёту не найдены приборы учёта, отправьте заявку на привязку ПУ и дождитесь подтверждения."
+                                    : ""),
+                      ),
+                      Visibility(
+                          child: Center(
+                              child: Container(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator(color: colorMain),
+                          )),
+                          visible: (isLoading == true) ? true : false)
+                    ],
+                  ),
+                  footer: profileService!.accountNumber == ""
+                      ? DefaultButton(
+                          isGetPadding: true,
+                          onPressed: () {
+                            bottomNavigationSelectService!.canLogin = false;
+                            bottomNavigationSelectService!.function!
+                                .call(TabItem.contracts);
+                          },
+                          text: "Отправить запрос")
+                      : meters.isEmpty
+                          ? DefaultButton(
+                              isGetPadding: true,
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ObjectsPU()));
+                              },
+                              text: "Привязать новый ПУ")
+                          : DefaultButton(
+                              isGetPadding: true,
+                              onPressed: () {
+                                List<String> dayValues = [];
+                                List<String> nightValues = [];
+                                bool isEmpty = true;
+                                for (int i = 0;
+                                    i < dayControllers!.length;
+                                    i++) {
+                                  if (dayControllers![i].text != "") {
+                                    isEmpty = false;
+                                  }
+                                  dayValues.add(dayControllers![i].text);
+                                }
+                                for (int i = 0;
+                                    i < nightControllers!.length;
+                                    i++) {
+                                  if (nightControllers![i].text != "") {
+                                    isEmpty = false;
+                                  }
+                                  nightValues.add(nightControllers![i].text);
+                                }
+                                if (isEmpty == false) {
+                                  profileBloc!
+                                      .sendTestimony(dayValues, nightValues);
+                                } else {
+                                  AwesomeDialog(
+                                    context: context,
+                                    dialogType: DialogType.info,
+                                    animType: AnimType.bottomSlide,
+                                    headerAnimationLoop: false,
+                                    title: "Внимание!",
+                                    desc: "Введите показания!",
+                                    btnOkColor: Colors.blue,
+                                    btnOkOnPress: () {},
+                                  ).show();
+                                }
+                              },
+                              text: "Передать показания"),
                   onRefrash: _refrash),
               Visibility(
                   child: Center(
@@ -86,60 +186,7 @@ class _SendTestimony extends State<SendTestimony> {
     if (state.meters != null) {
       getPU = true;
       meters = state.meters!;
-      if (state.meters!.isEmpty) {
-        body = NotFound(title: "Приборы учеты", text: "По данному лицевому счёту не найдены приборы учёта, отправьте заявку на привязку ПУ и дождитесь подтверждения.");
-        footer = DefaultButton(
-            isGetPadding: true,
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ObjectsPU()));
-            },
-            text: "Привязать новый ПУ");
-      } else {
-        body = ListView.builder(
-            controller: scrollController,
-            itemCount: meters.length,
-            itemBuilder: (context, int index) {
-              return Testimony(
-                  meter: meters[index],
-                  dayController: dayControllers![index],
-                  nightController: nightControllers![index]);
-            });
-        footer = DefaultButton(
-            isGetPadding: true,
-            onPressed: () {
-              List<String> dayValues = [];
-              List<String> nightValues = [];
-              bool isEmpty = true;
-              for (int i = 0; i < dayControllers!.length; i++) {
-                if (dayControllers![i].text != "") {
-                  isEmpty = false;
-                }
-                dayValues.add(dayControllers![i].text);
-              }
-              for (int i = 0; i < nightControllers!.length; i++) {
-                if (nightControllers![i].text != "") {
-                  isEmpty = false;
-                }
-                nightValues.add(nightControllers![i].text);
-              }
-              if (isEmpty == false) {
-                profileBloc!.sendTestimony(dayValues, nightValues);
-              } else {
-                AwesomeDialog(
-                  context: context,
-                  dialogType: DialogType.info,
-                  animType: AnimType.bottomSlide,
-                  headerAnimationLoop: false,
-                  title: "Внимание!",
-                  desc: "Введите показания!",
-                  btnOkColor: Colors.blue,
-                  btnOkOnPress: () {},
-                ).show();
-              }
-            },
-            text: "Передать показания");
-      }
+
       for (int i = 0; i < state.meters!.length; i++) {
         dayControllers!.add(TextEditingController());
         nightControllers!.add(TextEditingController());
@@ -167,6 +214,9 @@ class _SendTestimony extends State<SendTestimony> {
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    profileService ??= DependencyProvider.of(context)!.profileService;
+    bottomNavigationSelectService ??=
+        DependencyProvider.of(context)!.bottomNavigationSelectService;
     sendTestimonyService ??=
         DependencyProvider.of(context)!.sendTestimonyService;
     profileBloc!.getTU();

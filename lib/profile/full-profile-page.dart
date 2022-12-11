@@ -6,6 +6,7 @@ import 'package:conres_app/consts.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/model/user-information.dart';
 import 'package:conres_app/profile/tabs/contacts-tab.dart';
+import 'package:conres_app/profile/tabs/dl-tab.dart';
 import 'package:conres_app/profile/tabs/main-tab.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,21 +29,20 @@ class _FullProfile extends State<FullProfile>
 
   TabController? tabController;
   List<Tab> tabs = [];
+  List<Widget> tabControllerChold = [];
   @override
   void initState() {
     //tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
 
-  Future<void> _refrash() async{
-
-  }
+  Future<void> _refrash() async {}
 
   @override
   Widget build(BuildContext context) {
     return MainForm(
-      header: HeaderNotification(text: "Информация", canGoBack: true), 
-      body: BlocScreen<ProfileBloc, ProfileState>(
+        header: HeaderNotification(text: "Информация", canGoBack: true),
+        body: BlocScreen<ProfileBloc, ProfileState>(
             bloc: profileBloc,
             listener: (context, state) => _listener(context, state),
             builder: (context, state) {
@@ -63,15 +63,14 @@ class _FullProfile extends State<FullProfile>
                         ),
                       ),
                       Expanded(
-                        child: TabBarView(controller: tabController, children: [
-                          MainTab(),
-                          ContactTab()
-                        ]),
+                        child: TabBarView(
+                            controller: tabController,
+                            children: tabControllerChold),
                       )
                     ],
                   ));
-            }), 
-      onRefrash: _refrash);
+            }),
+        onRefrash: _refrash);
   }
 
   _listener(BuildContext context, ProfileState state) {
@@ -87,7 +86,7 @@ class _FullProfile extends State<FullProfile>
     profileService ??= DependencyProvider.of(context)!.profileService;
     profileBloc!.getFullProfileInfo();
 
-    if(profileService!.userType == "fl"){
+    if (profileService!.userType == "fl") {
       tabs = [
         const Tab(
           icon: Icon(Icons.home),
@@ -97,8 +96,8 @@ class _FullProfile extends State<FullProfile>
           icon: Icon(Icons.phone),
           text: "Контакты",
         )
-    ];
-
+      ];
+      tabControllerChold = [MainTab(), ContactTab()];
     } else {
       tabs = [
         const Tab(
@@ -109,15 +108,14 @@ class _FullProfile extends State<FullProfile>
           icon: Icon(Icons.phone),
           text: "Контакты",
         ),
-      
         const Tab(
           icon: Icon(Icons.person),
           text: "Дов. лицо",
         )
-    ];
+      ];
+      tabControllerChold = [MainTab(), ContactTab(), DlTab()];
     }
-    tabController = TabController(length: tabs.length, vsync: this);
 
-    
+    tabController = TabController(length: tabs.length, vsync: this);
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:conres_app/Services/edit-userinfo-service.dart';
 import 'package:conres_app/Services/link-pu-service.dart';
 import 'package:conres_app/Services/main-claim-send-service.dart';
 import 'package:conres_app/http.dart';
@@ -199,6 +200,11 @@ class ProfileRepo {
 
   Future<dynamic> bindPu(LinkPuService linkPuService) async {
     var result = httpClient.bindPuEvent(linkPuService);
+    return result;
+  }
+
+  Future<dynamic> editUserInfo(EdutUserinfoService edutUserinfoService) async {
+    var result = httpClient.editUserInfo(edutUserinfoService);
     return result;
   }
 

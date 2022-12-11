@@ -55,7 +55,8 @@ class _TuFullInfo extends State<TuFullInfo> {
                       objectsMap.isEmpty && isLoading == false ? true : false,
                   child: NotFound(
                       title: "Счетчики",
-                      text: "По данной точке учета не найдены счетчики."),
+                      text:
+                          "По данной точке учета счетчики не найдены, либо ожидают подтверждения."),
                 ),
                 Visibility(
                     child: Center(

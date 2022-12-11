@@ -20,6 +20,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../DI/dependency-provider.dart';
 import '../../Services/base-claim-send-service.dart';
+import '../../Services/edit-userinfo-service.dart';
 import '../../Services/link-pu-service.dart';
 import '../../Services/profile-service.dart';
 import '../../model/claim.dart';
@@ -112,6 +113,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleEditPuFromTU(event);
     } else if (event is BindPuEvent) {
       yield* _handleBindPu(event);
+    } else if (event is EditUserInfo) {
+      yield* _handleEditUserInfo(event);
     }
   }
 
@@ -295,6 +298,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         new_pu_type,
         new_pu_zone,
         new_pu_ratio));
+  }
+
+  editUserInfo(EdutUserinfoService edutUserinfoService) {
+    add(EditUserInfo(edutUserinfoService));
   }
 
   bindPu(LinkPuService linkPuService) {
@@ -734,6 +741,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield state.copyWith(loading: true, error: null);
       var result = await repo.bindPu(event.linkPuService);
       yield state.copyWith(loading: false, error: null, bindPuData: result);
+    } catch (e) {
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleEditUserInfo(EditUserInfo event) async* {
+    try {
+      yield state.copyWith(loading: true, error: null);
+      var result = await repo.editUserInfo(event.edutUserinfoService);
+      yield state.copyWith(loading: false, error: null);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }

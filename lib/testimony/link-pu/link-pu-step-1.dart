@@ -88,7 +88,9 @@ class _LinkPUStep1 extends State<LinkPUStep1> {
                 ),
                 Text("Объект", style: labelTextStyle),
                 Visibility(
-                  visible: isAddNewObject == true ? false : true,
+                  visible: (isAddNewObject == true || objectsList!.isEmpty)
+                      ? false
+                      : true,
                   child: Container(
                     margin: EdgeInsets.only(top: 5, bottom: 15),
                     child: CoolDropdown(
@@ -140,6 +142,8 @@ class _LinkPUStep1 extends State<LinkPUStep1> {
                     child: DefaultButton(
                         text: "Добавить новый объект",
                         onPressed: () {
+                          nameController.text = "";
+                          addressController.text = "";
                           AwesomeDialog(
                             context: context,
                             dialogType: DialogType.noHeader,
@@ -155,8 +159,6 @@ class _LinkPUStep1 extends State<LinkPUStep1> {
                                   setState(() {
                                     isAddNewObject = true;
                                   });
-                                  nameController.text = "";
-                                  addressController.text = "";
 
                                   Navigator.pop(context);
                                 }
@@ -247,9 +249,15 @@ class _LinkPUStep1 extends State<LinkPUStep1> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => LinkPUStep2(
-                                        crrentPu: selectedObject!,
-                                      )));
+                                  builder: (context) =>
+                                      (selectedObject != null ||
+                                              isAddNewObject == true)
+                                          ? LinkPUStep2(
+                                              crrentPu: isAddNewObject == true
+                                                  ? newObject
+                                                  : selectedObject!,
+                                            )
+                                          : LinkPUStep2()));
                         }
                       : null,
                   child: const Text("Далее", style: TextStyle(fontSize: 18)),
