@@ -6,19 +6,24 @@ class EdutUserinfoService {
   String? lastname;
   String? firstname;
   String? patronymic;
+  String? company_full;
+  String? company_short;
   String? inn;
   String? ogrn;
+  String? kpp;
   String? legal_address;
   String? fact_address;
   String? snins;
   String? password;
   String? confirm;
 
-  List? phones;
-  List? emails;
-  List? messages;
+  List? phones = [];
+  List? emails = [];
+  List? messangers = [];
 
   String? proxy_lastname;
   String? proxy_firstname;
   String? proxy_patronymic;
+  String? proxy_telephone;
+  String? proxy_email;
 }

@@ -146,6 +146,7 @@ class _LoginEmail extends State<LoginEmail> {
         animType: AnimType.bottomSlide,
         headerAnimationLoop: false,
         title: "Ошибка!",
+        btnOkColor: Colors.red,
         desc: state.error.toString(),
         btnOkOnPress: () {
         },

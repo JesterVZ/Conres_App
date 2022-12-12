@@ -1,17 +1,25 @@
+import 'package:conres_app/Services/profile-service.dart';
 import 'package:conres_app/consts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../DI/dependency-provider.dart';
+
 class ColtactColtrols extends StatefulWidget {
+  bool IsLogin;
+  bool IsClaims;
+  bool IsTickets;
+  ColtactColtrols({required this.IsLogin, required this.IsClaims, required this.IsTickets});
+
+
   @override
   State<StatefulWidget> createState() => _ColtactColtrols();
 }
 
 class _ColtactColtrols extends State<ColtactColtrols> {
-  bool phoneOsLogin = false;
-  bool phoneIsClaims = false;
-  bool phoneIsTickets = false;
+  ProfileService? profileService;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +45,10 @@ class _ColtactColtrols extends State<ColtactColtrols> {
               ),
               const Spacer(),
               Switch(
-                  value: phoneOsLogin,
+                  value: widget.IsLogin,
                   onChanged: (value) {
                     setState(() {
-                      phoneOsLogin = value;
+                      widget.IsLogin = value;
                     });
                   })
             ],
@@ -66,10 +74,10 @@ class _ColtactColtrols extends State<ColtactColtrols> {
               ),
               const Spacer(),
               Switch(
-                  value: phoneIsClaims,
+                  value: widget.IsClaims,
                   onChanged: (value) {
                     setState(() {
-                      phoneIsClaims = value;
+                      widget.IsClaims = value;
                     });
                   })
             ],
@@ -93,10 +101,10 @@ class _ColtactColtrols extends State<ColtactColtrols> {
               ),
               const Spacer(),
               Switch(
-                  value: phoneIsTickets,
+                  value: widget.IsTickets,
                   onChanged: (value) {
                     setState(() {
-                      phoneIsTickets = value;
+                      widget.IsTickets = value;
                     });
                   })
             ],
@@ -144,5 +152,11 @@ class _ColtactColtrols extends State<ColtactColtrols> {
             ))
       ],
     );
+  }
+  @override
+  void didChangeDependencies() {
+    profileService ??= DependencyProvider.of(context)!.profileService;
+
+    super.didChangeDependencies();
   }
 }

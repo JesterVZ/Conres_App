@@ -7,6 +7,7 @@ class UserInformation{
   String? url_location;
   String? action;
   String? legal_address;
+  String? fact_address;
   String? inn;
   String? firstname;
   String? lastname;
@@ -23,6 +24,7 @@ class UserInformation{
   String? snils;
   String? user_lk_group_id;
   List<Contact>? user_info_contacts;
+  
   //List<LoginService>? login_service;
 
   UserInformation({
@@ -32,6 +34,7 @@ class UserInformation{
     this.url_location,
     this.action,
     this.legal_address,
+    this.fact_address,
     this.inn,
     this.firstname,
     this.lastname,
@@ -58,7 +61,8 @@ class UserInformation{
       send_link: map['send_link'],
       url_location: map['url_location'],
       action: map['action'],
-      legal_address: map['legal_address'] ?? "",
+      legal_address: map['custom_field'] != null ? map['custom_field']['legal_address'] : "",
+      fact_address: map['custom_field'] != null ? map['custom_field']['fact_address'] : "",
       inn: map['inn'] ?? "",
       firstname: map['firstname'] ?? "",
       lastname: map['lastname'] ?? "",
@@ -80,15 +84,21 @@ class UserInformation{
 }
 
 class Contact{
+  String? contact_id;
+  String? contact_type_id;
   String? value_contact;
   String? contact_type_group_id;
+  dynamic flags;
 
-  Contact({this.value_contact, this.contact_type_group_id});
+  Contact({this.contact_id, this.contact_type_id, this.value_contact, this.contact_type_group_id, this.flags});
 
   factory Contact.fromMap(Map<dynamic, dynamic> map){
     return Contact(
+      contact_id: map['contact_id'], 
+      contact_type_id: map['contact_type_id'], 
       value_contact: map['value_contact'],
-      contact_type_group_id: map['contact_type_group_id']
+      contact_type_group_id: map['contact_type_group_id'],
+      flags: map['flags'],
     );
   }
 }

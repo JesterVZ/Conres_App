@@ -52,6 +52,7 @@ class _MainTab extends State<MainTab> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+
                             ProfileText(
                                 visibility: (profileService!.userType == "fl" ||
                                         profileService!.userType == "ip")
@@ -62,39 +63,59 @@ class _MainTab extends State<MainTab> {
                                     ? "${profileService!.userInformation!.lastname!} ${profileService!.userInformation!.firstname!} ${profileService!.userInformation!.patronymic!}"
                                     : ""),
                             ProfileText(
-                                visibility: profileService!.userType == "fl"
+                                visibility: (profileService!.userType == "ul")
                                     ? true
                                     : false,
+                                label: "Полное название организации",
+                                text: profileService != null
+                                    ? profileService!.userInformation!.company_full!
+                                    : ""),
+                            ProfileText(
+                                visibility: (profileService!.userType == "ul")
+                                    ? true
+                                    : false,
+                                label: "Сокращенное название организации",
+                                text: profileService != null
+                                    ? profileService!.userInformation!.company_short!
+                                    : ""),
+                                    
+                            ProfileText(
+                                visibility: true,
                                 label: "Юридический адрес",
                                 text: profileService != null
                                     ? profileService!
                                         .userInformation!.legal_address!
                                     : ""),
                             ProfileText(
-                                visibility: profileService!.userType == "fl"
-                                    ? true
-                                    : false,
+                                visibility: true,
                                 label: "Фактический адрес",
                                 text: profileService != null
                                     ? profileService!
-                                        .userInformation!.legal_address!
-                                    : ""),
+                                        .userInformation!.fact_address!
+                                    : ""),    
                             ProfileText(
-                                visibility: profileService!.userType == "fl"
-                                    ? true
-                                    : false,
+                                visibility: true,
                                 label: "ИНН",
                                 text: profileService != null
                                     ? profileService!.userInformation!.inn!
                                     : ""),
+
                             ProfileText(
                                 visibility: profileService!.userType == "ip" ||
                                         profileService!.userType == "ul"
                                     ? true
                                     : false,
-                                label: "ОГРН",
+                                label: profileService!.userType == "ip" ? "ОГРНИП" : "ОГРН",
                                 text: profileService != null
                                     ? profileService!.userInformation!.ogrn!
+                                    : ""),
+                            ProfileText(
+                                visibility: profileService!.userType == "ul"
+                                    ? true
+                                    : false,
+                                label: "КПП",
+                                text: profileService != null
+                                    ? profileService!.userInformation!.kpp!
                                     : ""),
                             ProfileText(
                                 visibility: profileService!.userType == "fl"
@@ -151,11 +172,11 @@ class ProfileText extends StatelessWidget {
       {required this.label, required this.text, required this.visibility});
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.only(bottom: 16),
-        child: Visibility(
+    return Visibility(
           visible: visibility,
-          child: Column(
+          child: Container(
+            margin: EdgeInsets.only(bottom: 16),
+            child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -168,6 +189,7 @@ class ProfileText extends StatelessWidget {
               )
             ],
           ),
-        ));
+          ),
+        );
   }
 }

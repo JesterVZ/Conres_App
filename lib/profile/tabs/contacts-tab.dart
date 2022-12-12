@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../DI/dependency-provider.dart';
+import '../../Services/edit-userinfo-service.dart';
 import '../../bloc/profile/profile-bloc.dart';
 import '../../bloc/profile/profile-state.dart';
 import '../../elements/bloc/bloc-screen.dart';
@@ -18,6 +19,7 @@ class ContactTab extends StatefulWidget {
 class _ContactTab extends State<ContactTab> {
   ProfileBloc? profileBloc;
   ProfileService? profileService;
+  EdutUserinfoService? edutUserinfoService;
 
   List<Widget> phones = [];
   List<Widget> emails = [];
@@ -67,9 +69,8 @@ class _ContactTab extends State<ContactTab> {
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     profileService ??= DependencyProvider.of(context)!.profileService;
-    for (int i = 0;
-        i < profileService!.userInformation!.user_info_contacts!.length;
-        i++) {
+    edutUserinfoService ??= DependencyProvider.of(context)!.edutUserinfoService;
+    for (int i = 0; i < profileService!.userInformation!.user_info_contacts!.length; i++) {
       if (profileService!
               .userInformation!.user_info_contacts![i].contact_type_group_id ==
           "1") {
@@ -84,8 +85,14 @@ class _ContactTab extends State<ContactTab> {
                 style: TextStyle(fontSize: 18)),
           ]),
           tileText: Text("Настройки", style: TextStyle(color: colorGrayClaim)),
-          body: ColtactColtrols(),
+          body: ColtactColtrols(
+            IsLogin: profileService!.userInformation!.user_info_contacts![i].flags['1'] != null ? true : false, 
+            IsClaims: profileService!.userInformation!.user_info_contacts![i].flags['2'] != null ? true : false,
+            IsTickets: profileService!.userInformation!.user_info_contacts![i].flags['2'] != null ? true : false,),
         ));
+        edutUserinfoService!.phones!.add(profileService!
+                    .userInformation!.user_info_contacts![i]);
+
       }
 
       if (profileService!
@@ -96,9 +103,15 @@ class _ContactTab extends State<ContactTab> {
                 profileService!
                     .userInformation!.user_info_contacts![i].value_contact!,
                 style: TextStyle(fontSize: 18)),
-            body: ColtactColtrols(),
+            body: ColtactColtrols(
+              IsLogin: profileService!.userInformation!.user_info_contacts![i].flags['1'] != null ? true : false, 
+              IsClaims: profileService!.userInformation!.user_info_contacts![i].flags['2'] != null ? true : false,
+              IsTickets: profileService!.userInformation!.user_info_contacts![i].flags['2'] != null ? true : false,
+            ),
             tileText:
                 Text("Настройки", style: TextStyle(color: colorGrayClaim))));
+        edutUserinfoService!.emails!.add(profileService!
+                    .userInformation!.user_info_contacts![i]);
       }
 
       if (profileService!
@@ -109,9 +122,15 @@ class _ContactTab extends State<ContactTab> {
                 profileService!
                     .userInformation!.user_info_contacts![i].value_contact!,
                 style: TextStyle(fontSize: 18)),
-            body: ColtactColtrols(),
+            body: ColtactColtrols(
+              IsLogin: profileService!.userInformation!.user_info_contacts![i].flags['1'] != null ? true : false, 
+              IsClaims: profileService!.userInformation!.user_info_contacts![i].flags['2'] != null ? true : false,
+              IsTickets: profileService!.userInformation!.user_info_contacts![i].flags['2'] != null ? true : false,
+            ),
             tileText:
                 Text("Настройки", style: TextStyle(color: colorGrayClaim))));
+        edutUserinfoService!.messangers!.add(profileService!
+                    .userInformation!.user_info_contacts![i]);
       }
     }
     super.didChangeDependencies();
