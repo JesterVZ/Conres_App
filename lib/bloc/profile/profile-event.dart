@@ -219,7 +219,8 @@ class BindNewTU extends ProfileEvent {
 
 class GetMetersFromTU extends ProfileEvent {
   String point_id;
-  GetMetersFromTU(this.point_id);
+  String object_id;
+  GetMetersFromTU(this.point_id, this.object_id);
 }
 
 class GetFullObjectsInfo extends ProfileEvent {
@@ -262,4 +263,9 @@ class EditpuFromTu extends ProfileEvent {
 class EditUserInfo extends ProfileEvent {
   EdutUserinfoService edutUserinfoService;
   EditUserInfo(this.edutUserinfoService);
+}
+
+class HiddenMeter extends ProfileEvent{
+  String meter_id;
+  HiddenMeter(this.meter_id);
 }

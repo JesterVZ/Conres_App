@@ -5,6 +5,7 @@ import 'package:conres_app/DI/locator.dart';
 import 'package:conres_app/Services/profile-service.dart';
 import 'package:conres_app/Services/update-account-service.dart';
 import 'package:conres_app/Services/update-claim-service.dart';
+import 'package:conres_app/Services/update-meter-service.dart';
 import 'package:conres_app/Services/update-object-service.dart';
 import 'package:conres_app/Services/update-ticket-service.dart';
 import 'package:conres_app/Services/update-tu-service.dart';
@@ -49,6 +50,7 @@ class _MainPage extends State<MainPage> {
   UpdateAccountService? updateAccountService;
   UpdateObjectService? updateObjectService;
   UpdateTuService? updateTuService;
+  UpdateMeterService? updateMeterService;
   BottomNavigationSelectService? bottomNavigationSelectService;
   ProfileService? profileService;
   int? ticketCounter;
@@ -268,9 +270,12 @@ class _MainPage extends State<MainPage> {
               updateTuService!.remove!.call(webSocketData!.data['point_id']);
               break;
             //pu events
-            case "meter_binding_edit_new":
-              updateTuService!.remove!.call(webSocketData!.data['point_id']);
+            case "meter_binding_accept":
+              updateMeterService!.update!.call(webSocketData!.data['meter_id'], "2", webSocketData!.data['comment']);
               break;
+            case "meter_binding_cancel":
+              updateMeterService!.update!.call(webSocketData!.data['meter_id'], "3", webSocketData!.data['comment']);
+            break;
           }
         } catch (e) {
           print(e);
@@ -291,6 +296,7 @@ class _MainPage extends State<MainPage> {
     updateObjectService ??= DependencyProvider.of(context)!.updateObjectService;
     updateTuService ??= DependencyProvider.of(context)!.updateTuService;
     profileService ??= DependencyProvider.of(context)!.profileService;
+    updateMeterService ??= DependencyProvider.of(context)!.updateMeterService;
     updateAccountService ??=
         DependencyProvider.of(context)!.updateAccountService;
     bottomNavigationSelectService ??=

@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/elements/registration/sliding-up.dart';
 import 'package:conres_app/elements/route/def-page-router.dart';
 import 'package:conres_app/model/model.dart';
@@ -665,12 +666,18 @@ class _RegUL extends State<RegUL> {
       panelController.open();
     } else {
       if (state.error is Map<dynamic, dynamic>) {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) => Alert(
-                title: "Ошибка!",
-                text: validate(
-                    (state.error as Map<dynamic, dynamic>).values.first)));
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          animType: AnimType.bottomSlide,
+          headerAnimationLoop: false,
+          title: "Ошибка!",
+          btnOkColor: Colors.red,
+          desc: validate((state.error as Map<dynamic, dynamic>).values.first),
+          btnOkOnPress: () {},
+      ).show();
+
+
       }
     }
   }

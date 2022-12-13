@@ -24,6 +24,18 @@ class BasicDateField extends StatelessWidget {
         onShowPicker: (context, currentValue) {
           return showDatePicker(
               context: context,
+              builder: (context, child) {
+                return Theme(
+                  data: Theme.of(context).copyWith(
+                    colorScheme: ColorScheme.light(
+                      primary: colorMain,
+                      onPrimary: Colors.white,
+                      onSurface: colorMain
+                    )
+                  ),
+                   child: child!);
+              },
+              locale: Locale('ru'),
               firstDate: DateTime(1900),
               initialDate: currentValue ?? DateTime.now(),
               lastDate: DateTime(2100));

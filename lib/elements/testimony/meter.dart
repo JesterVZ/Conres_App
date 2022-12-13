@@ -14,6 +14,7 @@ class MeterElement extends StatefulWidget {
   final Meter? currentMeter;
   final TuModel? currentTu;
   ValueChanged<Meter> remove;
+  VoidCallback? refrash;
   Function edit;
 
   List<TuModel> TuPoints;
@@ -23,7 +24,8 @@ class MeterElement extends StatefulWidget {
       required this.remove,
       required this.currentTu,
       required this.edit,
-      required this.TuPoints});
+      required this.TuPoints,
+      required this.refrash});
   @override
   State<StatefulWidget> createState() => _MeterElement();
 }
@@ -44,28 +46,27 @@ class _MeterElement extends State<MeterElement> {
                     Row(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(bottom: 16),
+                          margin: const EdgeInsets.only(bottom: 16),
                           padding: const EdgeInsets.fromLTRB(11, 6, 11, 6),
                           decoration: BoxDecoration(
-                              color: widget.currentMeter!.status == "0"
+                              color: (widget.currentMeter!.status == "0")
                                   ? redColor
-                                  : widget.currentMeter!.status == "1"
+                                  : (widget.currentMeter!.status == "1" || widget.currentMeter!.status == "3" || (widget.currentMeter!.status == "3" && widget.currentMeter!.comments != null))
                                       ? yellowColor
                                       : greenColor,
                               borderRadius: BorderRadius.circular(8)),
                           child: Text(
-                            widget.currentMeter!.status == "0"
-                                ? "Заявка на привязку ПУ отклонена"
-                                : widget.currentMeter!.status == "1"
-                                    ? "Проходит проверку"
-                                    : "Активный",
-                            style: TextStyle(color: Colors.white, fontSize: 14),
+                            widget.currentMeter!.status == "0" ? "Заявка на привязку ПУ отклонена"
+                                : widget.currentMeter!.status == "1" ? "Проходит проверку на добавление"
+                                : widget.currentMeter!.status == "2" ? "Активный" 
+                                : widget.currentMeter!.status == "3" ? "Проходит проверку на изменение" : (widget.currentMeter!.status == "3" && widget.currentMeter!.comments != null) ? "Заявка на изменение отклонена": "",
+                            style: const TextStyle(color: Colors.white, fontSize: 14),
                           ),
                         ),
                         const Spacer(),
                         Visibility(
                           visible:
-                              widget.currentMeter!.status == "0" ? true : false,
+                              (widget.currentMeter!.status == "0") ? true : false,
                           child: Material(
                               child: InkWell(
                             onTap: () {
@@ -89,13 +90,13 @@ class _MeterElement extends State<MeterElement> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(bottom: 22),
+                      margin: const EdgeInsets.only(bottom: 22),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(bottom: 17),
+                            margin: const EdgeInsets.only(bottom: 17),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,7 +113,7 @@ class _MeterElement extends State<MeterElement> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(bottom: 17),
+                            margin: const EdgeInsets.only(bottom: 17),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,13 +124,13 @@ class _MeterElement extends State<MeterElement> {
                                         style: TextStyle(
                                             fontSize: 15,
                                             color: colorGrayClaim))),
-                                Text(widget.currentMeter!.pu_number!,
+                                Text(widget.currentMeter!.tariff_type_id == "2" ? "Двухтарифный" : widget.currentMeter!.tariff_type_id == "3" ? "Однотарифный" : "",
                                     style: const TextStyle(fontSize: 18))
                               ],
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(bottom: 17),
+                            margin: const EdgeInsets.only(bottom: 17),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +147,7 @@ class _MeterElement extends State<MeterElement> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(bottom: 17),
+                            margin: const EdgeInsets.only(bottom: 17),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,13 +171,14 @@ class _MeterElement extends State<MeterElement> {
                     Container(
                         width: MediaQuery.of(context).size.width,
                         height: 55,
-                        margin: EdgeInsets.only(bottom: 12, top: 12),
+                        margin: const EdgeInsets.only(bottom: 12, top: 12),
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => EditPuPage(
+                                          refrash: widget.refrash,
                                           TuPoints: widget.TuPoints,
                                           currentMeter: widget.currentMeter!,
                                         )));
@@ -192,7 +194,7 @@ class _MeterElement extends State<MeterElement> {
                     Container(
                         width: MediaQuery.of(context).size.width,
                         height: 55,
-                        margin: EdgeInsets.only(bottom: 12, top: 12),
+                        margin: const EdgeInsets.only(bottom: 12, top: 12),
                         child: ElevatedButton(
                           onPressed: () {},
                           child: Text("Cвернуть",

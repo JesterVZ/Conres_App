@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/chats/file-page.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:conres_app/enums/chat-types.dart';
@@ -325,10 +326,16 @@ class _MessagesPage extends State<MessagesPage> {
     isLoading = state.loading!;
     
     if (state.error != null) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) =>
-              Alert(title: "Ошибка", text: state.error!));
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.bottomSlide,
+        headerAnimationLoop: false,
+        title: "Ошибка!",
+        btnOkColor: Colors.red,
+        desc: state.error,
+        btnOkOnPress: () {},
+      ).show();
     }
     if (state.ticketFullInfo != null && mainLabel == "Обращение") {
       isLoadingMessages = false;

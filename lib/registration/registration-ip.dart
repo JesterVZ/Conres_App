@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/elements/registration/sliding-up.dart';
 import 'package:conres_app/model/model.dart';
 import 'package:conres_app/registration/privacy-policy.dart';
@@ -51,10 +52,7 @@ class _RegIP extends State<RegIP> {
   }
 
   void _push() {
-    Navigator.push(
-        context,
-        DefaultPageRouter(
-             const ChangeType(isReg: false)));
+    Navigator.push(context, DefaultPageRouter(const ChangeType(isReg: false)));
   }
 
   @override
@@ -78,7 +76,8 @@ class _RegIP extends State<RegIP> {
                       child: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.fromLTRB(defaultSidePadding, 70, defaultSidePadding, 54),
+                            padding: EdgeInsets.fromLTRB(
+                                defaultSidePadding, 70, defaultSidePadding, 54),
                             child: Form(
                                 key: _formKey,
                                 child: Column(
@@ -587,7 +586,6 @@ class _RegIP extends State<RegIP> {
                                                             )
                                                           ],
                                                         )),
-                                                    
                                                     Container(
                                                       height: 6,
                                                       decoration: BoxDecoration(
@@ -793,12 +791,16 @@ class _RegIP extends State<RegIP> {
       panelController.open();
     } else {
       if (state.error is Map<dynamic, dynamic>) {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) => Alert(
-                title: "Ошибка!",
-                text: (validate(
-                    (state.error as Map<dynamic, dynamic>).values.first))));
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          animType: AnimType.bottomSlide,
+          headerAnimationLoop: false,
+          title: "Ошибка!",
+          btnOkColor: Colors.red,
+          desc: (validate((state.error as Map<dynamic, dynamic>).values.first)),
+          btnOkOnPress: () {},
+        ).show();
       }
     }
   }

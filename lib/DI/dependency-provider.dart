@@ -22,6 +22,7 @@ import '../Services/main-claim-send-service.dart';
 import '../Services/send-testimont-service.dart';
 import '../Services/update-account-service.dart';
 import '../Services/update-claim-service.dart';
+import '../Services/update-meter-service.dart';
 import '../Services/update-object-service.dart';
 import '../Services/update-ticket-service.dart';
 import '../repositories/profile-repo.dart';
@@ -45,6 +46,7 @@ class DependencyProvider extends InheritedWidget {
   MainClaimSendService? _mainClaimSendService;
   UpdateAccountService? _updateAccountService;
   UpdateObjectService? _updateObjectService;
+  UpdateMeterService? _updateMeterService;
   EdutUserinfoService? _edutUserinfoService;
   LinkPuService? _linkPuService;
   UpdateTuService? _updateTuService;
@@ -106,6 +108,11 @@ class DependencyProvider extends InheritedWidget {
   UpdateObjectService? get updateObjectService {
     _updateObjectService ??= UpdateObjectService();
     return _updateObjectService;
+  }
+
+  UpdateMeterService? get updateMeterService{
+    _updateMeterService ??= UpdateMeterService();
+    return _updateMeterService;
   }
 
   UpdateTuService? get updateTuService {

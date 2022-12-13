@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/DI/dependency-provider.dart';
 import 'package:conres_app/Services/main-claim-send-service.dart';
 import 'package:conres_app/UI/default-button.dart';
@@ -171,14 +172,18 @@ class _NewClaimStep7 extends State<NewClaimStep7> {
                                                   profileBloc!.sendMainClaim(
                                                       mainClaimSendService!);
                                                 } else {
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          Alert(
-                                                              title: "Ошибка!",
-                                                              text:
-                                                                  "Выберите файлы"));
+                                                  AwesomeDialog(
+                                                    context: context,
+                                                    dialogType:
+                                                        DialogType.error,
+                                                    animType:
+                                                        AnimType.bottomSlide,
+                                                    headerAnimationLoop: false,
+                                                    title: "Ошибка!",
+                                                    btnOkColor: Colors.red,
+                                                    desc: "Выберите файлы",
+                                                    btnOkOnPress: () {},
+                                                  ).show();
                                                 }
                                               }
                                             },
@@ -203,18 +208,31 @@ class _NewClaimStep7 extends State<NewClaimStep7> {
       return;
     }
     if (state.loading == false && state.error == null && isSent == true) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) =>
-              Alert(title: "Успешно!", text: "Заявление успешно отправлено!"));
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.success,
+        animType: AnimType.bottomSlide,
+        headerAnimationLoop: false,
+        title: "Успешно!",
+        desc: "Заявление успешно отправлено!",
+        btnOkOnPress: () {
+          Navigator.pop(context);
+        },
+      ).show();
       isSent = false;
       mainClaimSendService!.delegateFunc!.call();
       Navigator.of(context).popUntil((route) => route.isFirst);
     } else if (state.loading == false && state.error != null) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) =>
-              Alert(title: "Ошибка!", text: "Ошибка отправки заявления!"));
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.bottomSlide,
+        headerAnimationLoop: false,
+        title: "Ошибка!",
+        btnOkColor: Colors.red,
+        desc: state.error,
+        btnOkOnPress: () {},
+      ).show();
     }
   }
 

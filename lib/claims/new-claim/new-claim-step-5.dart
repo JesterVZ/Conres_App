@@ -65,6 +65,7 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
                                   style: claimTextStyle),
                             ),
                             Container(
+                              margin: EdgeInsets.only(bottom: 12),
                               child: DefaultInput(
                                   controller: controllerList[0],
                                   keyboardType: TextInputType.number,
@@ -73,6 +74,7 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
                                   validatorText: "Введите серию"),
                             ),
                             Container(
+                              margin: EdgeInsets.only(bottom: 12),
                               child: DefaultInput(
                                   controller: controllerList[1],
                                   keyboardType: TextInputType.number,
@@ -82,6 +84,7 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
                                   validatorText: "Введите серию"),
                             ),
                             Container(
+                              margin: EdgeInsets.only(bottom: 12),
                               child: DefaultInput(
                                   controller: controllerList[2],
                                   keyboardType: TextInputType.number,
@@ -91,6 +94,7 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
                                   validatorText: "Введите серию"),
                             ),
                             Container(
+                              margin: EdgeInsets.only(bottom: 12),
                               child: DefaultInput(
                                   controller: controllerList[3],
                                   keyboardType: TextInputType.number,
@@ -100,6 +104,7 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
                                   validatorText: "Введите серию"),
                             ),
                             Container(
+                              margin: EdgeInsets.only(bottom: 12),
                               child: DefaultInput(
                                   controller: controllerList[4],
                                   keyboardType: TextInputType.number,

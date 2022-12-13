@@ -115,6 +115,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _handleBindPu(event);
     } else if (event is EditUserInfo) {
       yield* _handleEditUserInfo(event);
+    } else if(event is HiddenMeter){
+      yield* _handleHideMeter(event);
     }
   }
 
@@ -264,8 +266,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(BindNewTU(object_id, new_tu_number, new_tu_name, new_tu_address));
   }
 
-  getMetersFromTU(String point_id) {
-    add(GetMetersFromTU(point_id));
+  getMetersFromTU(String point_id, String object_id) {
+    add(GetMetersFromTU(point_id, object_id));
   }
 
   getFullObjectsInfo() {
@@ -306,6 +308,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   bindPu(LinkPuService linkPuService) {
     add(BindPuEvent(linkPuService));
+  }
+
+  hiddenMeter(String meter_id){
+    add(HiddenMeter(meter_id));
   }
 
   Stream<ProfileState> _handleGetCookies(GetCookieStrEvent event) async* {
@@ -686,7 +692,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Stream<ProfileState> _handleHideTu(HidenTuRequest event) async* {
-    var result = await repo.hideTu(event.point_id);
+    var result = await repo.hideTu(event.point_id, "point");
   }
 
   Stream<ProfileState> _handleBindNewObject(BindNewObject event) async* {
@@ -712,7 +718,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _handleGetMetersFromTU(GetMetersFromTU event) async* {
     try {
       yield state.copyWith(loading: true, error: null);
-      var result = await repo.getMetersFromTu(event.point_id);
+      var result = await repo.getMetersFromTu(event.point_id, event.object_id);
       yield state.copyWith(loading: false, error: null, TuMeters: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
@@ -750,6 +756,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       yield state.copyWith(loading: true, error: null);
       var result = await repo.editUserInfo(event.edutUserinfoService);
+      yield state.copyWith(loading: false, error: null);
+    } catch (e) {
+      yield state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Stream<ProfileState> _handleHideMeter(HiddenMeter event) async* {
+    try {
+      yield state.copyWith(loading: true, error: null);
+      var result = await repo.hideTu(event.meter_id, "meter");
       yield state.copyWith(loading: false, error: null);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());

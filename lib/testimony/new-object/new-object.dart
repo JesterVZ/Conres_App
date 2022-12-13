@@ -121,10 +121,17 @@ class _NewObject extends State<NewObject> {
         ).show();
     }
     if (state.error != null) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) =>
-              Alert(title: "Ошибка!", text: state.error.toString()));
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.bottomSlide,
+        headerAnimationLoop: false,
+        title: "Ошибка!",
+        btnOkColor: Colors.red,
+        desc: state.error,
+        btnOkOnPress: () {},
+      ).show();
+
     }
   }
 

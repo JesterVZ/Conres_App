@@ -1,24 +1,25 @@
 class Meter{
- final String? meter_id;
- final String? channel_id;
- final String? name;
- final String? pu_type_id;
- final String? tariff_type_id;
- final String? point_id;
- final String? pu_number;
- final String? measure_multipler;
- final String? date_revise;
- final String? user_lk_id;
- final String? account_id;
- final String? readings_format;
- final String? status;
- final String? date_added;
- final String? date_install;
- final String? tu_name;
- final String? tu_number;
- final String? address;
- final int? index_count;
- final List<Measure> measure;
+ String? meter_id;
+ String? channel_id;
+ String? name;
+ String? pu_type_id;
+ String? tariff_type_id;
+ String? point_id;
+ String? pu_number;
+ String? measure_multipler;
+ String? date_revise;
+ String? user_lk_id;
+ String? account_id;
+ String? readings_format;
+ String? status;
+ String? date_added;
+ String? date_install;
+ String? tu_name;
+ String? tu_number;
+ String? address;
+ String? comments;
+ int? index_count;
+ List<Measure> measure;
  late LastReadings? lastReadings;
  late Tariff? tariff;
 
@@ -43,6 +44,7 @@ class Meter{
   required this.address,
   required this.index_count,
   required this.measure,
+  this.comments,
   this.lastReadings,
   this.tariff});
  factory Meter.fromMap(Map<dynamic, dynamic> meter){
@@ -65,6 +67,7 @@ class Meter{
    date_install: meter['date_install'],
    tu_name: meter['tu_name'],
    tu_number: meter['tu_number'],
+   comments: meter['comment_meter'],
    address: meter['address'],
    index_count: meter['index_count'], measure: []
   );

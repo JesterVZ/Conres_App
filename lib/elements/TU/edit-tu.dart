@@ -26,7 +26,8 @@ import '../dropdown.dart';
 class EditPuPage extends StatefulWidget {
   List<TuModel> TuPoints;
   Meter currentMeter;
-  EditPuPage({required this.TuPoints, required this.currentMeter});
+  VoidCallback? refrash;
+  EditPuPage({required this.TuPoints, required this.currentMeter, required this.refrash});
   @override
   State<StatefulWidget> createState() => _EditPuPage();
 }
@@ -84,6 +85,7 @@ class _EditPuPage extends State<EditPuPage> {
     nameController.text = widget.currentMeter.name!;
     numberController.text = widget.currentMeter.pu_number!;
     multiplerController.text = widget.currentMeter.measure_multipler!;
+    selectPoint(dropdownPointsList[0]);
 
     super.initState();
   }
@@ -599,7 +601,7 @@ class _EditPuPage extends State<EditPuPage> {
               measureMultipler: state.editPuFromTuData!['meter_info']
                   ['measure_multipler'],
             ),
-            requestId: state.editPuFromTuData!['request_id'],
+            requestId: state.editPuFromTuData!['request_id'].toString(),
             objectId: state.editPuFromTuData!['object_id'],
             objectName: state.editPuFromTuData!['object_name'],
             objectAddress: state.editPuFromTuData!['object_address'],
@@ -644,7 +646,7 @@ class _EditPuPage extends State<EditPuPage> {
         title: "Успешно!",
         desc: "Запрос на редактирование ПУ отправлен!",
         btnOkOnPress: () {
-          //widget.refrash!.call();
+          widget.refrash!.call();
           Navigator.pop(context);
         },
       ).show();

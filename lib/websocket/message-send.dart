@@ -439,6 +439,14 @@ class TuHidden{
   };
 }
 
+class MeterHidden{
+  int? meter_id;
+  MeterHidden({required this.meter_id});
+  Map<String, dynamic> toJson() => {
+    'meter_id': meter_id
+  };
+}
+
 class TuEdited {
   bool? edit;
   bool? editPush;

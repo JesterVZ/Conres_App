@@ -191,7 +191,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Text(inn,
+                                                      Text("ИНН",
                                                           style: TextStyle(
                                                               color:
                                                                   profileLabelColor,
@@ -235,7 +235,9 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(gpINN,
+                                                  Text(profileService!
+                                                                        .userType ==
+                                                                    "fl" ? "Лицевой счет" : "Договор",
                                                       style: TextStyle(
                                                         color:
                                                             profileLabelColor,
@@ -244,11 +246,11 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                   isLoading == true ? Skeleton() :
                                                   Text(
                                                       (profile != null)
-                                                          ? profile!.personalGP ==
+                                                          ? profile!.personal ==
                                                                   null
                                                               ? needDogovor
                                                               : profile!
-                                                                  .personalGP!
+                                                                  .personal!
                                                           : "",
                                                       style: const TextStyle(
                                                           color: Colors.black,

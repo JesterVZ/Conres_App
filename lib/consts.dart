@@ -15,6 +15,7 @@ String? user_id;
 String? user_inn;
 List? cookiesList;
 List<ObjectPuModel>? objectsList = []; // полный список объектов
+ObjectPuModel? selectedObject; //выбранный объект
 List<TuModel>? tuFullList = []; // полный список точек учета
 List<TuModel>? tuFromObjectList = []; // список точке учета от объекта
 

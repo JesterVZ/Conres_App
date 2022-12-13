@@ -189,10 +189,16 @@ class _BaseClaimStep2 extends State<BaseClaimStep2> {
       ).show();
       
     } else if (state.loading == false && state.error != null) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) =>
-              Alert(title: "Ошибка!!", text: "Ошибка отправки заявления!"));
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.bottomSlide,
+        headerAnimationLoop: false,
+        title: "Ошибка!",
+        btnOkColor: Colors.red,
+        desc: state.error,
+        btnOkOnPress: () {},
+      ).show();
     }
   }
 

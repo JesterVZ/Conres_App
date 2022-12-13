@@ -5,6 +5,7 @@ import 'package:conres_app/DI/locator.dart';
 import 'package:conres_app/select-store/select-store.dart';
 import 'package:flutter/material.dart';
 import 'consts.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'elements/splash/splash-screen.dart';
 import 'loading/loading-page.dart';
 import 'login/login-main.dart';
@@ -35,6 +36,15 @@ class _MyApp extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('ru')
+      ],
       title: 'Контроль ресурсов',
       routes: {
         '/logout': (context) => LoginPage(),

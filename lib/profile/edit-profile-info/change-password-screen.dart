@@ -137,6 +137,7 @@ class _ChangePasswordScreen extends State<ChangePasswordScreen> {
       ).show();
     }
     if (state.error != null) {
+      
       showDialog(
           context: context,
           builder: (BuildContext context) =>

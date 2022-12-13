@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/elements/bloc/bloc-screen.dart';
 import 'package:conres_app/registration/privacy-policy.dart';
 import 'package:conres_app/registration/validate.dart';
@@ -520,10 +521,17 @@ class _RegFL extends State<RegFL> {
         controllerList[4].text == "" ||
         controllerList[5].text == "" ||
         controllerList[6].text == "") {
-      showDialog(
+      AwesomeDialog(
           context: context,
-          builder: (BuildContext context) =>
-              Alert(title: "Ошибка", text: "Заполните все поля"));
+          dialogType: DialogType.error,
+          animType: AnimType.bottomSlide,
+          headerAnimationLoop: false,
+          title: "Ошибка!",
+          btnOkColor: Colors.red,
+          desc: "Заполните все поля",
+          btnOkOnPress: () {},
+      ).show();
+
       return;
     } else {
       authBloc!.register(sender, 1);
@@ -542,12 +550,18 @@ class _RegFL extends State<RegFL> {
       //Navigator.push(context, MaterialPageRoute(builder: (context) => const RegSuccess()));
     } else {
       if (state.error is Map<dynamic, dynamic>) {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) => Alert(
-                title: "Ошибка!",
-                text: validate(
-                    (state.error as Map<dynamic, dynamic>).values.first)));
+        AwesomeDialog(
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.bottomSlide,
+        headerAnimationLoop: false,
+        title: "Ошибка!",
+        btnOkColor: Colors.red,
+        desc: validate(
+                    (state.error as Map<dynamic, dynamic>).values.first),
+        btnOkOnPress: () {},
+      ).show();
+
       }
     }
   }

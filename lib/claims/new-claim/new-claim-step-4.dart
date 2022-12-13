@@ -52,7 +52,7 @@ class _NewClaimStep4 extends State<NewClaimStep4> {
                           labelText:
                               "Заявляемый характер нагрузки и наличие нагрузок, искажающих форму кривой электрического тока и вызывающих несимметрию напряжения в точках присоединения",
                           hintText: "",
-                          validatorText: "Введите серию"),
+                          validatorText: "Введите характер нагрузки"),
                     ),
                     Container(
                       margin: EdgeInsets.only(bottom: 24),
@@ -62,7 +62,7 @@ class _NewClaimStep4 extends State<NewClaimStep4> {
                           labelText:
                               "Величина и обоснование величины технологического минимума",
                           hintText: "",
-                          validatorText: "Введите серию"),
+                          validatorText: "Введите величину"),
                     ),
                     Container(
                       margin: EdgeInsets.only(bottom: 24),
@@ -72,7 +72,7 @@ class _NewClaimStep4 extends State<NewClaimStep4> {
                           labelText:
                               "Необходимость наличия технологической и (или) аварийной брони",
                           hintText: "",
-                          validatorText: "Введите серию"),
+                          validatorText: "Введите причину"),
                     ),
                     Container(
                       margin: EdgeInsets.only(bottom: 24),
@@ -82,7 +82,7 @@ class _NewClaimStep4 extends State<NewClaimStep4> {
                           labelText:
                               "Величина и обоснование технологической и аварийной брони",
                           hintText: "",
-                          validatorText: "Введите серию"),
+                          validatorText: "Введите величину"),
                     ),
                     Container(
                       margin: EdgeInsets.only(bottom: 24),
@@ -92,7 +92,7 @@ class _NewClaimStep4 extends State<NewClaimStep4> {
                           labelText:
                               "Количество и мощность присоединяемых к сети трансформаторов",
                           hintText: "",
-                          validatorText: "Введите серию"),
+                          validatorText: "Введите количество"),
                     ),
                     Container(
                       margin: EdgeInsets.only(bottom: 24),
@@ -101,7 +101,7 @@ class _NewClaimStep4 extends State<NewClaimStep4> {
                           keyboardType: TextInputType.number,
                           labelText: "Количество и мощность генераторов",
                           hintText: "",
-                          validatorText: "Введите серию"),
+                          validatorText: "Введите количество"),
                     ),
                     DefaultButton(
                       text: "Далее",

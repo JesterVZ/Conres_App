@@ -204,10 +204,17 @@ class _SendTestimony extends State<SendTestimony> {
       ).show();
     }
     if (state.error != null) {
-      showDialog(
+      AwesomeDialog(
           context: context,
-          builder: (BuildContext context) =>
-              Alert(title: "Ошибка!", text: state.error.toString()));
+          dialogType: DialogType.error,
+          animType: AnimType.bottomSlide,
+          headerAnimationLoop: false,
+          title: "Ошибка!",
+          btnOkColor: Colors.red,
+          desc: state.error,
+          btnOkOnPress: () {},
+        ).show();
+
     }
   }
 

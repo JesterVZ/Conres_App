@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:conres_app/DI/dependency-provider.dart';
-import 'package:conres_app/DI/locator.dart';
 import 'package:conres_app/Services/edit-userinfo-service.dart';
 import 'package:conres_app/Services/link-pu-service.dart';
 import 'package:conres_app/Services/main-claim-send-service.dart';
@@ -25,7 +23,6 @@ import 'Services/base-claim-send-service.dart';
 import 'consts.dart';
 import 'model/TU.dart';
 import 'model/contract.dart';
-import 'model/counter.dart';
 import 'model/meter.dart';
 import 'model/model.dart';
 import 'model/result-data.dart';
@@ -350,10 +347,10 @@ class HttpClient {
     }
   }
 
-  Future<dynamic> hideTu(String point_id) async {
+  Future<dynamic> hideTu(String id, String type) async {
     String uri =
         domain + 'lk/index.php?route=catalog/pu_info/api_deletePointMeter';
-    var formData = FormData.fromMap({'type': 'point', 'id': point_id});
+    var formData = FormData.fromMap({'type': type, 'id': id});
     final result = await _apiClient.post(uri, data: formData);
     if (result.statusCode == 200) {
       return true;
@@ -683,20 +680,21 @@ class HttpClient {
     return null;
   }
 
-  Future<Object?> getMetersFromPoint(String point_id) async {
+  Future<Object?> getMetersFromPoint(String point_id, String object_id) async {
     String uri =
-        domain + 'lk/index.php?route=catalog/measures/api_getMeterInfo';
+        domain + 'lk/index.php?route=catalog/pu_info/api_get_pu_from_tu&object_id=$object_id&point_id=$point_id';
     try {
-      var formData = FormData.fromMap({
-        'point_id': point_id,
-      });
-      final result = await _apiClient.post(uri, data: formData);
+      
+      final result = await _apiClient.get(uri);
       List<Meter> meters = [];
       if (result.statusCode == 200) {
-        if (result.data['data'].length > 0) {
-          for (int i = 0; i < result.data['data'].length; i++) {
-            Meter thisMeter = Meter.fromMap(result.data['data'][i]);
-            meters.add(thisMeter);
+        if (result.data['data']['pus-info'].length > 0) {
+          for (int i = 0; i < result.data['data']['pus-info'].length; i++) {
+            if(result.data['data']['pus-info'][i]['meter_id'] != null){
+              Meter thisMeter = Meter.fromMap(result.data['data']['pus-info'][i]);
+              meters.add(thisMeter);
+            }
+            
           }
         }
 
@@ -955,7 +953,8 @@ class HttpClient {
       'field_gp': mainClaimSendService.field_gp,
       'field_contract_type': mainClaimSendService.field_contract_type,
       'contract_files[]': files,
-      'contract_files_name[]': fileNames
+      'contract_files_name[]': fileNames,
+      'isMobile': '1'
     };
     formDataMap.addEntries(objectsMap.entries);
     formDataMap.addEntries(stagesMap.entries);
@@ -964,7 +963,7 @@ class HttpClient {
 
       final result = await _apiClient.post(uri, data: formdata);
       if (result.statusCode == 200) {
-        return true;
+        return result.data['data'];
       } else {
         return false;
       }
@@ -1058,19 +1057,12 @@ class HttpClient {
       String new_pu_ratio) async {
     String uri =
         domain + 'lk/index.php?route=catalog/pu_info/api_editPuInfoMob';
-    Map<String, dynamic> newTuMap = Map<String, dynamic>();
 
-    for (int i = 0; i < new_tu_id.length; i++) {
-      var object = {
-        'new_tu_id[]': new_tu_id[i],
-      };
-      newTuMap.addEntries(object.entries);
-    }
+    
     Map<String, dynamic> formDataMap = <String, dynamic>{
       'object_id': object_id,
       'meter_id': meter_id,
       'account_number': account_number,
-      'new_tu_id[]': new_tu_id, //cделать как в бинлинге
       'new_tu_number': new_tu_number,
       'new_tu_name': new_tu_name,
       'new_pu_address': new_pu_address,
@@ -1081,7 +1073,14 @@ class HttpClient {
       'new_pu_ratio': new_pu_ratio,
       'isMobile': '1'
     };
-    formDataMap.addEntries(newTuMap.entries);
+
+    if(new_tu_id.isNotEmpty){
+      var object = {
+        'new_tu_id[]': new_tu_id,
+      };
+      formDataMap.addEntries(object.entries);
+    }
+
     var formdata = FormData.fromMap(formDataMap);
     final result = await _apiClient.post(uri, data: formdata);
     if (result.statusCode == 200) {
