@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/DI/dependency-provider.dart';
 import 'package:conres_app/Services/main-claim-send-service.dart';
@@ -5,6 +7,7 @@ import 'package:conres_app/UI/default-button.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../UI/main-form.dart';
 import '../../bloc/profile/profile-bloc.dart';
@@ -15,6 +18,7 @@ import '../../elements/bloc/bloc-screen.dart';
 import '../../elements/claims/claim-step7-object.dart';
 import '../../elements/claims/file-element.dart';
 import '../../elements/header/header.dart';
+import '../../websocket/message-send.dart';
 
 class NewClaimStep7 extends StatefulWidget {
   @override
@@ -24,6 +28,7 @@ class NewClaimStep7 extends StatefulWidget {
 class _NewClaimStep7 extends State<NewClaimStep7> {
   ProfileBloc? profileBloc;
   MainClaimSendService? mainClaimSendService;
+  WebSocketChannel? webSocketChannel;
   bool isLoading = false;
   List<Widget> objects = [];
   bool isSent = false; //отправлено ли
@@ -207,7 +212,25 @@ class _NewClaimStep7 extends State<NewClaimStep7> {
     if (state.loading == true) {
       return;
     }
-    if (state.loading == false && state.error == null && isSent == true) {
+    if (state.createClaimData != null) {
+      dynamic message = MessageSend(
+          cmd: "publish",
+          subject: "store-${store_id}",
+          event: "claim_new",
+          data: ClaimNew(
+            claim_id: state.createClaimData!['claim_id'], 
+            claim_shortname: state.createClaimData!['claim_shortname'], 
+            claim_name: state.createClaimData!['claim_name'],
+            date_time: state.createClaimData!['date_time'],
+            date: state.createClaimData!['date'],
+            user_lk_id: state.createClaimData!['user_lk_id'], 
+            user_inn: state.createClaimData!['user_inn'], 
+            user_account_number: state.createClaimData!['user_account_number'], 
+            claim_href: state.createClaimData!['claim_href']),
+          to_id: int.parse(user_id!));
+      String data = jsonEncode(message.toJson());
+      webSocketChannel!.sink.add(data);
+      mainClaimSendService!.delegateFunc!.call();
       AwesomeDialog(
         context: context,
         dialogType: DialogType.success,
@@ -216,12 +239,11 @@ class _NewClaimStep7 extends State<NewClaimStep7> {
         title: "Успешно!",
         desc: "Заявление успешно отправлено!",
         btnOkOnPress: () {
-          Navigator.pop(context);
+          Navigator.of(context).popUntil((route) => route.isFirst);
         },
       ).show();
-      isSent = false;
-      mainClaimSendService!.delegateFunc!.call();
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      
+      
     } else if (state.loading == false && state.error != null) {
       AwesomeDialog(
         context: context,
@@ -239,6 +261,7 @@ class _NewClaimStep7 extends State<NewClaimStep7> {
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel(false);
     mainClaimSendService ??=
         DependencyProvider.of(context)!.mainClaimSendService;
     super.didChangeDependencies();

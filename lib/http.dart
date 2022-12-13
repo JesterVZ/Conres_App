@@ -469,7 +469,9 @@ class HttpClient {
     String uri =
         domain + 'lk/index.php?route=catalog/measures/api_measure_send';
     var formData;
-    Map<String, dynamic> map = Map<String, dynamic>();
+    Map<String, dynamic> map = {
+      'isMobile': '1'
+    };
     for (int i = 0; i < dayValues.length; i++) {
       final dayEntries = <String, dynamic>{
         "new_measures_${i + 1}[0]": dayValues[i]

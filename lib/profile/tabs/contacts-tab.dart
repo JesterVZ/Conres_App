@@ -74,12 +74,13 @@ class _ContactTab extends State<ContactTab> {
       if (profileService!
               .userInformation!.user_info_contacts![i].contact_type_group_id ==
           "1") {
+        String phoneString = profileService!.userInformation!.user_info_contacts![i].value_contact ?? "";
+        if(phoneString != ""){
+
         phones.add(ExpansionTileElement(
           header: Column(children: [
             Text("Номер телефона", style: labelTextStyle),
-            Text(
-                profileService!
-                    .userInformation!.user_info_contacts![i].value_contact!,
+            Text("+7 (${phoneString[1]}${phoneString[2]}${phoneString[3]}) ${phoneString[4]}${phoneString[5]}${phoneString[6]}-${phoneString[7]}${phoneString[8]}-${phoneString[9]}${phoneString[10]}",
                 //.replaceAllMapped(
                 //    RegExp(r'[0-9\-\+]{9,15}$'), (Match m) => ""),
                 style: TextStyle(fontSize: 18)),
@@ -92,6 +93,8 @@ class _ContactTab extends State<ContactTab> {
         ));
         edutUserinfoService!.phones!.add(profileService!
                     .userInformation!.user_info_contacts![i]);
+        }
+        
 
       }
 

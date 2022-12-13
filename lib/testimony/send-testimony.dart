@@ -51,6 +51,8 @@ class _SendTestimony extends State<SendTestimony> {
   List<TextEditingController>? dayControllers = [];
   List<TextEditingController>? nightControllers = [];
 
+  String? currentMonth;
+
   Widget? footer = Container();
 
   Future<void> _refrash() async {}
@@ -68,15 +70,26 @@ class _SendTestimony extends State<SendTestimony> {
                       text: "Передача показаний", canGoBack: true),
                   body: Stack(
                     children: [
-                      ListView.builder(
-                          controller: scrollController,
-                          itemCount: meters.length,
-                          itemBuilder: (context, int index) {
-                            return Testimony(
-                                meter: meters[index],
-                                dayController: dayControllers![index],
-                                nightController: nightControllers![index]);
-                          }),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(left: defaultSidePadding),
+                            child: Text("Показания за $currentMonth", style: TextStyle(fontSize: 20)),
+                          ),
+                          
+                          Expanded(child: ListView.builder(
+                              controller: scrollController,
+                              itemCount: meters.length,
+                              itemBuilder: (context, int index) {
+                                return Testimony(
+                                    meter: meters[index],
+                                    dayController: dayControllers![index],
+                                    nightController: nightControllers![index]);
+                              }))
+                          ,
+                        ],
+                      ),
                       Visibility(
                         visible: (meters.isEmpty ||
                                     profileService!.accountNumber == "") &&
@@ -200,21 +213,22 @@ class _SendTestimony extends State<SendTestimony> {
         headerAnimationLoop: false,
         title: "Успешно!",
         desc: "Показания переданы!",
-        btnOkOnPress: () {},
+        btnOkOnPress: () {
+          //Navigator.pop(context);
+        },
       ).show();
     }
     if (state.error != null) {
       AwesomeDialog(
-          context: context,
-          dialogType: DialogType.error,
-          animType: AnimType.bottomSlide,
-          headerAnimationLoop: false,
-          title: "Ошибка!",
-          btnOkColor: Colors.red,
-          desc: state.error,
-          btnOkOnPress: () {},
-        ).show();
-
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.bottomSlide,
+        headerAnimationLoop: false,
+        title: "Ошибка!",
+        btnOkColor: Colors.red,
+        desc: state.error,
+        btnOkOnPress: () {},
+      ).show();
     }
   }
 
@@ -226,6 +240,47 @@ class _SendTestimony extends State<SendTestimony> {
         DependencyProvider.of(context)!.bottomNavigationSelectService;
     sendTestimonyService ??=
         DependencyProvider.of(context)!.sendTestimonyService;
+    var month = DateTime.now().month;
+    switch(month){
+      case 1:
+        currentMonth = "январь";
+      break;
+      case 2:
+        currentMonth = "февраль";
+      break;
+      case 3:
+        currentMonth = "март";
+      break;
+      case 4:
+        currentMonth = "апрель";
+      break;
+      case 5:
+        currentMonth = "май";
+      break;
+      case 6:
+        currentMonth = "июнь";
+      break;
+      case 7:
+        currentMonth = "июль";
+      break;
+      case 8:
+        currentMonth = "август";
+      break;
+      case 9:
+        currentMonth = "сентябрь";
+      break;
+      case 10:
+        currentMonth = "октяюрь";
+      break;
+      case 11:
+        currentMonth = "ноябрь";
+      break;
+      case 12:
+        currentMonth = "декабрь";
+      break;
+
+    }
+
     profileBloc!.getTU();
     super.didChangeDependencies();
   }

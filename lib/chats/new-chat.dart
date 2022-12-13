@@ -5,10 +5,12 @@ import 'package:conres_app/DI/dependency-provider.dart';
 import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/consts.dart';
 import 'package:conres_app/elements/header/header.dart';
+import 'package:cool_dropdown/cool_dropdown.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+import '../Services/profile-service.dart';
 import '../UI/default-input.dart';
 import '../UI/main-form.dart';
 import '../bloc/profile/profile-bloc.dart';
@@ -30,11 +32,18 @@ class _NewChat extends State<NewChat> {
   TextEditingController EmailController = TextEditingController();
   TextEditingController TextController = TextEditingController();
   TextEditingController TypeController = TextEditingController();
+  List dropdownReasonList = [
+    {'label': 'вопрос о техническом присоединении', 'value': '1'},
+    {'label': 'сообщить об аварии', 'value': '2'},
+    {'label': 'другое', 'value': '3'},
+  ];
+
   WebSocketChannel? webSocketChannel;
   bool isSent = false;
   final _formKey = GlobalKey<FormState>();
 
   ProfileBloc? profileBloc;
+  ProfileService? profileService;
   Future<void> _refrash() async {}
   @override
   Widget build(BuildContext context) {
@@ -58,19 +67,48 @@ class _NewChat extends State<NewChat> {
                             key: _formKey,
                             child: Column(
                               children: [
+                                CoolDropdown(
+                                    resultHeight: 55,
+                                    resultTS: TextStyle(
+                                      fontSize: 20,
+                                      color: colorMain,
+                                    ),
+                                    resultBD: BoxDecoration(
+                                      color: messageColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    selectedItemBD: BoxDecoration(
+                                      color: messageColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    selectedItemTS: TextStyle(
+                                      fontSize: 20,
+                                      color: colorMain,
+                                    ),
+                                    dropdownBD: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Color.fromARGB(255, 49, 49, 49)
+                                                .withOpacity(0.5),
+                                            spreadRadius: 1,
+                                            blurRadius: 10,
+                                            offset: Offset(0, 1),
+                                          ),
+                                        ]),
+                                    dropdownWidth: MediaQuery.of(context).size.width - 50,
+                                    dropdownHeight: 200,
+                                    resultWidth: MediaQuery.of(context).size.width,
+                                    dropdownList: dropdownReasonList,
+                                    defaultValue: dropdownReasonList[0],
+                                    onChange: (value) {
+                                      TypeController.text = value['label'];
+                                    },
+                                    //defaultValue: dropdownObjectsList[0],
+                                  ),
                                 Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: CustomDropDown(
-                                      selectedItem: TypeController,
-                                      title: "Выберите причину",
-                                      items: const [
-                                        "вопрос о техническом присоединении",
-                                        "сообщить об аварии",
-                                        "другое"
-                                      ],
-                                    )),
-                                Container(
-                                    margin: EdgeInsets.only(bottom: 12),
+                                    margin: EdgeInsets.only(bottom: 12,top: 12),
                                     child: DefaultInput(
                                         controller: FioController,
                                         keyboardType: TextInputType.text,
@@ -201,7 +239,9 @@ class _NewChat extends State<NewChat> {
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    profileService ??= DependencyProvider.of(context)!.profileService;
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel(false);
+    FioController.text = (profileService!.userType == "fl" || profileService!.userType == "ip") ? "${profileService!.userInformation!.lastname!} ${profileService!.userInformation!.firstname!} ${profileService!.userInformation!.patronymic!}" : (profileService!.userInformation!.company_full ?? "");
     super.didChangeDependencies();
   }
 }
