@@ -1096,7 +1096,6 @@ class HttpClient {
         'lk/index.php?route=catalog/user_information/api_edit&tab=general&' +
         edutUserinfoService.tab!;
 
-    
     Map<String, dynamic> formDataMap = <String, dynamic>{
       'user_lk_id': edutUserinfoService.user_lk_id,
       'user_lk_type_id': edutUserinfoService.user_lk_type_id,
@@ -1105,10 +1104,10 @@ class HttpClient {
       'custom_field[fact_address]': edutUserinfoService.fact_address,
       'password': edutUserinfoService.password,
       'confirm': edutUserinfoService.confirm,
-
     };
 
-    if(edutUserinfoService.user_lk_type_id == "1" || edutUserinfoService.user_lk_type_id == "2"){
+    if (edutUserinfoService.user_lk_type_id == "1" ||
+        edutUserinfoService.user_lk_type_id == "2") {
       var object = {
         'lastname': edutUserinfoService.lastname,
         'firstname': edutUserinfoService.firstname,
@@ -1123,65 +1122,94 @@ class HttpClient {
       formDataMap.addEntries(object.entries);
     }
 
-    if(edutUserinfoService.user_lk_type_id == "2" || edutUserinfoService.user_lk_type_id == "3"){
+    if (edutUserinfoService.user_lk_type_id == "2" ||
+        edutUserinfoService.user_lk_type_id == "3") {
       var object = {
         'ogrn': edutUserinfoService.ogrn,
         'proxy_lastname': edutUserinfoService.proxy_lastname ?? "",
         'proxy_firstname': edutUserinfoService.proxy_firstname ?? "",
         'proxy_patronymic': edutUserinfoService.proxy_patronymic ?? "",
         'proxy_telephone': edutUserinfoService.proxy_telephone ?? "",
-        'proxy_email': edutUserinfoService.proxy_email ?? ""};
+        'proxy_email': edutUserinfoService.proxy_email ?? ""
+      };
       formDataMap.addEntries(object.entries);
     } else {
       var object = {'snils': edutUserinfoService.snins};
       formDataMap.addEntries(object.entries);
     }
-    for(int i = 0; i < edutUserinfoService.phones!.length; i++){
+    for (int i = 0; i < edutUserinfoService.phones!.length; i++) {
       var object = {
         'contacts[$i][contact_id]': edutUserinfoService.phones![i].contact_id,
-        'contacts[$i][contact_type_group_id]': edutUserinfoService.phones![i].contact_type_group_id,
-        'contacts[$i][contact_type_id]': edutUserinfoService.phones![i].contact_type_id,
-        'contacts[$i][value]': edutUserinfoService.phones![i].value_contact};
-      if(edutUserinfoService.phones![i].flags['1'] != null){
-        var phoneLoginFlag = {'contacts[$i][flags][1]': '1'};
-        object.addEntries(phoneLoginFlag.entries);
-      }
-      formDataMap.addEntries(object.entries);
-    }
-
-    for(int i = edutUserinfoService.phones!.length; i < edutUserinfoService.phones!.length + edutUserinfoService.emails!.length; i++){
-      var object = {
-        'contacts[$i][contact_id]': edutUserinfoService.emails![i - edutUserinfoService.phones!.length].contact_id,
-        'contacts[$i][contact_type_group_id]': edutUserinfoService.emails![i - edutUserinfoService.phones!.length].contact_type_group_id,
-        'contacts[$i][contact_type_id]': edutUserinfoService.emails![i - edutUserinfoService.phones!.length].contact_type_id,
-        'contacts[$i][value]': edutUserinfoService.emails![i - edutUserinfoService.phones!.length].value_contact,
-
+        'contacts[$i][contact_type_group_id]':
+            edutUserinfoService.phones![i].contact_type_group_id,
+        'contacts[$i][contact_type_id]':
+            edutUserinfoService.phones![i].contact_type_id,
+        'contacts[$i][value]': edutUserinfoService.phones![i].value_contact
       };
-      if(edutUserinfoService.emails![i - edutUserinfoService.phones!.length].flags['1'] != null){
+      if (edutUserinfoService.phones![i].flags['1'] != null) {
         var phoneLoginFlag = {'contacts[$i][flags][1]': '1'};
         object.addEntries(phoneLoginFlag.entries);
       }
       formDataMap.addEntries(object.entries);
     }
 
-    for(int i = edutUserinfoService.emails!.length; i < edutUserinfoService.emails!.length + edutUserinfoService.messangers!.length; i++){
+    for (int i = edutUserinfoService.phones!.length;
+        i <
+            edutUserinfoService.phones!.length +
+                edutUserinfoService.emails!.length;
+        i++) {
       var object = {
-        'contacts[$i][contact_id]': edutUserinfoService.emails![i - edutUserinfoService.emails!.length].contact_id,
-        'contacts[$i][contact_type_group_id]': edutUserinfoService.emails![i - edutUserinfoService.emails!.length].contact_type_group_id,
-        'contacts[$i][contact_type_id]': edutUserinfoService.emails![i - edutUserinfoService.emails!.length].contact_type_id,
-        'contacts[$i][value]': edutUserinfoService.emails![i - edutUserinfoService.emails!.length].value_contact,
-
+        'contacts[$i][contact_id]': edutUserinfoService
+            .emails![i - edutUserinfoService.phones!.length].contact_id,
+        'contacts[$i][contact_type_group_id]': edutUserinfoService
+            .emails![i - edutUserinfoService.phones!.length]
+            .contact_type_group_id,
+        'contacts[$i][contact_type_id]': edutUserinfoService
+            .emails![i - edutUserinfoService.phones!.length].contact_type_id,
+        'contacts[$i][value]': edutUserinfoService
+            .emails![i - edutUserinfoService.phones!.length].value_contact,
       };
-      if(edutUserinfoService.messangers![i - edutUserinfoService.messangers!.length].flags['1'] != null){
+      if (edutUserinfoService
+              .emails![i - edutUserinfoService.phones!.length].flags['1'] !=
+          null) {
         var phoneLoginFlag = {'contacts[$i][flags][1]': '1'};
         object.addEntries(phoneLoginFlag.entries);
       }
       formDataMap.addEntries(object.entries);
     }
-    
+
+    for (int i = edutUserinfoService.emails!.length;
+        i <
+            edutUserinfoService.emails!.length +
+                edutUserinfoService.messangers!.length;
+        i++) {
+      var object = {
+        'contacts[$i][contact_id]': edutUserinfoService
+            .emails![i - edutUserinfoService.emails!.length].contact_id,
+        'contacts[$i][contact_type_group_id]': edutUserinfoService
+            .emails![i - edutUserinfoService.emails!.length]
+            .contact_type_group_id,
+        'contacts[$i][contact_type_id]': edutUserinfoService
+            .emails![i - edutUserinfoService.emails!.length].contact_type_id,
+        'contacts[$i][value]': edutUserinfoService
+            .emails![i - edutUserinfoService.emails!.length].value_contact,
+      };
+      if (edutUserinfoService
+              .messangers![i - edutUserinfoService.messangers!.length]
+              .flags['1'] !=
+          null) {
+        var phoneLoginFlag = {'contacts[$i][flags][1]': '1'};
+        object.addEntries(phoneLoginFlag.entries);
+      }
+      formDataMap.addEntries(object.entries);
+    }
+
     var formdata = FormData.fromMap(formDataMap);
     final result = await _apiClient.post(uri, data: formdata);
     if (result.statusCode == 200) {
+      if (result.data['error'] != null) {
+        throw Exception(result.data['error']);
+      }
       return result.data;
     } else {
       throw Exception(result.statusCode);
