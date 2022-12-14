@@ -1,5 +1,6 @@
 import 'package:conres_app/Services/profile-service.dart';
 import 'package:conres_app/consts.dart';
+import 'package:conres_app/profile/tabs/new-contact/new-contact.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -144,7 +145,9 @@ class _ColtactColtrols extends State<ColtactColtrols> {
                 width: 142,
                 height: 55,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewContact() ));
+                  },
                   child: const Text("Добавить", style: TextStyle(fontSize: 18)),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: colorMain,
