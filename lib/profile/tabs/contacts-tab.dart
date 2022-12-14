@@ -70,32 +70,59 @@ class _ContactTab extends State<ContactTab> {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     profileService ??= DependencyProvider.of(context)!.profileService;
     edutUserinfoService ??= DependencyProvider.of(context)!.edutUserinfoService;
-    for (int i = 0; i < profileService!.userInformation!.user_info_contacts!.length; i++) {
+    for (int i = 0;
+        i < profileService!.userInformation!.user_info_contacts!.length;
+        i++) {
       if (profileService!
               .userInformation!.user_info_contacts![i].contact_type_group_id ==
           "1") {
-        String phoneString = profileService!.userInformation!.user_info_contacts![i].value_contact ?? "";
-        if(phoneString != ""){
-
-        phones.add(ExpansionTileElement(
-          header: Column(children: [
-            Text("Номер телефона", style: labelTextStyle),
-            Text("+7 (${phoneString[1]}${phoneString[2]}${phoneString[3]}) ${phoneString[4]}${phoneString[5]}${phoneString[6]}-${phoneString[7]}${phoneString[8]}-${phoneString[9]}${phoneString[10]}",
-                //.replaceAllMapped(
-                //    RegExp(r'[0-9\-\+]{9,15}$'), (Match m) => ""),
-                style: TextStyle(fontSize: 18)),
-          ]),
-          tileText: Text("Настройки", style: TextStyle(color: colorGrayClaim)),
-          body: ColtactColtrols(
-            IsLogin: profileService!.userInformation!.user_info_contacts![i].flags['1'] != null ? true : false, 
-            IsClaims: profileService!.userInformation!.user_info_contacts![i].flags['2'] != null ? true : false,
-            IsTickets: profileService!.userInformation!.user_info_contacts![i].flags['2'] != null ? true : false,),
-        ));
-        edutUserinfoService!.phones!.add(profileService!
-                    .userInformation!.user_info_contacts![i]);
+        String phoneString = profileService!
+                .userInformation!.user_info_contacts![i].value_contact ??
+            "";
+        if (phoneString != "") {
+          phones.add(ExpansionTileElement(
+            header:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text("Номер телефона", style: labelTextStyle),
+              Text(
+                  "+7 (${phoneString[1]}${phoneString[2]}${phoneString[3]}) ${phoneString[4]}${phoneString[5]}${phoneString[6]}-${phoneString[7]}${phoneString[8]}-${phoneString[9]}${phoneString[10]}",
+                  //.replaceAllMapped(
+                  //    RegExp(r'[0-9\-\+]{9,15}$'), (Match m) => ""),
+                  style: TextStyle(fontSize: 18)),
+            ]),
+            tileText:
+                Text("Настройки", style: TextStyle(color: colorGrayClaim)),
+            body: ColtactColtrols(
+              isPhone: true,
+              contactType: profileService!.userInformation!
+                          .user_info_contacts![i].contact_type_id ==
+                      "1"
+                  ? "Телефон стационарный"
+                  : profileService!.userInformation!.user_info_contacts![i]
+                              .contact_type_id ==
+                          "2"
+                      ? "Телефон мобильный"
+                      : "",
+              IsLogin: profileService!
+                          .userInformation!.user_info_contacts![i].flags['1'] !=
+                      null
+                  ? true
+                  : false,
+              IsClaims: profileService!
+                          .userInformation!.user_info_contacts![i].flags['2'] !=
+                      null
+                  ? true
+                  : false,
+              IsTickets: profileService!
+                          .userInformation!.user_info_contacts![i].flags['2'] !=
+                      null
+                  ? true
+                  : false,
+            ),
+          ));
+          edutUserinfoService!.phones!
+              .add(profileService!.userInformation!.user_info_contacts![i]);
         }
-        
-
       }
 
       if (profileService!
@@ -107,14 +134,27 @@ class _ContactTab extends State<ContactTab> {
                     .userInformation!.user_info_contacts![i].value_contact!,
                 style: TextStyle(fontSize: 18)),
             body: ColtactColtrols(
-              IsLogin: profileService!.userInformation!.user_info_contacts![i].flags['1'] != null ? true : false, 
-              IsClaims: profileService!.userInformation!.user_info_contacts![i].flags['2'] != null ? true : false,
-              IsTickets: profileService!.userInformation!.user_info_contacts![i].flags['2'] != null ? true : false,
+              isPhone: false,
+              IsLogin: profileService!
+                          .userInformation!.user_info_contacts![i].flags['1'] !=
+                      null
+                  ? true
+                  : false,
+              IsClaims: profileService!
+                          .userInformation!.user_info_contacts![i].flags['2'] !=
+                      null
+                  ? true
+                  : false,
+              IsTickets: profileService!
+                          .userInformation!.user_info_contacts![i].flags['2'] !=
+                      null
+                  ? true
+                  : false,
             ),
             tileText:
                 Text("Настройки", style: TextStyle(color: colorGrayClaim))));
-        edutUserinfoService!.emails!.add(profileService!
-                    .userInformation!.user_info_contacts![i]);
+        edutUserinfoService!.emails!
+            .add(profileService!.userInformation!.user_info_contacts![i]);
       }
 
       if (profileService!
@@ -126,14 +166,27 @@ class _ContactTab extends State<ContactTab> {
                     .userInformation!.user_info_contacts![i].value_contact!,
                 style: TextStyle(fontSize: 18)),
             body: ColtactColtrols(
-              IsLogin: profileService!.userInformation!.user_info_contacts![i].flags['1'] != null ? true : false, 
-              IsClaims: profileService!.userInformation!.user_info_contacts![i].flags['2'] != null ? true : false,
-              IsTickets: profileService!.userInformation!.user_info_contacts![i].flags['2'] != null ? true : false,
+              isPhone: false,
+              IsLogin: profileService!
+                          .userInformation!.user_info_contacts![i].flags['1'] !=
+                      null
+                  ? true
+                  : false,
+              IsClaims: profileService!
+                          .userInformation!.user_info_contacts![i].flags['2'] !=
+                      null
+                  ? true
+                  : false,
+              IsTickets: profileService!
+                          .userInformation!.user_info_contacts![i].flags['2'] !=
+                      null
+                  ? true
+                  : false,
             ),
             tileText:
                 Text("Настройки", style: TextStyle(color: colorGrayClaim))));
-        edutUserinfoService!.messangers!.add(profileService!
-                    .userInformation!.user_info_contacts![i]);
+        edutUserinfoService!.messangers!
+            .add(profileService!.userInformation!.user_info_contacts![i]);
       }
     }
     super.didChangeDependencies();

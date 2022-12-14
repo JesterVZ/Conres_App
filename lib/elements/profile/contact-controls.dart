@@ -10,8 +10,14 @@ class ColtactColtrols extends StatefulWidget {
   bool IsLogin;
   bool IsClaims;
   bool IsTickets;
-  ColtactColtrols({required this.IsLogin, required this.IsClaims, required this.IsTickets});
-
+  String? contactType;
+  bool isPhone;
+  ColtactColtrols(
+      {required this.IsLogin,
+      required this.IsClaims,
+      required this.IsTickets,
+      required this.isPhone,
+      this.contactType});
 
   @override
   State<StatefulWidget> createState() => _ColtactColtrols();
@@ -19,13 +25,23 @@ class ColtactColtrols extends StatefulWidget {
 
 class _ColtactColtrols extends State<ColtactColtrols> {
   ProfileService? profileService;
-  
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Visibility(
+            visible: widget.isPhone,
+            child: Container(
+                margin: EdgeInsets.only(bottom: 12),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Тип контакта", style: labelTextStyle),
+                      Text(widget.contactType ?? "",
+                          style: TextStyle(fontSize: 18)),
+                    ]))),
         Text("Логин", style: TextStyle(fontSize: 15, color: colorGrayClaim)),
         Container(
           margin: EdgeInsets.only(top: 12, bottom: 12),
@@ -153,6 +169,7 @@ class _ColtactColtrols extends State<ColtactColtrols> {
       ],
     );
   }
+
   @override
   void didChangeDependencies() {
     profileService ??= DependencyProvider.of(context)!.profileService;

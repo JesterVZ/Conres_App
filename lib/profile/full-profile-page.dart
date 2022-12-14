@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../DI/dependency-provider.dart';
+import '../Services/edit-userinfo-service.dart';
 import '../bloc/auth/auth-block.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/full-profile/ExpansionTileElement.dart';
@@ -26,6 +27,7 @@ class _FullProfile extends State<FullProfile>
     with SingleTickerProviderStateMixin {
   ProfileBloc? profileBloc;
   ProfileService? profileService;
+  EdutUserinfoService? edutUserinfoService;
 
   TabController? tabController;
   List<Tab> tabs = [];
@@ -77,6 +79,19 @@ class _FullProfile extends State<FullProfile>
     if (state.loading == true) {
       return;
     }
+    if (state.userInformation != null) {
+      edutUserinfoService!.firstname = state.userInformation!.firstname;
+      edutUserinfoService!.lastname = state.userInformation!.lastname;
+      edutUserinfoService!.patronymic = state.userInformation!.patronymic;
+      edutUserinfoService!.company_full = state.userInformation!.company_full;
+      edutUserinfoService!.company_short = state.userInformation!.company_short;
+      edutUserinfoService!.inn = state.userInformation!.inn;
+      edutUserinfoService!.ogrn = state.userInformation!.ogrn;
+      edutUserinfoService!.kpp = state.userInformation!.kpp;
+      edutUserinfoService!.legal_address = state.userInformation!.legal_address;
+      edutUserinfoService!.fact_address = state.userInformation!.fact_address;
+      edutUserinfoService!.snins = state.userInformation!.snils;
+    }
   }
 
   @override
@@ -84,6 +99,7 @@ class _FullProfile extends State<FullProfile>
     super.didChangeDependencies();
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     profileService ??= DependencyProvider.of(context)!.profileService;
+    edutUserinfoService ??= DependencyProvider.of(context)!.edutUserinfoService;
     profileBloc!.getFullProfileInfo();
 
     if (profileService!.userType == "fl") {
