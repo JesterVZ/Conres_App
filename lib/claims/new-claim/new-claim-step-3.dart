@@ -373,8 +373,7 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                           DefaultButton(
                             text: "Далее",
                             onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                //категория надежности 3
+                              //категория надежности 3
                                 mainClaimSendService!.field_max_power_3 =
                                     controllerList[0].text;
                                 mainClaimSendService!.field_max_voltage_3 =
@@ -429,7 +428,6 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => NewClaimStep4()));
-                              }
                             },
                             isGetPadding: false,
                             margin: EdgeInsets.only(top: 12),

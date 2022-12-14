@@ -111,7 +111,7 @@ class _ObjectsPU extends State<ObjectsPU> {
                             padding: EdgeInsets.only(
                               left: defaultSidePadding,
                             ),
-                            width: 160,
+                            width: 180,
                             height: 55,
                             child: ElevatedButton(
                               onPressed: () {
@@ -132,7 +132,7 @@ class _ObjectsPU extends State<ObjectsPU> {
                         const Spacer(),
                         Container(
                             padding: EdgeInsets.only(right: defaultSidePadding),
-                            width: 160,
+                            width: 180,
                             height: 55,
                             child: ElevatedButton(
                               onPressed: () {

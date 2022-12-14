@@ -1103,8 +1103,8 @@ class HttpClient {
       'inn': edutUserinfoService.inn,
       'custom_field[legal_address]': edutUserinfoService.legal_address,
       'custom_field[fact_address]': edutUserinfoService.fact_address,
-      'password': edutUserinfoService.password,
-      'confirm': edutUserinfoService.confirm,
+      'password': edutUserinfoService.password ?? "",
+      'confirm': edutUserinfoService.confirm ?? "",
     };
 
     if (edutUserinfoService.user_lk_type_id == "1" ||

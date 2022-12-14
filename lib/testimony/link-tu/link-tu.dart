@@ -117,7 +117,8 @@ class _LinkTu extends State<LinkTu> {
                       dateAdded: state.bindTuData!['date_added'],
                       newPointNumber: numberTuColtroller.text,
                       newPointName: nameTuColtroller.text,
-                      newPointAddress: addressTuColtroller.text
+                      newPointAddress: addressTuColtroller.text,
+                      html: ""
                     ),
                     to_id: int.parse(user_id!)
                   );

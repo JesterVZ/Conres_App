@@ -13,11 +13,13 @@ class ColtactColtrols extends StatefulWidget {
   bool IsTickets;
   String? contactType;
   bool isPhone;
+  Function? delegateFunction;
   ColtactColtrols(
       {required this.IsLogin,
       required this.IsClaims,
       required this.IsTickets,
       required this.isPhone,
+      this.delegateFunction,
       this.contactType});
 
   @override
@@ -26,6 +28,19 @@ class ColtactColtrols extends StatefulWidget {
 
 class _ColtactColtrols extends State<ColtactColtrols> {
   ProfileService? profileService;
+
+  bool isLock = true; //может ли пользователь нажимать на switch
+
+  void _sendToastMessage(BuildContext context, String message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        action: SnackBarAction(
+            label: 'Понятно', onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +79,14 @@ class _ColtactColtrols extends State<ColtactColtrols> {
               Switch(
                   value: widget.IsLogin,
                   onChanged: (value) {
-                    setState(() {
-                      widget.IsLogin = value;
-                    });
+                    if(!isLock){
+                      setState(() {
+                        widget.IsLogin = value;
+                      });
+                    } else {
+                      _sendToastMessage(context, "Чтобы внести изменения разверните настройки  и нажмите кнопку “Изменить”");
+                    }
+                    
                   })
             ],
           ),
@@ -93,9 +113,14 @@ class _ColtactColtrols extends State<ColtactColtrols> {
               Switch(
                   value: widget.IsClaims,
                   onChanged: (value) {
-                    setState(() {
+                    if(!isLock){
+                      setState(() {
                       widget.IsClaims = value;
                     });
+                    } else {
+                      _sendToastMessage(context, "Чтобы внести изменения разверните настройки  и нажмите кнопку “Изменить”");
+                    }
+                    
                   })
             ],
           ),
@@ -120,9 +145,14 @@ class _ColtactColtrols extends State<ColtactColtrols> {
               Switch(
                   value: widget.IsTickets,
                   onChanged: (value) {
-                    setState(() {
+                    if(!isLock){
+                      setState(() {
                       widget.IsTickets = value;
                     });
+                    } else {
+                      _sendToastMessage(context, "Чтобы внести изменения разверните настройки  и нажмите кнопку “Изменить”");
+                    }
+                    
                   })
             ],
           ),
@@ -133,7 +163,10 @@ class _ColtactColtrols extends State<ColtactColtrols> {
                 width: 142,
                 height: 55,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    isLock = !isLock;
+                    widget.delegateFunction!.call();
+                  },
                   child: const Text("Изменить", style: TextStyle(fontSize: 18)),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: colorMain,

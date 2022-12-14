@@ -10,6 +10,7 @@ import '../../bloc/profile/profile-state.dart';
 import '../../elements/bloc/bloc-screen.dart';
 import '../../elements/full-profile/ExpansionTileElement.dart';
 import '../../elements/profile/contact-controls.dart';
+import '../edit-profile-info/edit-proxy-info.dart';
 import 'main-tab.dart';
 
 class DlTab extends StatefulWidget {
@@ -84,7 +85,9 @@ class _DlTab extends State<DlTab> {
                     ),
                     DefaultButton(
                         text: "Редактировать",
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => EditProxyInfo()));
+                        },
                         isGetPadding: false),
                   ],
                 )),

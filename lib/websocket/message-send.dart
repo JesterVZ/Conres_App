@@ -380,6 +380,7 @@ class TuNew {
   String? newPointName;
   String? newPointNumber;
   String? newPointAddress;
+  String? html;
 
   TuNew(
       {this.objectId,
@@ -391,6 +392,7 @@ class TuNew {
       this.accountId,
       this.accountNumber,
       this.userLkId,
+      this.html,
       this.dateAdded,
       this.newPointName,
       this.newPointNumber,
@@ -427,6 +429,7 @@ class TuNew {
     data['new_point_name'] = this.newPointName;
     data['new_point_number'] = this.newPointNumber;
     data['new_point_address'] = this.newPointAddress;
+    data['html'] = this.html;
     return data;
   }
 }
