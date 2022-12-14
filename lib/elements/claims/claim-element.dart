@@ -26,6 +26,7 @@ class ClaimElement extends StatefulWidget {
 class _ClaimElement extends State<ClaimElement> {
   @override
   Widget build(BuildContext context) {
+    double bottomButtonWidth = MediaQuery.of(context).size.width;
     return Padding(
         padding: EdgeInsets.only(
             left: defaultSidePadding, right: defaultSidePadding),
@@ -130,9 +131,9 @@ class _ClaimElement extends State<ClaimElement> {
                           onPressed: () {
                             widget.downloadFunction.call(widget.currentClaim);
                           },
-                          child: const Text("Скачать заявление",
+                          child: Text("Скачать заявление",
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 18)),
+                                  TextStyle(color: Colors.white, fontSize: bottomButtonWidth * 0.05)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: colorGray,
                               shape: RoundedRectangleBorder(
@@ -156,7 +157,7 @@ class _ClaimElement extends State<ClaimElement> {
                                             widget.currentClaim.status ?? "")));
                           },
                           child: Text("Внести изменения",
-                              style: TextStyle(color: colorMain, fontSize: 18)),
+                              style: TextStyle(color: colorMain, fontSize: bottomButtonWidth * 0.05)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: messageColor,
                               shape: RoundedRectangleBorder(

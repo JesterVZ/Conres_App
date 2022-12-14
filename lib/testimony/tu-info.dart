@@ -38,6 +38,8 @@ class _TuFullInfo extends State<TuFullInfo> {
   bool isLoaded = false;
   bool? isLoading;
 
+
+
   @override
   Widget build(BuildContext context) {
     return BlocScreen<ProfileBloc, ProfileState>(

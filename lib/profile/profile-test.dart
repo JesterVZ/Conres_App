@@ -1,4 +1,5 @@
 import 'package:conres_app/Services/profile-service.dart';
+import 'package:conres_app/UI/main-form.dart';
 import 'package:conres_app/UI/skeleton.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/contracts/contracts.dart';
@@ -43,367 +44,363 @@ class _ProfilePage extends State<ProfilePageTest> {
 
   @override
   Widget build(BuildContext context) {
+    double bottomButtonWidth = MediaQuery.of(context).size.width;
     return BlocScreen<AuthBloc, AuthState>(
         bloc: authBloc,
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
-          return Container(
-            child: RefreshIndicator(
-              onRefresh: _refrash,
-              child: CustomScrollView(
-                slivers: [
-                  SliverFillRemaining(
-                      child: Scaffold(
-                          body: Container(
-                    child: Padding(
-                        padding: EdgeInsets.fromLTRB(
-                            defaultSidePadding, 0, defaultSidePadding, 0),
-                        child: Stack(
-                          children: [
-                            Column(
-                              children: [
-                                Container(
-                                    margin: EdgeInsets.only(top: 52),
-                                    child: HeaderNotification(
-                                      text: "Ваш профиль",
-                                    )),
-                                Visibility(
-                                    visible: (profile != null &&
-                                            profile!.personal != null)
-                                        ? true
-                                        : false,
-                                    child: Container(
-                                        margin: EdgeInsets.only(top: 12),
-                                        child: Material(
-                                          color: colorMain,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: InkWell(
-                                            onTap: () {
-                                              bottomNavigationSelectService!
-                                                  .canLogin = true;
-                                              bottomNavigationSelectService!
-                                                  .function!
-                                                  .call(TabItem.contracts);
-                                            },
-                                            child: Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    defaultSidePadding,
-                                                    14,
-                                                    defaultSidePadding,
-                                                    14),
-                                                child: Row(
-                                                  children: [
-                                                    Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                            profileService!
-                                                                        .userType ==
-                                                                    "fl"
-                                                                ? "Лицевой счёт"
-                                                                : "Договор",
-                                                            style:
-                                                                const TextStyle(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        15)),
-                                                        isLoading == true ? Skeleton() :
-                                                        Text(
-                                                            (profile != null &&
-                                                                    profile!.personal !=
-                                                                        null &&
-                                                                    profile!.personal !=
-                                                                        "")
-                                                                ? profile!
-                                                                    .personal!
-                                                                : "Заключите договор",
-                                                            style: const TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 18))
-                                                      ],
-                                                    ),
-                                                    const Spacer(),
-                                                    Container(
-                                                      width: 32,
-                                                      height: 32,
-                                                      decoration: BoxDecoration(
-                                                          color: lsButtonColor,
-                                                          shape:
-                                                              BoxShape.circle),
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsets.fromLTRB(
-                                                                13, 9, 11, 9),
-                                                        child: SvgPicture.asset(
-                                                          "assets/ls-right-arrow.svg",
-                                                          color: colorMain,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                )),
-                                          ),
-                                        ))),
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(0, 14, 0, 0),
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 5,
-                                          blurRadius: 7,
-                                          offset: Offset(0, 3),
-                                        )
-                                      ]),
-                                  child: Padding(
-                                      padding: EdgeInsets.fromLTRB(
-                                          defaultSidePadding,
-                                          14,
-                                          defaultSidePadding,
-                                          14),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Container(
-                                                  margin:
-                                                      const EdgeInsets.fromLTRB(
-                                                          0, 0, 0, 16),
-                                                  child: Column(
+          return MainForm(
+            footerHeight: 70,
+              footerPadding: 0,
+              header: HeaderNotification(
+                  text: "Ваш профиль", canGoBack: false),
+              body: CustomScrollView(
+                slivers: [SliverFillRemaining(
+                  child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
+                          child: Column(
+                            children: [
+                              Visibility(
+                                  visible: (profile != null &&
+                                      profile!.personal != null)
+                                      ? true
+                                      : false,
+                                  child: Container(
+                                      margin: EdgeInsets.only(top: 12),
+                                      child: Material(
+                                        color: colorMain,
+                                        borderRadius:
+                                        BorderRadius.circular(10),
+                                        child: InkWell(
+                                          onTap: () {
+                                            bottomNavigationSelectService!
+                                                .canLogin = true;
+                                            bottomNavigationSelectService!
+                                                .function!
+                                                .call(TabItem.contracts);
+                                          },
+                                          child: Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  defaultSidePadding,
+                                                  14,
+                                                  defaultSidePadding,
+                                                  14),
+                                              child: Row(
+                                                children: [
+                                                  Column(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.start,
+                                                    MainAxisAlignment
+                                                        .start,
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    CrossAxisAlignment
+                                                        .start,
                                                     children: [
-                                                      Text("ИНН",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  profileLabelColor,
-                                                              fontSize: 15)),
+                                                      Text(
+                                                          profileService!
+                                                              .userType ==
+                                                              "fl"
+                                                              ? "Лицевой счёт"
+                                                              : "Договор",
+                                                          style:
+                                                          const TextStyle(
+                                                              color: Colors
+                                                                  .white,
+                                                              fontSize:
+                                                              15)),
                                                       isLoading == true ? Skeleton() :
                                                       Text(
                                                           (profile != null &&
-                                                                  profile!.inn !=
-                                                                      null)
-                                                              ? profile!.inn!
-                                                              : "",
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 18,
-                                                          ))
+                                                              profile!.personal !=
+                                                                  null &&
+                                                              profile!.personal !=
+                                                                  "")
+                                                              ? profile!
+                                                              .personal!
+                                                              : "Заключите договор",
+                                                          style: const TextStyle(
+                                                              color: Colors
+                                                                  .white,
+                                                              fontSize: 18))
                                                     ],
-                                                  )),
-                                              Spacer(),
-                                              Container(
-                                                width: 40,
-                                                height: 40,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: colorGray,
-                                                ),
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(10),
-                                                  child: SvgPicture.asset(
-                                                      "assets/profile-ls.svg"),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 16),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(profileService!
-                                                                        .userType ==
-                                                                    "fl" ? "Лицевой счет" : "Договор",
-                                                      style: TextStyle(
-                                                        color:
+                                                  ),
+                                                  const Spacer(),
+                                                  Container(
+                                                    width: 32,
+                                                    height: 32,
+                                                    decoration: BoxDecoration(
+                                                        color: lsButtonColor,
+                                                        shape:
+                                                        BoxShape.circle),
+                                                    child: Padding(
+                                                      padding:
+                                                      EdgeInsets.fromLTRB(
+                                                          13, 9, 11, 9),
+                                                      child: SvgPicture.asset(
+                                                        "assets/ls-right-arrow.svg",
+                                                        color: colorMain,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              )),
+                                        ),
+                                      ))),
+                              Container(
+                                margin: EdgeInsets.fromLTRB(0, 14, 0, 14),
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 5,
+                                        blurRadius: 7,
+                                        offset: Offset(0, 3),
+                                      )
+                                    ]),
+                                child: Padding(
+                                    padding: EdgeInsets.fromLTRB(
+                                        defaultSidePadding,
+                                        14,
+                                        defaultSidePadding,
+                                        14),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                                margin:
+                                                const EdgeInsets.fromLTRB(
+                                                    0, 0, 0, 16),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment
+                                                      .start,
+                                                  children: [
+                                                    Text("ИНН",
+                                                        style: TextStyle(
+                                                            color:
                                                             profileLabelColor,
-                                                        fontSize: 15,
-                                                      )),
-                                                  isLoading == true ? Skeleton() :
-                                                  Text(
-                                                      (profile != null)
-                                                          ? profile!.personal ==
-                                                                  null
-                                                              ? needDogovor
-                                                              : profile!
-                                                                  .personal!
-                                                          : "",
-                                                      style: const TextStyle(
+                                                            fontSize: 15)),
+                                                    isLoading == true ? Skeleton() :
+                                                    Text(
+                                                        (profile != null &&
+                                                            profile!.inn !=
+                                                                null)
+                                                            ? profile!.inn!
+                                                            : "",
+                                                        style:
+                                                        const TextStyle(
                                                           color: Colors.black,
-                                                          fontSize: 18))
-                                                ],
-                                              )),
-                                          Container(
-                                              margin: EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 16),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(emailProfile,
-                                                      style: TextStyle(
-                                                          color:
-                                                              profileLabelColor,
-                                                          fontSize: 15)),
-                                                  isLoading == true ? Skeleton() :
-                                                  Text(
-                                                      (profile != null &&
-                                                              profile!.email !=
-                                                                  null)
-                                                          ? profile!.email!
-                                                          : "",
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 18))
-                                                ],
-                                              )),
-                                          Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 16),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(address,
-                                                      style: TextStyle(
-                                                          color:
-                                                              profileLabelColor,
-                                                          fontSize: 15)),
-                                                  isLoading == true ? Skeleton() :
-                                                  Text(
-                                                      (profile != null &&
-                                                              profile!.address !=
-                                                                  null)
-                                                          ? profile!.address!
-                                                          : "",
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 18))
-                                                ],
-                                              ))
-                                        ],
-                                      )),
-                                ),
-                              ],
-                            ),
-                            Visibility(
-                                visible: (profile != null &&
-                                        profile!.personal != null)
-                                    ? true
-                                    : false,
-                                child: Positioned(
-                                    bottom: 24,
-                                    child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                35,
-                                        height: 70,
-                                        child: ElevatedButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          SendTestimony(
-                                                              personal: profile!
-                                                                      .personal ??
-                                                                  "")));
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: colorGray,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8))),
-                                            child: Row(
+                                                          fontSize: 18,
+                                                        ))
+                                                  ],
+                                                )),
+                                            Spacer(),
+                                            Container(
+                                              width: 40,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: colorGray,
+                                              ),
+                                              child: Padding(
+                                                padding: EdgeInsets.all(10),
+                                                child: SvgPicture.asset(
+                                                    "assets/profile-ls.svg"),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                0, 0, 0, 16),
+                                            child: Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              MainAxisAlignment.start,
                                               crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
+                                              CrossAxisAlignment.start,
                                               children: [
-                                                Container(
-                                                  width: 40,
-                                                  height: 40,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                          color: Colors.white,
-                                                          shape:
-                                                              BoxShape.circle),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            10),
-                                                    child: SvgPicture.asset(
-                                                      'assets/meters-data.svg',
-                                                      color: colorGray,
-                                                    ),
-                                                  ),
-                                                  //margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                                                ),
-                                                Spacer(),
-                                                const Text(
-                                                  "Передать показания",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                      fontFamily:
-                                                          'Bubicon-Medium'),
-                                                ),
-                                                Spacer(),
-                                                Container(
-                                                  //margin: EdgeInsets.fromLTRB(45, 0, 0, 0),
-                                                  width: 32,
-                                                  height: 32,
-                                                  decoration: BoxDecoration(
-                                                      color: meterDataColor,
-                                                      shape: BoxShape.circle),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            13, 9, 11, 9),
-                                                    child: SvgPicture.asset(
-                                                      "assets/ls-right-arrow.svg",
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                )
+                                                Text(profileService!
+                                                    .userType ==
+                                                    "fl" ? "Лицевой счет" : "Договор",
+                                                    style: TextStyle(
+                                                      color:
+                                                      profileLabelColor,
+                                                      fontSize: 15,
+                                                    )),
+                                                isLoading == true ? Skeleton() :
+                                                Text(
+                                                    (profile != null)
+                                                        ? profile!.personal ==
+                                                        null
+                                                        ? needDogovor
+                                                        : profile!
+                                                        .personal!
+                                                        : "",
+                                                    style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 18))
                                               ],
-                                            )))))
-                          ],
-                        )),
-                  )))
-                ],
+                                            )),
+                                        Container(
+                                            margin: EdgeInsets.fromLTRB(
+                                                0, 0, 0, 16),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(emailProfile,
+                                                    style: TextStyle(
+                                                        color:
+                                                        profileLabelColor,
+                                                        fontSize: 15)),
+                                                isLoading == true ? Skeleton() :
+                                                Text(
+                                                    (profile != null &&
+                                                        profile!.email !=
+                                                            null)
+                                                        ? profile!.email!
+                                                        : "",
+                                                    style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 18))
+                                              ],
+                                            )),
+                                        Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                0, 0, 0, 16),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(address,
+                                                    style: TextStyle(
+                                                        color:
+                                                        profileLabelColor,
+                                                        fontSize: 15)),
+                                                isLoading == true ? Skeleton() :
+                                                Text(
+                                                    (profile != null &&
+                                                        profile!.address !=
+                                                            null)
+                                                        ? profile!.address!
+                                                        : "",
+                                                    style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 18))
+                                              ],
+                                            ))
+                                      ],
+                                    )),
+                              ),
+                              //const Spacer(),
+
+                            ],
+                          )
+                      )
+
+                    ],
+                  )
               ),
-            ),
-          );
+                )],
+              ), footer: Visibility(
+              visible: (profile != null &&
+                  profile!.personal != null)
+                  ? true
+                  : false,
+              child: Container(
+                  width: bottomButtonWidth,
+                  margin: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
+                  height: 70,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SendTestimony(
+                                        personal: profile!
+                                            .personal ??
+                                            "")));
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: colorGray,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(
+                                  8))),
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration:
+                            const BoxDecoration(
+                                color: Colors.white,
+                                shape:
+                                BoxShape.circle),
+                            child: Padding(
+                              padding:
+                              const EdgeInsets.all(
+                                  10),
+                              child: SvgPicture.asset(
+                                'assets/meters-data.svg',
+                                color: colorGray,
+                              ),
+                            ),
+                            //margin: EdeInsets.fromLTRB(0, 0, 20, 0),
+                          ),
+                          Flexible(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.only(left: 10, right: 10),
+                                child: Text(
+                                  "Передать показания",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: bottomButtonWidth * 0.05,
+                                      fontFamily:
+                                      'Bubicon-Medium'),
+                                ))),
+                          Container(
+                            //margin: EdgeInsets.fromLTRB(45, 0, 0, 0),
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                                color: meterDataColor,
+                                shape: BoxShape.circle),
+                            child: Padding(
+                              padding:
+                              EdgeInsets.fromLTRB(
+                                  13, 9, 11, 9),
+                              child: SvgPicture.asset(
+                                "assets/ls-right-arrow.svg",
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        ],
+                      )))), onRefrash: _refrash);
         });
   }
 

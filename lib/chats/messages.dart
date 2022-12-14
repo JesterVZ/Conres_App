@@ -78,6 +78,7 @@ class _MessagesPage extends State<MessagesPage> {
   String mainLabel = "";
   String? storeId;
 
+  /*
   void _sendToastMessage(BuildContext context, String message) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
@@ -88,7 +89,7 @@ class _MessagesPage extends State<MessagesPage> {
       ),
     );
   }
-
+*/
   void _send() {
     isWaitForSend = true;
     if (widget.type == ChatTypes.Ticket) {
@@ -247,7 +248,7 @@ class _MessagesPage extends State<MessagesPage> {
                             alignment: Alignment.topCenter,
                             child: Padding(
                                 padding: EdgeInsets.only(
-                                    left: 18, right: 18, top: 13),
+                                    left: defaultSidePadding, right: defaultSidePadding, top: 13),
                                 child: Row(
                                   children: [
                                     GestureDetector(
@@ -259,8 +260,9 @@ class _MessagesPage extends State<MessagesPage> {
                                         child: SvgPicture.asset(
                                             'assets/clip.svg')),
                                     const Spacer(),
-                                    SizedBox(
-                                      width: 245,
+                                    Container(
+                                      margin: EdgeInsets.only(left: 5, right: 5),
+                                      width: MediaQuery.of(context).size.width / 1.6,
                                       child: TextField(
                                         keyboardType: TextInputType.multiline,
                                         controller: controller,
@@ -281,7 +283,7 @@ class _MessagesPage extends State<MessagesPage> {
                                           if(controller.text.trim() != ""){
                                             _send();
                                           }
-                                          
+
                                         }
                                       },
                                       child: Container(
@@ -584,6 +586,12 @@ class _MessagesPage extends State<MessagesPage> {
   }
 
   void readMessage(String genericId, String messageId) {
+
+    if (widget.type == ChatTypes.Ticket) {
+      profileBloc!.readMessage(genericId, messageId);
+    } else if (widget.type == ChatTypes.Claim) {
+      profileBloc!.readClaimMessage(genericId, messageId);
+    }
     var data;
     if (widget.type == ChatTypes.Ticket) {
       data = MessageReadData(
@@ -598,20 +606,24 @@ class _MessagesPage extends State<MessagesPage> {
             user_id: int.parse(user_id!),
             user_type: "lk");
     }
+    dynamic message = MessageSend(
+        cmd: "publish",
+        subject: "store-${store_id}",
+        event: widget.type == ChatTypes.Ticket ? 'ticket_msg_read' : 'claim_msg_read',
+        data: data,
+        to_id: int.parse(user_id!)
+    );
+    /*
     MessageRead messageRead = MessageRead(
         cmd: 'publish',
         event: widget.type == ChatTypes.Ticket ? 'ticket_msg_read' : 'claim_msg_read',
         subject: 'store-${store_id}',
         to_id: int.parse(user_id!),
         data: data);
-
-    String strdata = jsonEncode(messageRead.toJson());
+*/
+    String strdata = jsonEncode(message.toJson());
     webSocketChannel!.sink.add(strdata);
-    if (widget.type == ChatTypes.Ticket) {
-      profileBloc!.readMessage(genericId, messageId);
-    } else if (widget.type == ChatTypes.Claim) {
-      profileBloc!.readClaimMessage(genericId, messageId);
-    }
+
     
   }
 

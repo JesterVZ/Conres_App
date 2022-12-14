@@ -51,6 +51,7 @@ class _ObjectsPU extends State<ObjectsPU> {
 
   @override
   Widget build(BuildContext context) {
+    double bottomButtonWidth = (MediaQuery.of(context).size.width/2)-5;
     return BlocScreen<ProfileBloc, ProfileState>(
         bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
@@ -111,7 +112,7 @@ class _ObjectsPU extends State<ObjectsPU> {
                             padding: EdgeInsets.only(
                               left: defaultSidePadding,
                             ),
-                            width: 180,
+                            width: bottomButtonWidth,
                             height: 55,
                             child: ElevatedButton(
                               onPressed: () {
@@ -122,8 +123,8 @@ class _ObjectsPU extends State<ObjectsPU> {
                                               refrash: _refrash,
                                             )));
                               },
-                              child: const Text("Новый объект",
-                                  style: TextStyle(fontSize: 18)),
+                              child: Text("Новый объект",
+                                  style: TextStyle(fontSize: bottomButtonWidth * 0.1)),
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: colorMain,
                                   shape: RoundedRectangleBorder(
@@ -132,7 +133,7 @@ class _ObjectsPU extends State<ObjectsPU> {
                         const Spacer(),
                         Container(
                             padding: EdgeInsets.only(right: defaultSidePadding),
-                            width: 180,
+                            width:  bottomButtonWidth,
                             height: 55,
                             child: ElevatedButton(
                               onPressed: () {
@@ -141,8 +142,8 @@ class _ObjectsPU extends State<ObjectsPU> {
                                     MaterialPageRoute(
                                         builder: (context) => LinkPUStep1()));
                               },
-                              child: const Text("Новый ПУ",
-                                  style: TextStyle(fontSize: 18)),
+                              child: Text("Новый ПУ",
+                                  style: TextStyle(fontSize: bottomButtonWidth * 0.1)),
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: colorMain,
                                   shape: RoundedRectangleBorder(

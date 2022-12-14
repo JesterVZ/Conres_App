@@ -44,6 +44,7 @@ class _ColtactColtrols extends State<ColtactColtrols> {
 
   @override
   Widget build(BuildContext context) {
+    double textSize = MediaQuery.of(context).size.width * 0.04;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -71,11 +72,15 @@ class _ColtactColtrols extends State<ColtactColtrols> {
                 child: SvgPicture.asset('assets/lock_profile.svg'),
                 margin: EdgeInsets.only(right: 18),
               ),
-              const Text(
-                "Вход в качестве логина",
-                style: TextStyle(fontSize: 16),
+              Flexible(
+                child: Text(
+                  "Вход в качестве логина",
+                  style: TextStyle(fontSize: textSize),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-              const Spacer(),
+
+
               Switch(
                   value: widget.IsLogin,
                   onChanged: (value) {
@@ -105,9 +110,9 @@ class _ColtactColtrols extends State<ColtactColtrols> {
                 child: SvgPicture.asset('assets/lock_profile.svg'),
                 margin: EdgeInsets.only(right: 18),
               ),
-              const Text(
+              Text(
                 "Заявления",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: textSize),
               ),
               const Spacer(),
               Switch(
@@ -137,9 +142,9 @@ class _ColtactColtrols extends State<ColtactColtrols> {
                 child: SvgPicture.asset('assets/lock_profile.svg'),
                 margin: EdgeInsets.only(right: 18),
               ),
-              const Text(
+              Text(
                 "Обращения",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: textSize),
               ),
               const Spacer(),
               Switch(
@@ -160,14 +165,14 @@ class _ColtactColtrols extends State<ColtactColtrols> {
         Row(
           children: [
             Container(
-                width: 142,
+                width: (MediaQuery.of(context).size.width/3)-5,
                 height: 55,
                 child: ElevatedButton(
                   onPressed: () {
                     isLock = !isLock;
                     widget.delegateFunction!.call();
                   },
-                  child: const Text("Изменить", style: TextStyle(fontSize: 18)),
+                  child: Text("Изменить", style: TextStyle(fontSize: textSize)),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: colorMain,
                       shape: RoundedRectangleBorder(
@@ -175,13 +180,13 @@ class _ColtactColtrols extends State<ColtactColtrols> {
                 )),
             const Spacer(),
             Container(
-                width: 142,
+                width: (MediaQuery.of(context).size.width/3)-5,
                 height: 55,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => NewContact() ));
                   },
-                  child: const Text("Добавить", style: TextStyle(fontSize: 18)),
+                  child: Text("Добавить", style: TextStyle(fontSize: textSize)),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: colorMain,
                       shape: RoundedRectangleBorder(
@@ -196,7 +201,7 @@ class _ColtactColtrols extends State<ColtactColtrols> {
             child: ElevatedButton(
               onPressed: () {},
               child: Text("Свернуть",
-                  style: TextStyle(fontSize: 18, color: colorGray)),
+                  style: TextStyle(fontSize: textSize, color: colorGray)),
               style: ElevatedButton.styleFrom(
                   backgroundColor: messageColor,
                   shape: RoundedRectangleBorder(

@@ -49,6 +49,7 @@ class _PageTU extends State<PageTU> {
 
   @override
   Widget build(BuildContext context) {
+    double bottomButtonWidth = (MediaQuery.of(context).size.width/2)-5;
     return BlocScreen<ProfileBloc, ProfileState>(
         bloc: profileBloc,
         listener: (context, state) => _listener(context, state),
@@ -92,7 +93,7 @@ class _PageTU extends State<PageTU> {
                         padding: EdgeInsets.only(
                           left: defaultSidePadding,
                         ),
-                        width: 160,
+                        width: bottomButtonWidth,
                         height: 55,
                         child: ElevatedButton(
                           onPressed: () {
@@ -103,8 +104,8 @@ class _PageTU extends State<PageTU> {
                                         currentPU: widget.currentPU,
                                         refrash: _refrash)));
                           },
-                          child: const Text("Новый ТУ",
-                              style: TextStyle(fontSize: 18)),
+                          child: Text("Новый ТУ",
+                              style: TextStyle(fontSize: bottomButtonWidth * 0.1)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: colorMain,
                               shape: RoundedRectangleBorder(
@@ -113,7 +114,7 @@ class _PageTU extends State<PageTU> {
                     const Spacer(),
                     Container(
                         padding: EdgeInsets.only(right: defaultSidePadding),
-                        width: 160,
+                        width: bottomButtonWidth,
                         height: 55,
                         child: ElevatedButton(
                           onPressed: () {
@@ -124,8 +125,8 @@ class _PageTU extends State<PageTU> {
                                           crrentPu: widget.currentPU,
                                         )));
                           },
-                          child: const Text("Новый ПУ",
-                              style: TextStyle(fontSize: 18)),
+                          child: Text("Новый ПУ",
+                              style: TextStyle(fontSize: bottomButtonWidth * 0.1)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: colorMain,
                               shape: RoundedRectangleBorder(

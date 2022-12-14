@@ -31,14 +31,18 @@ class MeterElement extends StatefulWidget {
 }
 
 class _MeterElement extends State<MeterElement> {
+
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ExpansionTileElementState> _key = GlobalKey();
+    double textSize = MediaQuery.of(context).size.width * 0.04;
     return Padding(
         padding: EdgeInsets.only(
             left: defaultSidePadding, right: defaultSidePadding),
         child: Container(
             margin: const EdgeInsets.only(top: 14, bottom: 14),
             child: ExpansionTileElement(
+              key: _key,
                 tileText: const Text("Параметры"),
                 header: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +64,7 @@ class _MeterElement extends State<MeterElement> {
                                 : widget.currentMeter!.status == "1" ? "Проходит проверку на добавление"
                                 : widget.currentMeter!.status == "2" ? "Активный" 
                                 : widget.currentMeter!.status == "3" ? "Проходит проверку на изменение" : (widget.currentMeter!.status == "3" && widget.currentMeter!.comments != null) ? "Заявка на изменение отклонена": "",
-                            style: const TextStyle(color: Colors.white, fontSize: 14),
+                            style: TextStyle(color: Colors.white, fontSize: textSize),
                           ),
                         ),
                         const Spacer(),
@@ -183,9 +187,9 @@ class _MeterElement extends State<MeterElement> {
                                           currentMeter: widget.currentMeter!,
                                         )));
                           },
-                          child: const Text("Редактировать",
+                          child:  Text("Редактировать",
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 18)),
+                                  TextStyle(color: Colors.white, fontSize: MediaQuery.of(context).size.width * 0.05)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: colorGray,
                               shape: RoundedRectangleBorder(
@@ -196,9 +200,10 @@ class _MeterElement extends State<MeterElement> {
                         height: 55,
                         margin: const EdgeInsets.only(bottom: 12, top: 12),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                          },
                           child: Text("Cвернуть",
-                              style: TextStyle(color: colorMain, fontSize: 18)),
+                              style: TextStyle(color: colorMain, fontSize: MediaQuery.of(context).size.width * 0.05)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: messageColor,
                               shape: RoundedRectangleBorder(

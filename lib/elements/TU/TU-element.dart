@@ -33,6 +33,7 @@ class _TuElement extends State<TuElement> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    double textSize = MediaQuery.of(context).size.width * 0.04;
     return Padding(
         padding: EdgeInsets.only(
             left: defaultSidePadding, right: defaultSidePadding),
@@ -64,7 +65,7 @@ class _TuElement extends State<TuElement> {
                                     : widget.currentTu!.status == "2"
                                         ? "Активный"
                                         : "Проходит проверку на изменение",
-                            style: TextStyle(color: Colors.white, fontSize: 14),
+                            style: TextStyle(color: Colors.white, fontSize: textSize),
                           ),
                         ),
                         const Spacer(),
@@ -260,9 +261,9 @@ class _TuElement extends State<TuElement> {
                             ).show();
                           
                           },
-                          child: const Text("Редактировать",
+                          child:  Text("Редактировать",
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 18)),
+                                  TextStyle(color: Colors.white, fontSize: MediaQuery.of(context).size.width * 0.05)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: colorGray,
                               shape: RoundedRectangleBorder(
@@ -283,7 +284,7 @@ class _TuElement extends State<TuElement> {
                                         )));
                           },
                           child: Text("Подробнее",
-                              style: TextStyle(color: colorMain, fontSize: 18)),
+                              style: TextStyle(color: colorMain, fontSize: MediaQuery.of(context).size.width * 0.05)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: messageColor,
                               shape: RoundedRectangleBorder(

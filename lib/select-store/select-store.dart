@@ -28,10 +28,12 @@ class _SelectStore extends State<SelectStore>{
       builder: (context, state) {
         return Scaffold(
           body: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: stors
+            child: SingleChildScrollView(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: stors
+              )
             ),
           ),
         );

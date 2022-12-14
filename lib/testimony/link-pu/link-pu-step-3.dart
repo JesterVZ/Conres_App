@@ -317,7 +317,7 @@ class _LinkPUStep3 extends State<LinkPUStep3> {
       dynamic message = MessageSend(
           cmd: "publish",
           subject: "store-${store_id}",
-          event: "account_new",
+          event: "meter_binding_new",
           data: BindTuNew(
               newObjectName: state.bindPuData!['new_object_name'],
               newObjectAddress: state.bindPuData!['new_object_address'],

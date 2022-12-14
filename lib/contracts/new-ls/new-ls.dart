@@ -39,6 +39,7 @@ class _NewLS extends State<NewLS> {
 
   @override
   Widget build(BuildContext context) {
+    double bottomButtonWidth = MediaQuery.of(context).size.width;
     return BlocScreen<ProfileBloc, ProfileState>(
         bloc: profileBloc,
         listener: (context, state) => _listener(context, state),

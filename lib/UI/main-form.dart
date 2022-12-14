@@ -8,11 +8,16 @@ class MainForm extends StatefulWidget {
   Widget body;
   Widget header;
   Widget? footer;
+  double footerHeight;
+  double footerPadding;
+
   Future<void> Function() onRefrash;
   MainForm(
       {required this.header,
       required this.body,
       this.footer,
+        this.footerHeight = 90,
+        this.footerPadding = 17.5,
       required this.onRefrash});
   @override
   State<StatefulWidget> createState() => _MainForm();
@@ -39,8 +44,8 @@ class _MainForm extends State<MainForm> {
           Visibility(
             visible: widget.footer != null ? true : false,
             child: Container(
-              height: 90,
-              padding: EdgeInsets.only(top: 17.5, bottom: 17.5),
+              height: widget.footerHeight,
+              padding: EdgeInsets.only(top: widget.footerPadding, bottom: widget.footerPadding),
               child: widget.footer,
             ),
           )

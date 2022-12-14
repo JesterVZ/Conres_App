@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/DI/dependency-provider.dart';
 import 'package:conres_app/Services/main-claim-send-service.dart';
 import 'package:conres_app/UI/default-button.dart';
@@ -87,7 +88,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[0],
                                       keyboardType: TextInputType.number,
@@ -97,7 +99,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                 ),
                                 const Spacer(),
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[1],
                                       keyboardType: TextInputType.number,
@@ -118,7 +121,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[2],
                                       keyboardType: TextInputType.number,
@@ -128,7 +132,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                 ),
                                 const Spacer(),
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[3],
                                       keyboardType: TextInputType.number,
@@ -149,7 +154,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[4],
                                       keyboardType: TextInputType.number,
@@ -159,7 +165,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                 ),
                                 const Spacer(),
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[5],
                                       keyboardType: TextInputType.number,
@@ -187,7 +194,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[6],
                                       keyboardType: TextInputType.number,
@@ -197,7 +205,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                 ),
                                 const Spacer(),
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[7],
                                       keyboardType: TextInputType.number,
@@ -218,7 +227,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[8],
                                       keyboardType: TextInputType.number,
@@ -228,7 +238,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                 ),
                                 const Spacer(),
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[9],
                                       keyboardType: TextInputType.number,
@@ -249,7 +260,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[10],
                                       keyboardType: TextInputType.number,
@@ -259,7 +271,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                 ),
                                 const Spacer(),
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[11],
                                       keyboardType: TextInputType.number,
@@ -287,7 +300,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[12],
                                       keyboardType: TextInputType.number,
@@ -297,7 +311,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                 ),
                                 const Spacer(),
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[13],
                                       keyboardType: TextInputType.number,
@@ -318,7 +333,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[14],
                                       keyboardType: TextInputType.number,
@@ -328,7 +344,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                 ),
                                 const Spacer(),
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[15],
                                       keyboardType: TextInputType.number,
@@ -349,7 +366,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[16],
                                       keyboardType: TextInputType.number,
@@ -359,7 +377,8 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                 ),
                                 const Spacer(),
                                 SizedBox(
-                                  width: 158,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.6,
                                   child: DefaultInput(
                                       controller: controllerList[17],
                                       keyboardType: TextInputType.number,
@@ -373,7 +392,13 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                           DefaultButton(
                             text: "Далее",
                             onPressed: () {
-                              //категория надежности 3
+                              if ((controllerList[2].text != "" &&
+                                      controllerList[3].text != "") ||
+                                  (controllerList[8].text != "" &&
+                                      controllerList[9].text != "") ||
+                                  (controllerList[14].text != "" &&
+                                      controllerList[15].text != "")) {
+                                //категория надежности 3
                                 mainClaimSendService!.field_max_power_3 =
                                     controllerList[0].text;
                                 mainClaimSendService!.field_max_voltage_3 =
@@ -428,6 +453,19 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => NewClaimStep4()));
+                              } else {
+                                AwesomeDialog(
+                                  context: context,
+                                  dialogType: DialogType.error,
+                                  animType: AnimType.bottomSlide,
+                                  headerAnimationLoop: false,
+                                  title: "Ошибка!",
+                                  btnOkColor: Colors.red,
+                                  desc:
+                                      "Введите вновь присоединяемую мощность в одной из категорий надежности",
+                                  btnOkOnPress: () {},
+                                ).show();
+                              }
                             },
                             isGetPadding: false,
                             margin: EdgeInsets.only(top: 12),

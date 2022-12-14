@@ -20,6 +20,7 @@ class DefaultButton extends StatefulWidget {
 class _DefaultButton extends State<DefaultButton> {
   @override
   Widget build(BuildContext context) {
+    double bottomButtonWidth = MediaQuery.of(context).size.width;
     return Container(
       padding: widget.isGetPadding == true
           ? EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding)
@@ -34,7 +35,7 @@ class _DefaultButton extends State<DefaultButton> {
         onPressed: () => widget.onPressed.call(),
         child: Text(
           widget.text,
-          style: buttonTextStyle,
+          style: TextStyle(fontSize: bottomButtonWidth * 0.05),
           textAlign: TextAlign.center,
         ),
         style: ElevatedButton.styleFrom(

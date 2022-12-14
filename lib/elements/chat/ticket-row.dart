@@ -27,6 +27,7 @@ class _TicketRow extends State<TicketRow> {
 
   @override
   Widget build(BuildContext context) {
+    double bottomButtonWidth = MediaQuery.of(context).size.width;
     return Padding(
       padding:
           EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
@@ -117,7 +118,7 @@ class _TicketRow extends State<TicketRow> {
                       onPressed: () {
                         widget.openChat!.call(widget.ticket);
                       },
-                      child: Text("Открыть обращение", style: buttonTextStyle),
+                      child: Text("Открыть обращение", style: TextStyle(fontSize: bottomButtonWidth * 0.05)),
                       style: ElevatedButton.styleFrom(
                           primary: colorMain,
                           shape: RoundedRectangleBorder(

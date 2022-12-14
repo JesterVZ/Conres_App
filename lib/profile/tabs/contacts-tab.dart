@@ -76,13 +76,13 @@ class _ContactTab extends State<ContactTab> {
       isEdit = !isEdit;
       addPhones();
     });
-    
   }
 
-  void addPhones(){
+  void addPhones() {
     phones.clear();
     emails.clear();
     messangers.clear();
+
     for (int i = 0;
         i < profileService!.userInformation!.user_info_contacts!.length;
         i++) {
@@ -98,35 +98,36 @@ class _ContactTab extends State<ContactTab> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text("Номер телефона", style: labelTextStyle),
               Visibility(
-                visible: isEdit == false ? true : false,
+                  visible: isEdit == false ? true : false,
                   child: Text(
                       "+7 (${phoneString[1]}${phoneString[2]}${phoneString[3]}) ${phoneString[4]}${phoneString[5]}${phoneString[6]}-${phoneString[7]}${phoneString[8]}-${phoneString[9]}${phoneString[10]}",
                       //.replaceAllMapped(
                       //    RegExp(r'[0-9\-\+]{9,15}$'), (Match m) => ""),
                       style: TextStyle(fontSize: 18))),
               Visibility(
-                visible: isEdit == true ? true : false,
+                  visible: isEdit == true ? true : false,
                   child: TextFormField(
-                controller: numberController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Введите номер телефона";
-                  }
-                  return null;
-                },
-                inputFormatters: [
-                  MaskTextInputFormatter(mask: "+7 (###) ###-##-##")
-                ],
-                keyboardType: TextInputType.phone,
-                autocorrect: false,
-                decoration: InputDecoration(
-                    hintText: "Телефон",
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: inputBorder, width: 5.0),
-                        borderRadius: BorderRadius.circular(10)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10))),
-              ))
+                    controller: numberController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Введите номер телефона";
+                      }
+                      return null;
+                    },
+                    inputFormatters: [
+                      MaskTextInputFormatter(mask: "+7 (###) ###-##-##")
+                    ],
+                    keyboardType: TextInputType.phone,
+                    autocorrect: false,
+                    decoration: InputDecoration(
+                        hintText: "Телефон",
+                        border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: inputBorder, width: 5.0),
+                            borderRadius: BorderRadius.circular(10)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                  ))
             ]),
             tileText:
                 Text("Настройки", style: TextStyle(color: colorGrayClaim)),

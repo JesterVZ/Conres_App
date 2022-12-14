@@ -34,6 +34,7 @@ class _ObjectPU extends State<ObjectPU> {
 
   @override
   Widget build(BuildContext context) {
+    double textSize = MediaQuery.of(context).size.width * 0.04;
     return Padding(
         padding: EdgeInsets.only(
             left: defaultSidePadding, right: defaultSidePadding),
@@ -64,21 +65,23 @@ class _ObjectPU extends State<ObjectPU> {
                         color: widget.objectPuModel.status == "0"
                             ? redColor
                             : (widget.objectPuModel.status == "1" || widget.objectPuModel.status == "3")
-                                ? yellowColor
-                                : greenColor,
+                            ? yellowColor
+                            : greenColor,
                         borderRadius: BorderRadius.circular(8)),
                     child: Text(
+
                       widget.objectPuModel.status == "0"
                           ? "Заявка на привязку ПУ отклонена"
                           : widget.objectPuModel.status == "1"
-                              ? "Проходит проверку на добавление"
+                          ? "Проходит проверку на добавление"
                           : widget.objectPuModel.status == "2"
-                              ? "Активный"
-                          : 
-                               "Проходит проверку на изменение",
-                      style: TextStyle(color: Colors.white, fontSize: 14),
+                          ? "Активный"
+                          :
+                      "Проходит проверку на изменение",
+                      style: TextStyle(color: Colors.white, fontSize: textSize),
                     ),
                   ),
+
                   const Spacer(),
                   Visibility(
                     visible: widget.objectPuModel.status == "0" ? true : false,
@@ -145,7 +148,7 @@ class _ObjectPU extends State<ObjectPU> {
                 children: [
                   Container(
                     height: 50,
-                    width: 142,
+                    width: (MediaQuery.of(context).size.width/2.8),
                     child: ElevatedButton(
                         onPressed: () {
                           nameController.text = widget.objectPuModel.name!;
@@ -215,12 +218,12 @@ class _ObjectPU extends State<ObjectPU> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor: messageColor),
                         child: Text("Редактировать",
-                            style: TextStyle(color: colorMain))),
+                            style: TextStyle(color: colorMain, fontSize: textSize), overflow: TextOverflow.ellipsis,)),
                   ),
                   const Spacer(),
                   Container(
                     height: 50,
-                    width: 142,
+                    width: (MediaQuery.of(context).size.width/2.8),
                     child: ElevatedButton(
                         onPressed: () {
                           profileService!.object_id = widget.objectPuModel.object_id;
@@ -234,7 +237,7 @@ class _ObjectPU extends State<ObjectPU> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor: messageColor),
                         child: Text("Подробнее",
-                            style: TextStyle(color: colorMain))),
+                            style: TextStyle(color: colorMain, fontSize: textSize, overflow: TextOverflow.ellipsis))),
                   ),
                 ],
               )

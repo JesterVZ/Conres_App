@@ -3,16 +3,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../UI/ExpansionTileCuston.dart';
+
 class ExpansionTileElement extends StatefulWidget {
-  ExpansionTileElement({this.body, this.header, this.tileText});
+  ExpansionTileElement({Key? key, this.body, this.header, this.tileText});
   Widget? header;
   Widget? tileText;
   Widget? body;
   @override
-  State<StatefulWidget> createState() => _ExpansionTileElement();
+  State<StatefulWidget> createState() => ExpansionTileElementState();
 }
 
-class _ExpansionTileElement extends State<ExpansionTileElement> {
+class ExpansionTileElementState extends State<ExpansionTileElement> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,7 +37,7 @@ class _ExpansionTileElement extends State<ExpansionTileElement> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(padding: EdgeInsets.all(20), child: widget.header),
-          ExpansionTile(
+          ExpansionTileOwm(
             maintainState: true,
             title: widget.tileText ?? const Text(""),
             children: [
