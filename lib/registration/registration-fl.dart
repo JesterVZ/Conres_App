@@ -1,4 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:conres_app/UI/default-button.dart';
+import 'package:conres_app/UI/default-input.dart';
 import 'package:conres_app/elements/bloc/bloc-screen.dart';
 import 'package:conres_app/registration/privacy-policy.dart';
 import 'package:conres_app/registration/validate.dart';
@@ -77,306 +79,62 @@ class _RegFL extends State<RegFL> {
                                               text:
                                                   "Регистрация физического лица",
                                               fontSize: 34),
-                                          Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 38, 0, 18),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(family,
-                                                      style: TextStyle(
-                                                          color: colorGray,
-                                                          fontSize: 16.0)),
-                                                  TextFormField(
-                                                    validator: (value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        return "Введите имя";
-                                                      }
-                                                      return null;
-                                                    },
-                                                    textCapitalization:
-                                                        TextCapitalization
-                                                            .sentences,
-                                                    controller:
-                                                        controllerList[0],
-                                                    decoration: InputDecoration(
-                                                        hintText: "Иванов",
-                                                        border: OutlineInputBorder(
-                                                            borderSide: BorderSide(
-                                                                color:
-                                                                    inputBorder,
-                                                                width: 5.0),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10))),
-                                                  )
-                                                ],
-                                              )),
-                                          Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 18),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(name,
-                                                      style: TextStyle(
-                                                          color: colorGray,
-                                                          fontSize: 16.0)),
-                                                  TextFormField(
-                                                    validator: (value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        return "Введите фамилию";
-                                                      }
-                                                      return null;
-                                                    },
-                                                    textCapitalization:
-                                                        TextCapitalization
-                                                            .sentences,
-                                                    controller:
-                                                        controllerList[1],
-                                                    decoration: InputDecoration(
-                                                        hintText: "Иван",
-                                                        border: OutlineInputBorder(
-                                                            borderSide: BorderSide(
-                                                                color:
-                                                                    inputBorder,
-                                                                width: 5.0),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10))),
-                                                  )
-                                                ],
-                                              )),
-                                          Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 18),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(patronymic,
-                                                      style: TextStyle(
-                                                          color: colorGray,
-                                                          fontSize: 16.0)),
-                                                  TextFormField(
-                                                    validator: (value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        return "Введите отчество";
-                                                      }
-                                                      return null;
-                                                    },
-                                                    controller:
-                                                        controllerList[2],
-                                                    decoration: InputDecoration(
-                                                        hintText: "Иванович",
-                                                        border: OutlineInputBorder(
-                                                            borderSide: BorderSide(
-                                                                color:
-                                                                    inputBorder,
-                                                                width: 5.0),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10))),
-                                                  )
-                                                ],
-                                              )),
-                                          Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 18),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(inn,
-                                                      style: TextStyle(
-                                                          color: colorGray,
-                                                          fontSize: 16.0)),
-                                                  MaskInput(
-                                                    textController:
-                                                        controllerList[3],
-                                                    formatter:
-                                                        MaskTextInputFormatter(
+                                          
+                                          DefaultInput(
+                                            labelText: "Фамилия", 
+                                            keyboardType: TextInputType.text, controller: controllerList[0], hintText: "Иванов", validatorText: "Введите фамилию"),
+                                          DefaultInput(
+                                            labelText: "Имя", 
+                                            keyboardType: TextInputType.text, controller: controllerList[1], hintText: "Иван", validatorText: "Введите имя"),
+                                          DefaultInput(
+                                            labelText: "Отчество", 
+                                            keyboardType: TextInputType.text, controller: controllerList[2], hintText: "Иванович", validatorText: "Введите отчество"),
+                                          DefaultInput(
+                                            labelText: "ИНН", 
+                                            keyboardType: TextInputType.number, 
+                                            controller: controllerList[3], 
+                                            hintText: "000000000000", 
+                                            validatorText: "Введите инн",
+                                            textInputFormatter: MaskTextInputFormatter(
                                                             mask:
                                                                 "############"),
-                                                    hint: "000000000000",
-                                                    type: "inn",
-                                                  )
-                                                ],
-                                              )),
-                                          Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 18),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(snils,
-                                                      style: TextStyle(
-                                                          color: colorGray,
-                                                          fontSize: 16.0)),
-                                                  MaskInput(
-                                                    textController:
-                                                        controllerList[4],
-                                                    formatter:
-                                                        MaskTextInputFormatter(
+                                            regExp: r'[0-9]{12}$'),
+
+                                          DefaultInput(
+                                            labelText: "СНИЛС", 
+                                            keyboardType: TextInputType.number, 
+                                            controller: controllerList[4], 
+                                            hintText: "000-000-000-00", 
+                                            validatorText: "Введите СНИЛС",
+                                            textInputFormatter: MaskTextInputFormatter(
                                                             mask:
                                                                 "###-###-###-##"),
-                                                    hint: "000-000-000-00",
-                                                    type: "snils",
-                                                  )
-                                                ],
-                                              )),
-                                          Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 18),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(contacts,
-                                                      style: TextStyle(
-                                                          color: colorGray,
-                                                          fontSize: 16.0)),
-                                                  MaskInput(
-                                                    textController:
-                                                        controllerList[5],
-                                                    formatter:
-                                                        MaskTextInputFormatter(
+                                            regExp: r'^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$'),
+
+                                          DefaultInput(
+                                            labelText: "Телефон", 
+                                            keyboardType: TextInputType.phone, 
+                                            controller: controllerList[5], 
+                                            hintText: "+7 (___) - ___ - __ - __", 
+                                            validatorText: "Введите телефон",
+                                            textInputFormatter: MaskTextInputFormatter(
                                                             mask:
                                                                 "+7 (###) ###-##-##"),
-                                                    hint:
-                                                        "+7 (___) - ___ - __ - __",
-                                                    type: "phone",
-                                                  ),
-                                                ],
-                                              )),
-                                          Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 18),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(email,
-                                                      style: TextStyle(
-                                                          color: colorGray,
-                                                          fontSize: 16.0)),
-                                                  TextFormField(
-                                                    style: TextStyle(
-                                                        color:
-                                                            _isEmailValidation
-                                                                ? Colors.green
-                                                                : Colors.red),
-                                                    validator: (value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        return "Введите Email";
-                                                      } else if (_isEmailValidation ==
-                                                          false) {
-                                                        return "Email некорректен";
-                                                      }
-                                                      return null;
-                                                    },
-                                                    controller:
-                                                        controllerList[6],
-                                                    decoration: InputDecoration(
-                                                        hintText:
-                                                            "example@email.ru",
-                                                        border:
-                                                            OutlineInputBorder(
-                                                                borderSide:
-                                                                    BorderSide(
-                                                                  color:
-                                                                      borderProfileColor,
-                                                                ),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10)),
-                                                        focusedBorder: OutlineInputBorder(
-                                                            borderSide: BorderSide(
-                                                                color: _isEmailValidation
-                                                                    ? Colors
-                                                                        .green
-                                                                    : Colors
-                                                                        .red),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10))),
-                                                    onChanged: (value) {
-                                                      setState(() {
-                                                        _isEmailValidation =
-                                                            isEmailValidate(
-                                                                value);
-                                                      });
-                                                    },
-                                                  )
-                                                ],
-                                              )),
-                                          Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 18),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(lkPasswordText,
-                                                      style: TextStyle(
-                                                          color: colorGray,
-                                                          fontSize: 16.0)),
-                                                  PasswordTextField(
-                                                    controller:
-                                                        controllerList[7],
-                                                    hintText: "Введите пароль",
-                                                  )
-                                                ],
-                                              )),
-                                          Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 18),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(repeatPassword,
-                                                      style: TextStyle(
-                                                          color: colorGray,
-                                                          fontSize: 16.0)),
-                                                  PasswordTextField(
-                                                    controller:
-                                                        controllerList[8],
-                                                    hintText:
-                                                        "Повторите пароль",
-                                                  )
-                                                ],
-                                              )),
+                                            regExp: r'^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$'),
+
+                                          DefaultInput(
+                                            labelText: "Email", 
+                                            keyboardType: TextInputType.phone, 
+                                            controller: controllerList[6], 
+                                            hintText: "example@email.ru", 
+                                            validatorText: "Введите телефон",
+                                            regExp: r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'),
+                                          DefaultInput(
+                                            labelText: "Пароль", 
+                                            keyboardType: TextInputType.text, controller: controllerList[7], hintText: "*********", validatorText: "Введите пароль"),
+                                          DefaultInput(
+                                            labelText: "Повторите пароль", 
+                                            keyboardType: TextInputType.text, controller: controllerList[8], hintText: "*********", validatorText: "Повторите пароль"),
                                           Container(
                                               margin: const EdgeInsets.fromLTRB(
                                                   0, 0, 0, 18),
@@ -418,13 +176,9 @@ class _RegFL extends State<RegFL> {
                                                       _agree = !_agree;
                                                     });
                                                   })),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: 55,
-                                            child: ElevatedButton(
-                                                onPressed: (_agree)
+                                          DefaultButton(
+                                            text: "Зарегистрироваться", 
+                                            onPressed: (_agree)
                                                     ? () {
                                                         if (_formKey
                                                             .currentState!
@@ -432,14 +186,7 @@ class _RegFL extends State<RegFL> {
                                                           submitData(state);
                                                         }
                                                       }
-                                                    : null,
-                                                child: Text(
-                                                    "Зарегистрироваться",
-                                                    style: buttonTextStyle),
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        colorMain)),
-                                          ),
+                                                    : null, isGetPadding: false),
                                           Visibility(
                                               visible: widget.isLoading,
                                               child: Container(

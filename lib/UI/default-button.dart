@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../consts.dart';
 
 class DefaultButton extends StatefulWidget {
   String text;
   bool? isGetPadding;
-  Function onPressed;
+  Color? backgroundColor;
+  VoidCallback? onPressed;
   EdgeInsetsGeometry? margin;
+  
 
   DefaultButton(
       {Key? key, required this.text,
       required this.onPressed,
       this.margin,
+      this.backgroundColor,
       required this.isGetPadding}) : assert(isGetPadding != null), super(key: key);
   @override
   State<StatefulWidget> createState() => _DefaultButton();
@@ -32,16 +36,18 @@ class _DefaultButton extends State<DefaultButton> {
       ),
       height: 55,
       child: ElevatedButton(
-        onPressed: () => widget.onPressed.call(),
+        onPressed: widget.onPressed,
         child: Text(
           widget.text,
           style: TextStyle(fontSize: bottomButtonWidth * 0.05),
           textAlign: TextAlign.center,
         ),
         style: ElevatedButton.styleFrom(
-            backgroundColor: colorMain,
+            backgroundColor: widget.backgroundColor ?? colorMain,
+            shadowColor: Colors.transparent,
+            elevation: 0.0,
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
       ),
     );
   }

@@ -16,19 +16,22 @@ class ColtactColtrols extends StatefulWidget {
   bool isPhone;
   Function? delegateFunction;
   ColtactColtrols(
-      {required this.IsLogin,
+      {Key? key,
+      required this.IsLogin,
       required this.IsClaims,
       required this.IsTickets,
       required this.contact_id,
       required this.isPhone,
       this.delegateFunction,
-      this.contactType}): assert(contact_id != null);
+      this.contactType})
+      : assert(contact_id != null),
+        super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _ColtactColtrols();
+  State<StatefulWidget> createState() => ColtactColtrolsState();
 }
 
-class _ColtactColtrols extends State<ColtactColtrols> {
+class ColtactColtrolsState extends State<ColtactColtrols> {
   ProfileService? profileService;
 
   bool isLock = true; //может ли пользователь нажимать на switch
@@ -75,22 +78,22 @@ class _ColtactColtrols extends State<ColtactColtrols> {
                 margin: EdgeInsets.only(right: 18),
               ),
               Text(
-                  "Логин",
-                  style: TextStyle(fontSize: textSize),
-                  overflow: TextOverflow.ellipsis,
-                ),
+                "Логин",
+                style: TextStyle(fontSize: textSize),
+                overflow: TextOverflow.ellipsis,
+              ),
               const Spacer(),
               Switch(
                   value: widget.IsLogin,
                   onChanged: (value) {
-                    if(!isLock){
+                    if (!isLock) {
                       setState(() {
                         widget.IsLogin = value;
                       });
                     } else {
-                      _sendToastMessage(context, "Чтобы внести изменения разверните настройки  и нажмите кнопку “Изменить”");
+                      _sendToastMessage(context,
+                          "Чтобы внести изменения разверните настройки  и нажмите кнопку “Изменить”");
                     }
-                    
                   })
             ],
           ),
@@ -117,14 +120,14 @@ class _ColtactColtrols extends State<ColtactColtrols> {
               Switch(
                   value: widget.IsClaims,
                   onChanged: (value) {
-                    if(!isLock){
+                    if (!isLock) {
                       setState(() {
-                      widget.IsClaims = value;
-                    });
+                        widget.IsClaims = value;
+                      });
                     } else {
-                      _sendToastMessage(context, "Чтобы внести изменения разверните настройки  и нажмите кнопку “Изменить”");
+                      _sendToastMessage(context,
+                          "Чтобы внести изменения разверните настройки  и нажмите кнопку “Изменить”");
                     }
-                    
                   })
             ],
           ),
@@ -149,63 +152,85 @@ class _ColtactColtrols extends State<ColtactColtrols> {
               Switch(
                   value: widget.IsTickets,
                   onChanged: (value) {
-                    if(!isLock){
+                    if (!isLock) {
                       setState(() {
-                      widget.IsTickets = value;
-                    });
+                        widget.IsTickets = value;
+                      });
                     } else {
-                      _sendToastMessage(context, "Чтобы внести изменения разверните настройки  и нажмите кнопку “Изменить”");
+                      _sendToastMessage(context,
+                          "Чтобы внести изменения разверните настройки  и нажмите кнопку “Изменить”");
                     }
-                    
                   })
             ],
           ),
         ),
-        Row(
-          children: [
-            Container(
-                width: (MediaQuery.of(context).size.width/3)-5,
+        Visibility(
+            child: Column(children: [
+          Row(
+            children: [
+              Container(
+                  width: (MediaQuery.of(context).size.width / 3) - 5,
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      isLock = !isLock;
+                      widget.delegateFunction!.call(widget.contact_id);
+                    },
+                    child:
+                        Text("Изменить", style: TextStyle(fontSize: textSize)),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: colorMain,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                  )),
+              const Spacer(),
+              Container(
+                  width: (MediaQuery.of(context).size.width / 3) - 5,
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NewContact()));
+                    },
+                    child:
+                        Text("Добавить", style: TextStyle(fontSize: textSize)),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: colorMain,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                  ))
+            ],
+          ),
+          Container(
+              margin: EdgeInsets.only(top: 15),
+              width: MediaQuery.of(context).size.width,
+              height: 55,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Text("Свернуть",
+                    style: TextStyle(fontSize: textSize, color: colorGray)),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: messageColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+              ))
+        ])),
+        Visibility(
+            child: Container(
+                margin: EdgeInsets.only(top: 15),
+                width: MediaQuery.of(context).size.width,
                 height: 55,
                 child: ElevatedButton(
-                  onPressed: () {
-                    isLock = !isLock;
-                    widget.delegateFunction!.call(widget.contact_id);
-                  },
-                  child: Text("Изменить", style: TextStyle(fontSize: textSize)),
+                  onPressed: () {},
+                  child: Text("Отмена",
+                      style: TextStyle(fontSize: textSize, color: colorGray)),
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: colorMain,
+                      backgroundColor: messageColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
-                )),
-            const Spacer(),
-            Container(
-                width: (MediaQuery.of(context).size.width/3)-5,
-                height: 55,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewContact() ));
-                  },
-                  child: Text("Добавить", style: TextStyle(fontSize: textSize)),
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: colorMain,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
-                ))
-          ],
-        ),
-        Container(
-            margin: EdgeInsets.only(top: 15),
-            width: MediaQuery.of(context).size.width,
-            height: 55,
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Text("Свернуть",
-                  style: TextStyle(fontSize: textSize, color: colorGray)),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: messageColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))),
-            ))
+                )))
       ],
     );
   }
