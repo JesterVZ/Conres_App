@@ -12,6 +12,7 @@ import '../../bloc/profile/profile-state.dart';
 import '../../elements/bloc/bloc-screen.dart';
 import '../../elements/full-profile/ExpansionTileElement.dart';
 import '../../elements/profile/contact-controls.dart';
+import '../../model/user-information.dart';
 
 class ContactTab extends StatefulWidget {
   @override
@@ -23,9 +24,7 @@ class _ContactTab extends State<ContactTab> {
   ProfileService? profileService;
   EdutUserinfoService? edutUserinfoService;
 
-  List<Widget> phones = [];
-  List<Widget> emails = [];
-  List<Widget> messangers = [];
+  Map<String, Contact> contactsMap = {};
 
   bool isEdit = false;
 
@@ -38,54 +37,128 @@ class _ContactTab extends State<ContactTab> {
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
           return Scrollbar(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Телефоны",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold)),
-                        Column(children: phones),
-                        const Text("E-mail",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold)),
-                        Column(children: emails),
-                        const Text("Мессенджеры",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold)),
-                        Column(children: messangers),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
+              child: ListView.builder(
+                  itemCount: contactsMap.length,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemBuilder: (context, int i) {
+                    String phoneString = profileService!.userInformation!
+                            .user_info_contacts![i].value_contact ??
+                        "";
+                    String type = profileService!.userInformation!.user_info_contacts![i].contact_type_group_id ?? "";
+                    return Padding(padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding), child: ExpansionTileElement(
+                      header: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(type == "1" ? "Номер телефона" : type == "2" ? "Email-адрес" : type == "3" ? "Мессенджер" : "", style: labelTextStyle),
+                            Visibility(
+                                visible: (contactsMap.values.elementAt(i).isEdit == false) ? true : false,
+                                child: Text(type == "1" ?
+                                    "+7 (${phoneString[1]}${phoneString[2]}${phoneString[3]}) ${phoneString[4]}${phoneString[5]}${phoneString[6]}-${phoneString[7]}${phoneString[8]}-${phoneString[9]}${phoneString[10]}"
+                                    : profileService!.userInformation!.user_info_contacts![i].value_contact!,
+                                    //.replaceAllMapped(
+                                    //    RegExp(r'[0-9\-\+]{9,15}$'), (Match m) => ""),
+                                    style: TextStyle(fontSize: 18))),
+                            Visibility(
+                                visible: (contactsMap.values.elementAt(i).isEdit == true ) ? true : false,
+                                child: TextFormField(
+                                  controller: numberController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Введите конакт";
+                                    }
+                                    return null;
+                                  },
+                                  inputFormatters: type == "1" ?  [
+                                    MaskTextInputFormatter(
+                                        mask: "+7 (###) ###-##-##")
+                                  ] : [],
+                                  keyboardType: TextInputType.phone,
+                                  autocorrect: false,
+                                  decoration: InputDecoration(
+                                      hintText:  type == "1" ? "Телефон" :  type == "2" ? "Email" : type == "3" ? "Мессенджер" : "",
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: inputBorder, width: 5.0),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10))),
+                                ))
+                          ]),
+                      tileText: Text("Настройки",
+                          style: TextStyle(color: colorGrayClaim)),
+                      body: ColtactColtrols(
+                        contact_id: profileService!.userInformation!
+                                    .user_info_contacts![i].contact_id!,
+                        delegateFunction: switchToEdit,
+                        isPhone: type == "1" ? true : false,
+                        contactType: profileService!.userInformation!
+                                    .user_info_contacts![i].contact_type_id ==
+                                "1"
+                            ? "Телефон стационарный"
+                            : profileService!
+                                        .userInformation!
+                                        .user_info_contacts![i]
+                                        .contact_type_id ==
+                                    "2"
+                                ? "Телефон мобильный"
+                                : "",
+                        IsLogin: (profileService!.userInformation!
+                                        .user_info_contacts![i].flags !=
+                                    null &&
+                                profileService!.userInformation!
+                                        .user_info_contacts![i].flags['1'] !=
+                                    null)
+                            ? true
+                            : false,
+                        IsClaims: (profileService!.userInformation!
+                                        .user_info_contacts![i].flags !=
+                                    null &&
+                                profileService!.userInformation!
+                                        .user_info_contacts![i].flags['2'] !=
+                                    null)
+                            ? true
+                            : false,
+                        IsTickets: (profileService!.userInformation!
+                                        .user_info_contacts![i].flags !=
+                                    null &&
+                                profileService!.userInformation!
+                                        .user_info_contacts![i].flags['2'] !=
+                                    null)
+                            ? true
+                            : false,
+                      ),
+                    )
+                 );
+                    
+                  }));
         });
   }
 
   _listener(BuildContext context, ProfileState state) {}
 
-  void switchToEdit() {
+  void switchToEdit(String contact_id) {
     setState(() {
       isEdit = !isEdit;
-      addPhones();
+      var contact = contactsMap[contact_id];
+      contact!.isEdit = isEdit;
+      contactsMap.update(contact_id, (value) => contact);
     });
   }
 
   void addPhones() {
-    phones.clear();
-    emails.clear();
-    messangers.clear();
+
+    contactsMap = {
+      for (var e in profileService!.userInformation!.user_info_contacts!)
+        e.contact_id!: e
+    };
 
     for (int i = 0;
         i < profileService!.userInformation!.user_info_contacts!.length;
         i++) {
+      /*
       if (profileService!
               .userInformation!.user_info_contacts![i].contact_type_group_id ==
           "1") {
@@ -254,7 +327,7 @@ class _ContactTab extends State<ContactTab> {
                 Text("Настройки", style: TextStyle(color: colorGrayClaim))));
         edutUserinfoService!.messangers!
             .add(profileService!.userInformation!.user_info_contacts![i]);
-      }
+      }*/
     }
   }
 

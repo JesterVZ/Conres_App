@@ -12,15 +12,17 @@ class ColtactColtrols extends StatefulWidget {
   bool IsClaims;
   bool IsTickets;
   String? contactType;
+  String contact_id;
   bool isPhone;
   Function? delegateFunction;
   ColtactColtrols(
       {required this.IsLogin,
       required this.IsClaims,
       required this.IsTickets,
+      required this.contact_id,
       required this.isPhone,
       this.delegateFunction,
-      this.contactType});
+      this.contactType}): assert(contact_id != null);
 
   @override
   State<StatefulWidget> createState() => _ColtactColtrols();
@@ -72,15 +74,12 @@ class _ColtactColtrols extends State<ColtactColtrols> {
                 child: SvgPicture.asset('assets/lock_profile.svg'),
                 margin: EdgeInsets.only(right: 18),
               ),
-              Flexible(
-                child: Text(
-                  "Вход в качестве логина",
+              Text(
+                  "Логин",
                   style: TextStyle(fontSize: textSize),
                   overflow: TextOverflow.ellipsis,
                 ),
-              ),
-
-
+              const Spacer(),
               Switch(
                   value: widget.IsLogin,
                   onChanged: (value) {
@@ -170,7 +169,7 @@ class _ColtactColtrols extends State<ColtactColtrols> {
                 child: ElevatedButton(
                   onPressed: () {
                     isLock = !isLock;
-                    widget.delegateFunction!.call();
+                    widget.delegateFunction!.call(widget.contact_id);
                   },
                   child: Text("Изменить", style: TextStyle(fontSize: textSize)),
                   style: ElevatedButton.styleFrom(

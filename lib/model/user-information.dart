@@ -90,6 +90,12 @@ class Contact{
   String? contact_type_group_id;
   dynamic flags;
 
+  bool? _isEdit;
+
+  bool get isEdit => _isEdit ?? false;
+  set isEdit(bool val) => _isEdit = val;
+
+
   Contact({this.contact_id, this.contact_type_id, this.value_contact, this.contact_type_group_id, this.flags});
 
   factory Contact.fromMap(Map<dynamic, dynamic> map){

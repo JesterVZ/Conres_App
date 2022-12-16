@@ -27,7 +27,9 @@ class HeaderNotification extends StatelessWidget{
             child: Image.asset('assets/back-arrow.png'),
           ),
         )),
-        Text(text, style: profileHeaderTextStyle),
+        Text(text, style: profileHeaderTextStyle, overflow: TextOverflow.ellipsis),
+          
+        
         const Spacer(),
         GestureDetector(
           onTap: (){
