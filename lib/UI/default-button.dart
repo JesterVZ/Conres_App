@@ -9,10 +9,10 @@ class DefaultButton extends StatefulWidget {
   EdgeInsetsGeometry? margin;
 
   DefaultButton(
-      {required this.text,
+      {Key? key, required this.text,
       required this.onPressed,
       this.margin,
-      required this.isGetPadding});
+      required this.isGetPadding}) : assert(isGetPadding != null), super(key: key);
   @override
   State<StatefulWidget> createState() => _DefaultButton();
 }

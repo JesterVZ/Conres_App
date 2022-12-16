@@ -242,6 +242,7 @@ class _NewChat extends State<NewChat> {
     profileService ??= DependencyProvider.of(context)!.profileService;
     webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel(false);
     FioController.text = (profileService!.userType == "fl" || profileService!.userType == "ip") ? "${profileService!.userInformation!.lastname!} ${profileService!.userInformation!.firstname!} ${profileService!.userInformation!.patronymic!}" : (profileService!.userInformation!.company_full ?? "");
+    TypeController.text = dropdownReasonList[0]['label'];
     super.didChangeDependencies();
   }
 }
