@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../DI/dependency-provider.dart';
 import '../Services/profile-service.dart';
+import '../UI/default-button.dart';
 import '../consts.dart';
 import '../elements/header/header.dart';
 import 'login-account.dart';
@@ -48,93 +49,57 @@ class _ChangeType extends State<ChangeType> {
               bottom: 20,
               child: Column(
                 children: [
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                    child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: 55.0,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              preferences!.setString('lkType', "fl");
-                              profileService!.userType = "fl";
-                              widget.isReg
-                                  ? Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => RegFL()))
-                                  : Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              LoginEmail(type: 1)));
-                            },
-                            child: Text(
-                              fl,
-                              style: buttonTextStyle,
-                            ),
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: colorMain,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: buttonRadius)))),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                    child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: 55.0,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              preferences!.setString('lkType', "ip");
-                              profileService!.userType = "ip";
-                              widget.isReg
-                                  ? Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => RegIP()))
-                                  : Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              LoginEmail(type: 2)));
-                            },
-                            child: Text(
-                              ip,
-                              style: buttonTextStyle,
-                            ),
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: colorMain,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: buttonRadius)))),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                    child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: 55.0,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              preferences!.setString('lkType', "ul");
-                              profileService!.userType = "ul";
-                              widget.isReg
-                                  ? Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => RegUL()))
-                                  : Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              LoginEmail(type: 3)));
-                            },
-                            child: Text(
-                              ul,
-                              style: buttonTextStyle,
-                            ),
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: colorMain,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: buttonRadius)))),
-                  )
+                  DefaultButton(
+                      margin: EdgeInsets.only(bottom: 20),
+                      text: fl,
+                      isGetPadding: true,
+                      onPressed: () {
+                        preferences!.setString('lkType', "fl");
+                        profileService!.userType = "fl";
+                        widget.isReg
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RegFL()))
+                            : Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginEmail(type: 1)));
+                      }),
+                  DefaultButton(
+                      margin: EdgeInsets.only(bottom: 20),
+                      text: ip,
+                      isGetPadding: true,
+                      onPressed: () {
+                        preferences!.setString('lkType', "ip");
+                        profileService!.userType = "ip";
+                        widget.isReg
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RegIP()))
+                            : Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginEmail(type: 2)));
+                      }),
+                  DefaultButton(
+                      margin: EdgeInsets.only(bottom: 20),
+                      text: ul,
+                      isGetPadding: true,
+                      onPressed: () {
+                        preferences!.setString('lkType', "ip");
+                        profileService!.userType = "ip";
+                        widget.isReg
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RegIP()))
+                            : Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginEmail(type: 2)));
+                      }),
                 ],
               ),
             )

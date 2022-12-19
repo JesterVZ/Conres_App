@@ -1,3 +1,4 @@
+import 'package:conres_app/UI/default-button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -43,48 +44,28 @@ class _LoginPage extends State<LoginPage> {
               bottom: 20,
               child: Column(
                 children: [
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                    child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: 55.0,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ChangeType(isReg: true)));
-                            },
-                            child: Text(
-                              reg,
-                              style: const TextStyle(fontSize: 18.0),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                                primary: colorMain,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: buttonRadius)))),
-                  ),
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      height: 55.0,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ChangeType(isReg: false)));
-                          },
-                          child: Text(
-                            login,
-                            style: buttonTextStyle,
-                          ),
-                          style: ElevatedButton.styleFrom(
-                              primary: colorGray,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: buttonRadius)))),
-                  //ElevatedButton(onPressed: (){}, child: Text(login)),
+                  DefaultButton(
+                      margin: EdgeInsets.only(bottom: 20),
+                      text: reg,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ChangeType(isReg: true)));
+                      },
+                      isGetPadding: true),
+                  DefaultButton(
+                      text: login,
+                      backgroundColor: colorGray,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ChangeType(isReg: false)));
+                      },
+                      isGetPadding: true),
                 ],
               ),
             )

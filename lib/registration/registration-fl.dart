@@ -60,6 +60,7 @@ class _RegFL extends State<RegFL> {
                   onClose: _push,
                   panelController: panelController,
                   body: Scaffold(
+                    backgroundColor: Colors.white,
                     body: SingleChildScrollView(
                       child: Stack(
                         children: [
@@ -79,68 +80,90 @@ class _RegFL extends State<RegFL> {
                                               text:
                                                   "Регистрация физического лица",
                                               fontSize: 34),
-                                          
                                           DefaultInput(
-                                            labelText: "Фамилия", 
-                                            keyboardType: TextInputType.text, controller: controllerList[0], hintText: "Иванов", validatorText: "Введите фамилию"),
+                                              labelText: "Фамилия",
+                                              keyboardType: TextInputType.text,
+                                              controller: controllerList[0],
+                                              hintText: "Иванов",
+                                              validatorText: "Введите фамилию"),
                                           DefaultInput(
-                                            labelText: "Имя", 
-                                            keyboardType: TextInputType.text, controller: controllerList[1], hintText: "Иван", validatorText: "Введите имя"),
+                                              labelText: "Имя",
+                                              keyboardType: TextInputType.text,
+                                              controller: controllerList[1],
+                                              hintText: "Иван",
+                                              validatorText: "Введите имя"),
                                           DefaultInput(
-                                            labelText: "Отчество", 
-                                            keyboardType: TextInputType.text, controller: controllerList[2], hintText: "Иванович", validatorText: "Введите отчество"),
+                                              labelText: "Отчество",
+                                              keyboardType: TextInputType.text,
+                                              controller: controllerList[2],
+                                              hintText: "Иванович",
+                                              validatorText:
+                                                  "Введите отчество"),
                                           DefaultInput(
-                                            labelText: "ИНН", 
-                                            keyboardType: TextInputType.number, 
-                                            controller: controllerList[3], 
-                                            hintText: "000000000000", 
-                                            validatorText: "Введите инн",
-                                            textInputFormatter: MaskTextInputFormatter(
-                                                            mask:
-                                                                "############"),
-                                            regExp: r'[0-9]{12}$'),
-
+                                              labelText: "ИНН",
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              controller: controllerList[3],
+                                              hintText: "000000000000",
+                                              validatorText: "Введите инн",
+                                              textInputFormatter:
+                                                  MaskTextInputFormatter(
+                                                      mask: "############"),
+                                              regExp: r'[0-9]{12}$'),
                                           DefaultInput(
-                                            labelText: "СНИЛС", 
-                                            keyboardType: TextInputType.number, 
-                                            controller: controllerList[4], 
-                                            hintText: "000-000-000-00", 
-                                            validatorText: "Введите СНИЛС",
-                                            textInputFormatter: MaskTextInputFormatter(
-                                                            mask:
-                                                                "###-###-###-##"),
-                                            regExp: r'^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$'),
-
+                                              labelText: "СНИЛС",
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              controller: controllerList[4],
+                                              hintText: "000-000-000-00",
+                                              validatorText: "Введите СНИЛС",
+                                              textInputFormatter:
+                                                  MaskTextInputFormatter(
+                                                      mask: "###-###-###-##"),
+                                              regExp:
+                                                  r'^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$'),
                                           DefaultInput(
-                                            labelText: "Телефон", 
-                                            keyboardType: TextInputType.phone, 
-                                            controller: controllerList[5], 
-                                            hintText: "+7 (___) - ___ - __ - __", 
-                                            validatorText: "Введите телефон",
-                                            textInputFormatter: MaskTextInputFormatter(
-                                                            mask:
-                                                                "+7 (###) ###-##-##"),
-                                            regExp: r'^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$'),
-
+                                              labelText: "Телефон",
+                                              keyboardType: TextInputType.phone,
+                                              controller: controllerList[5],
+                                              hintText:
+                                                  "+7 (___) - ___ - __ - __",
+                                              validatorText: "Введите телефон",
+                                              textInputFormatter:
+                                                  MaskTextInputFormatter(
+                                                      mask:
+                                                          "+7 (###) ###-##-##"),
+                                              regExp:
+                                                  r'^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$'),
                                           DefaultInput(
-                                            labelText: "Email", 
-                                            keyboardType: TextInputType.phone, 
-                                            controller: controllerList[6], 
-                                            hintText: "example@email.ru", 
-                                            validatorText: "Введите телефон",
-                                            regExp: r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'),
+                                              labelText: "Email",
+                                              keyboardType: TextInputType.phone,
+                                              controller: controllerList[6],
+                                              hintText: "example@email.ru",
+                                              validatorText: "Введите телефон",
+                                              regExp:
+                                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'),
                                           DefaultInput(
-                                            labelText: "Пароль", 
-                                            keyboardType: TextInputType.text, controller: controllerList[7], hintText: "*********", validatorText: "Введите пароль"),
+                                              labelText: "Пароль",
+                                              keyboardType: TextInputType.text,
+                                              controller: controllerList[7],
+                                              hintText: "*********",
+                                              validatorText: "Введите пароль"),
                                           DefaultInput(
-                                            labelText: "Повторите пароль", 
-                                            keyboardType: TextInputType.text, controller: controllerList[8], hintText: "*********", validatorText: "Повторите пароль"),
+                                              labelText: "Повторите пароль",
+                                              keyboardType: TextInputType.text,
+                                              controller: controllerList[8],
+                                              hintText: "*********",
+                                              validatorText:
+                                                  "Повторите пароль"),
                                           Container(
                                               margin: const EdgeInsets.fromLTRB(
                                                   0, 0, 0, 18),
                                               child: CheckboxListTile(
-                                                activeColor: colorMain,
-                                                controlAffinity: ListTileControlAffinity.leading,
+                                                  activeColor: colorMain,
+                                                  controlAffinity:
+                                                      ListTileControlAffinity
+                                                          .leading,
                                                   title: RichText(
                                                       text: TextSpan(children: [
                                                     TextSpan(
@@ -177,16 +200,16 @@ class _RegFL extends State<RegFL> {
                                                     });
                                                   })),
                                           DefaultButton(
-                                            text: "Зарегистрироваться", 
-                                            onPressed: (_agree)
-                                                    ? () {
-                                                        if (_formKey
-                                                            .currentState!
-                                                            .validate()) {
-                                                          submitData(state);
-                                                        }
+                                              text: "Зарегистрироваться",
+                                              onPressed: (_agree)
+                                                  ? () {
+                                                      if (_formKey.currentState!
+                                                          .validate()) {
+                                                        submitData(state);
                                                       }
-                                                    : null, isGetPadding: false),
+                                                    }
+                                                  : null,
+                                              isGetPadding: false),
                                           Visibility(
                                               visible: widget.isLoading,
                                               child: Container(
@@ -269,14 +292,14 @@ class _RegFL extends State<RegFL> {
         controllerList[5].text == "" ||
         controllerList[6].text == "") {
       AwesomeDialog(
-          context: context,
-          dialogType: DialogType.error,
-          animType: AnimType.bottomSlide,
-          headerAnimationLoop: false,
-          title: "Ошибка!",
-          btnOkColor: Colors.red,
-          desc: "Заполните все поля",
-          btnOkOnPress: () {},
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.bottomSlide,
+        headerAnimationLoop: false,
+        title: "Ошибка!",
+        btnOkColor: Colors.red,
+        desc: "Заполните все поля",
+        btnOkOnPress: () {},
       ).show();
 
       return;
@@ -298,17 +321,15 @@ class _RegFL extends State<RegFL> {
     } else {
       if (state.error is Map<dynamic, dynamic>) {
         AwesomeDialog(
-        context: context,
-        dialogType: DialogType.error,
-        animType: AnimType.bottomSlide,
-        headerAnimationLoop: false,
-        title: "Ошибка!",
-        btnOkColor: Colors.red,
-        desc: validate(
-                    (state.error as Map<dynamic, dynamic>).values.first),
-        btnOkOnPress: () {},
-      ).show();
-
+          context: context,
+          dialogType: DialogType.error,
+          animType: AnimType.bottomSlide,
+          headerAnimationLoop: false,
+          title: "Ошибка!",
+          btnOkColor: Colors.red,
+          desc: validate((state.error as Map<dynamic, dynamic>).values.first),
+          btnOkOnPress: () {},
+        ).show();
       }
     }
   }

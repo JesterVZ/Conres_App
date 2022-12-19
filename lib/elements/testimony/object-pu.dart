@@ -47,10 +47,10 @@ class _ObjectPU extends State<ObjectPU> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
+                  color: Color(0xFFD4D9E6),
                   spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3),
+                  blurRadius: 16,
+                  offset: Offset(0, 8),
                 )
               ]),
           child: Column(
@@ -64,24 +64,22 @@ class _ObjectPU extends State<ObjectPU> {
                     decoration: BoxDecoration(
                         color: widget.objectPuModel.status == "0"
                             ? redColor
-                            : (widget.objectPuModel.status == "1" || widget.objectPuModel.status == "3")
-                            ? yellowColor
-                            : greenColor,
+                            : (widget.objectPuModel.status == "1" ||
+                                    widget.objectPuModel.status == "3")
+                                ? yellowColor
+                                : greenColor,
                         borderRadius: BorderRadius.circular(8)),
                     child: Text(
-
                       widget.objectPuModel.status == "0"
                           ? "Заявка на привязку ПУ отклонена"
                           : widget.objectPuModel.status == "1"
-                          ? "Проходит проверку на добавление"
-                          : widget.objectPuModel.status == "2"
-                          ? "Активный"
-                          :
-                      "Проходит проверку на изменение",
+                              ? "Проходит проверку на добавление"
+                              : widget.objectPuModel.status == "2"
+                                  ? "Активный"
+                                  : "Проходит проверку на изменение",
                       style: TextStyle(color: Colors.white, fontSize: textSize),
                     ),
                   ),
-
                   const Spacer(),
                   Visibility(
                     visible: widget.objectPuModel.status == "0" ? true : false,
@@ -146,105 +144,106 @@ class _ObjectPU extends State<ObjectPU> {
                       ))),
               Row(
                 children: [
-                  Container(
-                    height: 50,
-                    width: (MediaQuery.of(context).size.width/2.8),
-                    child: ElevatedButton(
-                        onPressed: () {
-                          nameController.text = widget.objectPuModel.name!;
-                          addressController.text = widget.objectPuModel.address!;
-                          AwesomeDialog(
-                            context: context,
-                            dialogType: DialogType.noHeader,
-                            animType: AnimType.bottomSlide,
-                            headerAnimationLoop: false,
-                            btnOk: DefaultButton(
-                                      isGetPadding: false,
-                                      onPressed: () {
-                                        if (_formKey.currentState!.validate()) {
-                                          ObjectPuModel newObject = ObjectPuModel(
-                                            object_id: widget.objectPuModel.object_id, 
-                                            name: nameController.text, 
-                                            address: addressController.text, 
-                                            account_id: widget.objectPuModel.account_id, 
-                                            date_added: widget.objectPuModel.date_added, 
-                                            hidden: widget.objectPuModel.hidden, 
-                                            status: widget.objectPuModel.status, 
-                                            comments: widget.objectPuModel.comments);
-                                          widget.edit.call(newObject);
-                                          Navigator.pop(context);
-                                        }
-                                        
-                                      },
-                                      text: "Принять",
-                                    ),
-                            body: Container(
-                              padding: EdgeInsets.only(left: defaultSidePadding, top: 5, right: defaultSidePadding),
+                  DefaultButton(
+                      fontSize: (MediaQuery.of(context).size.width) * 0.04,
+                      textColor: colorMain,
+                      text: "Редактировать",
+                      onPressed: () {
+                        nameController.text = widget.objectPuModel.name!;
+                        addressController.text = widget.objectPuModel.address!;
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.noHeader,
+                          animType: AnimType.bottomSlide,
+                          headerAnimationLoop: false,
+                          btnOk: DefaultButton(
+                            isGetPadding: false,
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                ObjectPuModel newObject = ObjectPuModel(
+                                    object_id: widget.objectPuModel.object_id,
+                                    name: nameController.text,
+                                    address: addressController.text,
+                                    account_id: widget.objectPuModel.account_id,
+                                    date_added: widget.objectPuModel.date_added,
+                                    hidden: widget.objectPuModel.hidden,
+                                    status: widget.objectPuModel.status,
+                                    comments: widget.objectPuModel.comments);
+                                widget.edit.call(newObject);
+                                Navigator.pop(context);
+                              }
+                            },
+                            text: "Принять",
+                          ),
+                          body: Container(
+                              padding: EdgeInsets.only(
+                                  left: defaultSidePadding,
+                                  top: 5,
+                                  right: defaultSidePadding),
                               height: 280,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8)),
                               child: Form(
                                 key: _formKey,
-                                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                Container(
-                                  margin: EdgeInsets.only(bottom: 15),
-                                  child: const Text("Редактировать объект", style: TextStyle(fontSize: 20)),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(bottom: 15),
-                                  child: DefaultInput(
-                                  labelText: "Наименование объекта", 
-                                  keyboardType: TextInputType.text,
-                                  hintText: "Дом",
-                                  validatorText: "Введите наименование",
-                                  controller: nameController),
-                                ),
-                                
-
-                                DefaultInput(
-                                  labelText: "Адрес объекта", 
-                                  keyboardType: TextInputType.text,
-                                  hintText: "Город, Улица, Дом, Квартира",
-                                  validatorText: "Введите адрес",
-                                  controller: addressController),
-                              ]),
-                            
-                              )
-                              
-                            ),
-                          ).show();
-                        
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: messageColor),
-                        child: Text("Редактировать",
-                            style: TextStyle(color: colorMain, fontSize: textSize), overflow: TextOverflow.ellipsis,)),
-                  ),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(bottom: 15),
+                                        child: const Text(
+                                            "Редактировать объект",
+                                            style: TextStyle(fontSize: 20)),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(bottom: 15),
+                                        child: DefaultInput(
+                                            labelText: "Наименование объекта",
+                                            keyboardType: TextInputType.text,
+                                            hintText: "Дом",
+                                            validatorText:
+                                                "Введите наименование",
+                                            controller: nameController),
+                                      ),
+                                      DefaultInput(
+                                          labelText: "Адрес объекта",
+                                          keyboardType: TextInputType.text,
+                                          hintText:
+                                              "Город, Улица, Дом, Квартира",
+                                          validatorText: "Введите адрес",
+                                          controller: addressController),
+                                    ]),
+                              )),
+                        ).show();
+                      },
+                      isGetPadding: false,
+                      backgroundColor: messageColor,
+                      width: (MediaQuery.of(context).size.width / 2.5)),
                   const Spacer(),
-                  Container(
-                    height: 50,
-                    width: (MediaQuery.of(context).size.width/2.8),
-                    child: ElevatedButton(
-                        onPressed: () {
-                          profileService!.object_id = widget.objectPuModel.object_id;
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PageTU(
-                                        currentPU: widget.objectPuModel,
-                                      )));
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: messageColor),
-                        child: Text("Подробнее",
-                            style: TextStyle(color: colorMain, fontSize: textSize, overflow: TextOverflow.ellipsis))),
-                  ),
+                  DefaultButton(
+                      fontSize: (MediaQuery.of(context).size.width) * 0.04,
+                      textColor: colorMain,
+                      text: "Подробнее",
+                      onPressed: () {
+                        profileService!.object_id =
+                            widget.objectPuModel.object_id;
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PageTU(
+                                      currentPU: widget.objectPuModel,
+                                    )));
+                      },
+                      isGetPadding: false,
+                      backgroundColor: messageColor,
+                      width: (MediaQuery.of(context).size.width / 2.5)),
                 ],
               )
             ],
           ),
         ));
   }
+
   @override
   void didChangeDependencies() {
     profileService ??= DependencyProvider.of(context)!.profileService;

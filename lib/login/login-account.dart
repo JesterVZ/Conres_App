@@ -1,4 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:conres_app/UI/default-button.dart';
+import 'package:conres_app/UI/default-input.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,77 +52,24 @@ class _LoginEmail extends State<LoginEmail> {
                           margin: EdgeInsets.only(bottom: 14),
                           child: HeaderRow(text: loginAccount, fontSize: 34),
                         ),
-                        Container(
-                            margin: EdgeInsets.only(bottom: 20),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  lkInputText,
-                                  style: labelTextStyle,
-                                ),
-                                TextField(
-                                  controller: lkController,
-                                  decoration: InputDecoration(
-                                    hintText: "Лицевой счет",
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: inputBorder),
-                                        borderRadius: buttonRadius),
-                                  ),
-                                )
-                              ],
-                            )),
-                        Container(
-                            margin: EdgeInsets.only(bottom: 26),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  lkPasswordText,
-                                  style: labelTextStyle,
-                                ),
-                                TextField(
-                                  controller: passwordController,
-                                  autofocus: false,
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                      hintText: "Пароль",
-                                      border: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: inputBorder),
-                                        borderRadius: buttonRadius,
-                                      )),
-                                )
-                              ],
-                            )),
-                        Column(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.fromLTRB(0, 0, 0, 18),
-                              child: SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 55.0,
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        _handleLogin(lkController.text,
-                                            passwordController.text);
-                                      },
-                                      child: Text(
-                                        login,
-                                        style: buttonTextStyle,
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: colorMain,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: buttonRadius)))),
-                            ),
-
-                            //ElevatedButton(onPressed: (){}, child: Text(login)),
-                          ],
-                        ),
+                        DefaultInput(
+                            labelText: lkInputText,
+                            hintText: "Лицевой счет",
+                            keyboardType: TextInputType.text,
+                            controller: lkController),
+                        DefaultInput(
+                            labelText: lkPasswordText,
+                            hintText: "Пароль",
+                            keyboardType: TextInputType.text,
+                            obscureText: true,
+                            controller: passwordController),
+                        DefaultButton(
+                            text: login,
+                            onPressed: () {
+                              _handleLogin(
+                                  lkController.text, passwordController.text);
+                            },
+                            isGetPadding: false),
                         Visibility(
                             visible: isLoading!,
                             child: Container(
@@ -148,9 +97,8 @@ class _LoginEmail extends State<LoginEmail> {
         title: "Ошибка!",
         btnOkColor: Colors.red,
         desc: state.error.toString(),
-        btnOkOnPress: () {
-        },
-        ).show();
+        btnOkOnPress: () {},
+      ).show();
     }
     if (state.cookies != null) {
       Navigator.of(context)
