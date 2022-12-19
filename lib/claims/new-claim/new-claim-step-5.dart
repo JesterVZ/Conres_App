@@ -64,85 +64,70 @@ class _NewClaimStep5 extends State<NewClaimStep5> {
                                   "Сроки проектирования и поэтапного введения в эксплуатацию объекта (в том числе по этапам и очередям), планируемое поэтапное распределение максимальной мощности:",
                                   style: claimTextStyle),
                             ),
-                            Container(
-                              margin: EdgeInsets.only(bottom: 12),
-                              child: DefaultInput(
-                                  controller: controllerList[0],
-                                  keyboardType: TextInputType.number,
-                                  labelText: "Этап (очередь) строительства",
-                                  hintText: "",
-                                  validatorText: "Введите серию"),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(bottom: 12),
-                              child: DefaultInput(
-                                  controller: controllerList[1],
-                                  keyboardType: TextInputType.number,
-                                  labelText:
-                                      "Планируемый срок проектирования энергоприниюмающих устройств месяц, год) ",
-                                  hintText: "",
-                                  validatorText: "Введите серию"),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(bottom: 12),
-                              child: DefaultInput(
-                                  controller: controllerList[2],
-                                  keyboardType: TextInputType.number,
-                                  labelText:
-                                      "Планируемый срок введения энергопринимающих устройств в эксплуатацию(месяц, год) ",
-                                  hintText: "",
-                                  validatorText: "Введите серию"),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(bottom: 12),
-                              child: DefaultInput(
-                                  controller: controllerList[3],
-                                  keyboardType: TextInputType.number,
-                                  labelText:
-                                      "Максимальная мощность энергопринимаю-щих устройств (кВт)",
-                                  hintText: "",
-                                  validatorText: "Введите серию"),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(bottom: 12),
-                              child: DefaultInput(
-                                  controller: controllerList[4],
-                                  keyboardType: TextInputType.number,
-                                  labelText:
-                                      "Категория надежности энергопринимаю-щих устройств ",
-                                  hintText: "",
-                                  validatorText: "Введите серию"),
-                            ),
+                            DefaultInput(
+                                controller: controllerList[0],
+                                keyboardType: TextInputType.number,
+                                labelText: "Этап (очередь) строительства",
+                                hintText: "",
+                                validatorText: "Введите очередь"),
+                            DefaultInput(
+                                controller: controllerList[1],
+                                keyboardType: TextInputType.number,
+                                labelText:
+                                    "Планируемый срок проектирования энергоприниюмающих устройств месяц, год) ",
+                                hintText: "",
+                                validatorText: "Введите срок проектирования"),
+                            DefaultInput(
+                                controller: controllerList[2],
+                                keyboardType: TextInputType.number,
+                                labelText:
+                                    "Планируемый срок введения энергопринимающих устройств в эксплуатацию(месяц, год) ",
+                                hintText: "",
+                                validatorText: "Введите срок введения энергопринимающих устройств"),
+                            DefaultInput(
+                                controller: controllerList[3],
+                                keyboardType: TextInputType.number,
+                                labelText:
+                                    "Максимальная мощность энергопринимаю-щих устройств (кВт)",
+                                hintText: "",
+                                validatorText: "Введите мощность"),
+                            DefaultInput(
+                                controller: controllerList[4],
+                                keyboardType: TextInputType.number,
+                                labelText:
+                                    "Категория надежности энергопринимаю-щих устройств ",
+                                hintText: "",
+                                validatorText: "Введите категорию надежности"),
                             Column(
                               children: objects,
                             ),
-                            Container(
-                                margin: EdgeInsets.fromLTRB(0, 24, 0, 24),
-                                height: 55,
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white),
-                                    onPressed: () {
-                                      setState(() {
-                                        _addNewObject();
-                                      });
-                                    },
+                            DefaultButton(
+                                    margin: const EdgeInsets.only(bottom: 24),
+                                    backgroundColor: messageColor,
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                            margin: const EdgeInsets.fromLTRB(
-                                                0, 0, 10, 0),
-                                            child: SvgPicture.asset(
-                                                'assets/plus.svg')),
-                                        Text(addObject,
-                                            style: TextStyle(
-                                                color: colorMain, fontSize: 18))
-                                      ],
-                                    ))),
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                  margin:
+                                                      const EdgeInsets.fromLTRB(
+                                                          0, 0, 10, 0),
+                                                  child: SvgPicture.asset(
+                                                      'assets/plus.svg')),
+                                              Text(addObject,
+                                                  style: TextStyle(
+                                                      color: colorMain,
+                                                      fontSize: 18))
+                                            ],
+                                          ), 
+                                    onPressed: () {
+                                            setState(() {
+                                              _addNewObject();
+                                            });
+                                          }, 
+                                    isGetPadding: false),
                             DefaultButton(
                                 text: "Далее",
                                 onPressed: () {

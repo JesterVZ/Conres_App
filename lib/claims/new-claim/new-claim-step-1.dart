@@ -83,27 +83,22 @@ class _NewClaimStep1 extends State<NewClaimStep1> {
                                             child: Text(
                                                 "Информация о заявителе",
                                                 style: claimTextStyle)),
-                                        Container(
-                                          margin: EdgeInsets.only(bottom: 12),
-                                          child: DefaultInput(
-                                              controller: nameController,
-                                              keyboardType: TextInputType.text,
-                                              labelText: "ФИО",
-                                              hintText: "Иванов Иван Иванович",
-                                              validatorText: "Введите ФИО"),
-                                        ),
-                                        Container(
-                                            margin: EdgeInsets.only(bottom: 12),
-                                            child: DefaultInput(
-                                                controller:
-                                                    factAddressController,
-                                                keyboardType:
-                                                    TextInputType.text,
-                                                labelText: "Фактический адрес",
-                                                hintText:
-                                                    "Город, Улица, Дом, Квартира",
-                                                validatorText:
-                                                    "Введите адрес")),
+                                        DefaultInput(
+                                            controller: nameController,
+                                            keyboardType: TextInputType.text,
+                                            labelText: "ФИО",
+                                            hintText: "Иванов Иван Иванович",
+                                            validatorText: "Введите ФИО"),
+                                        DefaultInput(
+                                            controller:
+                                                factAddressController,
+                                            keyboardType:
+                                                TextInputType.text,
+                                            labelText: "Фактический адрес",
+                                            hintText:
+                                                "Город, Улица, Дом, Квартира",
+                                            validatorText:
+                                                "Введите адрес"),
                                       ],
                                     )),
                                     Column(
@@ -128,6 +123,9 @@ class _NewClaimStep1 extends State<NewClaimStep1> {
                                                       TextInputType.number,
                                                   labelText: "Серия",
                                                   hintText: "0000",
+                                                  textInputFormatter: MaskTextInputFormatter(
+                                                          mask:
+                                                              "####"),
                                                   validatorText:
                                                       "Введите серию"),
                                             ),
@@ -136,6 +134,9 @@ class _NewClaimStep1 extends State<NewClaimStep1> {
                                               width: 158,
                                               child: DefaultInput(
                                                   controller: numberController,
+                                                  textInputFormatter: MaskTextInputFormatter(
+                                                          mask:
+                                                              "######"),
                                                   keyboardType:
                                                       TextInputType.number,
                                                   labelText: "Номер",
@@ -145,64 +146,24 @@ class _NewClaimStep1 extends State<NewClaimStep1> {
                                             )
                                           ],
                                         ),
-                                        Container(
-                                          margin: const EdgeInsets.fromLTRB(
-                                              0, 12, 0, 18),
-                                          child: DefaultInput(
-                                              controller: placeController,
-                                              keyboardType:
-                                                  TextInputType.number,
-                                              labelText: "Кем выдан",
-                                              hintText: "Место выдачи",
-                                              validatorText:
-                                                  "Введите место выдачи"),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(bottom: 12),
-                                          child: Container(
-                                              margin:
-                                                  EdgeInsets.only(bottom: 12),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text("Телефон",
-                                                      style: TextStyle(
-                                                          color: colorGray,
-                                                          fontSize: 16.0)),
-                                                  TextFormField(
-                                                    controller: phoneController,
-                                                    inputFormatters: [
-                                                      MaskTextInputFormatter(
+                                        DefaultInput(
+                                            controller: placeController,
+                                            keyboardType:
+                                                TextInputType.text,
+                                            labelText: "Кем выдан",
+                                            hintText: "Место выдачи",
+                                            validatorText:
+                                                "Введите место выдачи"),
+                                        DefaultInput(
+                                          labelText: "Телефон", 
+                                          keyboardType: TextInputType.phone, 
+                                          controller: phoneController,
+                                          textInputFormatter: MaskTextInputFormatter(
                                                           mask:
-                                                              "+7 (###) ###-##-##")
-                                                    ],
-                                                    keyboardType:
-                                                        TextInputType.phone,
-                                                    autocorrect: false,
-                                                    decoration: InputDecoration(
-                                                        hintText: "Телефон",
-                                                        border: OutlineInputBorder(
-                                                            borderSide: BorderSide(
-                                                                color:
-                                                                    inputBorder,
-                                                                width: 5.0),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10)),
-                                                        focusedBorder:
-                                                            OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10))),
-                                                  ),
-                                                ],
-                                              )),
-                                        ),
+                                                              "+7 (###) ###-##-##"),
+                                          validatorText: "Введите телефон",
+                                          ),
+                                        
                                         Container(
                                             margin: const EdgeInsets.fromLTRB(
                                                 0, 0, 0, 18),
@@ -222,13 +183,9 @@ class _NewClaimStep1 extends State<NewClaimStep1> {
                                                         "dd.MM.yyyy"))
                                               ],
                                             )),
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: 55.0,
-                                            child: ElevatedButton(
-                                                onPressed: () {
+                                        DefaultButton(
+                                          text: "Далее", 
+                                          onPressed: () {
                                                   if (_formKey.currentState!
                                                       .validate()) {
                                                     mainClaimSendService!
@@ -266,13 +223,7 @@ class _NewClaimStep1 extends State<NewClaimStep1> {
                                                                 NewClaimStep2()));
                                                   }
                                                 },
-                                                child: Text(
-                                                  next,
-                                                  style: buttonTextStyle,
-                                                ),
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        colorMain))),
+                                                isGetPadding: false)
                                       ],
                                     ),
                                   ],

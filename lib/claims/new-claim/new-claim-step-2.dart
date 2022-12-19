@@ -149,73 +149,36 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
                                         style: warningTextStyle,
                                         textAlign: TextAlign.center,
                                       )),
-                                  Container(
-                                      margin: EdgeInsets.only(bottom: 12),
-                                      child: DefaultInput(
-                                          controller: controllerList[0],
-                                          keyboardType: TextInputType.text,
-                                          labelText: "Наименование объекта",
-                                          hintText: "Наименование объекта",
-                                          validatorText:
-                                              "Введите наименование объекта")),
-                                  Container(
-                                      margin: EdgeInsets.only(bottom: 12),
-                                      child: DefaultInput(
-                                          controller: controllerList[1],
-                                          keyboardType: TextInputType.text,
-                                          labelText: "Адрес объекта",
-                                          hintText: "Адрес объекта",
-                                          validatorText:
-                                              "Введите адрес объекта")),
-                                  Container(
-                                      margin: EdgeInsets.only(bottom: 12),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                              "Кадастровый номер (необязательно)",
-                                              style: TextStyle(
-                                                  color: colorGray,
-                                                  fontSize: 16.0)),
-                                          TextFormField(
-                                            textCapitalization:
-                                                TextCapitalization.sentences,
-                                            controller: controllerList[2],
-                                            keyboardType: TextInputType.text,
-                                            inputFormatters: [
-                                              MaskTextInputFormatter(
-                                                  mask: "##:##:######:##")
-                                            ],
-                                            decoration: InputDecoration(
-                                                hintText: "00:00:000000:00",
-                                                border: OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: inputBorder,
-                                                        width: 5.0),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10))),
-                                          )
-                                        ],
-                                      )),
+                                  DefaultInput(
+                                      controller: controllerList[0],
+                                      keyboardType: TextInputType.text,
+                                      labelText: "Наименование объекта",
+                                      hintText: "Наименование объекта",
+                                      validatorText:
+                                          "Введите наименование объекта"),
+                                  DefaultInput(
+                                      controller: controllerList[1],
+                                      keyboardType: TextInputType.text,
+                                      labelText: "Адрес объекта",
+                                      hintText: "Адрес объекта",
+                                      validatorText:
+                                          "Введите адрес объекта"),
+                                  DefaultInput(
+                                      controller: controllerList[2],
+                                      keyboardType: TextInputType.text,
+                                      labelText: "Кадастровый номер (необязательно)",
+                                      hintText: "00:00:000000:00",
+                                      textInputFormatter: MaskTextInputFormatter(
+                                                  mask: "##:##:######:##"),
+                                      ),
+                                  
                                   Column(
                                     children: objects,
                                   ),
-                                  Container(
-                                      margin: EdgeInsets.fromLTRB(0, 24, 0, 24),
-                                      height: 55,
-                                      child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.white),
-                                          onPressed: () {
-                                            setState(() {
-                                              _addNewObject();
-                                            });
-                                          },
-                                          child: Row(
+                                  DefaultButton(
+                                    margin: const EdgeInsets.only(bottom: 24),
+                                    backgroundColor: messageColor,
+                                    child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             crossAxisAlignment:
@@ -232,7 +195,14 @@ class _NewClaimStep2 extends State<NewClaimStep2> {
                                                       color: colorMain,
                                                       fontSize: 18))
                                             ],
-                                          ))),
+                                          ), 
+                                    onPressed: () {
+                                            setState(() {
+                                              _addNewObject();
+                                            });
+                                          }, 
+                                    isGetPadding: false),
+                                  
                                   DefaultButton(
                                       text: "Далее",
                                       onPressed: () {

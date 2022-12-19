@@ -146,12 +146,14 @@ class _RegFL extends State<RegFL> {
                                           DefaultInput(
                                               labelText: "Пароль",
                                               keyboardType: TextInputType.text,
+                                              obscureText: true,
                                               controller: controllerList[7],
                                               hintText: "*********",
                                               validatorText: "Введите пароль"),
                                           DefaultInput(
                                               labelText: "Повторите пароль",
                                               keyboardType: TextInputType.text,
+                                              obscureText: true,
                                               controller: controllerList[8],
                                               hintText: "*********",
                                               validatorText:

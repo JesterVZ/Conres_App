@@ -88,8 +88,8 @@ class _ChangeType extends State<ChangeType> {
                       text: ul,
                       isGetPadding: true,
                       onPressed: () {
-                        preferences!.setString('lkType', "ip");
-                        profileService!.userType = "ip";
+                        preferences!.setString('lkType', "ul");
+                        profileService!.userType = "ul";
                         widget.isReg
                             ? Navigator.push(
                                 context,
@@ -98,7 +98,7 @@ class _ChangeType extends State<ChangeType> {
                             : Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => LoginEmail(type: 2)));
+                                    builder: (context) => LoginEmail(type: 3)));
                       }),
                 ],
               ),

@@ -33,14 +33,13 @@ class ContractElement extends StatelessWidget {
           margin: EdgeInsets.only(top: 14, bottom: 14),
           decoration: BoxDecoration(
               color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 3,
-                  blurRadius: 4,
-                  offset: Offset(0, 2),
-                )
-              ],
+              boxShadow: const [
+                                      BoxShadow(
+                                        color: Color(0xFFD4D9E6),
+                                        spreadRadius: 5,
+                                        blurRadius: 16,
+                                        offset: Offset(0, 8),
+                                      )],
               borderRadius: BorderRadius.circular(10)),
           child: Padding(
               padding: EdgeInsets.fromLTRB(

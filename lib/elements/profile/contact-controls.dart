@@ -1,4 +1,5 @@
 import 'package:conres_app/Services/profile-service.dart';
+import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/consts.dart';
 import 'package:conres_app/profile/tabs/new-contact/new-contact.dart';
 import 'package:flutter/cupertino.dart';
@@ -165,15 +166,19 @@ class ColtactColtrolsState extends State<ColtactColtrols> {
           ),
         ),
         Visibility(
+            visible: isLock == true,
             child: Column(children: [
           Row(
             children: [
-              Container(
+              SizedBox(
                   width: (MediaQuery.of(context).size.width / 3) - 5,
                   height: 55,
                   child: ElevatedButton(
                     onPressed: () {
-                      isLock = !isLock;
+                      setState(() {
+                        isLock = !isLock;
+                      });
+                      
                       widget.delegateFunction!.call(widget.contact_id);
                     },
                     child:
@@ -184,7 +189,7 @@ class ColtactColtrolsState extends State<ColtactColtrols> {
                             borderRadius: BorderRadius.circular(10))),
                   )),
               const Spacer(),
-              Container(
+              SizedBox(
                   width: (MediaQuery.of(context).size.width / 3) - 5,
                   height: 55,
                   child: ElevatedButton(
@@ -203,27 +208,32 @@ class ColtactColtrolsState extends State<ColtactColtrols> {
                   ))
             ],
           ),
-          Container(
-              margin: EdgeInsets.only(top: 15),
-              width: MediaQuery.of(context).size.width,
-              height: 55,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Text("Свернуть",
-                    style: TextStyle(fontSize: textSize, color: colorGray)),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: messageColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-              ))
+
         ])),
         Visibility(
+          visible: isLock == false,
+          child: DefaultButton(
+            text: "Сохранить изменения",
+          onPressed: () {
+                    setState(() {
+                      isLock = !isLock;
+                    });
+                     widget.delegateFunction!.call(widget.contact_id);
+                  }, 
+          isGetPadding: false)),
+        Visibility(
+          visible: isLock == false,
             child: Container(
                 margin: EdgeInsets.only(top: 15),
                 width: MediaQuery.of(context).size.width,
                 height: 55,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      isLock = !isLock;
+                    });
+                     widget.delegateFunction!.call(widget.contact_id);
+                  },
                   child: Text("Отмена",
                       style: TextStyle(fontSize: textSize, color: colorGray)),
                   style: ElevatedButton.styleFrom(

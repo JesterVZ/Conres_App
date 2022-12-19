@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import '../../Services/profile-service.dart';
 import '../../UI/default-input.dart';
 import '../../consts.dart';
 import '../../elements/claims/claim-step2-object.dart';
@@ -33,6 +34,7 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
   final _formKey = GlobalKey<FormState>();
   List<ClaimStep3Object> objects = [];
   MainClaimSendService? mainClaimSendService;
+  ProfileService? profileService;
 
   void _addNewObject() {
     setState(() {
@@ -177,7 +179,10 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                               ],
                             ),
                           ),
-                          Container(
+                          Visibility(
+                            visible: profileService!.userType == "ip" || profileService!.userType == "ul",
+                            child: Column(children: [
+                            Container(
                             height: 20,
                             margin: EdgeInsets.only(top: 24, bottom: 24),
                             child: Text("Категория надежности 2",
@@ -389,6 +394,37 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
                               ],
                             ),
                           ),
+                          
+                          ])),
+                          Visibility(visible: profileService!.userType == "fl", child: DefaultButton(
+                                    margin: const EdgeInsets.only(bottom: 24),
+                                    backgroundColor: messageColor,
+                                    child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                  margin:
+                                                      const EdgeInsets.fromLTRB(
+                                                          0, 0, 10, 0),
+                                                  child: SvgPicture.asset(
+                                                      'assets/plus.svg')),
+                                              Text(addObject,
+                                                  style: TextStyle(
+                                                      color: colorMain,
+                                                      fontSize: 18))
+                                            ],
+                                          ), 
+                                    onPressed: () {
+                                            setState(() {
+                                              _addNewObject();
+                                            });
+                                          }, 
+                                    isGetPadding: false),),
+                          
+                          
                           DefaultButton(
                             text: "Далее",
                             onPressed: () {
@@ -479,6 +515,7 @@ class _NewClaimStep3 extends State<NewClaimStep3> {
   void didChangeDependencies() {
     mainClaimSendService ??=
         DependencyProvider.of(context)!.mainClaimSendService;
+    profileService ??= DependencyProvider.of(context)!.profileService;
     super.didChangeDependencies();
   }
 }

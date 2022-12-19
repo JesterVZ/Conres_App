@@ -42,6 +42,8 @@ class _EditUserInfoPage extends State<EditUserInfoPage> {
   ProfileService? profileService;
   final _formKey = GlobalKey<FormState>();
 
+  bool isLoading = false;
+
   Future<void> _refrash() async {}
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,9 @@ class _EditUserInfoPage extends State<EditUserInfoPage> {
           MainForm(
               header:
                   HeaderNotification(text: "Изменить профиль", canGoBack: true),
-              body: SingleChildScrollView(
+              body: Stack(
+                children: [
+SingleChildScrollView(
                 child: Padding(
                     padding: EdgeInsets.only(
                         left: defaultSidePadding, right: defaultSidePadding),
@@ -138,7 +142,6 @@ class _EditUserInfoPage extends State<EditUserInfoPage> {
                                 child: DefaultInput(
                                     labelText: "ИНН",
                                     hintText: "ИНН",
-                                    validatorText: "Введите ИНН",
                                     keyboardType: TextInputType.text,
                                     controller: innController)),
                             
@@ -151,7 +154,6 @@ class _EditUserInfoPage extends State<EditUserInfoPage> {
                                 child: DefaultInput(
                                     labelText: "КПП",
                                     hintText: "КПП",
-                                    validatorText: "Введите КПП",
                                     keyboardType: TextInputType.text,
                                     controller: kppController))),
                             Visibility(
@@ -164,7 +166,6 @@ class _EditUserInfoPage extends State<EditUserInfoPage> {
                                 child: DefaultInput(
                                     labelText:  profileService!.userType == "ip" ? "ОГРНИП" : "ОГРН",
                                     hintText:  profileService!.userType == "ip" ? "ОГРНИП" : "ОГРН",
-                                    validatorText: "Введите ${profileService!.userType == "ip" ? "ОГРНИП" : "ОГРН"}",
                                     keyboardType: TextInputType.text,
                                     controller: ogrnController))),
                             Visibility(
@@ -176,7 +177,6 @@ class _EditUserInfoPage extends State<EditUserInfoPage> {
                                 child: DefaultInput(
                                     labelText: "СНИЛС",
                                     hintText: "СНИЛС",
-                                    validatorText: "Введите СНИЛС",
                                     keyboardType: TextInputType.text,
                                     controller: snilsController))),
                             
@@ -185,7 +185,6 @@ class _EditUserInfoPage extends State<EditUserInfoPage> {
                                 child: DefaultInput(
                                     labelText: "Юридический адрес",
                                     hintText: "Юридический адрес",
-                                    validatorText: "Введите адрес",
                                     keyboardType: TextInputType.text,
                                     controller: urAddressController)),
                             Container(
@@ -193,7 +192,6 @@ class _EditUserInfoPage extends State<EditUserInfoPage> {
                                 child: DefaultInput(
                                     labelText: "Фактический адрес",
                                     hintText: "Юридический адрес",
-                                    validatorText: "Введите адрес",
                                     keyboardType: TextInputType.text,
                                     controller: factAddressController)),
                             Container(
@@ -201,7 +199,6 @@ class _EditUserInfoPage extends State<EditUserInfoPage> {
                                 child: DefaultInput(
                                     labelText: "Пароль",
                                     hintText: "**********",
-                                    validatorText: "Введите пароль",
                                     keyboardType: TextInputType.text,
                                     obscureText: true,
                                     controller: passwordController)),
@@ -210,7 +207,6 @@ class _EditUserInfoPage extends State<EditUserInfoPage> {
                                 child: DefaultInput(
                                     labelText: "Пароль",
                                     hintText: "**********",
-                                    validatorText: "Введите пароль",
                                     keyboardType: TextInputType.text,
                                     obscureText: true,
                                     controller: confirmpasswordController)),
@@ -269,11 +265,57 @@ class _EditUserInfoPage extends State<EditUserInfoPage> {
                           ],
                         ))),
               ),
+              Visibility(
+                          child: Center(
+                              child: Container(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator(color: colorMain),
+                          )),
+                          visible: (isLoading == true) ? true : false)
+                ],
+              ),
+              
               onRefrash: _refrash));
         });
   }
 
-  _listener(BuildContext context, ProfileState state) {}
+  _listener(BuildContext context, ProfileState state) {
+    if (state.loading == true) {
+      isLoading = true;
+      return;
+    } else {
+      isLoading = false;
+    }
+
+    if(state.editUserInfoData != null){
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.success,
+        animType: AnimType.bottomSlide,
+        headerAnimationLoop: false,
+        title: "Успешно!",
+        desc: "Новая информация о пользователе отправлена на рассмотрение!",
+        btnOkOnPress: () {
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        },
+      ).show();
+    }
+
+    if(state.error != null){
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.bottomSlide,
+        headerAnimationLoop: false,
+        title: "Ошибка!",
+        btnOkColor: Colors.red,
+        desc: state.error,
+        btnOkOnPress: () {},
+      ).show();
+    }
+
+  }
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;

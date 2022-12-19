@@ -1209,7 +1209,7 @@ class HttpClient {
     final result = await _apiClient.post(uri, data: formdata);
     if (result.statusCode == 200) {
       if (result.data['error'] != null) {
-        throw Exception(result.data['error']);
+        throw Exception(result.data['error'].values.elementAt(0));
       }
       return result.data;
     } else {

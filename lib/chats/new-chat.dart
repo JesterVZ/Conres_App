@@ -68,100 +68,108 @@ class _NewChat extends State<NewChat> {
                             child: Column(
                               children: [
                                 CoolDropdown(
-                                    resultHeight: 55,
-                                    resultTS: TextStyle(
-                                      fontSize: 20,
-                                      color: colorMain,
-                                    ),
-                                    resultBD: BoxDecoration(
-                                      color: messageColor,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    selectedItemBD: BoxDecoration(
-                                      color: messageColor,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    selectedItemTS: TextStyle(
-                                      fontSize: 20,
-                                      color: colorMain,
-                                    ),
-                                    dropdownBD: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Color.fromARGB(255, 49, 49, 49)
-                                                .withOpacity(0.5),
-                                            spreadRadius: 1,
-                                            blurRadius: 10,
-                                            offset: Offset(0, 1),
-                                          ),
-                                        ]),
-                                    dropdownWidth: MediaQuery.of(context).size.width - 50,
-                                    dropdownHeight: 200,
-                                    resultWidth: MediaQuery.of(context).size.width,
-                                    dropdownList: dropdownReasonList,
-                                    defaultValue: dropdownReasonList[0],
-                                    onChange: (value) {
-                                      TypeController.text = value['label'];
-                                    },
-                                    //defaultValue: dropdownObjectsList[0],
+                                  resultHeight: 55,
+                                  resultTS: TextStyle(
+                                    fontSize: 20,
+                                    color: colorMain,
                                   ),
-                                Container(
-                                    margin: EdgeInsets.only(bottom: 12,top: 12),
-                                    child: DefaultInput(
-                                        controller: FioController,
-                                        keyboardType: TextInputType.text,
-                                        labelText: "ФИО",
-                                        hintText: "Иванов Иван Иванович",
-                                        validatorText: "Введите ФИО")),
-                                Container(
-                                  margin: EdgeInsets.only(bottom: 12),
-                                  child: DefaultInput(
-                                      controller: EmailController,
-                                      keyboardType: TextInputType.text,
-                                      labelText: "Email",
-                                      hintText: "Example@gmail.com",
-                                      validatorText: "Введите Email"),
+                                  resultBD: BoxDecoration(
+                                    color: messageColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  selectedItemBD: BoxDecoration(
+                                    color: messageColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  selectedItemTS: TextStyle(
+                                    fontSize: 20,
+                                    color: colorMain,
+                                  ),
+                                  dropdownBD: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color.fromARGB(255, 49, 49, 49)
+                                              .withOpacity(0.5),
+                                          spreadRadius: 1,
+                                          blurRadius: 10,
+                                          offset: Offset(0, 1),
+                                        ),
+                                      ]),
+                                  dropdownWidth:
+                                      MediaQuery.of(context).size.width - 50,
+                                  dropdownHeight: 200,
+                                  resultWidth:
+                                      MediaQuery.of(context).size.width,
+                                  dropdownList: dropdownReasonList,
+                                  defaultValue: dropdownReasonList[0],
+                                  onChange: (value) {
+                                    TypeController.text = value['label'];
+                                  },
+                                  //defaultValue: dropdownObjectsList[0],
                                 ),
-                                Container(
-                                    margin: EdgeInsets.only(bottom: 12),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Текст обращения",
-                                            style: TextStyle(
-                                                color: colorGray,
-                                                fontSize: 16.0)),
-                                        TextFormField(
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return "Введите текст";
-                                            }
-                                            return null;
-                                          },
-                                          textCapitalization:
-                                              TextCapitalization.sentences,
-                                          maxLines: 5,
-                                          controller: TextController,
-                                          decoration: InputDecoration(
-                                              hintText:
-                                                  "Текст Вашего обращения",
-                                              border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: inputBorder,
-                                                      width: 5.0),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10))),
-                                        )
-                                      ],
-                                    )),
+                                DefaultInput(
+                                    controller: FioController,
+                                    keyboardType: TextInputType.text,
+                                    labelText: "ФИО",
+                                    hintText: "Иванов Иван Иванович",
+                                    validatorText: "Введите ФИО"),
+                                DefaultInput(
+                                    controller: EmailController,
+                                    keyboardType: TextInputType.text,
+                                    labelText: "Email",
+                                    hintText: "Example@gmail.com",
+                                    validatorText: "Введите Email"),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Текст обращения",
+                                        style: TextStyle(
+                                            color: colorGray, fontSize: 16.0)),
+                                    TextFormField(
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Введите текст";
+                                        }
+                                        return null;
+                                      },
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
+                                      maxLines: 5,
+                                      controller: TextController,
+                                      decoration: InputDecoration(
+                                          hintText: "Текст Вашего обращения",
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: BorderSide(
+                                                color: inputBorder, width: 2),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: BorderSide(
+                                                color: colorMain, width: 2),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: BorderSide(
+                                                color: Colors.red, width: 2),
+                                          ),
+                                          border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: inputBorder,
+                                                  width: 5.0),
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
+                                    )
+                                  ],
+                                ),
                                 DefaultButton(
+                                  margin: EdgeInsets.only(top: 18),
                                     text: "Создать обращение",
                                     isGetPadding: false,
                                     onPressed: () {
@@ -185,7 +193,6 @@ class _NewChat extends State<NewChat> {
                                             FioController.text,
                                             type,
                                             TextController.text);
-
                                       }
                                     })
                               ],
@@ -240,8 +247,12 @@ class _NewChat extends State<NewChat> {
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     profileService ??= DependencyProvider.of(context)!.profileService;
-    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel(false);
-    FioController.text = (profileService!.userType == "fl" || profileService!.userType == "ip") ? "${profileService!.userInformation!.lastname!} ${profileService!.userInformation!.firstname!} ${profileService!.userInformation!.patronymic!}" : (profileService!.userInformation!.company_full ?? "");
+    webSocketChannel ??=
+        DependencyProvider.of(context)!.webSocketChannel(false);
+    FioController.text = (profileService!.userType == "fl" ||
+            profileService!.userType == "ip")
+        ? "${profileService!.userInformation!.lastname!} ${profileService!.userInformation!.firstname!} ${profileService!.userInformation!.patronymic!}"
+        : (profileService!.userInformation!.company_full ?? "");
     TypeController.text = dropdownReasonList[0]['label'];
     super.didChangeDependencies();
   }

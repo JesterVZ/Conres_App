@@ -45,6 +45,7 @@ class _ProfilePage extends State<ProfilePageTest> {
   @override
   Widget build(BuildContext context) {
     double bottomButtonWidth = MediaQuery.of(context).size.width;
+    double size = bottomButtonWidth * 0.045;
     return BlocScreen<AuthBloc, AuthState>(
         bloc: authBloc,
         listener: (context, state) => _listener(context, state),
@@ -64,8 +65,9 @@ class _ProfilePage extends State<ProfilePageTest> {
                           child: Column(
                             children: [
                               Visibility(
+                                
                                   visible: (profile != null &&
-                                      profile!.personal != null)
+                                      profile!.personal != "")
                                       ? true
                                       : false,
                                   child: Container(
@@ -120,10 +122,10 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                               ? profile!
                                                               .personal!
                                                               : "Заключите договор",
-                                                          style: const TextStyle(
+                                                          style: TextStyle(
                                                               color: Colors
                                                                   .white,
-                                                              fontSize: 18))
+                                                              fontSize: size))
                                                     ],
                                                   ),
                                                   const Spacer(),
@@ -154,12 +156,12 @@ class _ProfilePage extends State<ProfilePageTest> {
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
+                                    boxShadow: const [
                                       BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
+                                        color: Color(0xFFD4D9E6),
                                         spreadRadius: 5,
-                                        blurRadius: 7,
-                                        offset: Offset(0, 3),
+                                        blurRadius: 16,
+                                        offset: Offset(0, 8),
                                       )
                                     ]),
                                 child: Padding(
@@ -174,9 +176,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                       children: [
-                                        Row(
-                                          children: [
-                                            Container(
+                                        Container(
                                                 margin:
                                                 const EdgeInsets.fromLTRB(
                                                     0, 0, 0, 16),
@@ -200,28 +200,12 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                             ? profile!.inn!
                                                             : "",
                                                         style:
-                                                        const TextStyle(
+                                                        TextStyle(
                                                           color: Colors.black,
-                                                          fontSize: 18,
+                                                          fontSize: size,
                                                         ))
                                                   ],
                                                 )),
-                                            Spacer(),
-                                            Container(
-                                              width: 40,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: colorGray,
-                                              ),
-                                              child: Padding(
-                                                padding: EdgeInsets.all(10),
-                                                child: SvgPicture.asset(
-                                                    "assets/profile-ls.svg"),
-                                              ),
-                                            )
-                                          ],
-                                        ),
                                         Container(
                                             margin: const EdgeInsets.fromLTRB(
                                                 0, 0, 0, 16),
@@ -240,17 +224,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                       fontSize: 15,
                                                     )),
                                                 isLoading == true ? Skeleton() :
-                                                Text(
-                                                    (profile != null)
-                                                        ? profile!.personal ==
-                                                        null
-                                                        ? needDogovor
-                                                        : profile!
-                                                        .personal!
-                                                        : "",
-                                                    style: const TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 18))
+                                                profile!.personal != "" ? Text(profile!.personal ?? "", style: TextStyle(fontSize: size),) : InkWell(onTap: (){}, child: Text("Вам нужно заключить договор", style: TextStyle(color: colorMain, fontSize: size)))
                                               ],
                                             )),
                                         Container(
@@ -274,9 +248,9 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                             null)
                                                         ? profile!.email!
                                                         : "",
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
                                                         color: Colors.black,
-                                                        fontSize: 18))
+                                                        fontSize: size))
                                               ],
                                             )),
                                         Container(
@@ -297,16 +271,18 @@ class _ProfilePage extends State<ProfilePageTest> {
                                                 Text(
                                                     (profile != null &&
                                                         profile!.address !=
-                                                            null)
+                                                            "")
                                                         ? profile!.address!
-                                                        : "",
-                                                    style: const TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 18))
+                                                        : "Отсутствует",
+                                                    style: TextStyle(
+                                                        color: profile!.address != ""  ?Colors.black : profileLabelColor,
+                                                        fontSize: size))
                                               ],
                                             ))
                                       ],
                                     )),
+                                  
+                                
                               ),
                               //const Spacer(),
 
@@ -378,7 +354,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: bottomButtonWidth * 0.05,
+                                      fontSize: size,
                                       fontFamily:
                                       'Bubicon-Medium'),
                                 ))),

@@ -45,7 +45,7 @@ class _ObjectPU extends State<ObjectPU> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Colors.white,
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   color: Color(0xFFD4D9E6),
                   spreadRadius: 5,

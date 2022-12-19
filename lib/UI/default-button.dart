@@ -4,26 +4,33 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../consts.dart';
 
 class DefaultButton extends StatefulWidget {
-  String text;
+  String? text;
   bool? isGetPadding;
   Color? backgroundColor;
   Color? textColor;
   VoidCallback? onPressed;
   EdgeInsetsGeometry? margin;
+  EdgeInsetsGeometry? padding;
 
   double? width;
   double? height;
   double? fontSize;
 
+  ///Дочерний виджет
+  ///Может быть чем угодно
+  Widget? child;
+
   DefaultButton(
       {Key? key,
-      required this.text,
+      this.text,
       required this.onPressed,
       this.margin,
       this.width,
       this.height,
       this.textColor,
       this.fontSize,
+      this.child,
+      this.padding,
       this.backgroundColor,
       required this.isGetPadding})
       : assert(isGetPadding != null),
@@ -39,7 +46,7 @@ class _DefaultButton extends State<DefaultButton> {
     return Container(
       padding: widget.isGetPadding == true
           ? EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding)
-          : const EdgeInsets.only(left: 0, right: 0),
+          : widget.padding ?? const EdgeInsets.only(left: 0, right: 0),
       width: widget.width ?? MediaQuery.of(context).size.width,
       margin: widget.margin,
       constraints: BoxConstraints(
@@ -48,8 +55,8 @@ class _DefaultButton extends State<DefaultButton> {
       height: 55,
       child: ElevatedButton(
         onPressed: widget.onPressed,
-        child: Text(
-          widget.text,
+        child: widget.child ?? Text(
+          widget.text ?? "",
           style: TextStyle(
               fontSize: widget.fontSize ?? bottomButtonWidth * 0.045,
               color: widget.textColor ?? Colors.white),

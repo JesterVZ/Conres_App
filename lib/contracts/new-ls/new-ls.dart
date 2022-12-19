@@ -54,22 +54,16 @@ class _NewLS extends State<NewLS> {
                       key: _formKey,
                       child: Column(
                         children: [
-                          Container(
-                              margin: EdgeInsets.fromLTRB(0, 0, 0, 12),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(numberLS, style: labelTextStyle),
-                                  MaskInput(
-                                    formatter: MaskTextInputFormatter(
+                          DefaultInput(
+                              labelText: "Номер лицевого счёта",
+                              hintText: "000000000",
+                              regExp: r'[0-9]{9}$',
+                              validatorText: "Введите номер лицевого счета",
+                              textInputFormatter: MaskTextInputFormatter(
                                         mask: "#########"),
-                                    textController: lsController,
-                                    type: "ls",
-                                    hint: "000000000",
-                                  )
-                                ],
-                              )),
+                              
+                              keyboardType: TextInputType.text,
+                              controller: lsController),
                           DefaultInput(
                               labelText: "Адрес объекта",
                               hintText: "Город, Улица, Дом, Квартира",

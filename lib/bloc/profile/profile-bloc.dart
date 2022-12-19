@@ -756,7 +756,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       yield state.copyWith(loading: true, error: null);
       var result = await repo.editUserInfo(event.edutUserinfoService);
-      yield state.copyWith(loading: false, error: null);
+      yield state.copyWith(loading: false, error: null, editUserInfoData: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }

@@ -44,65 +44,41 @@ class _NewClaimStep4 extends State<NewClaimStep4> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    Container(
-                      margin: EdgeInsets.only(bottom: 24),
-                      child: DefaultInput(
-                          controller: controllerList[0],
-                          keyboardType: TextInputType.number,
-                          labelText:
-                              "Заявляемый характер нагрузки и наличие нагрузок, искажающих форму кривой электрического тока и вызывающих несимметрию напряжения в точках присоединения",
-                          hintText: "",
-                          validatorText: "Введите характер нагрузки"),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 24),
-                      child: DefaultInput(
-                          controller: controllerList[1],
-                          keyboardType: TextInputType.number,
-                          labelText:
-                              "Величина и обоснование величины технологического минимума",
-                          hintText: "",
-                          validatorText: "Введите величину"),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 24),
-                      child: DefaultInput(
-                          controller: controllerList[2],
-                          keyboardType: TextInputType.number,
-                          labelText:
-                              "Необходимость наличия технологической и (или) аварийной брони",
-                          hintText: "",
-                          validatorText: "Введите причину"),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 24),
-                      child: DefaultInput(
-                          controller: controllerList[3],
-                          keyboardType: TextInputType.number,
-                          labelText:
-                              "Величина и обоснование технологической и аварийной брони",
-                          hintText: "",
-                          validatorText: "Введите величину"),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 24),
-                      child: DefaultInput(
-                          controller: controllerList[4],
-                          keyboardType: TextInputType.number,
-                          labelText:
-                              "Количество и мощность присоединяемых к сети трансформаторов",
-                          hintText: "",
-                          validatorText: "Введите количество"),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 24),
-                      child: DefaultInput(
-                          controller: controllerList[5],
-                          keyboardType: TextInputType.number,
-                          labelText: "Количество и мощность генераторов",
-                          hintText: "",
-                          validatorText: "Введите количество"),
-                    ),
+                    DefaultInput(
+                        controller: controllerList[0],
+                        keyboardType: TextInputType.number,
+                        labelText:
+                            "Заявляемый характер нагрузки и наличие нагрузок, искажающих форму кривой электрического тока и вызывающих несимметрию напряжения в точках присоединения",
+                        hintText: ""),
+                    DefaultInput(
+                        controller: controllerList[1],
+                        keyboardType: TextInputType.number,
+                        labelText:
+                            "Величина и обоснование величины технологического минимума",
+                        hintText: ""),
+                    DefaultInput(
+                        controller: controllerList[2],
+                        keyboardType: TextInputType.number,
+                        labelText:
+                            "Необходимость наличия технологической и (или) аварийной брони",
+                        hintText: ""),
+                    DefaultInput(
+                        controller: controllerList[3],
+                        keyboardType: TextInputType.number,
+                        labelText:
+                            "Величина и обоснование технологической и аварийной брони",
+                        hintText: ""),
+                    DefaultInput(
+                        controller: controllerList[4],
+                        keyboardType: TextInputType.number,
+                        labelText:
+                            "Количество и мощность присоединяемых к сети трансформаторов",
+                        hintText: ""),
+                    DefaultInput(
+                        controller: controllerList[5],
+                        keyboardType: TextInputType.number,
+                        labelText: "Количество и мощность генераторов",
+                        hintText: ""),
                     DefaultButton(
                       text: "Далее",
                       onPressed: () {

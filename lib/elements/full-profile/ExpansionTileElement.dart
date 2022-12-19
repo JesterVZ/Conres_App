@@ -24,14 +24,13 @@ class ExpansionTileElementState extends State<ExpansionTileElement> {
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 3),
-            ),
-          ]),
+          boxShadow: const [
+                                      BoxShadow(
+                                        color: Color(0xFFD4D9E6),
+                                        spreadRadius: 5,
+                                        blurRadius: 16,
+                                        offset: Offset(0, 8),
+                                      )]),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

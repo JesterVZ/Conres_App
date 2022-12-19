@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:conres_app/DI/dependency-provider.dart';
 import 'package:conres_app/DI/locator.dart';
+import 'package:conres_app/profile/full-profile-page.dart';
 import 'package:conres_app/select-store/select-store.dart';
 import 'package:flutter/material.dart';
 import 'consts.dart';
@@ -48,6 +49,7 @@ class _MyApp extends State<MyApp> {
       title: 'Контроль ресурсов',
       routes: {
         '/logout': (context) => LoginPage(),
+        '/user_info':(context) => FullProfile(),
       },
       theme: ThemeData(
           primarySwatch: Colors.blue,

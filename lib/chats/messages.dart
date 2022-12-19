@@ -253,9 +253,7 @@ class _MessagesPage extends State<MessagesPage> {
                                   children: [
                                     GestureDetector(
                                         onTap: () {
-                                          //_loadImage();
-                                          //_openDialog();
-                                          _openPicker();
+                                          _loadImage();
                                         },
                                         child: SvgPicture.asset(
                                             'assets/clip.svg')),

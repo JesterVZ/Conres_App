@@ -28,7 +28,7 @@ class _ContactTab extends State<ContactTab> {
 
   bool isEdit = false;
 
-  TextEditingController numberController = TextEditingController();
+  List<TextEditingController> numberController = [];
 
   List<GlobalKey<ColtactColtrolsState>> keys = [];
 
@@ -47,9 +47,11 @@ class _ContactTab extends State<ContactTab> {
                     String phoneString = profileService!.userInformation!
                             .user_info_contacts![i].value_contact ??
                         "";
+                    
                     String type = profileService!.userInformation!.user_info_contacts![i].contact_type_group_id ?? "";
                     return Padding(padding: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding), child: ExpansionTileElement(
-                      header: Column(
+                      header: 
+                      Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(type == "1" ? "Номер телефона" : type == "2" ? "Email-адрес" : type == "3" ? "Мессенджер" : "", style: labelTextStyle),
@@ -63,11 +65,12 @@ class _ContactTab extends State<ContactTab> {
                                     style: TextStyle(fontSize: 18))),
                             Visibility(
                                 visible: (contactsMap.values.elementAt(i).isEdit == true ) ? true : false,
-                                child: TextFormField(
-                                  controller: numberController,
+                                child: 
+                                TextFormField(
+                                  controller: numberController[i],
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return "Введите конакт";
+                                      return "Введите телефон";
                                     }
                                     return null;
                                   },
@@ -151,6 +154,10 @@ class _ContactTab extends State<ContactTab> {
     });
   }
 
+  void sendData(){
+    
+  }
+
   void addPhones() {
 
     contactsMap = {
@@ -165,8 +172,10 @@ class _ContactTab extends State<ContactTab> {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     profileService ??= DependencyProvider.of(context)!.profileService;
     keys = List.generate(profileService!.userInformation!.user_info_contacts!.length, (index) => GlobalKey<ColtactColtrolsState>());
+    
     edutUserinfoService ??= DependencyProvider.of(context)!.edutUserinfoService;
     addPhones();
+    numberController = List<TextEditingController>.generate(contactsMap.length, (index) => TextEditingController());
     super.didChangeDependencies();
   }
 }

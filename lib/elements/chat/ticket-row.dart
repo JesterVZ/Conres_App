@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/elements/chat/status.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,14 +37,13 @@ class _TicketRow extends State<TicketRow> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(11),
             color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 3,
-                blurRadius: 4,
-                offset: Offset(0, 2),
-              )
-            ]),
+            boxShadow: const [
+                                      BoxShadow(
+                                        color: Color(0xFFD4D9E6),
+                                        spreadRadius: 5,
+                                        blurRadius: 16,
+                                        offset: Offset(0, 8),
+                                      )]),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,21 +109,16 @@ class _TicketRow extends State<TicketRow> {
                 ],
               ),
             ),
-            Container(
-              padding: EdgeInsets.all(17),
-              child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 55,
-                  child: ElevatedButton(
-                      onPressed: () {
+            DefaultButton(
+              padding: EdgeInsets.all(19),
+              margin: EdgeInsets.only(top: 19, bottom: 19),
+              onPressed: () {
                         widget.openChat!.call(widget.ticket);
-                      },
-                      child: Text("Открыть обращение", style: TextStyle(fontSize: bottomButtonWidth * 0.05)),
-                      style: ElevatedButton.styleFrom(
-                          primary: colorMain,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8))))),
-            )
+                      }, 
+              isGetPadding: true,
+              text: "Открыть обращение",
+              backgroundColor: messageColor,
+              textColor: colorMain,)
           ],
         ),
       ),
