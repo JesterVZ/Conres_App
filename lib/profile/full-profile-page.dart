@@ -91,11 +91,13 @@ class _FullProfile extends State<FullProfile>
       edutUserinfoService!.legal_address = state.userInformation!.legal_address;
       edutUserinfoService!.fact_address = state.userInformation!.fact_address;
       edutUserinfoService!.snins = state.userInformation!.snils;
-
-      for(int i = 0; i < profileService!.userInformation!.user_info_contacts!.length; i++){
+      if(edutUserinfoService!.phones!.isEmpty){
+        for(int i = 0; i < profileService!.userInformation!.user_info_contacts!.length; i++){
           edutUserinfoService!.phones!
               .add(profileService!.userInformation!.user_info_contacts![i]);
       }
+      }
+      
 
       
     }

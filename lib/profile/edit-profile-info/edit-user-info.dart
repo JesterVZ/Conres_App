@@ -289,6 +289,7 @@ SingleChildScrollView(
     }
 
     if(state.editUserInfoData != null){
+      
       AwesomeDialog(
         context: context,
         dialogType: DialogType.success,
