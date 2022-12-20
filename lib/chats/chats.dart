@@ -36,11 +36,12 @@ class _Chats extends State<Chats> {
   String? userId;
   int page = 1;
   bool isLoaded = false;
+  bool isLoadingChats = false;
   bool isLoading = true;
 
   @override
   void initState() {
-    scrollController.addListener(_pagination);
+    //scrollController.addListener(_pagination);
     super.initState();
   }
 
@@ -67,6 +68,7 @@ class _Chats extends State<Chats> {
               body: Stack(
                 children: [
                   ListView.builder(
+                    controller: scrollController,
                       itemCount: ticketsMap.length,
                       itemBuilder: (context, int index) {
                         return TicketRow(
@@ -82,7 +84,7 @@ class _Chats extends State<Chats> {
                     child: NotFound(
                         title: "Обращения",
                         text:
-                            "У вас возникли вопросы или появилась проблема?Создайте обращение и мы ответим вам в ближайщее время."),
+                            "У вас возникли вопросы или появилась проблема? Создайте обращение и мы ответим вам в ближайщее время."),
                   ),
                   Visibility(
                       child: Center(
@@ -91,7 +93,7 @@ class _Chats extends State<Chats> {
                         height: 50,
                         child: CircularProgressIndicator(color: colorMain),
                       )),
-                      visible: (isLoading == true) ? true : false)
+                      visible: (isLoading == true && isLoadingChats == true) ? true : false)
                 ],
               ),
               footer: DefaultButton(
@@ -114,6 +116,7 @@ class _Chats extends State<Chats> {
       isLoading = true;
       return;
     } else {
+      isLoadingChats = false;
       isLoading = false;
     }
     if (state.fullInfo != null) {
@@ -122,6 +125,7 @@ class _Chats extends State<Chats> {
     if (state.tickets != null && state.tickets!.isNotEmpty) {
       ticketsMap = {for (var e in state.tickets!) e.ticket_id!: e};
 
+    /*
       if (tickets.isEmpty ||
           (tickets.first.ticket_id != state.tickets!.first.ticket_id &&
               (int.parse(state.page!) == page) &&
@@ -133,10 +137,11 @@ class _Chats extends State<Chats> {
       if ((int.parse(state.page!) == page) && page > 1) {
         tickets = tickets + state.tickets!;
         ticketsMap = {for (var e in tickets) e.ticket_id!: e};
-      }
+      }*/
     }
   }
 
+  /*
   void _pagination() {
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
@@ -145,9 +150,9 @@ class _Chats extends State<Chats> {
         profileBloc!.getTickets(page.toString());
       });
     }
-  }
+  }*/
 
-  void updateStatus(String ticket_id, String status) {
+  void updateStatus(String ticket_id, String status){
     Ticket newTicket = ticketsMap[ticket_id];
     newTicket.cur_status!.name = status;
     setState(() {
@@ -178,5 +183,6 @@ class _Chats extends State<Chats> {
     updateTicketService!.update = updateStatus;
     profileBloc!.getAllInfo();
     profileBloc!.getTickets(page.toString());
+    isLoadingChats = true;
   }
 }

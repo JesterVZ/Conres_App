@@ -538,3 +538,70 @@ class TuEdited {
     return data;
   }
 }
+
+class UserInfoEdit {
+  List<UserEditInfo>? userEditInfo;
+  String? userLkId;
+  String? userFio;
+
+  UserInfoEdit({this.userEditInfo, this.userLkId, this.userFio});
+
+  UserInfoEdit.fromJson(Map<String, dynamic> json) {
+    if (json['user_edit_info'] != null) {
+      userEditInfo = <UserEditInfo>[];
+      json['user_edit_info'].forEach((v) {
+        userEditInfo!.add(new UserEditInfo.fromJson(v));
+      });
+    }
+    userLkId = json['user_lk_id'];
+    userFio = json['user_fio'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.userEditInfo != null) {
+      data['user_edit_info'] =
+          this.userEditInfo!.map((v) => v.toJson()).toList();
+    }
+    data['user_lk_id'] = this.userLkId;
+    data['user_fio'] = this.userFio;
+    return data;
+  }
+}
+
+class UserEditInfo {
+  String? uidField;
+  String? value;
+  int? requestId;
+  String? dateAdded;
+  String? valueCurrent;
+  String? uidFieldName;
+
+  UserEditInfo(
+      {this.uidField,
+      this.value,
+      this.requestId,
+      this.dateAdded,
+      this.valueCurrent,
+      this.uidFieldName});
+
+  UserEditInfo.fromJson(Map<String, dynamic> json) {
+    uidField = json['uid_field'];
+    value = json['value'];
+    requestId = json['request_id'];
+    dateAdded = json['date_added'];
+    valueCurrent = json['value_current'];
+    uidFieldName = json['uid_field_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['uid_field'] = this.uidField;
+    data['value'] = this.value;
+    data['request_id'] = this.requestId;
+    data['date_added'] = this.dateAdded;
+    data['value_current'] = this.valueCurrent;
+    data['uid_field_name'] = this.uidFieldName;
+    return data;
+  }
+}

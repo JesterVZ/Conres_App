@@ -1,5 +1,7 @@
 import 'package:conres_app/model/login_service.dart';
 
+import 'edit-request.dart';
+
 class UserInformation{
   String? store_id;
   String? user_lk_id;
@@ -24,6 +26,7 @@ class UserInformation{
   String? snils;
   String? user_lk_group_id;
   List<Contact>? user_info_contacts;
+  List<EditRequestModel>? requests;
   
   //List<LoginService>? login_service;
 
@@ -48,6 +51,7 @@ class UserInformation{
     this.company_short,
     this.kpp,
     this.snils,
+    this.requests,
     this.user_info_contacts,
     //this.login_service,
     this.ogrn,

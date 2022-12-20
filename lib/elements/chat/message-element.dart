@@ -43,7 +43,9 @@ class MessageElement extends StatelessWidget {
     return Align(
         alignment:
             message.isOwn! ? Alignment.centerRight : Alignment.centerLeft,
-        child: Container(
+        child: Row(
+          children: [
+            Container(
           decoration: BoxDecoration(
               borderRadius: message.isOwn!
                   ? const BorderRadius.only(
@@ -76,6 +78,9 @@ class MessageElement extends StatelessWidget {
                 style: TextStyle(
                     color: message.isOwn! ? Colors.white : Colors.grey))
           ]),
-        ));
+        )
+          ],
+        )
+        );
   }
 }

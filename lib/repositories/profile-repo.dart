@@ -46,7 +46,7 @@ class ProfileRepo {
   }
 
   Future<dynamic> getTickets(String page) async {
-    var result = await httpClient.getTickets(page);
+    var result = await httpClient.getTotalTickets();
     return result;
   }
 

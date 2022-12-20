@@ -23,6 +23,7 @@ import 'Services/base-claim-send-service.dart';
 import 'consts.dart';
 import 'model/TU.dart';
 import 'model/contract.dart';
+import 'model/edit-request.dart';
 import 'model/meter.dart';
 import 'model/model.dart';
 import 'model/result-data.dart';
@@ -369,6 +370,18 @@ class HttpClient {
     }
   }
 
+  Future<Object?> getTotalTickets() async{
+    String uri = domain + 'lk/index.php?route=catalog/ticket/api_getTotalTickets';
+    final result = await _apiClient.post(uri);
+    if (result.statusCode == 200) {
+        List<Ticket> tickets = [];
+        for (int i = 0; i < result.data['data']['tickets'].length; i++) {
+          tickets.add(Ticket.fromMap(result.data['data']['tickets'][i]));
+        }
+        return tickets;
+      }
+  }
+
   Future<Object?>? getTickets(String page) async {
     String uri = domain + 'lk/index.php?route=catalog/ticket/api_getTickets';
     try {
@@ -382,7 +395,7 @@ class HttpClient {
         return tickets;
       }
     } catch (e) {
-      return e;
+      rethrow;
     }
   }
 
@@ -579,11 +592,15 @@ class HttpClient {
       UserInformation userInformation =
           UserInformation.fromMap(result.data['data']);
       userInformation.user_info_contacts = [];
+      userInformation.requests = [];
       for (int i = 0;
           i < result.data['data']['user_info_contacts'].length;
           i++) {
         userInformation.user_info_contacts!
             .add(Contact.fromMap(result.data['data']['user_info_contacts'][i]));
+      }
+      for(int i = 0; i < result.data['data']['requests'].length; i++){
+        userInformation.requests!.add(EditRequestModel.fromJson(result.data['data']['requests'][i]));
       }
       return userInformation;
     } else {
@@ -1204,7 +1221,6 @@ class HttpClient {
       }
       formDataMap.addEntries(object.entries);
     }
-
     var formdata = FormData.fromMap(formDataMap);
     final result = await _apiClient.post(uri, data: formdata);
     if (result.statusCode == 200) {

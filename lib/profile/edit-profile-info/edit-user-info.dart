@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/UI/main-form.dart';
@@ -5,6 +7,7 @@ import 'package:conres_app/elements/bloc/bloc-screen.dart';
 import 'package:conres_app/elements/header/header-notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../DI/dependency-provider.dart';
 import '../../Services/edit-userinfo-service.dart';
@@ -13,6 +16,7 @@ import '../../UI/default-input.dart';
 import '../../bloc/profile/profile-bloc.dart';
 import '../../bloc/profile/profile-state.dart';
 import '../../consts.dart';
+import '../../websocket/message-send.dart';
 
 class EditUserInfoPage extends StatefulWidget {
   @override
@@ -21,6 +25,7 @@ class EditUserInfoPage extends StatefulWidget {
 
 class _EditUserInfoPage extends State<EditUserInfoPage> {
   ProfileBloc? profileBloc;
+  WebSocketChannel? webSocketChannel;
   EdutUserinfoService? edutUserinfoService;
   TextEditingController familyController = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -43,6 +48,18 @@ class _EditUserInfoPage extends State<EditUserInfoPage> {
   final _formKey = GlobalKey<FormState>();
 
   bool isLoading = false;
+
+  List<EditRequest> familyRequests = [];
+  List<EditRequest> nameRequests = [];
+  List<EditRequest> patronymicRequests = [];
+
+  List<EditRequest> fullNameRequests = [];
+  List<EditRequest> shortNameRequests = [];
+
+  List<EditRequest> innRequests = [];
+  List<EditRequest> kppRequests = [];
+  List<EditRequest> ogrnRequests = [];
+  List<EditRequest> snilsRequests = [];
 
   Future<void> _refrash() async {}
   @override
@@ -75,141 +92,178 @@ SingleChildScrollView(
                                         profileService!.userType == "ip")
                                     ? true
                                     : false,
-                              child: Container(
-                                margin: EdgeInsets.only(bottom: 15),
-                                child: DefaultInput(
-                                    labelText: "Фамилия",
-                                    hintText: "Фамилия",
-                                    validatorText: "Введите фамилию",
-                                    keyboardType: TextInputType.text,
-                                    controller: familyController))),
+                              child: Column(
+                                children: [
+                                  DefaultInput(
+                                      labelText: "Фамилия",
+                                      hintText: "Фамилия",
+                                      validatorText: "Введите фамилию",
+                                      keyboardType: TextInputType.text,
+                                      controller: familyController),
+                                  Column(
+                                    children: familyRequests,
+                                  )
+                                ],
+                              )),
                             Visibility(
                               visible: (profileService!.userType == "fl" ||
                                         profileService!.userType == "ip")
                                     ? true
                                     : false,
-                              child: Container(
-                                margin: EdgeInsets.only(bottom: 15),
-                                child: DefaultInput(
-                                    labelText: "Имя",
-                                    hintText: "Имя",
-                                    validatorText: "Введите имя",
-                                    keyboardType: TextInputType.text,
-                                    controller: nameController)),),
+                              child: Column(
+                                children: [
+                                  DefaultInput(
+                                      labelText: "Имя",
+                                      hintText: "Имя",
+                                      validatorText: "Введите имя",
+                                      keyboardType: TextInputType.text,
+                                      controller: nameController),
+                                  Column(
+                                    children: nameRequests,
+                                  )
+                                ],
+                              ),),
                             Visibility(
                               visible: (profileService!.userType == "fl" ||
                                         profileService!.userType == "ip")
                                     ? true
                                     : false,
-                              child: Container(
-                                margin: EdgeInsets.only(bottom: 15),
-                                child: DefaultInput(
-                                    labelText: "Отчество",
-                                    hintText: "Отчество",
-                                    validatorText: "Введите отчество",
-                                    keyboardType: TextInputType.text,
-                                    controller: patronymicController)),
+                              child: Column(
+                                children: [
+                                  DefaultInput(
+                                      labelText: "Отчество",
+                                      hintText: "Отчество",
+                                      validatorText: "Введите отчество",
+                                      keyboardType: TextInputType.text,
+                                      controller: patronymicController),
+                                  Column(
+                                    children: patronymicRequests,
+                                  )
+                                ],
+                              ),
                             ),
                             Visibility(
                               visible: (profileService!.userType == "ul")
                                     ? true
                                     : false,
-                              child: Container(
-                                margin: EdgeInsets.only(bottom: 15),
-                                child: DefaultInput(
-                                    labelText: "Полное название организации",
-                                    hintText: "Полное название организации",
-                                    validatorText: "Введите полное название организации",
-                                    keyboardType: TextInputType.text,
-                                    controller: companyFullController)),
+                              child: Column(
+                                children: [
+                                  DefaultInput(
+                                      labelText: "Полное название организации",
+                                      hintText: "Полное название организации",
+                                      validatorText: "Введите полное название организации",
+                                      keyboardType: TextInputType.text,
+                                      controller: companyFullController),
+                                  Column(
+                                    children: fullNameRequests,
+                                  )
+                                ],
+                              ),
                             ),
                             Visibility(
                               visible: (profileService!.userType == "ul")
                                     ? true
                                     : false,
-                              child: Container(
-                                margin: EdgeInsets.only(bottom: 15),
-                                child: DefaultInput(
-                                    labelText: "Сокращенное название организации",
-                                    hintText: "Полное название организации",
-                                    validatorText: "Введите сокращенное название организации",
-                                    keyboardType: TextInputType.text,
-                                    controller: companyShortController)),
+                              child: Column(
+                                children: [
+                                  DefaultInput(
+                                      labelText: "Сокращенное название организации",
+                                      hintText: "Полное название организации",
+                                      validatorText: "Введите сокращенное название организации",
+                                      keyboardType: TextInputType.text,
+                                      controller: companyShortController),
+                                  Column(
+                                    children: shortNameRequests,
+                                  )
+                                ],
+                              ),
                             ),
                             
-                            Container(
-                                margin: EdgeInsets.only(bottom: 15),
-                                child: DefaultInput(
+                            Column(
+                              children: [
+                                DefaultInput(
                                     labelText: "ИНН",
                                     hintText: "ИНН",
                                     keyboardType: TextInputType.text,
-                                    controller: innController)),
+                                    controller: innController),
+                                Column(
+                                    children: innRequests,
+                                  )
+                              ],
+                            ),
                             
                             Visibility(
                               visible: profileService!.userType == "ul"
                                     ? true
                                     : false,
-                              child: Container(
-                                margin: EdgeInsets.only(bottom: 25),
-                                child: DefaultInput(
-                                    labelText: "КПП",
-                                    hintText: "КПП",
-                                    keyboardType: TextInputType.text,
-                                    controller: kppController))),
+                              child: Column(
+                                children: [
+                                  DefaultInput(
+                                      labelText: "КПП",
+                                      hintText: "КПП",
+                                      keyboardType: TextInputType.text,
+                                      controller: kppController),
+                                  Column(
+                                    children: kppRequests,
+                                  )
+                                ],
+                              )),
                             Visibility(
                               visible: profileService!.userType == "ip" ||
                                         profileService!.userType == "ul"
                                     ? true
                                     : false,
-                              child: Container(
-                                margin: EdgeInsets.only(bottom: 25),
-                                child: DefaultInput(
-                                    labelText:  profileService!.userType == "ip" ? "ОГРНИП" : "ОГРН",
-                                    hintText:  profileService!.userType == "ip" ? "ОГРНИП" : "ОГРН",
-                                    keyboardType: TextInputType.text,
-                                    controller: ogrnController))),
+                              child: Column(
+                                children: [
+                                  DefaultInput(
+                                      labelText:  profileService!.userType == "ip" ? "ОГРНИП" : "ОГРН",
+                                      hintText:  profileService!.userType == "ip" ? "ОГРНИП" : "ОГРН",
+                                      keyboardType: TextInputType.text,
+                                      controller: ogrnController),
+                                  Column(
+                                    children: ogrnRequests,
+                                  )
+                                ],
+                              )),
                             Visibility(
                               visible: profileService!.userType == "fl"
                                     ? true
                                     : false,
-                              child: Container(
-                                margin: EdgeInsets.only(bottom: 25),
-                                child: DefaultInput(
-                                    labelText: "СНИЛС",
-                                    hintText: "СНИЛС",
-                                    keyboardType: TextInputType.text,
-                                    controller: snilsController))),
+                              child: Column(
+                                children: [
+                                  DefaultInput(
+                                      labelText: "СНИЛС",
+                                      hintText: "СНИЛС",
+                                      keyboardType: TextInputType.text,
+                                      controller: snilsController),
+                                  Column(
+                                    children: snilsRequests,
+                                  )
+                                ],
+                              )),
                             
-                            Container(
-                                margin: EdgeInsets.only(bottom: 25),
-                                child: DefaultInput(
-                                    labelText: "Юридический адрес",
-                                    hintText: "Юридический адрес",
-                                    keyboardType: TextInputType.text,
-                                    controller: urAddressController)),
-                            Container(
-                                margin: EdgeInsets.only(bottom: 25),
-                                child: DefaultInput(
-                                    labelText: "Фактический адрес",
-                                    hintText: "Юридический адрес",
-                                    keyboardType: TextInputType.text,
-                                    controller: factAddressController)),
-                            Container(
-                                margin: EdgeInsets.only(bottom: 15),
-                                child: DefaultInput(
-                                    labelText: "Пароль",
-                                    hintText: "**********",
-                                    keyboardType: TextInputType.text,
-                                    obscureText: true,
-                                    controller: passwordController)),
-                            Container(
-                                margin: EdgeInsets.only(bottom: 15),
-                                child: DefaultInput(
-                                    labelText: "Пароль",
-                                    hintText: "**********",
-                                    keyboardType: TextInputType.text,
-                                    obscureText: true,
-                                    controller: confirmpasswordController)),
+                            DefaultInput(
+                                labelText: "Юридический адрес",
+                                hintText: "Юридический адрес",
+                                keyboardType: TextInputType.text,
+                                controller: urAddressController),
+                            DefaultInput(
+                                labelText: "Фактический адрес",
+                                hintText: "Юридический адрес",
+                                keyboardType: TextInputType.text,
+                                controller: factAddressController),
+                            DefaultInput(
+                                labelText: "Пароль",
+                                hintText: "**********",
+                                keyboardType: TextInputType.text,
+                                obscureText: true,
+                                controller: passwordController),
+                            DefaultInput(
+                                labelText: "Пароль",
+                                hintText: "**********",
+                                keyboardType: TextInputType.text,
+                                obscureText: true,
+                                controller: confirmpasswordController),
                             DefaultButton(
                               text: "Внести изменения",
                               isGetPadding: false,
@@ -289,6 +343,23 @@ SingleChildScrollView(
     }
 
     if(state.editUserInfoData != null){
+      List<UserEditInfo> fields = [];
+      for(int i = 0; i < state.editUserInfoData!['user_edit_info'].length; i++){
+        fields.add(UserEditInfo.fromJson(state.editUserInfoData!['user_edit_info'][i]));
+      }
+      dynamic message = MessageSend(
+        cmd: "publish",
+        subject: "store-${store_id}",
+        event: "user_info_new",
+        data: UserInfoEdit(
+          userLkId: state.editUserInfoData!['user_lk_id'],
+          userFio: state.editUserInfoData!['user_fio'],
+          userEditInfo: fields
+        ),
+        to_id: int.parse(user_id!) 
+      );
+      String data = jsonEncode(message.toJson());
+      webSocketChannel!.sink.add(data);
       
       AwesomeDialog(
         context: context,
@@ -321,6 +392,7 @@ SingleChildScrollView(
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
     profileService ??= DependencyProvider.of(context)!.profileService;
+    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel(false);
     edutUserinfoService ??= DependencyProvider.of(context)!.edutUserinfoService;
     familyController.text = profileService!.userInformation!.lastname!;
     nameController.text = profileService!.userInformation!.firstname!;
@@ -335,6 +407,23 @@ SingleChildScrollView(
     
     urAddressController.text = profileService!.userInformation!.legal_address!;
     factAddressController.text = profileService!.userInformation!.fact_address!;
+
+    for(int i = 0; i < profileService!.userInformation!.requests!.length; i++){
+      String fieldname = profileService!.userInformation!.requests![i].uidField ?? "";
+      switch (fieldname){
+        case  "lastname":
+          familyRequests.add(value)
+      }
+    }
     super.didChangeDependencies();
+  }
+}
+
+
+class EditRequest extends StatelessWidget{
+  String text;
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

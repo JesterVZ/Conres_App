@@ -318,7 +318,9 @@ class _MessagesPage extends State<MessagesPage> {
                           )),
                           visible: (isLoadingMessages == true) ? true : false)
                     ],
-                  ));
+                  ),
+                  );
+              
             }));
   }
 
