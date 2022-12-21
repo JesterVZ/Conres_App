@@ -410,11 +410,14 @@ SingleChildScrollView(
 
     for(int i = 0; i < profileService!.userInformation!.requests!.length; i++){
       String fieldname = profileService!.userInformation!.requests![i].uidField ?? "";
+      /*
       switch (fieldname){
         case  "lastname":
-          familyRequests.add(value)
+          familyRequests.add(EditRequest(text: ,))
       }
+      */
     }
+     familyRequests.add(EditRequest(text: "test",));
     super.didChangeDependencies();
   }
 }
@@ -422,8 +425,15 @@ SingleChildScrollView(
 
 class EditRequest extends StatelessWidget{
   String text;
+  EditRequest({Key? key, required this.text}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: yellowColor
+      ),
+      child: Center(child: Text(text, style: TextStyle(color: Colors.white),)),
+    );
   }
 }

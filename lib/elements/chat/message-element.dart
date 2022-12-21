@@ -43,43 +43,39 @@ class MessageElement extends StatelessWidget {
     return Align(
         alignment:
             message.isOwn! ? Alignment.centerRight : Alignment.centerLeft,
-        child: Row(
-          children: [
-            Container(
+        child: Container(
           decoration: BoxDecoration(
-              borderRadius: message.isOwn!
-                  ? const BorderRadius.only(
-                      topRight: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                      topLeft: Radius.circular(8))
-                  : const BorderRadius.only(
-                      topRight: Radius.circular(8),
-                      bottomRight: Radius.circular(8),
-                      topLeft: Radius.circular(8)),
-              color: message.isOwn! ? colorMain : messageColor),
+          borderRadius: message.isOwn!
+              ? const BorderRadius.only(
+                  topRight: Radius.circular(8),
+                  bottomLeft: Radius.circular(8),
+                  topLeft: Radius.circular(8))
+              : const BorderRadius.only(
+                  topRight: Radius.circular(8),
+                  bottomRight: Radius.circular(8),
+                  topLeft: Radius.circular(8)),
+          color: message.isOwn! ? colorMain : messageColor),
           margin: const EdgeInsets.all(10),
           padding: const EdgeInsets.all(10),
           child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-            Text(message.message!,
-                style: TextStyle(
-                    color: message.isOwn! ? Colors.white : Colors.black)),
-            Visibility(
-                visible: (message.data != null ? true : false),
-                child: GestureDetector(
-                    onTap: () {
-                      fun.call(
-                          "${domain}lk/load_ticket_addit_file?link=${message.data!.file_href!}",
-                          message.data!.document_name!);
-                    },
-                    child: SizedBox(
-                        width: 150,
-                        child: Column(children: previews)))),
-            Text("${message.date!.hour}:${message.date!.minute}",
-                style: TextStyle(
-                    color: message.isOwn! ? Colors.white : Colors.grey))
+        Text(message.message!,
+            style: TextStyle(
+                color: message.isOwn! ? Colors.white : Colors.black)),
+        Visibility(
+            visible: (message.data != null ? true : false),
+            child: GestureDetector(
+                onTap: () {
+                  fun.call(
+                      "${domain}lk/load_ticket_addit_file?link=${message.data!.file_href!}",
+                      message.data!.document_name!);
+                },
+                child: SizedBox(
+                    width: 150,
+                    child: Column(children: previews)))),
+        Text("${message.date!.hour}:${message.date!.minute}",
+            style: TextStyle(
+                color: message.isOwn! ? Colors.white : Colors.grey))
           ]),
-        )
-          ],
         )
         );
   }

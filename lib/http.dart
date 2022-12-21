@@ -496,12 +496,12 @@ class HttpClient {
       map.addEntries(nightEntries.entries);
     }
 
-    formData = map;
+    formData = FormData.fromMap(map);
     final result = await _apiClient.post(uri, data: formData);
     if (result.statusCode == 200) {
-      return true;
+      return result.data['data'];
     } else {
-      return false;
+      throw Exception("Ошибка передачи показаний");
     }
   }
 

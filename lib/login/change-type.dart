@@ -94,7 +94,7 @@ class _ChangeType extends State<ChangeType> {
                             ? Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => RegIP()))
+                                    builder: (context) => RegUL()))
                             : Navigator.push(
                                 context,
                                 MaterialPageRoute(

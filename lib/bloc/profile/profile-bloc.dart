@@ -633,7 +633,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(loading: true, error: null);
     try {
       var result = await repo.sendTestimony(event.dayValues, event.nightValues);
-      yield state.copyWith(loading: false, error: null, isMeasureSent: result);
+      yield state.copyWith(loading: false, error: null, sendTestimonyData: result);
     } catch (e) {
       yield state.copyWith(loading: false, error: e.toString());
     }

@@ -21,6 +21,7 @@ class BottomNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      elevation: 10,
       type: BottomNavigationBarType.fixed,
       items: [
         _buildItem(TabItem.main, false, null),

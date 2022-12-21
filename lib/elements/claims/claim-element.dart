@@ -74,7 +74,7 @@ class _ClaimElement extends State<ClaimElement> {
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 color: colorGrayClaim))),
-                                    Text(widget.currentClaim.claim_id!,
+                                    Text(widget.currentClaim.name!,
                                         style: const TextStyle(fontSize: 18))
                                   ],
                                 ),

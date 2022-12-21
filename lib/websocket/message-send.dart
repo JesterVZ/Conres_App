@@ -17,7 +17,7 @@ class MessageSend {
         'cmd': cmd,
         'subject': subject,
         'event': event,
-        'data': data != null ? data!.toJson() : null,
+        'data': data != null ? jsonEncode(data) : null,
         'to_id': to_id
       };
 }
@@ -602,6 +602,167 @@ class UserEditInfo {
     data['date_added'] = this.dateAdded;
     data['value_current'] = this.valueCurrent;
     data['uid_field_name'] = this.uidFieldName;
+    return data;
+  }
+}
+
+class TestimonySend {
+  String? readingsAnalyzeId;
+  String? date;
+  String? meterId;
+  String? indicationIndex;
+  String? reading;
+  String? readingsSourceId;
+  String? readingsPeriodId;
+  String? flag;
+  String? attributes;
+  String? channelId;
+  String? name;
+  String? puTypeId;
+  String? tariffTypeId;
+  String? puNumber;
+  String? measureMultipler;
+  String? dateRevise;
+  String? userLkId;
+  String? accountId;
+  String? readingsFormat;
+  String? status;
+  String? dateAdded;
+  String? dateInstall;
+  String? dateVerification;
+  String? hidden;
+  String? sourcName;
+  String? userInn;
+  String? userAccountNumber;
+  String? puTypeName;
+  String? dateApprove;
+  String? month;
+  String? year;
+  String? tuName;
+  String? tuNumber;
+  String? address;
+  String? tariffName;
+  String? readingsQuantity;
+  String? readingsQuantityName;
+
+  TestimonySend(
+      {this.readingsAnalyzeId,
+      this.date,
+      this.meterId,
+      this.indicationIndex,
+      this.reading,
+      this.readingsSourceId,
+      this.readingsPeriodId,
+      this.flag,
+      this.attributes,
+      this.channelId,
+      this.name,
+      this.puTypeId,
+      this.tariffTypeId,
+      this.puNumber,
+      this.measureMultipler,
+      this.dateRevise,
+      this.userLkId,
+      this.accountId,
+      this.readingsFormat,
+      this.status,
+      this.dateAdded,
+      this.dateInstall,
+      this.dateVerification,
+      this.hidden,
+      this.sourcName,
+      this.userInn,
+      this.userAccountNumber,
+      this.puTypeName,
+      this.dateApprove,
+      this.month,
+      this.year,
+      this.tuName,
+      this.tuNumber,
+      this.address,
+      this.tariffName,
+      this.readingsQuantity,
+      this.readingsQuantityName});
+
+  TestimonySend.fromJson(Map<String, dynamic> json) {
+    readingsAnalyzeId = json['readings_analyze_id'];
+    date = json['date'];
+    meterId = json['meter_id'];
+    indicationIndex = json['indication_index'];
+    reading = json['reading'];
+    readingsSourceId = json['readings_source_id'];
+    readingsPeriodId = json['readings_period_id'];
+    flag = json['flag'];
+    attributes = json['attributes'];
+    channelId = json['channel_id'];
+    name = json['name'];
+    puTypeId = json['pu_type_id'];
+    tariffTypeId = json['tariff_type_id'];
+    puNumber = json['pu_number'];
+    measureMultipler = json['measure_multipler'];
+    dateRevise = json['date_revise'];
+    userLkId = json['user_lk_id'];
+    accountId = json['account_id'];
+    readingsFormat = json['readings_format'];
+    status = json['status'];
+    dateAdded = json['date_added'];
+    dateInstall = json['date_install'];
+    dateVerification = json['date_verification'];
+    hidden = json['hidden'];
+    sourcName = json['sourc_name'];
+    userInn = json['user_inn'];
+    userAccountNumber = json['user_account_number'];
+    puTypeName = json['pu_type_name'];
+    dateApprove = json['date_approve'];
+    month = json['month'];
+    year = json['year'];
+    tuName = json['tu_name'];
+    tuNumber = json['tu_number'];
+    address = json['address'];
+    tariffName = json['tariff_name'];
+    readingsQuantity = json['readings_quantity'];
+    readingsQuantityName = json['readings_quantity_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['readings_analyze_id'] = this.readingsAnalyzeId;
+    data['date'] = this.date;
+    data['meter_id'] = this.meterId;
+    data['indication_index'] = this.indicationIndex;
+    data['reading'] = this.reading;
+    data['readings_source_id'] = this.readingsSourceId;
+    data['readings_period_id'] = this.readingsPeriodId;
+    data['flag'] = this.flag;
+    data['attributes'] = this.attributes;
+    data['channel_id'] = this.channelId;
+    data['name'] = this.name;
+    data['pu_type_id'] = this.puTypeId;
+    data['tariff_type_id'] = this.tariffTypeId;
+    data['pu_number'] = this.puNumber;
+    data['measure_multipler'] = this.measureMultipler;
+    data['date_revise'] = this.dateRevise;
+    data['user_lk_id'] = this.userLkId;
+    data['account_id'] = this.accountId;
+    data['readings_format'] = this.readingsFormat;
+    data['status'] = this.status;
+    data['date_added'] = this.dateAdded;
+    data['date_install'] = this.dateInstall;
+    data['date_verification'] = this.dateVerification;
+    data['hidden'] = this.hidden;
+    data['sourc_name'] = this.sourcName;
+    data['user_inn'] = this.userInn;
+    data['user_account_number'] = this.userAccountNumber;
+    data['pu_type_name'] = this.puTypeName;
+    data['date_approve'] = this.dateApprove;
+    data['month'] = this.month;
+    data['year'] = this.year;
+    data['tu_name'] = this.tuName;
+    data['tu_number'] = this.tuNumber;
+    data['address'] = this.address;
+    data['tariff_name'] = this.tariffName;
+    data['readings_quantity'] = this.readingsQuantity;
+    data['readings_quantity_name'] = this.readingsQuantityName;
     return data;
   }
 }

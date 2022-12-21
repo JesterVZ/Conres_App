@@ -109,7 +109,7 @@ class _RegIP extends State<RegIP> {
                                             "Введите отчество руководителя"),
                                     DefaultInput(
                                         labelText: "ИНН",
-                                        keyboardType: TextInputType.text,
+                                        keyboardType: TextInputType.number,
                                         controller: controllerList[3],
                                         hintText: "000000000000",
                                         validatorText: "Введите ИНН",
@@ -119,14 +119,14 @@ class _RegIP extends State<RegIP> {
                                         regExp: r'[0-9]{12}$'),
                                     DefaultInput(
                                         labelText: "ОГРНИП",
-                                        keyboardType: TextInputType.text,
+                                        keyboardType: TextInputType.number,
                                         controller: controllerList[4],
                                         hintText: "000000000000000",
                                         validatorText: "Введите ОГРНИП",
                                         textInputFormatter:
                                             MaskTextInputFormatter(
                                                 mask: "###############"),
-                                        regExp: r'[0-9]{13}$'),
+                                        regExp: r'[0-9]{15}$'),
                                     DefaultInput(
                                         labelText: "Телефон",
                                         keyboardType: TextInputType.phone,
@@ -140,7 +140,7 @@ class _RegIP extends State<RegIP> {
                                             r'^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$'),
                                     DefaultInput(
                                         labelText: "Email",
-                                        keyboardType: TextInputType.phone,
+                                        keyboardType: TextInputType.emailAddress,
                                         controller: controllerList[6],
                                         hintText: "example@email.ru",
                                         validatorText: "Введите телефон",
@@ -281,6 +281,10 @@ class _RegIP extends State<RegIP> {
                                         margin: const EdgeInsets.fromLTRB(
                                             0, 0, 0, 18),
                                         child: CheckboxListTile(
+                                          activeColor: colorMain,
+                                                  controlAffinity:
+                                                      ListTileControlAffinity
+                                                          .leading,
                                             title: RichText(
                                               text: TextSpan(children: [
                                                 TextSpan(

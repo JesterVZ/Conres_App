@@ -57,10 +57,9 @@ class _NewLS extends State<NewLS> {
                           DefaultInput(
                               labelText: "Номер лицевого счёта",
                               hintText: "000000000",
-                              regExp: r'[0-9]{9}$',
                               validatorText: "Введите номер лицевого счета",
                               textInputFormatter: MaskTextInputFormatter(
-                                        mask: "#########"),
+                                        mask: "####################"),
                               
                               keyboardType: TextInputType.text,
                               controller: lsController),

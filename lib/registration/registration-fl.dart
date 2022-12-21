@@ -137,7 +137,7 @@ class _RegFL extends State<RegFL> {
                                                   r'^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$'),
                                           DefaultInput(
                                               labelText: "Email",
-                                              keyboardType: TextInputType.phone,
+                                              keyboardType: TextInputType.emailAddress,
                                               controller: controllerList[6],
                                               hintText: "example@email.ru",
                                               validatorText: "Введите телефон",

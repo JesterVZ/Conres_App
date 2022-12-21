@@ -51,7 +51,7 @@ class _ProfilePage extends State<ProfilePageTest> {
         listener: (context, state) => _listener(context, state),
         builder: (context, state) {
           return MainForm(
-            footerHeight: 70,
+            footerHeight: 100,
               footerPadding: 0,
               header: HeaderNotification(
                   text: "Ваш профиль", canGoBack: false),
@@ -301,7 +301,7 @@ class _ProfilePage extends State<ProfilePageTest> {
                   : false,
               child: Container(
                   width: bottomButtonWidth,
-                  margin: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding),
+                  margin: EdgeInsets.only(left: defaultSidePadding, right: defaultSidePadding, bottom: 22),
                   height: 70,
                   child: ElevatedButton(
                       onPressed: () {

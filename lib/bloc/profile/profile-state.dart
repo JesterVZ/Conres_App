@@ -50,11 +50,12 @@ class ProfileState {
   final Map<String, dynamic>? editPuFromTuData;
   final Map<String, dynamic>? bindPuData;
   final Map<String, dynamic>? editUserInfoData;
+  final List<dynamic>? sendTestimonyData;
 
   final String? page;
   final UserInformation? userInformation;
 
-  final bool? isClaimSent;
+  final bool? isClaimSent; 
 
   final String? privatePolicyString;
 
@@ -69,6 +70,7 @@ class ProfileState {
       this.bindTuData,
       this.fullInfo,
       this.contracts,
+      this.sendTestimonyData,
       this.numbers,
       this.claims,
       this.bindPuData,
@@ -107,6 +109,7 @@ class ProfileState {
       claimCounter: null,
       claimMessages: null,
       bindPuData: null,
+      sendTestimonyData: null,
       claims: null,
       contracts: null,
       editUserInfoData: null,
@@ -147,6 +150,7 @@ class ProfileState {
       Map<String, dynamic>? editPuFromTuData,
       Map<String, dynamic>? bindPuData,
       Map<String, dynamic>? editUserInfoData,
+      List<dynamic>? sendTestimonyData,
       dynamic webSocketData,
       List<Contract>? contracts,
       List<String>? numbers,
@@ -183,6 +187,7 @@ class ProfileState {
         bindPuData: bindPuData,
         editUserInfoData: editUserInfoData,
         contracts: contracts ?? this.contracts,
+        sendTestimonyData: sendTestimonyData,
         editPuFromTuData: editPuFromTuData,
         numbers: numbers ?? this.numbers,
         claims: claims ?? this.claims,

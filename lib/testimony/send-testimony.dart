@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:core';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -15,6 +16,7 @@ import 'package:dotted_decoration/dotted_decoration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../DI/dependency-provider.dart';
 import '../Services/bottom-navigation-select-service.dart';
@@ -27,6 +29,7 @@ import '../elements/header/header-notification.dart';
 import '../elements/not-found.dart';
 import '../elements/testimony/testimony.dart';
 import '../profile/tab-item.dart';
+import '../websocket/message-send.dart';
 
 class SendTestimony extends StatefulWidget {
   final String? personal;
@@ -41,6 +44,7 @@ class _SendTestimony extends State<SendTestimony> {
   ProfileBloc? profileBloc;
   ProfileService? profileService;
   BottomNavigationSelectService? bottomNavigationSelectService;
+  WebSocketChannel? webSocketChannel;
 
   bool getPU = false;
   bool isLoading = true;
@@ -108,14 +112,6 @@ class _SendTestimony extends State<SendTestimony> {
                                     ? "По данному лицевому счёту не найдены приборы учёта, отправьте заявку на привязку ПУ и дождитесь подтверждения."
                                     : ""),
                       ),
-                      Visibility(
-                          child: Center(
-                              child: Container(
-                            width: 50,
-                            height: 50,
-                            child: CircularProgressIndicator(color: colorMain),
-                          )),
-                          visible: (isLoading == true) ? true : false)
                     ],
                   ),
                   footer: profileService!.accountNumber == ""
@@ -205,7 +201,58 @@ class _SendTestimony extends State<SendTestimony> {
         nightControllers!.add(TextEditingController());
       }
     }
-    if (state.loading! == false && state.isMeasureSent == true) {
+    if (state.loading! == false && state.sendTestimonyData != null) {
+      List<TestimonySend> meterData = [];
+      for(int i = 0; i < state.sendTestimonyData!.length; i++){
+        meterData.add(TestimonySend(
+          readingsAnalyzeId: state.sendTestimonyData![i]['readings_analyze_id'],
+          date: state.sendTestimonyData![i]['date'],
+          meterId: state.sendTestimonyData![i]['meter_id'],
+          indicationIndex: state.sendTestimonyData![i]['indication_index'],
+          reading: state.sendTestimonyData![i]['reading'],
+          readingsSourceId: state.sendTestimonyData![i]['readings_source_id'],
+          readingsPeriodId: state.sendTestimonyData![i]['readings_period_id'],
+          flag: state.sendTestimonyData![i]['flag'],
+          attributes: state.sendTestimonyData![i]['attributes'],
+          channelId: state.sendTestimonyData![i]['channel_id'],
+          name: state.sendTestimonyData![i]['name'],
+          puTypeId: state.sendTestimonyData![i]['pu_type_id'],
+          tariffTypeId: state.sendTestimonyData![i]['tariff_type_id'],
+          puNumber: state.sendTestimonyData![i]['pu_number'],
+          measureMultipler: state.sendTestimonyData![i]['measure_multipler'],
+          dateRevise: state.sendTestimonyData![i]['date_revise'],
+          userLkId: state.sendTestimonyData![i]['user_lk_id'],
+          accountId: state.sendTestimonyData![i]['account_id'],
+          readingsFormat: state.sendTestimonyData![i]['readings_format'],
+          status: state.sendTestimonyData![i]['status'],
+          dateAdded: state.sendTestimonyData![i]['date_added'],
+          dateInstall: state.sendTestimonyData![i]['date_install'],
+          dateVerification: state.sendTestimonyData![i]['date_verification'],
+          hidden: state.sendTestimonyData![i]['hidden'],
+          sourcName: state.sendTestimonyData![i]['sourc_name'],
+          userInn: state.sendTestimonyData![i]['user_inn'],
+          userAccountNumber: state.sendTestimonyData![i]['user_account_number'],
+          puTypeName: state.sendTestimonyData![i]['pu_type_name'],
+          dateApprove: state.sendTestimonyData![i]['date_approve'],
+          month: state.sendTestimonyData![i]['month'],
+          year: state.sendTestimonyData![i]['year'],
+          tuName: state.sendTestimonyData![i]['tu_name'],
+          tuNumber: state.sendTestimonyData![i]['tu_number'],
+          address: state.sendTestimonyData![i]['address'],
+          tariffName: state.sendTestimonyData![i]['tariff_name'],
+          readingsQuantity: state.sendTestimonyData![i]['readings_quantity'],
+          readingsQuantityName: state.sendTestimonyData![i]['readings_quantity_name'],
+        ));
+      }
+      dynamic message = MessageSend(
+                    cmd: "publish",
+                    subject: "store-${store_id}",
+                    event: "readings_new",
+                    data: meterData,
+                    to_id: int.parse(user_id!)
+                  );
+      String data = jsonEncode(message.toJson());
+      webSocketChannel!.sink.add(data);
       AwesomeDialog(
         context: context,
         dialogType: DialogType.success,
@@ -235,6 +282,7 @@ class _SendTestimony extends State<SendTestimony> {
   @override
   void didChangeDependencies() {
     profileBloc ??= DependencyProvider.of(context)!.profileBloc;
+    webSocketChannel ??= DependencyProvider.of(context)!.webSocketChannel(false);
     profileService ??= DependencyProvider.of(context)!.profileService;
     bottomNavigationSelectService ??=
         DependencyProvider.of(context)!.bottomNavigationSelectService;
