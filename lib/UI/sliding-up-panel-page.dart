@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+/* 
+sliding-up-panel-page.dart
+Панель
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class SlidingUpPanelPage<P extends Widget, B extends Widget>
     extends StatefulWidget {
   P? panel;

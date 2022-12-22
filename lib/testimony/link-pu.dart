@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 import '../consts.dart';
 import '../elements/dropdown.dart';
 import 'info-pu.dart';
+/* 
+edit-pu.dart
+Привязка ПУ
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class LinkPU extends StatefulWidget {
   const LinkPU({Key? key}) : super(key: key);
 

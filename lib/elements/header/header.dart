@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../consts.dart';
+/* 
+header.dart
+Хедер (устарел)
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class HeaderRow extends StatelessWidget {
   String text = "";
   double fontSize;

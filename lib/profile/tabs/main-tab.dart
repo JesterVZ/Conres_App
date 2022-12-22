@@ -1,6 +1,5 @@
 import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/consts.dart';
-import 'package:conres_app/profile/edit-profile-info/change-password-screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +10,12 @@ import '../../bloc/profile/profile-event.dart';
 import '../../bloc/profile/profile-state.dart';
 import '../../elements/bloc/bloc-screen.dart';
 import '../edit-profile-info/edit-user-info.dart';
+/* 
+main-tab.dart
+Страница профиля (Основной таб)
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class MainTab extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _MainTab();
@@ -128,12 +132,6 @@ class _MainTab extends State<MainTab> {
                             DefaultButton(
                                 text: "Изменить пароль",
                                 onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ChangePasswordScreen(
-                                                  refrash: () {})));
                                 },
                                 isGetPadding: false),
                           ],

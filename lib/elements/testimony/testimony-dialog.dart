@@ -2,7 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../consts.dart';
+/* 
+testimony-dialog.dart
+Диалог передачи показаний
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class TestimonyDialog extends StatefulWidget {
   String time;
   String coefficient;

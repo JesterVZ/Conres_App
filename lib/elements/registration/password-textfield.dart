@@ -2,7 +2,12 @@ import 'package:conres_app/consts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+/* 
+password-textfield.dart
+Виджет для ввоа пароля
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class PasswordTextField extends StatefulWidget {
   TextEditingController controller;
   String hintText;

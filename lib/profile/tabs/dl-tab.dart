@@ -12,7 +12,12 @@ import '../../elements/full-profile/ExpansionTileElement.dart';
 import '../../elements/profile/contact-controls.dart';
 import '../edit-profile-info/edit-proxy-info.dart';
 import 'main-tab.dart';
+/* 
+dl-tab.dart
+Страница профиля (Доверенное лицо)
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class DlTab extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _DlTab();

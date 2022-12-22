@@ -1,7 +1,12 @@
 import 'package:conres_app/consts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+/* 
+file-send-dialog.dart
+Диалоговое окно загрузки файлов
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class FileSendDialog extends StatefulWidget{
   VoidCallback createPhoto;
   VoidCallback pickFile;

@@ -19,7 +19,12 @@ import '../elements/bloc/bloc-screen.dart';
 import '../elements/dropdown.dart';
 import '../elements/header/header-notification.dart';
 import '../websocket/message-send.dart';
+/* 
+new-chat
+Создание нового чата
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class NewChat extends StatefulWidget {
   VoidCallback? refrash;
   NewChat({required this.refrash});

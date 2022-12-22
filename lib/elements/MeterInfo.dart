@@ -2,7 +2,12 @@ import 'package:conres_app/elements/pu-info-show.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../model/meter.dart';
+/* 
+MeterInfo.dart
+Инфрмация о ПУ
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class MeterInfo extends StatelessWidget{
   Meter meter;
 

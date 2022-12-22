@@ -17,7 +17,12 @@ import '../Services/edit-userinfo-service.dart';
 import '../bloc/auth/auth-block.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/full-profile/ExpansionTileElement.dart';
+/* 
+full-profile-page.dart
+Информация о профиле
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class FullProfile extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _FullProfile();

@@ -5,7 +5,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../consts.dart';
+/* 
+file-element.dart
+Виджет для загрузки файлов (используется в заявлениях)
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class DocElement extends StatefulWidget {
   int id;
   Function(int, FilePickerResult) result;

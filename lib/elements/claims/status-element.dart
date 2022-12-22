@@ -2,7 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../consts.dart';
+/* 
+status-element.dart
+Статусы заявлений
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class StatusElement extends StatelessWidget{
   String status;
   Color? textColor = colorMain;

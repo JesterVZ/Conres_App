@@ -5,7 +5,12 @@ import 'package:file_picker/file_picker.dart';
 import '../elements/claims/claim-step2-object.dart';
 import '../model/claims/claim-step-2-object.dart';
 import '../model/claims/claim-step-5-staging.dart';
+/* 
+main-claim-send-service.dart
+Сервис заявления
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class MainClaimSendService {
   String? claim_type_id;
   String? claim_template;

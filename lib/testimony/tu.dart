@@ -16,15 +16,18 @@ import '../bloc/profile/profile-bloc.dart';
 import '../bloc/profile/profile-state.dart';
 import '../consts.dart';
 import '../elements/TU/TU-element.dart';
-import '../elements/TU/edit-tu-dialog.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/header/header-notification.dart';
 import '../elements/not-found.dart';
-import '../elements/testimony/object-pu-dialog.dart';
 import '../websocket/message-send.dart';
 import 'link-pu/link-pu-step-1.dart';
 import 'link-tu/link-tu.dart';
+/* 
+tu.dart
+Точки учета
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class PageTU extends StatefulWidget {
   ObjectPuModel currentPU;
 

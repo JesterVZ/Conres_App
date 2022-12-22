@@ -25,14 +25,18 @@ import '../DI/dependency-provider.dart';
 import '../bloc/profile/profile-bloc.dart';
 import '../bloc/profile/profile-state.dart';
 import '../consts.dart';
-import '../elements/alert.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/chat/file-for-send.dart';
 import '../elements/chat/message-element.dart';
 
 import '../websocket/message-read.dart';
 import '../websocket/websocket.dart';
+/* 
+messages
+Основной экран чата (для заявления и обращений)
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class MessagesPage<G, T> extends StatefulWidget {
   G? genericId; //id тикета или заявления
   T? type; //тип чата (из enum)

@@ -3,7 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../model/object_pu.dart';
+/* 
+added-object.dart
+Виджет нового добавленного объекта (при добавленни ПУ)
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class AddedObject extends StatelessWidget {
   ObjectPuModel? object;
   Function remove;

@@ -10,7 +10,12 @@ import '../../Services/base-claim-send-service.dart';
 import '../../Services/edit-userinfo-service.dart';
 import '../../Services/link-pu-service.dart';
 import '../../websocket/websocket.dart';
+/* 
+profile-event
+Event-ы для profile-bloc
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 abstract class ProfileEvent extends Equatable {
   const ProfileEvent();
   @override

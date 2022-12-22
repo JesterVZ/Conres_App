@@ -10,7 +10,12 @@ import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../profile/main-page.dart';
+/* 
+loading-page.dart
+Страница загрузки
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class LoadingPage extends StatefulWidget {
   String? newLogin;
   LoadingPage({this.newLogin});

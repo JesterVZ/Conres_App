@@ -3,7 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../consts.dart';
+/* 
+datetime-dialog-picker.dart
+Календарь
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class BasicDateField extends StatelessWidget {
   DateFormat format;
   TextEditingController controller;

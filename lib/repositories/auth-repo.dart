@@ -6,7 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/meter.dart';
 import '../shared-preferences/shared-preferences.dart';
+/* 
+auth-repo.dart
+Auth репозиторий
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class AuthRepo {
   final HttpClient httpClient;
 

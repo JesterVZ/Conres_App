@@ -9,7 +9,12 @@ import '../../model/profile.dart';
 import '../../shared-preferences/shared-preferences.dart';
 import 'auth-event.dart';
 import 'auth-state.dart';
+/* 
+AuthBloc
+Bloc-файл для регистрации и входа
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class AuthBloc extends Bloc<Event, AuthState> {
   final AuthRepo repo;
 

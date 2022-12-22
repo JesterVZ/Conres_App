@@ -9,7 +9,6 @@ import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../consts.dart';
-import '../elements/alert.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/header/header.dart';
 import '../elements/route/def-page-router.dart';

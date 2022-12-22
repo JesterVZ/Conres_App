@@ -7,7 +7,12 @@ import 'package:flutter/material.dart';
 
 import '../../consts.dart';
 import '../../model/ticket.dart';
+/* 
+ticket-row.dart
+Виджет обращения
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class TicketRow extends StatefulWidget {
   Ticket ticket;
   ValueChanged<Ticket>? openChat;

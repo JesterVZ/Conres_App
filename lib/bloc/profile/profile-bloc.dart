@@ -29,7 +29,12 @@ import '../../model/object_pu.dart';
 import '../../model/ticket.dart';
 import '../../repositories/profile-repo.dart';
 import '../../shared-preferences/shared-preferences.dart';
+/* 
+profile-bloc
+Bloc-файл для работы с event-ами профиля
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileRepo repo;
 

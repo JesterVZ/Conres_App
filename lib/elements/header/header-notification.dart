@@ -4,7 +4,12 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../consts.dart';
 import '../../notification/notification-list.dart';
+/* 
+header-notification.dart
+Хедер с кнопкой, ведущей на окно уведомлений
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 
 class HeaderNotification extends StatelessWidget{
   String text = "";

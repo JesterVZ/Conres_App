@@ -17,7 +17,12 @@ import '../elements/header/header-notification.dart';
 import '../model/contract.dart';
 import '../model/profile.dart';
 import '../testimony/send-testimony.dart';
+/* 
+profile-test.dart
+Страница профиля
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ProfilePageTest extends StatefulWidget {
   ProfilePageTest({Key? key, required this.func}) : super(key: key);
   ValueChanged<Contract> func;

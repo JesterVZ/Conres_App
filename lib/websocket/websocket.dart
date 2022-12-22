@@ -1,3 +1,9 @@
+/* 
+websocket.dart
+Данные для сокета
+
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class WebSocketData{
   String? cmd;
   String? event;

@@ -4,7 +4,12 @@ import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../consts.dart';
+/* 
+websocket-listener.dart
+Слушатель сокета
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class WebSocketListener {
   WebSocketChannel? webSocketChannel;
   Function? function;

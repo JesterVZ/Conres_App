@@ -15,7 +15,12 @@ import '../../consts.dart';
 import '../../elements/bloc/bloc-screen.dart';
 import '../../model/object_pu.dart';
 import '../../websocket/message-send.dart';
+/* 
+link-tu.dart
+Привязка ТУ
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class LinkTu extends StatefulWidget {
   VoidCallback? refrash;
   ObjectPuModel currentPU;

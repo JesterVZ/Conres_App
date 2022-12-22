@@ -5,7 +5,12 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../consts.dart';
 import '../validation/validation.dart';
+/* 
+default-input.dart
+Инпут
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class DefaultInput extends StatefulWidget {
   String? labelText;
   String? hintText;

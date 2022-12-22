@@ -4,7 +4,12 @@ import 'package:conres_app/consts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+/* 
+file-for-send.dart
+Превью файла
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class FileElement extends StatelessWidget {
   String? filename;
   String? filepath;

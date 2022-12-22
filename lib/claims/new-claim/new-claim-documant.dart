@@ -12,7 +12,12 @@ import '../../elements/header/header.dart';
 import 'base-claim/base-claim-step-1.dart';
 import 'new-claim-step-7.dart';
 import 'package:intl/intl.dart';
+/* 
+new-claim-documant.dart
+Выбор типов заявлений
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class NewClaimDicument extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _NewClaimDicument();

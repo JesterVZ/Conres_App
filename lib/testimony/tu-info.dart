@@ -18,7 +18,12 @@ import '../elements/testimony/meter.dart';
 import '../model/TU.dart';
 import '../model/meter.dart';
 import '../websocket/message-send.dart';
+/* 
+tu-info.dart
+Счетчики
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class TuFullInfo extends StatefulWidget {
   List<TuModel> TuPoints;
   final TuModel? currentTu;

@@ -7,7 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../UI/default-input.dart';
+/* 
+claim-step2-object.dart
+Объект в заявлениях (добавляется на шаге 2)
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ClaimStep2Object extends StatefulWidget {
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();

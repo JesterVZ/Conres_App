@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 
 import '../../consts.dart';
 import '../../model/message.dart';
+/* 
+message-element.dart
+Виджет сообщения
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class MessageElement extends StatelessWidget {
   dynamic message;
   void Function(String, String) fun;

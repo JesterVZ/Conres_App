@@ -13,13 +13,17 @@ import '../../UI/main-form.dart';
 import '../../bloc/profile/profile-bloc.dart';
 import '../../bloc/profile/profile-state.dart';
 import '../../consts.dart';
-import '../../elements/alert.dart';
 import '../../elements/bloc/bloc-screen.dart';
 import '../../elements/claims/claim-step7-object.dart';
 import '../../elements/claims/file-element.dart';
 import '../../elements/header/header.dart';
 import '../../websocket/message-send.dart';
+/* 
+new-claim-step-7.dart
+7-й шаг заялений
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class NewClaimStep7 extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _NewClaimStep7();

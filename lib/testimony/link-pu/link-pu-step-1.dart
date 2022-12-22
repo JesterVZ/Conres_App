@@ -14,10 +14,13 @@ import '../../Services/link-pu-service.dart';
 import '../../UI/default-input.dart';
 import '../../elements/PU/added-object.dart';
 import '../../elements/header/header-notification.dart';
-import '../../elements/testimony/object-pu-dialog.dart';
-import '../../elements/testimony/select-object-doalog.dart';
 import '../../model/object_pu.dart';
+/* 
+link-pu-step-1.dart
+Привязка ПУ, шаг 1
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class LinkPUStep1 extends StatefulWidget {
   LinkPUStep1({Key? key}) : super(key: key);
 

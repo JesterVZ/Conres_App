@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+/* 
+bloc-screen.dart
+BlocListener
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class BlocScreen<B extends Bloc<dynamic, S>, S> extends StatelessWidget {
   final B? bloc;
   final BlocBuilderCondition<S>? buildWhen;

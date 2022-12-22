@@ -13,7 +13,12 @@ import '../../UI/main-form.dart';
 import '../../consts.dart';
 import '../../elements/registration/sliding-up.dart';
 import 'new-claim-step-7.dart';
+/* 
+new-claim-step-6.dart
+6-й шаг заялений
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class NewClaimStep6 extends StatefulWidget {
   const NewClaimStep6({Key? key}) : super(key: key);
 

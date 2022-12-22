@@ -4,7 +4,12 @@ import 'package:flutter_svg/svg.dart';
 
 import '../consts.dart';
 import '../testimony/edit-pu.dart';
+/* 
+pu-info-show.dart
+Информаця о ПУ
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class PuInfoShow extends StatelessWidget {
   const PuInfoShow(
       {Key? key,

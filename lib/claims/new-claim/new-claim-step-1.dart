@@ -17,7 +17,12 @@ import '../../elements/datetime/datetime-dialog-picker.dart';
 import '../../elements/masks.dart';
 import '../../validation/validation.dart';
 import 'new-claim-step-2.dart';
+/* 
+new-claim-step-1.dart
+1-й шаг заялений
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class NewClaimStep1 extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _NewClaimStep1();

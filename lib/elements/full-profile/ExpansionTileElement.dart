@@ -4,7 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../UI/ExpansionTileCuston.dart';
+/* 
+ExpansionTileElement.dart
+Рскрывающаяся панель
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ExpansionTileElement extends StatefulWidget {
   ExpansionTileElement({Key? key, this.body, this.header, this.tileText});
   Widget? header;

@@ -4,7 +4,12 @@ import 'package:flutter/widgets.dart';
 import '../../UI/default-button.dart';
 import '../../UI/default-input.dart';
 import '../../consts.dart';
+/* 
+claim-step5-object.dart
+Объект в заявлениях (добавляется на шаге 5)
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ClaimStep5Object extends StatefulWidget {
   List<TextEditingController> ControllerList =
       List<TextEditingController>.generate(

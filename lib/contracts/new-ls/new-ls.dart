@@ -15,11 +15,16 @@ import '../../DI/dependency-provider.dart';
 import '../../bloc/profile/profile-bloc.dart';
 import '../../bloc/profile/profile-state.dart';
 import '../../consts.dart';
-import '../../elements/alert.dart';
 import '../../elements/bloc/bloc-screen.dart';
 import '../../elements/masks.dart';
 import '../../websocket/message-send.dart';
 import 'package:intl/intl.dart';
+/* 
+new-ls.dart
+Привязка нового лицевого счета
+
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class NewLS extends StatefulWidget {
   VoidCallback? refrash;
   NewLS({Key? key, required this.refrash}) : super(key: key);

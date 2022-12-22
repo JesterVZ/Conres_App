@@ -2,7 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../consts.dart';
+/* 
+dropdown.dart
+Кастомный dropdown
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class CustomDropDown extends StatefulWidget {
    CustomDropDown(
       {Key? key, required this.title, required this.items, this.selectedItem, this.onClick})

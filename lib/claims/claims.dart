@@ -20,7 +20,12 @@ import '../contracts/new-ls/new-ls.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/claims/claim-element.dart';
 import '../elements/header/header.dart';
+/* 
+claims.dart
+Список заявлений
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class Claims extends StatefulWidget {
   Claims({Key? key, required this.mainListener}) : super(key: key);
   Function? mainListener; //ссылка на основной listener для сокета

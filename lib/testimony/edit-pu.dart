@@ -4,7 +4,12 @@ import 'package:flutter/material.dart';
 import '../consts.dart';
 import '../elements/dropdown.dart';
 import '../elements/header/header-notification.dart';
+/* 
+edit-pu.dart
+Редактирование ПУ
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class EditPU extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _EditPU();

@@ -1,6 +1,11 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
+/* 
+base-claim-send-service.dart
+Сервис базового заявления
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class BaseClaimSendService {
   String? claim_type_id;
   String? claim_template;

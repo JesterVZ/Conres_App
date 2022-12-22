@@ -18,7 +18,12 @@ import '../../elements/dropdown.dart';
 import '../../elements/masks.dart';
 import '../../model/claims/claim-step-2-object.dart';
 import 'new-claim-step-3.dart';
+/* 
+new-claim-step-2.dart
+2-й шаг заялений
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class NewClaimStep2 extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _NewClaimStep2();

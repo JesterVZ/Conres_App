@@ -22,7 +22,12 @@ import '../elements/bloc/bloc-screen.dart';
 import '../elements/contracts/contract-element.dart';
 import '../websocket/message-send.dart';
 import 'new-ls/new-ls.dart';
+/*
+contracts.dart
+Список всех лицевых счетов или договоров (в зависимости от ЛК)
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class Contracts extends StatefulWidget {
   ValueChanged<Contract> func;
   Contracts({required this.func});

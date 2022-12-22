@@ -4,7 +4,12 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../consts.dart';
 import '../../model/meter.dart';
+/* 
+testimony.dart
+Виджет счетчика на странице передачи показаний
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class Testimony extends StatefulWidget {
   final Meter meter;
   TextEditingController dayController;

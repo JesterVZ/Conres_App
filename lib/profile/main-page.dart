@@ -35,7 +35,12 @@ import '../more/more.dart';
 import '../websocket/websocket.dart';
 import 'bottom-nav/bottom-navigation-custom.dart';
 import 'navigators/tab-nav.dart';
+/* 
+main-page.dart
+Основная страница
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class MainPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _MainPage();

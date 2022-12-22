@@ -10,7 +10,12 @@ import '../bloc/profile/profile-bloc.dart';
 import '../bloc/profile/profile-state.dart';
 import '../consts.dart';
 import '../elements/bloc/bloc-screen.dart';
+/* 
+privacy-policy.dart
+Политика конфиденциальности
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class PrivacyPolicy extends StatefulWidget {
   ValueChanged<bool> func;
   PrivacyPolicy({required this.func});

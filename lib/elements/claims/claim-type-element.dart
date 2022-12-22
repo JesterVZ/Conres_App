@@ -3,7 +3,12 @@ import 'package:conres_app/consts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+/* 
+claim-type-element.dart
+Виджет типа заявлений (используется в new-claim-document)
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ClaimTypeELement extends StatelessWidget {
   String text;
   VoidCallback func;

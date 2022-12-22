@@ -11,9 +11,13 @@ import '../../UI/main-form.dart';
 import '../../consts.dart';
 import '../../elements/PU/list-element.dart';
 import '../../elements/header/header-notification.dart';
-import '../../elements/testimony/select-object-doalog.dart';
 import '../../model/object_pu.dart';
+/* 
+link-pu-step-2.dart
+Привязка ПУ, шаг 2
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class LinkPUStep2 extends StatefulWidget {
   ObjectPuModel? crrentPu;
   LinkPUStep2({Key? key, this.crrentPu}) : super(key: key);

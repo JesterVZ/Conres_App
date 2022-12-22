@@ -2,7 +2,12 @@ import 'package:conres_app/consts.dart';
 import 'package:conres_app/model/store.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+/* 
+store-element.dart
+Кнопка выбора компании (в экране, который нужен для тестировщика)
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class StoreElement extends StatelessWidget{
   Store? store;
   ValueChanged<Store>? choose;

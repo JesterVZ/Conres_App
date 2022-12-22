@@ -4,7 +4,12 @@ import 'package:path/path.dart';
 
 import '../../consts.dart';
 import 'file-element.dart';
+/* 
+claim-step7-object.dart
+Объект в заявлениях (добавляется на шаге 7)
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ClaimStep7Object extends StatefulWidget {
   int id;
   Function(int, FilePickerResult) pickDocument;

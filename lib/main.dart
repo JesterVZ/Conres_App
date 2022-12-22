@@ -7,13 +7,23 @@ import 'package:conres_app/select-store/select-store.dart';
 import 'package:flutter/material.dart';
 import 'consts.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/services.dart';
 import 'elements/splash/splash-screen.dart';
 import 'loading/loading-page.dart';
 import 'login/login-main.dart';
+/* 
+main
+Точка входа в приложение, основной файл.
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 void main() {
   HttpOverrides.global = MyHttpOverrides();
   setup();
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
   runApp(DependencyProvider(child: const MyApp()));
 }
 

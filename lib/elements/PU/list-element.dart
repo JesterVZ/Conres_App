@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../consts.dart';
+/* 
+list-element.dart
+Элемент в списке
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ListElement extends StatelessWidget {
   String text;
   String id;

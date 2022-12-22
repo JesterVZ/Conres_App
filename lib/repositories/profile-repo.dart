@@ -7,7 +7,12 @@ import 'package:conres_app/http.dart';
 import 'package:file_picker/file_picker.dart';
 import '../Services/base-claim-send-service.dart';
 import '../shared-preferences/shared-preferences.dart';
+/* 
+profile-repo.dart
+Profile репозиторий
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ProfileRepo {
   final HttpClient httpClient;
 

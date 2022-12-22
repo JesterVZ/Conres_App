@@ -5,7 +5,12 @@ import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../elements/MeterInfo.dart';
 import '../elements/bloc/bloc-screen.dart';
+/* 
+edit-pu.dart
+Информация о ПУ
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class InfoPU extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _InfoPU();

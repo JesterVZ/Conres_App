@@ -15,11 +15,17 @@ import '../../DI/dependency-provider.dart';
 import '../../bloc/profile/profile-bloc.dart';
 import '../../bloc/profile/profile-state.dart';
 import '../../consts.dart';
-import '../../elements/alert.dart';
 import '../../elements/bloc/bloc-screen.dart';
 import '../../elements/masks.dart';
 import '../../websocket/message-send.dart';
 import 'package:intl/intl.dart';
+
+/* 
+new-object.dart
+Привязка объекта
+
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class NewObject extends StatefulWidget {
   VoidCallback? refrash;
   NewObject({Key? key, required this.refrash}) : super(key: key);

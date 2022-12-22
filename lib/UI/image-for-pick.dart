@@ -3,7 +3,12 @@ import 'dart:io';
 import 'package:conres_app/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as image;
+/* 
+image-for-pick.dart
+Картинка в файл-пикере
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ImageForPick extends StatefulWidget {
   File file;
   int? counter;

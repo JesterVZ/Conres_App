@@ -12,7 +12,6 @@ import '../DI/dependency-provider.dart';
 import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../consts.dart';
-import '../elements/alert.dart';
 import '../elements/header/header.dart';
 import '../elements/masks.dart';
 import '../elements/registration/password-textfield.dart';

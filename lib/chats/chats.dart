@@ -16,7 +16,12 @@ import '../enums/chat-types.dart';
 import '../model/ticket.dart';
 import '../websocket/websocket-listener.dart';
 import 'messages.dart';
+/* 
+chats
+State для auth-bloc
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class Chats extends StatefulWidget {
   Function? mainListener; //ссылка на основной listener для сокета
   Chats({Key? key, required this.mainListener}) : super(key: key);

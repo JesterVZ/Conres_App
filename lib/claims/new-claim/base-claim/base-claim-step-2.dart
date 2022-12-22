@@ -13,12 +13,17 @@ import '../../../UI/main-form.dart';
 import '../../../bloc/profile/profile-bloc.dart';
 import '../../../bloc/profile/profile-state.dart';
 import '../../../consts.dart';
-import '../../../elements/alert.dart';
+
 import '../../../elements/bloc/bloc-screen.dart';
 import '../../../elements/claims/file-element.dart';
 import '../../../elements/header/header.dart';
 import '../../../websocket/message-send.dart';
+/* 
+base-claim-step-2.dart
+2-й шаг базового заявлений
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class BaseClaimStep2 extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _BaseClaimStep2();

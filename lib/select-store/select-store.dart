@@ -10,7 +10,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../DI/dependency-provider.dart';
 import '../elements/splash/splash-screen.dart';
 import '../model/store.dart';
+/* 
+select-store.dart
+Выбор компании
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class SelectStore extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => _SelectStore();

@@ -6,7 +6,12 @@ import 'package:flutter_svg/svg.dart';
 import '../bloc/auth/auth-block.dart';
 import '../consts.dart';
 import 'change-type.dart';
+/* 
+login-main.dart
+Страница логина
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 

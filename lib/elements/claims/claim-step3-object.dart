@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 
 import '../../UI/default-input.dart';
 import '../../consts.dart';
+/* 
+claim-step3-object.dart
+Объект в заявлениях (добавляется на шаге 3)
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ClaimStep3Object extends StatefulWidget {
   List<TextEditingController> ControllerList =
       List<TextEditingController>.generate(

@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+/* 
+sliding-up.dart
+Выпадающая панель
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class SlidingUpElement extends StatelessWidget{
   PanelController panelController;
   Widget body;

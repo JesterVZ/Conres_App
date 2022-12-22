@@ -26,7 +26,12 @@ import '../Services/update-meter-service.dart';
 import '../Services/update-object-service.dart';
 import '../Services/update-ticket-service.dart';
 import '../repositories/profile-repo.dart';
+/*
+dependency-provider.dart
+DI-контейнер основной
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 // ignore: must_be_immutable
 class DependencyProvider extends InheritedWidget {
   HttpClient? _httpClient;

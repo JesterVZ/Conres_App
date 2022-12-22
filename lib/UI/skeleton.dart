@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+/* 
+skeleton.dart
+Скелетон-виджет анимированный, отображается во время загрузки данных
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class Skeleton extends StatefulWidget {
   final double height;
   final double width;

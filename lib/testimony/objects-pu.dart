@@ -20,13 +20,17 @@ import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/not-found.dart';
-import '../elements/testimony/object-pu-dialog.dart';
 import '../elements/testimony/object-pu.dart';
 import '../profile/tab-item.dart';
 import '../websocket/message-send.dart';
 import 'link-pu/link-pu-step-1.dart';
 import 'new-object/new-object.dart';
+/* 
+objects-pu.dart
+Объекты
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ObjectsPU extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _ObjectsPU();

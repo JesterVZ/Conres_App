@@ -10,8 +10,13 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../Services/profile-service.dart';
 import '../../UI/default-button.dart';
-import 'object-pu-dialog.dart';
 
+/* 
+object-pu.dart
+Виджет объекта
+
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ObjectPU extends StatefulWidget {
   ObjectPuModel objectPuModel;
   Function remove;

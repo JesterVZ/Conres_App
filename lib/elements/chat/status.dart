@@ -2,7 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../consts.dart';
+/* 
+status.dart
+Статус
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class Status extends StatelessWidget{
   String? name;
   Color? textColor;

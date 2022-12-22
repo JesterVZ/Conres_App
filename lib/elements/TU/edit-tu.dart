@@ -22,7 +22,12 @@ import '../../websocket/message-send.dart';
 import '../PU/list-element.dart';
 import '../bloc/bloc-screen.dart';
 import '../dropdown.dart';
+/* 
+edit-tu.dart
+Редактирование ТУ
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class EditPuPage extends StatefulWidget {
   List<TuModel> TuPoints;
   Meter currentMeter;

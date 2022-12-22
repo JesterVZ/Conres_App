@@ -7,7 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../DI/dependency-provider.dart';
+/* 
+contact-controls.dart
+Настройки контакта в информации о пользователе
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ColtactColtrols extends StatefulWidget {
   bool IsLogin;
   bool IsClaims;

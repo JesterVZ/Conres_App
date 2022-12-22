@@ -18,10 +18,14 @@ import '../../consts.dart';
 import '../../elements/PU/list-element.dart';
 import '../../elements/bloc/bloc-screen.dart';
 import '../../elements/header/header-notification.dart';
-import '../../elements/testimony/select-object-doalog.dart';
 import '../../websocket/message-send.dart';
 import '../../websocket/meter-bind-new.dart';
+/* 
+link-pu-step-3.dart
+Привязка ПУ, шаг 3
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class LinkPUStep3 extends StatefulWidget {
   const LinkPUStep3({Key? key}) : super(key: key);
 

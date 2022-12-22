@@ -8,7 +8,12 @@ import '../../chats/messages.dart';
 import '../../consts.dart';
 import '../../model/claim.dart';
 import '../full-profile/ExpansionTileElement.dart';
+/* 
+claim-element.dart
+Виджет заявления
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ClaimElement extends StatefulWidget {
   final Claim currentClaim;
   ValueChanged<Claim> downloadFunction;

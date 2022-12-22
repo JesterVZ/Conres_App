@@ -9,8 +9,12 @@ import '../../UI/default-input.dart';
 import '../../consts.dart';
 import '../../testimony/tu-info.dart';
 import '../full-profile/ExpansionTileElement.dart';
-import 'edit-tu-dialog.dart';
+/* 
+TU-element.dart
+Виджет точки учета
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class TuElement extends StatefulWidget {
   final TuModel? currentTu;
   List<TuModel> TuPoints;

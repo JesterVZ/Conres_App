@@ -5,7 +5,12 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../Services/bottom-navigation-select-service.dart';
 import '../../consts.dart';
+/* 
+contract-element.dart
+Виджеты договоров
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ContractElement extends StatelessWidget {
   final Contract contract;
   Function remove;

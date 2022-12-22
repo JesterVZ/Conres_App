@@ -1,3 +1,9 @@
+/* 
+pu-edit-new.dart
+Данные для сокета
+
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class PuEditNew {
   bool? editPush;
   bool? edit;

@@ -4,7 +4,12 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../consts.dart';
 import '../validation/validation.dart';
+/* 
+masks.dart
+Устаревший файл с масками
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class MaskInput extends StatefulWidget {
   MaskInput(
       {Key? key,

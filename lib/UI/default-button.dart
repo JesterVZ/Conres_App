@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../consts.dart';
+/* 
+default-button.dart
+Кнопка
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class DefaultButton extends StatefulWidget {
   String? text;
   bool? isGetPadding;

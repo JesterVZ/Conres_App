@@ -18,7 +18,12 @@ import '../../elements/claims/claim-step3-object.dart';
 import '../../elements/masks.dart';
 import 'new-claim-step-2.dart';
 import 'new-claim-step-4.dart';
+/* 
+new-claim-step-3.dart
+3-й шаг заялений
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class NewClaimStep3 extends StatefulWidget {
   const NewClaimStep3({Key? key}) : super(key: key);
 

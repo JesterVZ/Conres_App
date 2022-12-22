@@ -13,7 +13,12 @@ import '../../../UI/default-input.dart';
 import '../../../UI/main-form.dart';
 import '../../../consts.dart';
 import '../../../elements/datetime/datetime-dialog-picker.dart';
+/* 
+base-claim-step-1.dart
+1-й шаг базового заявлений
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class BaseClaimStep1 extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _BaseClaimStep1();

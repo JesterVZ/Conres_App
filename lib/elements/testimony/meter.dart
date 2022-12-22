@@ -9,7 +9,12 @@ import '../../consts.dart';
 import '../../testimony/tu-info.dart';
 import '../TU/edit-tu.dart';
 import '../full-profile/ExpansionTileElement.dart';
+/* 
+meter.dart
+Виджет счетчика
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class MeterElement extends StatefulWidget {
   final Meter? currentMeter;
   final TuModel? currentTu;

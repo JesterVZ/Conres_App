@@ -2,7 +2,12 @@
 import 'package:conres_app/consts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+/* 
+shared-preferences.dart
+Функции, связанные с shared-preferences
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 Future<bool?> isGetLogin(SharedPreferences preferences) async{
   bool? result = await preferences.getBool("isLogin");
   return result;

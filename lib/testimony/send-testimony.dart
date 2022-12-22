@@ -8,7 +8,6 @@ import 'package:conres_app/UI/default-button.dart';
 import 'package:conres_app/UI/main-form.dart';
 import 'package:conres_app/bloc/profile/profile-bloc.dart';
 import 'package:conres_app/bloc/profile/profile-state.dart';
-import 'package:conres_app/elements/testimony/testimony-not-found.dart';
 import 'package:conres_app/model/meter.dart';
 import 'package:conres_app/testimony/link-pu.dart';
 import 'package:conres_app/testimony/objects-pu.dart';
@@ -23,14 +22,18 @@ import '../Services/bottom-navigation-select-service.dart';
 import '../bloc/auth/auth-block.dart';
 import '../bloc/auth/auth-state.dart';
 import '../consts.dart';
-import '../elements/alert.dart';
 import '../elements/bloc/bloc-screen.dart';
 import '../elements/header/header-notification.dart';
 import '../elements/not-found.dart';
 import '../elements/testimony/testimony.dart';
 import '../profile/tab-item.dart';
 import '../websocket/message-send.dart';
+/* 
+send-testimony.dart
+Передача показаний
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class SendTestimony extends StatefulWidget {
   final String? personal;
 

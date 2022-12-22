@@ -1,5 +1,10 @@
 import 'package:flutter/cupertino.dart';
+/* 
+preview.dart
+Превью загруженной картинки для сообщения
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class Preview extends StatefulWidget{
   String? uri;
   Preview({required this.uri});

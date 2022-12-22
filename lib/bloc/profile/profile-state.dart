@@ -13,7 +13,12 @@ import '../../model/message.dart';
 import '../../model/meter.dart';
 import '../../model/user-information.dart';
 import '../../websocket/websocket.dart';
+/* 
+profile-state
+State для auth-bloc
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ProfileState {
   final String? cookieStr;
   final bool? loading;

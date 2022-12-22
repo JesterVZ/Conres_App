@@ -1,6 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+/* 
+auth-event
+Event-ы для auth-bloc
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 abstract class Event extends Equatable {
   const Event();
 

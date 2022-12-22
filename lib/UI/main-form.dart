@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 
 import '../consts.dart';
 import '../elements/header/header-notification.dart';
+/* 
+main-form.dart
+Основная форма
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class MainForm extends StatefulWidget {
   Widget body;
   Widget header;

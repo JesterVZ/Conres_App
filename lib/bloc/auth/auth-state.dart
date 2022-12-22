@@ -1,7 +1,12 @@
 import '../../model/meter.dart';
 import '../../model/profile.dart';
 import '../../model/store.dart';
+/* 
+auth-state
+State для auth-bloc
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class AuthState{
   final Profile? profile;
   final bool? loading;

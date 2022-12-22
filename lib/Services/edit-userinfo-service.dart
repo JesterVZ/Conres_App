@@ -1,3 +1,9 @@
+/* 
+edit-userinfo-service.dart
+Сервис для редактирования информации о пользователе
+
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class EdutUserinfoService {
   String? tab;
 

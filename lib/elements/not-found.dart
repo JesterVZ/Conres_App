@@ -2,7 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../consts.dart';
+/* 
+not-found.dart
+Покажывается, если не найдено что-либо
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class NotFound extends StatelessWidget{
   String title;
   String text;

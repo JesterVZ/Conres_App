@@ -1,3 +1,9 @@
+/* 
+link-pu-service.dart
+Сервис для добавления ПУ
+
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class LinkPuService{
   String? new_object_id;
   String? new_object_name;

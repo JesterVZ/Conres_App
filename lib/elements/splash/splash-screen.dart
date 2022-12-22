@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../loading/loading-page.dart';
+/* 
+splash-screen.dart
+Экран завтавки
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class SplashScreen extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => _SplashScreen();

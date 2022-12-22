@@ -12,7 +12,12 @@ import '../../elements/claims/claim-step5-object.dart';
 import '../../elements/dropdown.dart';
 import '../../model/claims/claim-step-5-staging.dart';
 import 'new-claim-step-6.dart';
+/* 
+new-claim-step-5.dart
+5-й шаг заялений
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+*/
 class NewClaimStep5 extends StatefulWidget {
   const NewClaimStep5({Key? key}) : super(key: key);
 
