@@ -13,7 +13,12 @@ import '../../elements/bloc/bloc-screen.dart';
 import '../../elements/full-profile/ExpansionTileElement.dart';
 import '../../elements/profile/contact-controls.dart';
 import '../../model/user-information.dart';
+/* 
+contacts-tab.dart
+Страница профиля (контакты)
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class ContactTab extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _ContactTab();
