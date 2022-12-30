@@ -6,7 +6,7 @@ import 'package:image/image.dart' as image;
 /* 
 image-for-pick.dart
 Картинка в файл-пикере
-
+TODO deprecated
 Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
  */
 class ImageForPick extends StatefulWidget {

@@ -13,7 +13,7 @@ import '../model/store.dart';
 /* 
 select-store.dart
 Выбор компании
-
+TODO Перегнать в конфиг флаттера для разбивки на разные приложения
 Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
  */
 class SelectStore extends StatefulWidget{

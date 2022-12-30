@@ -14,7 +14,12 @@ import '../elements/header/header.dart';
 import '../profile/full-profile-page.dart';
 import '../testimony/info-pu.dart';
 import '../testimony/objects-pu.dart';
+/* 
+more.dart
+Экран "Ещё"
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class MoreScreen extends StatefulWidget {
   final VoidCallback logout;
   MoreScreen({required this.logout});

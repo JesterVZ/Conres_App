@@ -8,7 +8,7 @@ import '../consts.dart';
 import 'change-type.dart';
 /* 
 login-main.dart
-Страница логина
+Страница логина (первый шаг)
 
 Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
  */

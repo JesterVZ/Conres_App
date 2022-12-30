@@ -14,7 +14,7 @@ import '../elements/header/header.dart';
 import 'login-account.dart';
 /* 
 change-type.dart
-Выбор типа
+Выбор типа (второй шаг)
 
 Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
  */

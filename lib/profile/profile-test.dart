@@ -20,6 +20,7 @@ import '../testimony/send-testimony.dart';
 /* 
 profile-test.dart
 Страница профиля
+TODO переименовать файл
 
 Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
  */

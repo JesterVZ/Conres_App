@@ -8,7 +8,7 @@ import 'info-pu.dart';
 /* 
 edit-pu.dart
 Привязка ПУ
-
+TODO deprecated
 Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
  */
 class LinkPU extends StatefulWidget {

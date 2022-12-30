@@ -1,5 +1,11 @@
 import 'dart:convert';
+/* 
+message-send.dart
+Модель для отправки сообщения в вебсокет (основная)
+TODO закинуть сюда все остальные модели из папки
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class MessageSend {
   String? cmd;
   String? subject;

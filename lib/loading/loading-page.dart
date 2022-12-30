@@ -13,6 +13,7 @@ import '../profile/main-page.dart';
 /* 
 loading-page.dart
 Страница загрузки
+TODO провести анализ, заменить на скелетоны
 
 Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
  */

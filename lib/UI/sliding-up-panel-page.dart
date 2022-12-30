@@ -4,7 +4,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 /* 
 sliding-up-panel-page.dart
 Панель
-
+TODO deprecated
 Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
  */
 class SlidingUpPanelPage<P extends Widget, B extends Widget>

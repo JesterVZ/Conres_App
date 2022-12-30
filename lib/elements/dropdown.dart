@@ -5,6 +5,7 @@ import '../consts.dart';
 /* 
 dropdown.dart
 Кастомный dropdown
+TODO deprecated
 
 Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
  */

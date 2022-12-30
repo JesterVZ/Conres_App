@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 import '../../Services/bottom-navigation-select-service.dart';
 import '../../consts.dart';
 import '../tab-item.dart';
+/* 
+bottom-navigation-custom.dart
+Нижний бар навигации
+TODO перенести в друой раздел
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class BottomNavigation extends StatelessWidget {
   //основной  сэтап
   BottomNavigation(

@@ -17,7 +17,13 @@ import '../../bloc/profile/profile-bloc.dart';
 import '../../bloc/profile/profile-state.dart';
 import '../../consts.dart';
 import '../../websocket/message-send.dart';
+/* 
+edit-user-info.dart
+Редактирование профиля
+TODO пересмотреть дизайн экрана полностью
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class EditUserInfoPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _EditUserInfoPage();
@@ -253,13 +259,13 @@ SingleChildScrollView(
                                 keyboardType: TextInputType.text,
                                 controller: factAddressController),
                             DefaultInput(
-                                labelText: "Пароль",
+                                labelText: "Новый пароль",
                                 hintText: "**********",
                                 keyboardType: TextInputType.text,
                                 obscureText: true,
                                 controller: passwordController),
                             DefaultInput(
-                                labelText: "Пароль",
+                                labelText: "Повторите новый пароль",
                                 hintText: "**********",
                                 keyboardType: TextInputType.text,
                                 obscureText: true,

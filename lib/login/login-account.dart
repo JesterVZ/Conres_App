@@ -13,7 +13,12 @@ import '../elements/bloc/bloc-screen.dart';
 import '../elements/header/header.dart';
 import '../elements/route/def-page-router.dart';
 import '../profile/main-page.dart';
+/* 
+login-account.dart
+Ввод логина и пароля (третий шаг)
 
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class LoginEmail extends StatefulWidget {
   LoginEmail({Key? key, required this.type}) : super(key: key);
   final int type;

@@ -18,7 +18,7 @@ import '../websocket/websocket-listener.dart';
 import 'messages.dart';
 /* 
 chats
-State для auth-bloc
+Список обращений
 
 Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
 */

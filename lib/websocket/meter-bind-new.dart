@@ -1,3 +1,9 @@
+/* 
+meter-bind-new.dart
+Модель для привязки объекта ПУ
+
+Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
+ */
 class BindTuNew {
   String? newObjectName;
   String? newObjectAddress;

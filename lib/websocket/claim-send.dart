@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:conres_app/websocket/message-send.dart';
-
+//модель
 class ClaimSend {
   String? cmd;
   String? subject;

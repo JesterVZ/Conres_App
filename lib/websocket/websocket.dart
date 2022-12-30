@@ -1,6 +1,6 @@
 /* 
 websocket.dart
-Данные для сокета
+Модель
 
 Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
  */

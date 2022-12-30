@@ -7,6 +7,7 @@ import '../validation/validation.dart';
 /* 
 masks.dart
 Устаревший файл с масками
+TODO deprecated
 
 Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
  */

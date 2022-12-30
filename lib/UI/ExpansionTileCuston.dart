@@ -1,6 +1,6 @@
 /* 
 ExpansionTileCuston.dart
-Кастомный ExpansionTile (добавлена функция сворачивания)
+Кастомный ExpansionTile (добавлена функция сворачивания)(cardview)
 
 Copyright © 2022 DEGAM-Soft Жулин Владимир. All rights reserved.
  */

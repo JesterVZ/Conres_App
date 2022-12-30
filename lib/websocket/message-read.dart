@@ -1,3 +1,4 @@
+//модель
 class MessageRead {
   String? cmd;
   String? subject;
